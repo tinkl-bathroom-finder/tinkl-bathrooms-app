@@ -1,21 +1,20 @@
-import React from 'react';
+import React, { useState, useRef} from 'react';
+import { Autocomplete, useLoadScript } from '@react-google-maps/api';
 import GooglePlacesAutocomplete from 'react-google-places-autocomplete';
 
 
 function BathroomsList() {
-const Component = () => {
-    <div>
-        <GooglePlacesAutocomplete apiKey='AIzaSyBEYEcOGj237bE2zG78LTaQpUplQITQxpE'/>
-    </div>
-}
+
     return(
         <div className='container'>
+            <div>
+                <GooglePlacesAutocomplete apiKey='AIzaSyBEYEcOGj237bE2zG78LTaQpUplQITQxpE'/>
+            </div>
             <input id="autocomplete" placeholder="Enter a place" type="text" />
             <button>Search</button>
             <ol>
                 <li>First Bathroom Info Here</li>
             </ol>
-            <Component />
 
         </div>
     )
