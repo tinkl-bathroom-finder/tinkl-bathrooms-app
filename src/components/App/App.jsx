@@ -20,6 +20,7 @@ import LandingPage from '../LandingPage/LandingPage';
 import LoginPage from '../LoginPage/LoginPage';
 import RegisterPage from '../RegisterPage/RegisterPage';
 import BathroomsList from '../BathroomsList/BathroomsList';
+import Map from '../Map/Map';
 
 import './App.css';
 
@@ -55,6 +56,7 @@ function App() {
             path="/bathrooms"
           >
             <BathroomsList />
+            <Map />
           </Route>
 
           {/* For protected routes, the view could show one of several things on the same route.
