@@ -8,7 +8,7 @@ import React from 'react';
 function InfoPage() {
   return (
     <div className="container">
-      <p>Info Page</p>
+      <p>tinkl is a bathroom-finder app that locates nearby gender-neutral and single-stall bathrooms.</p>
     </div>
   );
 }
