@@ -7,7 +7,18 @@ const router = express.Router();
  */
 router.get('/', (req, res) => {
   // GET route code here
-});
+  const query = `
+    SELECT * FROM "restrooms";
+  `
+  pool.query(query)
+    .then((dbRes) => {
+      res.send(dbRes.rows)
+    })
+    .catch((dbErr) => {
+      console.log('fail:', dbErr)
+      res.sendStatus(500)
+    })
+})
 
 /**
  * POST route template

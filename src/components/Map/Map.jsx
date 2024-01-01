@@ -1,3 +1,5 @@
+// Thanks to https://medium.com/@yukthihettiarachchissck/getting-started-with-google-maps-api-in-react-js-1390b19d18f0
+// for this sample code
 import React from 'react';
 import { GoogleMap, useLoadScript, Marker } from '@react-google-maps/api';
 
@@ -6,6 +8,7 @@ const mapContainerStyle = {
   width: '100vw',
   height: '100vh',
 };
+// centers map on Minneapolis by default
 const center = {
   lat: 44.978145599365234, // default latitude
   lng: -93.26353454589844, // default longitude
