@@ -2,6 +2,7 @@ import React, { useState, useRef} from 'react';
 import { Autocomplete, useLoadScript } from '@react-google-maps/api';
 import GooglePlacesAutocomplete from 'react-google-places-autocomplete';
 import { useDispatch, useSelector } from 'react-redux';
+import BathroomItem from '../BathroomItem/BathroomItem'
 
 
 function BathroomsList() {
