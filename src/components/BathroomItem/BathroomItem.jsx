@@ -12,22 +12,13 @@ function BathroomItem({ bathroom }) {
 
 
   return (
-    <table class="table">
-      <tr>
-    <th></th>
-    <th>Name</th>
-    <th>Street</th>
-    <th>City</th>
-    </tr>
-    <tr>
+  <tr>
       <td><button onClick={goToDetails}>More info</button>
       </td>
       <td>{bathroom.name}</td>
       <td>{bathroom.street}</td> 
       <td>{bathroom.city}</td>
-    </tr>
-    </table>
-  )
+      </tr>)
 }
 
 

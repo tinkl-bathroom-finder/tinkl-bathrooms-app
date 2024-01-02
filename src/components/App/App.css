@@ -110,3 +110,34 @@ input {
   margin: 5px;
   margin-bottom: 10px;
 }
+
+/* --------------------------------------------------------------------------------
+Table
+-------------------------------------------------------------------------------- */
+
+table {
+  width: 100%;
+  text-align: left;
+  white-space: normal;
+  word-wrap: break-word;
+  table-layout: fixed;
+}
+table, th, td {
+  border: 1px solid black ;
+  border-collapse: collapse;
+  height: 2.15em;
+}
+th, td {
+  padding: .5em;
+  min-width: 3.5em;
+}
+thead {
+  background: gray;
+  color: #fcfcfc;
+}
+tbody tr:nth-child(odd) {
+  background: #fcfcfc;
+}
+tbody tr:nth-child(even) {
+  background: gray;
+}
