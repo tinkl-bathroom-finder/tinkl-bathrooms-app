@@ -21,6 +21,7 @@ import LoginPage from '../LoginPage/LoginPage';
 import RegisterPage from '../RegisterPage/RegisterPage';
 import BathroomsList from '../BathroomsList/BathroomsList';
 import Map from '../Map/Map';
+import BathroomDetails from '../BathroomDetails/BathroomDetails';
 
 import './App.css';
 
@@ -57,6 +58,10 @@ function App() {
           >
             <BathroomsList />
             <Map />
+          </Route>
+
+          <Route exact path="/bathrooms/:id">
+            <BathroomDetails />
           </Route>
 
           {/* For protected routes, the view could show one of several things on the same route.
