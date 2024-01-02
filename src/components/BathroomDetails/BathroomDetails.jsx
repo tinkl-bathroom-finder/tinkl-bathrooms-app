@@ -9,30 +9,38 @@ function BathroomDetails() {
     const dispatch = useDispatch()
     const theBathroomDetails = useSelector(store => store.bathroomDetails)
     const history = useHistory()
-    console.log('theBathroomDetails:', theBathroomDetails)
     useEffect(() => {
         // should log the id of the restroom we're currently on
         // (would expect this to log: {id: '5'} if our browser is
-        // at localhost:3000/bikes/5)
+        // at localhost:3000/bathrooms/5)
         console.log('params: ', params)
 
     // Fire a dispatch that calls a fetchBathroomDetails
     // Saga function:
     dispatch({
         type: 'SAGA/FETCH_BATHROOM_DETAILS',
-        payload: params.id  // 👈 The dependency array!
+        payload: params.id
       })
-    }, [])
+console.log('theBathroomDetails after being fetched: ', theBathroomDetails)
+    // clears out the bathroomDetails reducer when
+    // this component unmounts:
+    return () => {
+        dispatch({
+          type: 'CLEAR_BATHROOM_DETAILS'
+        })
+      }
+    }, [params.id]) // 👈 The dependency array!
 
     const returnToList = () => {
         history.push('/bathrooms')
     }
+
+    
     return (
         <div>
-            <h2>{theBathroomDetails[0].name}</h2>
-            <h4>{theBathroomDetails[0].street}</h4>
-            <p>{theBathroomDetails[0].directions}</p>
-            {/* make back button that returns to list */}
+            <h2>{theBathroomDetails.name}</h2>
+            <h4>{theBathroomDetails.street}</h4>
+            <p>{theBathroomDetails.directions}</p>
             <button onClick={returnToList}>Back to List</button>
         </div>
     )

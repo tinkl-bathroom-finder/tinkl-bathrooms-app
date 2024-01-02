@@ -20,6 +20,7 @@ function* fetchBathrooms() {
   function* fetchBathroomDetails (action) {
     try {
       const bathroomId = action.payload
+      console.log('bathroomId: ', bathroomId)
       const response = yield axios({
         method: 'GET',
         url: `/bathrooms/${bathroomId}`
@@ -29,7 +30,7 @@ function* fetchBathrooms() {
       console.log('theBathroom, aka response.data', theBathroom)
       yield put({
         type: 'SET_BATHROOM_DETAILS',
-        payload: theBathroom
+        payload: theBathroom[0]
       })
     } catch (err) {
       console.log('Saga function fetchBathrooms failed:', err)
