@@ -11,6 +11,7 @@ const passport = require('./strategies/user.strategy');
 const userRouter = require('./routes/user.router');
 const templateRouter = require('./routes/template.router')
 const locationRouter = require('./routes/location.router')
+const searchRouter = require('./routes/address.router')
 
 // Body parser middleware
 app.use(bodyParser.json());
@@ -28,7 +29,9 @@ app.use('/api/user', userRouter);
 // get route is on templateRouter for now => make a separate route at some point
 app.use('/bathrooms', templateRouter);
 // get route for bathrooms by distance
-app.use('/distance', locationRouter)
+app.use('/distance', locationRouter);
+// get route to geocode address into lat and lng coordinates
+app.use('/search', searchRouter)
 
 // Serve static files
 app.use(express.static('build'));

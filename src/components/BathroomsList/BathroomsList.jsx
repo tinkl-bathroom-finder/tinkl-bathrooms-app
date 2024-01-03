@@ -1,6 +1,6 @@
-import React, { useEffect } from "react";
-import { Autocomplete, useLoadScript } from "@react-google-maps/api";
+import React, { useState, useEffect } from "react";
 import GooglePlacesAutocomplete from "react-google-places-autocomplete";
+// import { Autocomplete } from "@react-google-maps/api";
 import { useDispatch, useSelector } from "react-redux";
 import BathroomItem from "../BathroomItem/BathroomItem";
 
@@ -15,32 +15,49 @@ function BathroomsList() {
   };
   const store = useSelector((store) => store);
   const bathrooms = useSelector((store) => store.bathrooms);
-    const bathroomsByDistance = useSelector((store) => store.bathroomsByDistance);
+  const bathroomsByDistance = useSelector((store) => store.bathroomsByDistance);
+  const [addressInput, setAddressInput] = useState('');
+  const myApiKey = process.env.GOOGLE_MAPS_API_KEY;
   console.log('bathrooms: ', bathrooms)
   console.log('bathroomsByDistance: ', bathroomsByDistance)
+//   const center = { lat: 50.064192, lng: -130.605469 };
+// // Create a bounding box with sides ~10km away from the center point
+//   const defaultBounds = {
+//     north: center.lat + 0.1,
+//     south: center.lat - 0.1,
+//     east: center.lng + 0.1,
+//     west: center.lng - 0.1,
+//   };
+//   const input = document.getElementById("pac-input");
+//   const options = {
+//     bounds: defaultBounds,
+//     componentRestrictions: { country: "us" },
+//     fields: ["address_components", "geometry", "icon", "name"],
+//     strictBounds: false,
+//   };
+//   const autocomplete = new google.maps.places.Autocomplete(input, options);
 
   const sendLocation = () => {
     console.log("in sendLocation function");
     dispatch({
       type: "SAGA/SEND_LOCATION",
+      payload: addressInput
     });
   };
-
-  // 🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥 bathrooms are appearing ordered by distance!!! They are an array of bathroom objects with only two properties right now, id and distance => need to loop through and map each bathroom object and render it in the table. Could replace "see bathroom list" with search nearby, just with default parameters? Or conditionally render one or the other. It would be nice to not have distances show unless you'd entered a location
 
   return (
     <div className="container">
       <div>
-        <GooglePlacesAutocomplete apiKey="AIzaSyBEYEcOGj237bE2zG78LTaQpUplQITQxpE" />
+        <GooglePlacesAutocomplete apiKey={`${myApiKey}`}
+        onChange={(e) => setAddressInput(event.target.value)}
+        value={addressInput}/>
       </div>
-      {/* When I tried to make getBathrooms into an anonymous function, it errored out, saying:
-            "Invalid hook call. Hooks can only be called inside of the body of a function component."" */}
-      {/* <input id="autocomplete" placeholder="Enter a place" type="text" /> */}
+      <input id="autocomplete" placeholder="Enter a place" type="text" />
       <button onClick={sendLocation}>Search nearby</button>
       <button onClick={getBathrooms}>See bathroom list</button>
-{/* conditionally */}
 
 <table>
+    <tbody>
           <tr>
             <th></th>
             <th>Name</th>
@@ -52,9 +69,11 @@ function BathroomsList() {
           {bathroomsByDistance.map((bathroom) => (
             <BathroomItem key={bathroom.id} bathroom={bathroom} />
           ))}
+          </tbody>
         </table>
 <br />
         <table>
+            <tbody>
           <tr>
             <th></th>
             <th>Name</th>
@@ -65,6 +84,7 @@ function BathroomsList() {
           {bathrooms.map((bathroom) => (
             <BathroomItem key={bathroom.id} bathroom={bathroom} />
           ))}
+          </tbody>
         </table>
     </div>
   );

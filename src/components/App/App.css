@@ -139,5 +139,5 @@ tbody tr:nth-child(odd) {
   background: #fcfcfc;
 }
 tbody tr:nth-child(even) {
-  background: gray;
+  background: rgb(206, 206, 206);
 }
