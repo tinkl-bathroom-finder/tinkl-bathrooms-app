@@ -5,8 +5,8 @@ import { GoogleMap, useLoadScript, Marker } from '@react-google-maps/api';
 
 const libraries = ['places'];
 const mapContainerStyle = {
-  width: '100vw',
-  height: '100vh',
+  width: '75vw',
+  height: '75vh',
 };
 // centers map on Minneapolis by default
 const center = {
@@ -35,7 +35,13 @@ const Map = () => {
         zoom={10}
         center={center}
       >
-        <Marker position={center} />
+        <Marker position={center}/>
+        <Marker key="marker_1"
+                    position={{
+                        lat: 45.444,
+                        lng: -93.176
+                    }}
+                />
       </GoogleMap>
     </div>
   );

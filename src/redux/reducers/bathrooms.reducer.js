@@ -6,4 +6,4 @@ const bathroomsReducer = (state = [], action) => {
     } return state
   };
 
-export default bathroomsReducer
+export default bathroomsReducer;

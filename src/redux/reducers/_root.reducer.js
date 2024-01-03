@@ -4,6 +4,7 @@ import user from './user.reducer';
 // imports whatever the file at that address is exporting
 import bathrooms from './bathrooms.reducer';
 import bathroomDetails from './bathroomDetails.reducer';
+import bathroomsByDistance from './bathroomsByDistance.reducer';
 
 // rootReducer is the primary reducer for our entire project
 // It bundles up all of the other reducers so our project can use them.
@@ -15,7 +16,8 @@ const rootReducer = combineReducers({
   errors, // contains registrationMessage and loginMessage
   user, // will have an id and username if someone is logged in
   bathrooms,
-  bathroomDetails
+  bathroomDetails,
+  bathroomsByDistance,
 });
 
 export default rootReducer;

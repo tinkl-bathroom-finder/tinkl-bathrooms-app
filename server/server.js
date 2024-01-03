@@ -10,6 +10,7 @@ const passport = require('./strategies/user.strategy');
 // Route includes
 const userRouter = require('./routes/user.router');
 const templateRouter = require('./routes/template.router')
+const locationRouter = require('./routes/location.router')
 
 // Body parser middleware
 app.use(bodyParser.json());
@@ -26,6 +27,8 @@ app.use(passport.session());
 app.use('/api/user', userRouter);
 // get route is on templateRouter for now => make a separate route at some point
 app.use('/bathrooms', templateRouter);
+// get route for bathrooms by distance
+app.use('/distance', locationRouter)
 
 // Serve static files
 app.use(express.static('build'));
