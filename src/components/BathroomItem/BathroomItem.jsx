@@ -15,9 +15,10 @@ function BathroomItem({ bathroom }) {
   <tr>
       <td><button onClick={goToDetails}>More info</button>
       </td>
-      <td>{bathroom.name}</td>
-      <td>{bathroom.street}</td> 
-      <td>{bathroom.city}</td>
+      <td>{bathroom.name || ''}</td>
+      <td>{bathroom.street || ''}</td> 
+      <td>{bathroom.city || ''}</td>
+      <td>{bathroom.distance || ''}</td>
       </tr>)
 }
 

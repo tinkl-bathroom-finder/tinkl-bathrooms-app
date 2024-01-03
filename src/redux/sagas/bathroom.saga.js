@@ -45,7 +45,7 @@ function* fetchBathrooms() {
         url: '/distance'
       })
       yield put({
-        type: 'SET_BATHROOMS',
+        type: 'SET_BATHROOMS_BY_DISTANCE',
         payload: response.data
       })
     } catch (error) {

@@ -7,9 +7,12 @@ router.get('/', (req, res) => {
     console.log('req:', req)
     // This uses the Haversine formula to calculate distances between coordinates. Assuming you have a table named businesses with columns business_id, latitude, and longitude, and you want to find the closest businesses to a given location with coordinates (given_latitude, given_longitude), the SQL query would look something like this:
     const query = `
-    select id, distance from (
+    select id, name, street, city, distance from (
     SELECT
     id,
+    name,
+    street,
+    city,
     latitude,
     longitude,
     (
@@ -20,6 +23,7 @@ router.get('/', (req, res) => {
         sin(radians(44.978145599365234)) * 
         sin(radians(latitude)))
     ) AS distance
+
   FROM
     restrooms)
   ORDER BY
