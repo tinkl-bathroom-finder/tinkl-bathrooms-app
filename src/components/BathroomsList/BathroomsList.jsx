@@ -16,7 +16,9 @@ function BathroomsList() {
   const store = useSelector((store) => store);
   const bathrooms = useSelector((store) => store.bathrooms);
   const bathroomsByDistance = useSelector((store) => store.bathroomsByDistance);
-  const [addressInput, setAddressInput] = useState('');
+  // captures value of address typed in search bar as local state
+  const [value, setValue] = useState('');
+//   const [addressInput, setAddressInput] = useState('');
   const myApiKey = process.env.GOOGLE_MAPS_API_KEY;
   console.log('bathrooms: ', bathrooms)
   console.log('bathroomsByDistance: ', bathroomsByDistance)
@@ -37,20 +39,31 @@ function BathroomsList() {
 //   };
 //   const autocomplete = new google.maps.places.Autocomplete(input, options);
 
+
   const sendLocation = () => {
     console.log("in sendLocation function");
-    dispatch({
-      type: "SAGA/SEND_LOCATION",
-      payload: addressInput
-    });
+    console.log("address input: ", value)
+// converts address to url-friendly string
+    const convertedAddress = value.value.description.split(" ").join("%20")
+    console.log('convertedAddress:', convertedAddress)
+    // dispatch({
+    //   type: "SAGA/SEND_LOCATION",
+    //   payload: convertedAddress
+    // });
   };
 
   return (
     <div className="container">
       <div>
-        <GooglePlacesAutocomplete apiKey={`${myApiKey}`}
-        onChange={(e) => setAddressInput(event.target.value)}
-        value={addressInput}/>
+        <GooglePlacesAutocomplete apiKey="AIzaSyBEYEcOGj237bE2zG78LTaQpUplQITQxpE"
+        // {`${myApiKey}`}
+        // onChange={(e) => setAddressInput(e.target.value)}
+        // value={addressInput}
+        selectProps={{
+            value,
+            onChange: setValue
+        }}
+        />
       </div>
       <input id="autocomplete" placeholder="Enter a place" type="text" />
       <button onClick={sendLocation}>Search nearby</button>
