@@ -5,7 +5,7 @@ function* getBathroomsByDistance(){
     try {
       const response = yield axios({
         method: 'GET',
-        url: '/distance'
+        url: '/search'
       })
       yield put({
         type: 'SET_BATHROOMS_BY_DISTANCE',
