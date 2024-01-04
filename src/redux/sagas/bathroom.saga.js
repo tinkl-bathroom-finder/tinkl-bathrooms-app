@@ -6,7 +6,7 @@ function* fetchBathrooms() {
     try {
       const response = yield axios({
         method: 'GET',
-        url: '/bathrooms'
+        url: '/bathrooms/all'
       })
       yield put({
         type: 'SET_BATHROOMS',
@@ -16,31 +16,10 @@ function* fetchBathrooms() {
       console.log('Saga function fetchBathrooms failed: ', error)
     }
   }
-// fetches bathroom details for clicked bathroom
-  function* fetchBathroomDetails (action) {
-    try {
-      const bathroomId = action.payload
-      console.log('bathroomId: ', bathroomId)
-      const response = yield axios({
-        method: 'GET',
-        url: `/bathrooms/${bathroomId}`
-      })
-      
-      const theBathroom = response.data
-      console.log('theBathroom, aka response.data', theBathroom)
-      yield put({
-        type: 'SET_BATHROOM_DETAILS',
-        payload: theBathroom[0]
-      })
-    } catch (err) {
-      console.log('Saga function fetchBathrooms failed:', err)
-    }
 
-  }
 
 function* bathroomSaga() {
     yield takeLatest('SAGA/FETCH_BATHROOMS', fetchBathrooms);
-    yield takeLatest('SAGA/FETCH_BATHROOM_DETAILS', fetchBathroomDetails);
 }
   
 export default bathroomSaga;

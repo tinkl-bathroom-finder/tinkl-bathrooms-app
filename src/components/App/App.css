@@ -132,12 +132,17 @@ th, td {
   min-width: 3.5em;
 }
 thead {
-  background: gray;
+  background: rgb(112, 195, 228);
   color: #fcfcfc;
 }
-tbody tr:nth-child(odd) {
-  background: #fcfcfc;
-}
+/* tbody tr:nth-child(3n+0) {
+  background: rgb(165, 227, 252);
+} */
 tbody tr:nth-child(even) {
-  background: rgb(206, 206, 206);
+  background: rgb(227, 172, 206);
 }
+
+tbody tr:nth-child(odd) {
+  background: rgb(255, 255, 255);
+}
+

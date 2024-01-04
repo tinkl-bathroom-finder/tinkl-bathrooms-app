@@ -52,15 +52,16 @@ function BathroomsList() {
       <button onClick={getBathrooms}>See all bathrooms</button>
 
 <table>
-    <tbody>
-          <tr>
+    <thead>
+        <tr>
             <th></th>
             <th>Name</th>
             <th>Street</th>
             <th>City</th>
             <th>Distance</th>
-          </tr>
-
+            </tr>
+          </thead>
+<tbody>
           {bathroomsByDistance.map((bathroom) => (
             <BathroomItem key={bathroom.id} bathroom={bathroom} />
           ))}
@@ -68,14 +69,16 @@ function BathroomsList() {
         </table>
 <br />
         <table>
-            <tbody>
+        <thead>
           <tr>
             <th></th>
             <th>Name</th>
             <th>Street</th>
             <th>City</th>
+            <th></th>
           </tr>
-
+          </thead>
+    <tbody>
           {bathrooms.map((bathroom) => (
             <BathroomItem key={bathroom.id} bathroom={bathroom} />
           ))}
