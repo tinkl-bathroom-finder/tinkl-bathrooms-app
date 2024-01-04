@@ -4,12 +4,12 @@ require('dotenv').config();
 const router = express.Router();
 const axios = require('axios');
 
-router.get('/search',(req,res)=>{
+router.get('/:id',(req,res)=>{
     const apiKey = process.env.GOOGLE_MAPS_API_KEY
-    console.log("req.params.search: ",req.params.id);
+    console.log("req.params.id: ", req.params.id);
     axios({
       method: `GET`,
-      url: `https://maps.googleapis.com/maps/api/geocode/json?key=${apiKey}address=3446%20Columbus%20Ave%20Minneapolis%20MN`
+      url: `https://maps.googleapis.com/maps/api/geocode/json?key=${apiKey}&address=${req.params.id}`
     })
   
     .then ((response)=>{

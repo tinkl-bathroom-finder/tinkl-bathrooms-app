@@ -1,24 +1,33 @@
 import { put, take, takeLatest } from 'redux-saga/effects';
 import axios from 'axios';
+// require('dotenv').config();
 
-function* getBathroomsByDistance(){
+function* getAddressCoordinates(action){
+    console.log('action.payload in getAddressCoordinates Saga function:', action.payload)
     try {
       const response = yield axios({
         method: 'GET',
-        url: '/search'
+        url: `https://maps.googleapis.com/maps/api/geocode/json?key=AIzaSyBEYEcOGj237bE2zG78LTaQpUplQITQxpE&address=${action.payload}`
       })
+    yield put({
+        type: 'SAGA/GET_BATHROOMS_BY_DISTANCE',
+        payload: response.data.results[0].geometry.location
+    }) 
       yield put({
-        type: 'SET_BATHROOMS_BY_DISTANCE',
-        payload: response.data
+        type: 'SET_ADDRESS_COORDINATES',
+        // location should be object with lat and lng coordinates
+        payload: response.data.results[0].geometry.location
       })
+      console.log('response.data...location (should be object with address info including coordinates):', response.data.results[0].geometry.location)
+      // yells at SAGA to get bathrooms by distance based on coordinates
     } catch (error) {
-      console.log('Saga function getBathroomsByDistance failed: ', error)
+      console.log('Saga function getAddressCoordinates failed: ', error)
     }
   }
 
 
 function* addressSaga() {
-    yield takeLatest('SAGA/SEND_LOCATION', getBathroomsByDistance)
+    yield takeLatest('SAGA/SEND_LOCATION', getAddressCoordinates);
   }
 
   export default addressSaga;
