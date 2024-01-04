@@ -6,7 +6,7 @@ function* fetchBathrooms() {
     try {
       const response = yield axios({
         method: 'GET',
-        url: '/bathrooms/all'
+        url: '/bathrooms'
       })
       yield put({
         type: 'SET_BATHROOMS',

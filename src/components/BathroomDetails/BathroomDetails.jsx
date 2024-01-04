@@ -37,6 +37,8 @@ function BathroomDetails() {
       <p>Gender-neutral: {theBathroomDetails.unisex === true ? "yes" : "no"}</p>
       <p>Upvotes: {theBathroomDetails.upvotes}</p>
       <p>Downvotes: {theBathroomDetails.downvotes}</p>
+      <h4>Comments:</h4>
+      <p>{theBathroomDetails.content}</p>
       <button onClick={returnToList}>Back to List</button>
     </div>
   );
