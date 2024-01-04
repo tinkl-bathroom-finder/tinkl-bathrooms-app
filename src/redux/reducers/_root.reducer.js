@@ -5,7 +5,7 @@ import user from './user.reducer';
 import bathrooms from './bathrooms.reducer';
 import bathroomDetails from './bathroomDetails.reducer';
 import bathroomsByDistance from './bathroomsByDistance.reducer';
-import addressToSearch from './addressToSearch.reducer'
+import addressCoordinates from './addressCoordinates.reducer'
 
 // rootReducer is the primary reducer for our entire project
 // It bundles up all of the other reducers so our project can use them.
@@ -19,7 +19,7 @@ const rootReducer = combineReducers({
   bathrooms,
   bathroomDetails,
   bathroomsByDistance,
-  addressToSearch
+  addressCoordinates
 });
 
 export default rootReducer;

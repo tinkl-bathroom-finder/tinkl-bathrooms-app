@@ -2,6 +2,7 @@
 // for this sample code
 import React from "react";
 import { GoogleMap, useLoadScript, Marker } from "@react-google-maps/api";
+// require('dotenv').config();
 
 function MyMap() {
   // centers map on Minneapolis by default
@@ -9,7 +10,7 @@ function MyMap() {
     lat: 44.978145599365234, // default latitude
     lng: -93.26353454589844, // default longitude
   };
-
+  const apiKey=process.env.GOOGLE_MAPS_API_KEY
   const libraries = ["places"];
   const { isLoaded, loadError } = useLoadScript({
     googleMapsApiKey: "AIzaSyBEYEcOGj237bE2zG78LTaQpUplQITQxpE",

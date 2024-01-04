@@ -39,7 +39,8 @@
     "eject": "react-scripts eject"
   },
   "devDependencies": {
-    "nodemon": "^2.0.4"
+    "nodemon": "^2.0.4",
+    "webpack-node-externals": "^3.0.0"
   },
   "browserslist": {
     "production": [
