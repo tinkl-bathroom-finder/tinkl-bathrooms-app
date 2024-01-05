@@ -1,4 +1,6 @@
 import { useHistory } from 'react-router-dom';
+import Button from 'react-bootstrap/Button';
+
 
 function BathroomItem({ bathroom }) {
 
@@ -13,7 +15,7 @@ function BathroomItem({ bathroom }) {
 
   return (
   <tr>
-      <td><button onClick={goToDetails}>More info</button>
+      <td><Button onClick={goToDetails}>More info</Button>
       </td>
       <td>{bathroom.name || ''}</td>
       <td>{bathroom.street || ''}</td> 
