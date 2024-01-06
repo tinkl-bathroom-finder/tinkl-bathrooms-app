@@ -20,7 +20,7 @@ function BathroomItem({ bathroom }) {
       <td>{bathroom.name || ''}</td>
       <td>{bathroom.street || ''}</td> 
       <td>{bathroom.city || ''}</td>
-      <td>{bathroom.distance || ''}</td>
+      <td>{bathroom.distance ? `${bathroom.distance.toFixed(2)} mi` : ''}</td>
       </tr>)
 }
 

@@ -1,31 +1,53 @@
-import { useEffect, useState } from "react";
+import React, { useEffect, useState, createRef } from "react";
 import { useParams, useHistory } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import Button from "react-bootstrap/Button";
 import Modal from "react-bootstrap/Modal";
 import Form from "react-bootstrap/Form";
+import ToggleButton from "react-bootstrap/ToggleButton";
+import ToggleButtonGroup from "react-bootstrap/ToggleButtonGroup";
 
 function IPeedHereModal(props) {
+
   return (
     <Modal
-      {...props}
-      size="lg"
+      show={props.show}
+      onHide={props.onHide}
+      size="sm"
       aria-labelledby="contained-modal-title-vcenter"
       centered
     >
+
       <Modal.Header closeButton>
         <Modal.Title id="contained-modal-title-vcenter">
           How was your experience?
         </Modal.Title>
       </Modal.Header>
       <Modal.Body>
-        <Form.Text>Your feedback helps keeps our app up-to-date.</Form.Text>
-        <br/>
-        <h4></h4>
-        <>
-          <Form.Label htmlFor="comment">Leave a comment:</Form.Label>
-          <Form.Control type="text" id="comment" />
-        </>
+        <ToggleButtonGroup type="radio" name="options">
+          <ToggleButton id="tbg-radio-2" value={2} onClick={(e) => props.handleVoteChange(e)}>
+            👍
+          </ToggleButton>
+          <ToggleButton id="tbg-radio-3" value={1}  onClick={(e) => props.handleVoteChange(e)}>
+            👎
+          </ToggleButton>
+        </ToggleButtonGroup>
+        <br />
+        <Form>
+        <Form.Group controlId="commentForm">
+        <Form.Label>Leave a comment:</Form.Label>
+        <Form.Control
+          // componentClass="input"
+          // id="comment"
+          type="text"
+          // aria-describedby="comment"
+          onChange={(e) => props.handleInputChange(e)}
+          value={props.comment}
+          // inputRef = {(ref) => this.comment = ref }
+          // ref="ReactDOM.findDOMNode(ref)"
+        />
+        </Form.Group>
+        </Form>
       </Modal.Body>
       <Modal.Footer>
         <Button as="input" type="submit" value="Submit"></Button>
@@ -42,6 +64,22 @@ function BathroomDetails() {
   const theBathroomDetails = useSelector((store) => store.bathroomDetails);
   const [modalShow, setModalShow] = useState(false);
 
+  let [vote, setVote] = useState(0)
+  let [comment, setComment] = useState(""); // sets local state for comment
+  // handle change event
+  const handleInputChange = (e) => {
+    e.preventDefault();
+    setComment(e.target.value);
+    console.log("comment:", e.target.value);
+  };
+
+  const handleVoteChange = (e) => {
+    e.preventDefault();
+    setVote(e.target.value);
+    console.log("vote (1 is down, 2 is up):", e.target.value);
+  };
+
+
   useEffect(() => {
     // should log the id of the restroom we're currently on (would expect this to log: {id: '5'} if our browser is at localhost:3000/bathrooms/5)
     console.log("params: ", params);
@@ -57,6 +95,8 @@ function BathroomDetails() {
     history.push("/bathrooms");
   };
 
+
+  console.log(comment)
   return (
     <div>
       <h2>{theBathroomDetails.name}</h2>
@@ -70,11 +110,13 @@ function BathroomDetails() {
       <p>Downvotes: {theBathroomDetails.downvotes || 0}</p>
       <h5>Comments:</h5>
       <p>{theBathroomDetails.content}</p>
-      <Button onClick={returnToList}>Back to List</Button>
+      <Button onClick={returnToList} variant="secondary">
+        Back to List
+      </Button>
       <br />
       <br />
-      {/* 👇 makes button block-level (take up the full screen width) */}
-      <div className="d-grid gap-2">
+      {/* 👇 className="d-grid gap-2" makes button block-level (take up the full screen width) */}
+      <div>
         <Button
           variant="primary"
           onClick={() => setModalShow(true)}
@@ -85,7 +127,7 @@ function BathroomDetails() {
         </Button>
       </div>
 
-      <IPeedHereModal show={modalShow} onHide={() => setModalShow(false)} />
+      <IPeedHereModal show={modalShow} onHide={() => setModalShow(false)} comment={comment} handleInputChange={handleInputChange} vote={vote} handleVoteChange={handleVoteChange}/>
     </div>
   );
 }
