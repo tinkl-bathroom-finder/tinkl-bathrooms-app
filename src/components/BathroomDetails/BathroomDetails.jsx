@@ -8,17 +8,22 @@ import ToggleButton from "react-bootstrap/ToggleButton";
 import ToggleButtonGroup from "react-bootstrap/ToggleButtonGroup";
 
 function IPeedHereModal(props) {
+  const dispatch = useDispatch();
   const submitFeedback = () => {
-    // if a user is signed in, submit will send feedback
+    // if a user is signed in, submit will send feedback; otherwise,
+    // an alert will popup asking the guest to log in to leave feedback.
+    console.log('onHide:', props.onHide)
     if (props.userId){
       console.log('feedbackObject:', props.feedbackObject)
-    // dispatch({
-    //   type: 'SAGA/SEND_FEEDBACK',
-    //   payload: props.feedbackObject
-    // })
+    dispatch({
+      type: 'SAGA/SEND_FEEDBACK',
+      payload: props.feedbackObject
+    })
+
   } else if (!props.userId) {
     alert('Register as a user to leave feedback.')
-  }
+    // closes modal after submitting feedback
+  } props.onHide()
 }
 
   return (
