@@ -96,6 +96,7 @@ function BathroomDetails() {
   // handle change event
   const handleInputChange = (e) => {
       e.preventDefault();
+      console.log('feedbackObject:', feedbackObject)
       setComment(e.target.value);
   };
 

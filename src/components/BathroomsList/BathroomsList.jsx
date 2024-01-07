@@ -19,8 +19,8 @@ function BathroomsList() {
 //   console.log('bathroomsByDistance: ', bathroomsByDistance)
 
   const sendLocation = (e) => {
-// converts address to url-friendly string
     e.preventDefault()
+    // converts address to url-friendly string
     const convertedAddress = value.value.description.split(" ").join("%20")
     console.log('convertedAddress:', convertedAddress)
     dispatch({

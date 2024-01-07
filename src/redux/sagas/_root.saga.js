@@ -6,6 +6,7 @@ import bathroomSaga from './bathroom.saga';
 import addressSaga from './address.saga';
 import bathroomsByDistanceSaga from './bathroomsByDistance.saga';
 import detailsSaga from './details.saga';
+import feedbackSaga from './feedback.saga';
 
 // rootSaga is the primary saga.
 // It bundles up all of the other sagas so our project can use them.
@@ -22,6 +23,7 @@ export default function* rootSaga() {
     bathroomSaga(),
     addressSaga(),
     bathroomsByDistanceSaga(),
-    detailsSaga()
+    detailsSaga(),
+    feedbackSaga()
   ]);
 }
