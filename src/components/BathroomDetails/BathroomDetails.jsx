@@ -8,6 +8,18 @@ import ToggleButton from "react-bootstrap/ToggleButton";
 import ToggleButtonGroup from "react-bootstrap/ToggleButtonGroup";
 
 function IPeedHereModal(props) {
+  const submitFeedback = () => {
+    // if a user is signed in, submit will send feedback
+    if (props.userId){
+      console.log('feedbackObject:', props.feedbackObject)
+    // dispatch({
+    //   type: 'SAGA/SEND_FEEDBACK',
+    //   payload: props.feedbackObject
+    // })
+  } else if (!props.userId) {
+    alert('Register as a user to leave feedback.')
+  }
+}
 
   return (
     <Modal
@@ -24,16 +36,16 @@ function IPeedHereModal(props) {
         </Modal.Title>
       </Modal.Header>
       <Modal.Body>
+        <Form>
         <ToggleButtonGroup type="radio" name="options">
-          <ToggleButton id="tbg-radio-2" value={2} onClick={(e) => props.handleVoteChange(e)}>
+          <ToggleButton id="tbg-radio-2" value={2} onClick={() => props.handleVoteChange(2)}>
             👍
           </ToggleButton>
-          <ToggleButton id="tbg-radio-3" value={1}  onClick={(e) => props.handleVoteChange(e)}>
+          <ToggleButton id="tbg-radio-3" value={1}  onClick={() => props.handleVoteChange(1)}>
             👎
           </ToggleButton>
         </ToggleButtonGroup>
         <br />
-        <Form>
         <Form.Group controlId="commentForm">
         <Form.Label>Leave a comment:</Form.Label>
         <Form.Control
@@ -50,7 +62,7 @@ function IPeedHereModal(props) {
         </Form>
       </Modal.Body>
       <Modal.Footer>
-        <Button as="input" type="submit" value="Submit"></Button>
+        <Button as="input" type="submit" value="Submit" onClick={submitFeedback}></Button>
       </Modal.Footer>
     </Modal>
   );
@@ -64,19 +76,37 @@ function BathroomDetails() {
   const theBathroomDetails = useSelector((store) => store.bathroomDetails);
   const [modalShow, setModalShow] = useState(false);
 
-  let [vote, setVote] = useState(0)
+  let [upvote, setUpvote] = useState(0)
+  let [downvote, setDownvote] = useState(0)
   let [comment, setComment] = useState(""); // sets local state for comment
+  let userId = useSelector(store => store.user.id)
+  
+  let feedbackObject = {
+    upvote: upvote,
+    downvote: downvote,
+    comment: comment,
+    restroom_id: params.id,
+    user_id: userId
+  }
   // handle change event
   const handleInputChange = (e) => {
-    e.preventDefault();
-    setComment(e.target.value);
-    console.log("comment:", e.target.value);
+      e.preventDefault();
+      setComment(e.target.value);
   };
 
-  const handleVoteChange = (e) => {
-    e.preventDefault();
-    setVote(e.target.value);
-    console.log("vote (1 is down, 2 is up):", e.target.value);
+  const handleVoteChange = (value) => {
+    console.log('value: ', value)
+    // if thumbs-up button is clicked, upvote gets set to 1 and downvote set to 0
+    // if thumbs-down button is clicked, downvote gets set to 1 and upvote to 0
+    if (value === 2){
+    setUpvote(1)
+    setDownvote(0)
+    } else if (value === 1){
+      setUpvote(0)
+      setDownvote(1)
+      }
+    // console.log('Upvote:', upvote)
+    // console.log('Downvote:', downvote)
   };
 
 
@@ -95,8 +125,7 @@ function BathroomDetails() {
     history.push("/bathrooms");
   };
 
-
-  console.log(comment)
+  console.log('comment:', comment)
   return (
     <div>
       <h2>{theBathroomDetails.name}</h2>
@@ -127,7 +156,7 @@ function BathroomDetails() {
         </Button>
       </div>
 
-      <IPeedHereModal show={modalShow} onHide={() => setModalShow(false)} comment={comment} handleInputChange={handleInputChange} vote={vote} handleVoteChange={handleVoteChange}/>
+      <IPeedHereModal show={modalShow} onHide={() => setModalShow(false)} comment={comment} handleInputChange={handleInputChange} upvote={upvote} handleVoteChange={handleVoteChange} userId={userId} feedbackObject={feedbackObject}/>
     </div>
   );
 }
