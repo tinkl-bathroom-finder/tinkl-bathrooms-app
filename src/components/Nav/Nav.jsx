@@ -35,9 +35,17 @@ function Nav() {
 
             <LogOutButton className="navLink" />
 
-
+        {user.is_admin=true && (
+          <>
+            <Link className="navLink" to="/admin">
+              Admin Panel
+            </Link>
           </>
         )}
+          </>
+        )}
+
+
             <Link className="navLink" to="/bathrooms">
               Bathrooms
             </Link>

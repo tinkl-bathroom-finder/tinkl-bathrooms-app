@@ -22,6 +22,7 @@ import RegisterPage from "../RegisterPage/RegisterPage";
 import BathroomsList from "../BathroomsList/BathroomsList";
 import MyMap from "../Map/Map";
 import BathroomDetails from "../BathroomDetails/BathroomDetails";
+import AdminPage from "../AdminPage/AdminPage";
 
 import "./App.css";
 
@@ -82,6 +83,14 @@ function App() {
             path="/info"
           >
             <InfoPage />
+          </ProtectedRoute>
+
+          <ProtectedRoute
+            // logged in and admin shows AdminPage else shows LoginPage
+            exact
+            path="/admin"
+          >
+            <AdminPage />
           </ProtectedRoute>
 
           <Route exact path="/login">
