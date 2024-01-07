@@ -18,8 +18,9 @@ function BathroomsList() {
 //   console.log('bathrooms: ', bathrooms)
 //   console.log('bathroomsByDistance: ', bathroomsByDistance)
 
-  const sendLocation = () => {
+  const sendLocation = (e) => {
 // converts address to url-friendly string
+    e.preventDefault()
     const convertedAddress = value.value.description.split(" ").join("%20")
     console.log('convertedAddress:', convertedAddress)
     dispatch({
@@ -38,7 +39,7 @@ function BathroomsList() {
 
   return (
     <div className="container">
-      <div>
+      <form onSubmit={(e) => sendLocation(e)}>
         <GooglePlacesAutocomplete apiKey="AIzaSyBEYEcOGj237bE2zG78LTaQpUplQITQxpE"
         // onChange={(e) => setAddressInput(e.target.value)}
         // value={addressInput}
@@ -47,9 +48,9 @@ function BathroomsList() {
             onChange: setValue
         }}
         />
-      </div>
-      <button onClick={sendLocation}>Search nearby</button>
+      <button type="submit" onClick={(e) => sendLocation(e)}>Search nearby</button>
       <button onClick={getBathrooms}>See all bathrooms</button>
+      </form>
 
 <table>
     <thead>
