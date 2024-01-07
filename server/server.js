@@ -13,6 +13,7 @@ const allBathroomsRouter = require('./routes/allBathrooms.router')
 const locationRouter = require('./routes/location.router')
 const searchRouter = require('./routes/search.router')
 const detailsRouter = require('./routes/details.router')
+const feedbackRouter = require('./routes/feedback.router')
 
 // Body parser middleware
 app.use(bodyParser.json());
@@ -35,6 +36,8 @@ app.use('/distance', locationRouter);
 app.use('/search', searchRouter)
 // get all bathrooms router
 app.use('/bathrooms', allBathroomsRouter);
+// send feedback comments and upvotes/downvotes to database
+app.use('/feedback', feedbackRouter);
 
 
 // Serve static files
