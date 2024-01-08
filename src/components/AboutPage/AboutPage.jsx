@@ -9,7 +9,7 @@ function AboutPage() {
   return (
     <div className="container">
       <div>
-        <p>This about page is for anyone to read!</p>
+      <p>tinkl is a bathroom-finder app that locates nearby gender-neutral and single-stall bathrooms.</p>
       </div>
     </div>
   );

@@ -12,7 +12,10 @@ function Nav() {
       <Link to="/home">
         <h2 className="nav-title">tinkl</h2>
       </Link>
-      <div>
+      <div>        
+        <Link className="navLink" to="/about">
+          About
+        </Link>
         {/* If no user is logged in, show these links */}
         {!user.id && (
           // If there's no user, show login/registration links
@@ -29,7 +32,7 @@ function Nav() {
             </Link>
 
             <Link className="navLink" to="/info">
-              Info Page
+              My Profile
             </Link>
 
 
@@ -50,9 +53,7 @@ function Nav() {
               Bathrooms
             </Link>
 
-        <Link className="navLink" to="/about">
-          About
-        </Link>
+
       </div>
     </div>
   );

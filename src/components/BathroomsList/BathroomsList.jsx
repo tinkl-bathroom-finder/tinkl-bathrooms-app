@@ -18,16 +18,25 @@ function BathroomsList() {
 //   console.log('bathrooms: ', bathrooms)
 //   console.log('bathroomsByDistance: ', bathroomsByDistance)
 
+useEffect(() => {
+  dispatch({
+    type: "SAGA/FETCH_BATHROOMS",
+  });
+}, [])
+
   const sendLocation = (e) => {
     e.preventDefault()
     // converts address to url-friendly string
     const convertedAddress = value.value.description.split(" ").join("%20")
-    console.log('convertedAddress:', convertedAddress)
+    console.log('convertedAddress:', convertedAddress);
     dispatch({
       type: "SAGA/SEND_LOCATION",
       payload: convertedAddress
     });
     console.log('addressCoordinates:', addressCoordinates)
+    // 👇 clears the input field after we make a search
+    // setValue('')
+
   };
 
   const getBathrooms = () => {
@@ -49,7 +58,7 @@ function BathroomsList() {
         }}
         />
       <button type="submit" onClick={(e) => sendLocation(e)}>Search nearby</button>
-      <button onClick={getBathrooms}>See all bathrooms</button>
+      {/* <button onClick={getBathrooms}>See all bathrooms</button> */}
       </form>
 
 <table>

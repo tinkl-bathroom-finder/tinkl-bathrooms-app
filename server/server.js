@@ -14,6 +14,7 @@ const locationRouter = require('./routes/location.router')
 const searchRouter = require('./routes/search.router')
 const detailsRouter = require('./routes/details.router')
 const feedbackRouter = require('./routes/feedback.router')
+const apiRouter = require('./routes/api.router')
 
 // Body parser middleware
 app.use(bodyParser.json());
@@ -38,6 +39,8 @@ app.use('/search', searchRouter)
 app.use('/bathrooms', allBathroomsRouter);
 // send feedback comments and upvotes/downvotes to database
 app.use('/feedback', feedbackRouter);
+// send get request to Refuge Restrooms API
+app.use('/api', apiRouter);
 
 
 // Serve static files
