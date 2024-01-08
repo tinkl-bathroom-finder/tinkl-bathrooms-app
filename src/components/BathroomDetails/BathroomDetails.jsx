@@ -145,7 +145,7 @@ function BathroomDetails() {
       <h5>Comments:</h5>
       <p>{theBathroomDetails.comments.map((comment) => (
         <p>{comment}</p>
-      ))}</p>
+      )) || 0}</p>
       <Button onClick={returnToList} variant="secondary">
         Back to List
       </Button>

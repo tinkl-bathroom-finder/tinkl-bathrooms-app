@@ -23,6 +23,7 @@ import BathroomsList from "../BathroomsList/BathroomsList";
 import MyMap from "../Map/Map";
 import BathroomDetails from "../BathroomDetails/BathroomDetails";
 import AdminPage from "../AdminPage/AdminPage";
+// import { DotLoader } from "react-spinners";
 
 import "./App.css";
 
@@ -38,6 +39,7 @@ function App() {
   return (
     <Router>
       <div>
+        {/* <DotLoader color="#36d7b7" /> */}
         <Nav />
         <Switch>
           {/* Visiting localhost:3000 will redirect to localhost:3000/home */}
