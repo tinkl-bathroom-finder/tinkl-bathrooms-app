@@ -120,7 +120,8 @@ table {
   text-align: left;
   white-space: normal;
   word-wrap: break-word;
-  table-layout: fixed;
+  table-layout: auto;
+  overflow: scroll;
 }
 table, th, td {
   border: 1px solid black ;
@@ -129,7 +130,8 @@ table, th, td {
 }
 th, td {
   padding: .5em;
-  min-width: 3.5em;
+  min-width: 5em;
+  width: auto;
 }
 thead {
   background: rgb(112, 195, 228);
@@ -146,3 +148,15 @@ tbody tr:nth-child(odd) {
   background: rgb(255, 255, 255);
 }
 
+.react-bootstrap-table table {
+  table-layout: auto;
+  overflow-y: auto;
+  }
+
+/* #api-table {
+  overflow: scroll;
+} */
+
+.react-bootstrap-table tab {
+  color: white;
+}
