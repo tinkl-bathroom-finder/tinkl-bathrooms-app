@@ -124,11 +124,10 @@ function BathroomDetails() {
       type: "SAGA/FETCH_BATHROOM_DETAILS",
       payload: params.id,
     });
-    console.log("theBathroomDetails after being fetched: ", theBathroomDetails);
   }, [params.id]); // 👈 useEffect will retrigger if params.id (the id in url) changes
 
   const returnToList = () => {
-    history.push("/bathrooms");
+    history.goBack()
   };
 
   console.log('comment:', comment)
@@ -144,7 +143,9 @@ function BathroomDetails() {
       <p>Upvotes: {theBathroomDetails.upvotes || 0}</p>
       <p>Downvotes: {theBathroomDetails.downvotes || 0}</p>
       <h5>Comments:</h5>
-      <p>{theBathroomDetails.content}</p>
+      <p>{theBathroomDetails.comments.map((comment) => (
+        <p>{comment}</p>
+      ))}</p>
       <Button onClick={returnToList} variant="secondary">
         Back to List
       </Button>

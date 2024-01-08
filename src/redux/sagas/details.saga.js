@@ -15,7 +15,7 @@ function* fetchBathroomDetails (action) {
       console.log('theBathroom, aka response.data', theBathroom)
       yield put({
         type: 'SET_BATHROOM_DETAILS',
-        payload: theBathroom[0]
+        payload: theBathroom
       })
     } catch (err) {
       console.log('Saga function fetchBathrooms failed:', err)
