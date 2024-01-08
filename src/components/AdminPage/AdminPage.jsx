@@ -5,6 +5,7 @@ import Tabs from 'react-bootstrap/Tabs';
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import Table from 'react-bootstrap/Table';
+import BathroomItem from "../BathroomItem/BathroomItem";
 
 
 
@@ -12,6 +13,7 @@ function AdminPage () {
     const dispatch = useDispatch();
     const [perPage, setPerPage] = useState('')
     const [pageNumber, setPageNumber] = useState('')
+    let apiBathrooms = useSelector(store => store.apiBathrooms)
 
     const bathroomsPerPage = (e) => {
         setPerPage(e.target.value)
@@ -30,6 +32,7 @@ function AdminPage () {
     }
 
     return (
+        <>
         <Tabs
           defaultActiveKey="home"
           id="justify-tab-example"
@@ -54,9 +57,22 @@ function AdminPage () {
             Tab content for Contact
           </Tab>
         </Tabs>
-        // <Table>
-
-        // </Table>
+        <Table>
+        <thead>
+        <tr>
+          <th>Name</th>
+          <th>Street</th>
+          <th>City</th>
+          <th>Distance</th>
+        </tr>
+      </thead>
+      <tbody>
+{apiBathrooms.map((bathroom) => (
+    <BathroomItem key={bathroom.id} bathroom={bathroom} />
+))}
+      </tbody>
+        </Table>
+        </>
       );
 }
 
