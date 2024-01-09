@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useHistory } from 'react-router-dom';
 import Button from 'react-bootstrap/Button';
 
+
 function ApiBathroomItem({ bathroom }) {
 
     const history = useHistory()
@@ -11,11 +12,25 @@ function ApiBathroomItem({ bathroom }) {
     // to the bathroom details page
       history.push(`/bathrooms/${bathroom.id}`)
     }
+
+    const [isChecked, setIsChecked] = useState(false);
+
+    const handleOnChange = () => {
+      setIsChecked(!isChecked);
+    };
   
   
     return (
     <tr>
-        <td><Button onClick={goToDetails}>View single bathroom</Button>
+        <td>
+            <input
+                type="checkbox"
+                id="selectAll"
+                name="selectAll"
+                value="Select bathroom to add"
+                checked={isChecked}
+                onChange={handleOnChange}
+        />
         </td>
         <td>{bathroom.id}</td>
         <td>{bathroom.name || ''}</td>

@@ -16,6 +16,8 @@ function* loadApiBathrooms(action){
         type: 'SET_API_BATHROOMS',
         payload: response.data
       })
+      // flip isLoading back to false
+      action.payload.setIsLoading(false)
     } catch (error) {
         console.log('API get request failed:', error)
     }

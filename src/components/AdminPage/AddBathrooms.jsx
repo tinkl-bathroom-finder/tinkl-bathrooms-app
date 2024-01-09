@@ -4,12 +4,15 @@ import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
 import Table from "react-bootstrap/Table";
 import ApiBathroomItem from "../ApiBathroomItem/ApiBathroomItem";
+import { DotLoader } from "react-spinners"
 
 function AddBathrooms() {
   const dispatch = useDispatch();
   const [perPage, setPerPage] = useState("");
   const [pageNumber, setPageNumber] = useState("");
   let apiBathrooms = useSelector((store) => store.apiBathrooms);
+  const [isLoading, setIsLoading] = useState(false);
+
 
   // sets 'per_page' value for http API query
   const bathroomsPerPage = (e) => {
@@ -24,13 +27,15 @@ function AddBathrooms() {
   // submits http GET request to Refuge Restrooms API with given search parameters
   const loadBathrooms = () => {
     console.log("payload:", { perPage, pageNumber });
+    setIsLoading(true)
     dispatch({
       type: "SAGA/LOAD_BATHROOMS_FROM_API",
-      payload: { perPage, pageNumber },
+      payload: { perPage, pageNumber, setIsLoading },
     });
-  };
+  }
   return (
   <Form onSubmit={loadBathrooms}>
+    {isLoading && <DotLoader />}
     <h3>Load bathrooms from Refuge API</h3>
     <input
       placeholder="Bathrooms per page"
