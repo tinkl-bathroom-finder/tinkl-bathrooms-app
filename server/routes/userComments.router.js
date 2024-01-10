@@ -31,10 +31,10 @@ router.put("/:id", (req, res) => {
     const sqlQuery = `
     UPDATE "comments"
         SET "is_removed"=TRUE
-        WHERE "comments"."id" = $1
+        WHERE ("comments"."id"=$1 AND "user_id"=$2)
         RETURNING "user_id"
     `
-    const sqlValues = [req.params.id]
+    const sqlValues = [req.params.id, req.user.id]
     pool
         .query(sqlQuery, sqlValues)
         .then((dbRes) => {

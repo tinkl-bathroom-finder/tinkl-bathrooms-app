@@ -66,9 +66,7 @@ function UserProfile() {
         <tbody>
           {userComments.map((comment) => (
             <tr>
-              <Link onClick={() => goToDetails(comment.restroom_id)}>
-                <td>{comment.name}</td>
-              </Link>
+                <td onClick={() => goToDetails(comment.restroom_id)} className="link">{comment.name}</td>
 
               <td>{comment.content}</td>
               <td>{userInfo.username}</td>
