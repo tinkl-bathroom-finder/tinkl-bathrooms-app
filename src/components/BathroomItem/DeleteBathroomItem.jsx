@@ -21,7 +21,25 @@ function DeleteBathroomItem({ bathroom }) {
     });
   };
 
-  const deleteBathroomFromDatabase = () => {};
+  const deleteBathroomFromDatabase = () => {
+    console.log("bathroom.id", bathroom.id);
+    // popup to confirm you are sure you want to delete
+    Swal.fire({
+      title: "Are you sure?",
+      text: "You won't be able to revert this!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Yes, delete it!"
+    }).then((result) => {
+      if (result.isConfirmed) {
+    dispatch({
+      type: "SAGA/DELETE_BATHROOM",
+      payload: bathroom.id
+    })
+  }})
+  };
 
   return (
     <tr>
