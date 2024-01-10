@@ -115,6 +115,14 @@ function BathroomDetails() {
     // console.log('Downvote:', downvote)
   };
 
+    // formats inserted_at timestamp as readable string
+    const stringifyDate = (timestamp) => {
+      const date = new Date(timestamp);
+      const options = { year: "numeric", month: "short", day: "numeric" };
+      const stringifiedDate = date.toLocaleDateString("en-us", options);
+      return stringifiedDate;
+    };
+
 
   useEffect(() => {
     // should log the id of the restroom we're currently on (would expect this to log: {id: '5'} if our browser is at localhost:3000/bathrooms/5)
@@ -130,14 +138,13 @@ function BathroomDetails() {
     history.goBack()
   };
 
-  console.log('comment:', comment)
   return (
     <div>
       <h2>{theBathroomDetails.name}</h2>
       <h4>{theBathroomDetails.street}</h4>
       <p>{theBathroomDetails.directions}</p>
       {/* <p>Last updated: {JSON.stringify(theBathroomDetails.updated_at).slice(0, -14)}</p> */}
-      <p>Last updated: {theBathroomDetails.updated_at || 'no info'}</p>
+      <p>Last updated: {stringifyDate(theBathroomDetails.updated_at) || 'no info'}</p>
       <p>Gender-neutral: {theBathroomDetails.unisex === true ? "yes" : "no"}</p>
       {/* if a bathrooms has upvotes or downvotes, they will display; otherwise it will show "0" */}
       <p>Upvotes: {theBathroomDetails.upvotes || 0}</p>
