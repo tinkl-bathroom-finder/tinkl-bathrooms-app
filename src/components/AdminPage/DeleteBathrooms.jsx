@@ -23,10 +23,10 @@ function DeleteBathrooms() {
         <thead>
           <tr>
             <th></th>
+            <th></th>
             <th>Name</th>
             <th>Street</th>
             <th>City</th>
-            <th></th>
           </tr>
         </thead>
         <tbody>

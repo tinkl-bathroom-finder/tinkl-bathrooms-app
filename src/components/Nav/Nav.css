@@ -7,6 +7,9 @@
   margin: 0 0 30px;
   background-color: rgb(224, 83, 170);
   overflow: hidden;
+  position: sticky;
+  top: 0;
+  bottom: 0;
 }
 
 .nav a {

@@ -8,6 +8,7 @@ import bathroomsByDistanceSaga from './bathroomsByDistance.saga';
 import detailsSaga from './details.saga';
 import feedbackSaga from './feedback.saga';
 import apiSearchSaga from './refuge_api.saga';
+import userCommentsSaga from './userComments.saga';
 
 // rootSaga is the primary saga.
 // It bundles up all of the other sagas so our project can use them.
@@ -26,6 +27,7 @@ export default function* rootSaga() {
     bathroomsByDistanceSaga(),
     detailsSaga(),
     feedbackSaga(),
-    apiSearchSaga()
+    apiSearchSaga(),
+    userCommentsSaga()
   ]);
 }

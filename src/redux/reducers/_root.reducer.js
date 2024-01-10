@@ -5,8 +5,9 @@ import user from './user.reducer';
 import bathrooms from './bathrooms.reducer';
 import bathroomDetails from './bathroomDetails.reducer';
 import bathroomsByDistance from './bathroomsByDistance.reducer';
-import addressCoordinates from './addressCoordinates.reducer'
-import apiBathrooms from './apiBathrooms.reducer'
+import addressCoordinates from './addressCoordinates.reducer';
+import apiBathrooms from './apiBathrooms.reducer';
+import userComments from './userComments.reducer';
 
 // rootReducer is the primary reducer for our entire project
 // It bundles up all of the other reducers so our project can use them.
@@ -21,7 +22,8 @@ const rootReducer = combineReducers({
   bathroomDetails,
   bathroomsByDistance,
   addressCoordinates,
-  apiBathrooms
+  apiBathrooms,
+  userComments
 });
 
 export default rootReducer;

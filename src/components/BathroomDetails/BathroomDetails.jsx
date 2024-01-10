@@ -137,17 +137,19 @@ function BathroomDetails() {
       <h4>{theBathroomDetails.street}</h4>
       <p>{theBathroomDetails.directions}</p>
       {/* <p>Last updated: {JSON.stringify(theBathroomDetails.updated_at).slice(0, -14)}</p> */}
-      <p>Last updated: {theBathroomDetails.updated_at}</p>
+      <p>Last updated: {theBathroomDetails.updated_at || 'no info'}</p>
       <p>Gender-neutral: {theBathroomDetails.unisex === true ? "yes" : "no"}</p>
       {/* if a bathrooms has upvotes or downvotes, they will display; otherwise it will show "0" */}
       <p>Upvotes: {theBathroomDetails.upvotes || 0}</p>
       <p>Downvotes: {theBathroomDetails.downvotes || 0}</p>
+      <p>Changing Table: {theBathroomDetails.changing_table ? 'yes' : 'no'}</p>
+      <p>Wheelchair Accessible: {theBathroomDetails.accessible ? 'yes' : 'no'}</p>
       <h5>Comments:</h5>
-      <p>{theBathroomDetails.comments.map((comment) => (
+      <p>{theBathroomDetails.comments ? theBathroomDetails.comments.map((comment) => (
         <p>{comment}</p>
-      )) || 0}</p>
+      )) : ''}</p>
       <Button onClick={returnToList} variant="secondary">
-        Back to List
+        Back
       </Button>
       <br />
       <br />

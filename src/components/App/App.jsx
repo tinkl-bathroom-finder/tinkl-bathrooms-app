@@ -23,6 +23,10 @@ import BathroomsList from "../BathroomsList/BathroomsList";
 import MyMap from "../Map/Map";
 import BathroomDetails from "../BathroomDetails/BathroomDetails";
 import AdminPage from "../AdminPage/AdminPage";
+import Container from 'react-bootstrap/Container';
+// import Nav from 'react-bootstrap/Nav';
+import Navbar from 'react-bootstrap/Navbar';
+import NavDropdown from 'react-bootstrap/NavDropdown';
 // import { DotLoader } from "react-spinners";
 
 import "./App.css";
@@ -40,7 +44,7 @@ function App() {
     <Router>
       <div>
         {/* <DotLoader color="#36d7b7" /> */}
-        <Nav />
+        <Nav/>
         <Switch>
           {/* Visiting localhost:3000 will redirect to localhost:3000/home */}
           <Redirect exact from="/" to="/home" />
