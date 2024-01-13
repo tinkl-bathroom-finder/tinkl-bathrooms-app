@@ -27,11 +27,14 @@ function DeleteBathroomItem({ bathroom }) {
     Swal.fire({
       title: "Are you sure?",
       text: "You won't be able to revert this!",
-      icon: "warning",
+      imageUrl: "https://media.giphy.com/media/LdgRBEyuJ6JNHsFEwF/giphy.gif",
+      imageWidth: 250,
+      imageHeight: 250,
+      imageAlt: "Pink poop",
       showCancelButton: true,
       confirmButtonColor: "#3085d6",
       cancelButtonColor: "#d33",
-      confirmButtonText: "Yes, delete it!"
+      confirmButtonText: "Yes, flush it!"
     }).then((result) => {
       if (result.isConfirmed) {
     dispatch({
