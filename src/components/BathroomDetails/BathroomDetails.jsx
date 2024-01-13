@@ -7,6 +7,7 @@ import Form from "react-bootstrap/Form";
 import ToggleButton from "react-bootstrap/ToggleButton";
 import ToggleButtonGroup from "react-bootstrap/ToggleButtonGroup";
 
+
 function IPeedHereModal(props) {
   const dispatch = useDispatch();
   const submitFeedback = () => {
@@ -19,6 +20,19 @@ function IPeedHereModal(props) {
       type: 'SAGA/SEND_FEEDBACK',
       payload: props.feedbackObject
     })
+    Swal.fire({
+      title: "Thank you for sharing! Users help keep this app up-to-date.",
+      width: 600,
+      padding: "3em",
+      color: "#716add",
+      background: "#fff url(https://media.giphy.com/media/ifMCKz51hfD9RUWXbI/giphy.gif)",
+      backdrop: `
+        rgba(0,0,123,0.4)
+        url("https://media.giphy.com/media/mTs11L9uuyGiI/giphy.gif")
+        left top
+        no-repeat
+      `
+    });
 
   } else if (!props.userId) {
     alert('Register as a user to leave feedback.')
@@ -139,7 +153,7 @@ function BathroomDetails() {
   };
 
   return (
-    <div>
+    <div>{ theBathroomDetails && <>
       <h2>{theBathroomDetails.name}</h2>
       <h4>{theBathroomDetails.street}</h4>
       <p>{theBathroomDetails.directions}</p>
@@ -155,24 +169,33 @@ function BathroomDetails() {
       <p>{theBathroomDetails.comments ? theBathroomDetails.comments.map((comment) => (
         <p>{comment}</p>
       )) : ''}</p>
+      </>}
       <Button onClick={returnToList} variant="secondary">
         Back
       </Button>
       <br />
       <br />
+
       {/* 👇 className="d-grid gap-2" makes button block-level (take up the full screen width) */}
       <div>
         <Button
           variant="primary"
           onClick={() => setModalShow(true)}
           size="lg"
-          variant="warning"
         >
           I peed here!
         </Button>
       </div>
 
-      <IPeedHereModal show={modalShow} onHide={() => setModalShow(false)} comment={comment} handleInputChange={handleInputChange} upvote={upvote} handleVoteChange={handleVoteChange} userId={userId} feedbackObject={feedbackObject}/>
+      <IPeedHereModal 
+        show={modalShow} 
+        onHide={() => setModalShow(false)} 
+        comment={comment} 
+        handleInputChange={handleInputChange} 
+        upvote={upvote} 
+        handleVoteChange={handleVoteChange} 
+        userId={userId} 
+        feedbackObject={feedbackObject}/>
     </div>
   );
 }
