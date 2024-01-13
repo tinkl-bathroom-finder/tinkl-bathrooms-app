@@ -6,6 +6,10 @@ import { Link } from "react-router-dom";
 import { useHistory } from 'react-router-dom';
 // import editIcon from '../../public/edit_icon_transparent.png';
 
+
+import Avatar from '@mui/material/Avatar';
+import { deepOrange, deepPurple } from '@mui/material/colors'
+
 // This is one of our simplest components
 // It doesn't have local state
 // It doesn't dispatch any redux actions or display any part of redux state
@@ -28,10 +32,24 @@ function UserProfile() {
 
   const editUsername = () => {};
   const deleteComment = (commentId) => {
+    Swal.fire({
+      title: "Are you sure?",
+      text: "You won't be able to revert this!",
+      imageUrl: "https://media.giphy.com/media/Dxcny6WwMO43du9QRu/giphy.gif",
+      imageWidth: 250,
+      imageHeight: 250,
+      imageAlt: "Rainbow pixel poop",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Yes, flush it!"
+    }).then((result) => {
+      if (result.isConfirmed) {
     dispatch({
       type: "SAGA/DELETE_COMMENT",
       payload: commentId
     });
+  }})
   };
 
   useEffect(() => {
@@ -50,7 +68,7 @@ function UserProfile() {
 
   return (
     <div className="container">
-      <div className="user-profile">.🦁</div>
+      <Avatar sx={{ bgcolor: deepOrange[400] }}>🦁</Avatar>
       <h2 className="profile">{userInfo.username}</h2>
       <span onClick={editUsername}>✎</span>
       <p>Member since {stringifyDate(userInfo.inserted_at)}</p>
