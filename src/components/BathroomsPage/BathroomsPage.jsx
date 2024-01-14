@@ -171,19 +171,18 @@ function BathroomsPage() {
     console.log("listView:", listView);
   };
 
-  // const getBathrooms = () => {
-  //   console.log("This is a test. getBathrooms is running");
-  //   dispatch({
-  //     type: "SAGA/FETCH_BATHROOMS",
-  //   });
-  // };
+  const clearInput = () => {
+    setValue('')
+  }
+
+  const apiKey=process.env.GOOGLE_MAPS_API_KEY
 
   return (
-    <div className="container">
+    <div className="container" >
       {/* AutoComplete search box */}
       <form onSubmit={(e) => sendLocation(e)}>
         <GooglePlacesAutocomplete
-          apiKey="AIzaSyBEYEcOGj237bE2zG78LTaQpUplQITQxpE"
+          apiKey={apiKey}
           // onChange={(e) => setAddressInput(e.target.value)}
           // value={addressInput}
           selectProps={{
@@ -223,45 +222,22 @@ function BathroomsPage() {
         // if you have searched for bathrooms by proximity to your location, renders a list of those bathrooms by distance
         bathroomsByDistance.length > 0 ? (
           <div className="table-div">
-            {/* <Table responsive="sm"> */}
-              {/* <thead>
-                <tr>
-                  <th></th>
-                  <th>Name</th>
-                  <th>Street</th>
-                  <th>City</th>
-                  <th>Distance</th>
-                </tr>
-              </thead> */}
-              {/* <tbody> */}
+
                 {bathroomsByDistance.map((bathroom) => (
                   <BathroomItem key={bathroom.id} bathroom={bathroom} 
                   />
                 ))}
-         {/* </tbody>
-             </Table> */}
+
           </div>
         ) : (
           
 
           // otherwise, if you haven't entered a search query, renders a list of *all* bathrooms (default upon page load)
           <div className="table-div">
-            {/* <Table responsive="sm"> */}
-              {/* <thead>
-                <tr>
-                  <th></th>
-                  <th>Name</th>
-                  <th>Street</th>
-                  <th>City</th>
-                  <th></th>
-                </tr>
-              </thead> */}
-              {/* <tbody> */}
+
                 {bathrooms.map((bathroom) => (
                   <BathroomItem key={bathroom.id} bathroom={bathroom} />
                 ))}
-              {/* </tbody>
-            </Table> */}
           </div>
         )
       ) : (

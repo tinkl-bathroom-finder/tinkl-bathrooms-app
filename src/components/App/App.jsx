@@ -26,6 +26,8 @@ import MyMap from "../Map/Map";
 import AdminPage from "../AdminPage/AdminPage";
 import AddBathrooms from "../AdminPage/AddBathrooms";
 import DeleteBathrooms from "../AdminPage/DeleteBathrooms";
+import AdminComments from "../AdminPage/AdminComments";
+import AdminUsers from "../AdminPage/AdminUsers";
 
 import SidebarNav from "../Nav/SidebarNav";
 import Container from "react-bootstrap/Container";
@@ -105,6 +107,30 @@ function App() {
           >
             {user.is_admin ? 
             <AdminPage />
+            : <Redirect to="/user" />}
+          </ProtectedRoute>
+
+          <ProtectedRoute exact path="/admin/addbathrooms">
+          {user.is_admin ? 
+            <AddBathrooms />
+            : <Redirect to="/user" />}
+          </ProtectedRoute>
+
+          <ProtectedRoute exact path="/admin/editbathrooms">
+          {user.is_admin ? 
+            <DeleteBathrooms />
+            : <Redirect to="/user" />}
+          </ProtectedRoute>
+
+          <ProtectedRoute exact path="/admin/comments">
+          {user.is_admin ? 
+            <AdminComments />
+            : <Redirect to="/user" />}
+          </ProtectedRoute>
+
+          <ProtectedRoute exact path="/admin/users">
+          {user.is_admin ? 
+            <AdminUsers />
             : <Redirect to="/user" />}
           </ProtectedRoute>
 

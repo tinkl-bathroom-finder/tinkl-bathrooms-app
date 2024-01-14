@@ -3,7 +3,7 @@ import * as React from "react";
 import { useState } from "react";
 import { useHistory, Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-// import SidebarNav from "./SidebarNav";
+import SidebarNav from "./SidebarNav";
 
 // MUI material imports
 import {
@@ -28,17 +28,17 @@ import {
 } from "@mui/material";
 
 // MUI icons
-import {
-  AccountCircle,
-  AddCircleOutlineOutlined,
-  CommentOutlined,
-  EditNoteOutlined,
-  ExpandLess,
-  ExpandMore,
-  GroupOutlined,
-  WaterDrop,
-} from "@mui/icons-material";
+import { AccountCircle } from "@mui/icons-material";
 import MenuIcon from "@mui/icons-material/Menu";
+import WaterDropIcon from "@mui/icons-material/WaterDrop";
+import StarBorder from "@mui/icons-material/StarBorder";
+import AddCircleOutlineOutlinedIcon from '@mui/icons-material/AddCircleOutlineOutlined';
+import EditNoteOutlinedIcon from '@mui/icons-material/EditNoteOutlined';
+import CommentOutlinedIcon from '@mui/icons-material/CommentOutlined';
+import GroupOutlinedIcon from '@mui/icons-material/GroupOutlined';
+
+import ExpandLess from "@mui/icons-material/ExpandLess";
+import ExpandMore from "@mui/icons-material/ExpandMore";
 
 function AppBarNav() {
   const dispatch = useDispatch();
@@ -47,7 +47,7 @@ function AppBarNav() {
   const [anchorEl, setAnchorEl] = useState(null);
   const [isDrawerOpen, setDrawerOpen] = useState(false);
   const user = useSelector((store) => store.user);
-  const [open, setOpen] = useState(false);
+  const [open, setOpen] = useState(true);
 
   const handleClick = () => {
     setOpen(!open);
@@ -83,14 +83,13 @@ function AppBarNav() {
     if (
       event.type === "keydown" &&
       (event.key === "Tab" || event.key === "Shift")
-      // 👇 removing this return is what was breaking my sidebar drawer
     ) {
-      return
+      return;
     }
 
     setState({ ...state, [anchor]: open });
   };
-// sidebar list - could be moved to its own component at some point, need to figure out how to pass down toggleDrawer function - saga?
+
   const list = (anchor) => (
     <Box
       sx={{ width: anchor === "top" || anchor === "bottom" ? "auto" : 250 }}
@@ -105,9 +104,10 @@ function AppBarNav() {
             className="linkInDrawer"
             onClick={() => setDrawerOpen(false)}
             underline="none"
+            
           >
-            <ListItemButton onClick={toggleDrawer(anchor, false)}>
-              <ListItemIcon>{<WaterDrop />}</ListItemIcon>
+            <ListItemButton  onClick={toggleDrawer(anchor, false)}>
+              <ListItemIcon>{<WaterDropIcon />}</ListItemIcon>
               <ListItemText primary="Find a bathroom" />
             </ListItemButton>
           </Link>
@@ -120,9 +120,9 @@ function AppBarNav() {
             className="linkInDrawer"
             onClick={() => setDrawerOpen(false)}
             underline="none"
-   >
+          >
             <ListItemButton onClick={toggleDrawer(anchor, false)}>
-              <ListItemIcon>{<WaterDrop />}</ListItemIcon>
+              <ListItemIcon>{<WaterDropIcon />}</ListItemIcon>
               <ListItemText primary="About" />
             </ListItemButton>
           </Link>
@@ -138,7 +138,7 @@ function AppBarNav() {
           >
             <ListItemButton onClick={toggleDrawer(anchor, false)}>
               <ListItemIcon>
-                <WaterDrop />
+                <WaterDropIcon />
               </ListItemIcon>
               <ListItemText primary="Info" />
             </ListItemButton>
@@ -149,7 +149,6 @@ function AppBarNav() {
         {user.is_admin === true && (
           <>
             <ListItem key="admin" disablePadding>
-
               <Link
                 to="/admin"
                 className="linkInDrawer"
@@ -158,95 +157,55 @@ function AppBarNav() {
               >
                 <ListItemButton onClick={handleClick}>
                   <ListItemIcon>
-                    <WaterDrop />
+                    <WaterDropIcon />
                   </ListItemIcon>
                   <ListItemText primary="Admin" />
                   {open ? <ExpandLess /> : <ExpandMore />}
                 </ListItemButton>
-                {/* nested list of admin panel pages */}
+{/* nested list of admin panel pages */}
                 <Collapse in={open} timeout="auto" unmountOnExit>
                   <List component="div" disablePadding>
 
                     {/* Add bathrooms page */}
-                    <Link
-                to="/admin/addbathrooms"
-                className="linkInDrawer"
-                onClick={() => setDrawerOpen(false)}
-                underline="none"
-              >
                     <ListItem key="addbathrooms" disablePadding>
-                      <ListItemButton
-                        sx={{ pl: 4 }}
-                        onClick={toggleDrawer(anchor, false)}
-                      >
+                      <ListItemButton sx={{ pl: 4 }} onClick={toggleDrawer(anchor, false)}>
                         <ListItemIcon>
-                          <AddCircleOutlineOutlined />
+                          <AddCircleOutlineOutlinedIcon />
                         </ListItemIcon>
                         <ListItemText primary="Add bathrooms" />
                       </ListItemButton>
                     </ListItem>
-                    </Link>
 
-                    {/* Edit/delete bathrooms page */}
-                    <Link
-                to="/admin/editbathrooms"
-                className="linkInDrawer"
-                onClick={() => setDrawerOpen(false)}
-                underline="none"
-              >
-     
+{/* Edit/delete bathrooms page */}
                     <ListItem key="deletebathrooms" disablePadding>
-                      <ListItemButton
-                        sx={{ pl: 4 }}
-                        onClick={toggleDrawer(anchor, false)}
-                      >
+                      <ListItemButton sx={{ pl: 4 }} onClick={toggleDrawer(anchor, false)}>
                         <ListItemIcon>
-                          <EditNoteOutlined />
+                          <EditNoteOutlinedIcon />
                         </ListItemIcon>
                         <ListItemText primary="Edit/delete bathrooms" />
                       </ListItemButton>
-                    </ListItem>           
-              </Link>
+                    </ListItem>
 
-              <Link
-                to="/admin/comments"
-                className="linkInDrawer"
-                onClick={() => setDrawerOpen(false)}
-                underline="none"
-              >
-                    {/* Comments page */}
+{/* Comments page */}
                     <ListItem key="admin-comments" disablePadding>
-                      <ListItemButton
-                        sx={{ pl: 4 }}
-                        onClick={toggleDrawer(anchor, false)}
-                      >
+                      <ListItemButton sx={{ pl: 4 }} onClick={toggleDrawer(anchor, false)}>
                         <ListItemIcon>
-                          <CommentOutlined />
+                          <CommentOutlinedIcon />
                         </ListItemIcon>
                         <ListItemText primary="Comments" />
                       </ListItemButton>
                     </ListItem>
-                    </Link>
 
-                    {/* Users list page */}
-                    <Link
-                to="/admin/users"
-                className="linkInDrawer"
-                onClick={() => setDrawerOpen(false)}
-                underline="none"
-              >
+{/* Users list page */}
                     <ListItem key="admin-users" disablePadding>
-                      <ListItemButton
-                        sx={{ pl: 4 }}
-                        onClick={toggleDrawer(anchor, false)}
-                      >
+                      <ListItemButton sx={{ pl: 4 }} onClick={toggleDrawer(anchor, false)}>
                         <ListItemIcon>
-                          <GroupOutlined />
+                          <GroupOutlinedIcon />
                         </ListItemIcon>
                         <ListItemText primary="Users" />
                       </ListItemButton>
                     </ListItem>
-                    </Link>
+
                   </List>
                 </Collapse>
               </Link>

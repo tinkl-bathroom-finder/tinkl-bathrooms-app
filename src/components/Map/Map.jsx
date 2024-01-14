@@ -1,51 +1,117 @@
-// Thanks to https://medium.com/@yukthihettiarachchissck/getting-started-with-google-maps-api-in-react-js-1390b19d18f0
-// for this sample code
-import React from "react";
-import { GoogleMap, useLoadScript, Marker } from "@react-google-maps/api";
-// require('dotenv').config();
+import React, { useMemo, useRef, useCallback, useState, useEffect } from "react";
+import { useSelector, useDispatch } from "react-redux";
+
+import { DotLoader } from "react-spinners"
+
+//google maps import
+import { GoogleMap, useJsApiLoader } from "@react-google-maps/api"
+
+import Marker from "../Marker/Marker";
 
 function MyMap() {
-  // centers map on Minneapolis by default
-  const center = {
-    lat: 44.978145599365234, // default latitude
-    lng: -93.26353454589844, // default longitude
-  };
-  const apiKey=process.env.GOOGLE_MAPS_API_KEY
-  const libraries = ["places"];
-  const { isLoaded, loadError } = useLoadScript({
-    googleMapsApiKey: "AIzaSyBEYEcOGj237bE2zG78LTaQpUplQITQxpE",
-    libraries,
-  });
-  const mapContainerStyle = {
-    width: "75vw",
-    height: "75vh",
-  };
+    const { isLoaded } = useJsApiLoader({
+    googleMapsApiKey: process.env.GOOGLE_MAPS_API_KEY,
+})
+// // centers map on Minneapolis by default
+  // const center = {
+  //   lat: 44.978145599365234, // default latitude
+  //   lng: -93.26353454589844, // default longitude
+  // };
+  // const apiKey=process.env.GOOGLE_MAPS_API_KEY
+  // const libraries = ["places"];
+  // const { isLoaded, loadError } = useLoadScript({
+  //   googleMapsApiKey: "AIzaSyBEYEcOGj237bE2zG78LTaQpUplQITQxpE",
+  //   libraries,
+  // });
+  // const mapContainerStyle = {
+  //   width: "400px",
+  //   height: "400px",
+  // };
 
-  if (loadError) {
-    return <div>Error loading maps</div>;
-  }
+  // if (loadError) { return <div>Error loading maps</div>}
 
-  if (!isLoaded) {
-    return <div>Loading maps</div>;
+  if (!isLoaded) { return <div><DotLoader/></div>}
+
+
+
+  // const { isLoaded } = useJsApiLoader({
+  //   id: "google-map-script",
+  //   googleMapsApiKey: "AIzaSyBEYEcOGj237bE2zG78LTaQpUplQITQxpE",
+  // });
+
+  // const [map, setMap] = React.useState(null);
+
+  // const onLoad = React.useCallback(function callback(map) {
+  //   // This is just an example of getting and using the map instance!!! don't just blindly copy!
+  //   const bounds = new window.google.maps.LatLngBounds(center);
+  //   map.fitBounds(bounds);
+
+  //   setMap(map);
+  // }, []);
+
+  // const onUnmount = React.useCallback(function callback(map) {
+  //   setMap(null);
+  // }, []);
+
+  return (
+    <div id="map-container">
+      <Map />
+    </div>
+  );
+}
+
+//Map is called in the return of MainMap 
+function Map() {
+
+  const locations = useSelector((store) => store.locations)
+  const mapRef = useRef();
+  const onLoad = useCallback(map => (mapRef.current = map), []);
+  const dispatch = useDispatch();
+
+  //set starting center location 
+  const [centerLat, setCenterLat] = useState(0)
+  const [centerLng, setCenterLng] = useState(0)
+
+  //set center
+  const center = { lat: centerLat, lng: centerLng }
+
+  useEffect(() => {
+      //get user current location and set center as geolocation
+      navigator.geolocation.getCurrentPosition(
+          (position) => {
+              setCenterLat(position.coords.latitude)
+              setCenterLng(position.coords.longitude)
+          })
+      // dispatch({ type: 'GET_SPOTS' });
+  }, []);
+
+
+  //customization 
+  const options = useMemo(
+      () => ({
+          disableDefaultUI: true,
+          clickableIcons: false,
+          gestureHandling: 'greedy',
+      }), []
+  );
+
+  const containerStyle = {
+      width: '80%',
+      height: '500px',
+      leftMargin: '20px',
+      rightMargin: '20px'
   }
 
   return (
-    <div>   
       <GoogleMap
-        mapContainerStyle={mapContainerStyle}
-        zoom={10}
-        center={center}
+          zoom={15}
+          center={center}
+          mapContainerStyle={containerStyle}
+          options={options}
+          onLoad={onLoad}
       >
-        <Marker
-          key="marker_1"
-          position={{
-            lat: 45.444,
-            lng: -93.176,
-          }}
-        />
       </GoogleMap>
-    </div>
-  );
+  )
 }
 
 export default MyMap;

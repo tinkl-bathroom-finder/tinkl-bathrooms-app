@@ -29,6 +29,7 @@ router.get("/:id", (req, res) => {
 });
 
 function formatBathroomObject(bathroomRows) {
+  console.log('bathroomRows:', bathroomRows)
   let bathroom = {};
 
   bathroom.name = bathroomRows[0].name;

@@ -1,8 +1,8 @@
-import React from 'react';
-import { Link } from 'react-router-dom';
-import LogOutButton from '../LogOutButton/LogOutButton';
-import './Nav.css';
-import { useSelector } from 'react-redux';
+import React from "react";
+import { Link } from "react-router-dom";
+import LogOutButton from "../LogOutButton/LogOutButton";
+import "./Nav.css";
+import { useSelector } from "react-redux";
 
 function Nav() {
   const user = useSelector((store) => store.user);
@@ -12,9 +12,9 @@ function Nav() {
       <Link to="/home">
         <h2 className="nav-title">tinkl</h2>
       </Link>
-      <div>        
+      <div>
         <Link className="navLink" to="/about">
-          About
+          Info
         </Link>
         {/* If no user is logged in, show these links */}
         {!user.id && (
@@ -28,32 +28,28 @@ function Nav() {
         {user.id && (
           <>
             <Link className="navLink" to="/user">
-              Home
+              About
             </Link>
 
             <Link className="navLink" to="/info">
               My Profile
             </Link>
 
-
-            <LogOutButton className="navLink" />
-
-        {user.is_admin=true && (
-          <>
-            <Link className="navLink" to="/admin">
-              Admin Panel
-            </Link>
-          </>
-        )}
+            {user.is_admin === true && (
+              <>
+                <Link className="navLink" to="/admin">
+                  Admin Panel
+                </Link>
+              </>
+            )}
           </>
         )}
 
+        <Link className="navLink" to="/bathrooms">
+          Bathrooms
+        </Link>
 
-            <Link className="navLink" to="/bathrooms">
-              Bathrooms
-            </Link>
-
-
+        <LogOutButton className="navLink" />
       </div>
     </div>
   );
