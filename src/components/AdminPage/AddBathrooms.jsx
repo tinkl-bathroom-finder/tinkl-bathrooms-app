@@ -13,6 +13,8 @@ function AddBathrooms() {
   let apiBathrooms = useSelector((store) => store.apiBathrooms);
   const [isLoading, setIsLoading] = useState(false);
 
+  // array of bathrooms to add
+  const bathroomArray = useSelector((store) => store.apiBathrooms);
 
   // sets 'per_page' value for http API query
   const bathroomsPerPage = (e) => {
@@ -24,6 +26,14 @@ function AddBathrooms() {
     setPageNumber(e.target.value);
   };
 
+ const sendBathrooms = () => {
+  console.log('bathroomArray:', bathroomArray)
+      dispatch({
+        type: "SAGA/ADD_BATHROOMS_TO_DB",
+        payload: bathroomArray
+      });
+    }
+
   // submits http GET request to Refuge Restrooms API with given search parameters
   const loadBathrooms = () => {
     console.log("payload:", { perPage, pageNumber });
@@ -32,6 +42,8 @@ function AddBathrooms() {
       type: "SAGA/LOAD_BATHROOMS_FROM_API",
       payload: { perPage, pageNumber, setIsLoading },
     });
+
+   
   }
   return (
   <Form onSubmit={loadBathrooms}>
@@ -45,10 +57,12 @@ function AddBathrooms() {
       placeholder="Page number"
       onChange={(e) => pageNumberFunction(e)}
     ></input>
-    <Button type="submit">Submit</Button>
+    <Button type="submit">Load bathrooms</Button>
+    <Button type="secondary" onClick={sendBathrooms}>Add all to database</Button>
     <Table striped="columns" responsive="xl" bordered hover>
       <thead>
         <tr>
+          <th></th>
           <th></th>
           <th>Bathroom ID</th>
           <th>Name</th>
@@ -71,7 +85,7 @@ function AddBathrooms() {
       </thead>
       <tbody>
         {apiBathrooms.map((bathroom) => (
-          <ApiBathroomItem key={bathroom.id} bathroom={bathroom} />
+          <ApiBathroomItem key={bathroom.id} bathroom={bathroom} bathroomArray={bathroomArray}/>
         ))}
       </tbody>
     </Table>
