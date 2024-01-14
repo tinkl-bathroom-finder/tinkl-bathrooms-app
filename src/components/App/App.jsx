@@ -14,20 +14,26 @@ import Footer from "../Footer/Footer";
 import ProtectedRoute from "../ProtectedRoute/ProtectedRoute";
 
 import AboutPage from "../AboutPage/AboutPage";
-import UserPage from "../UserPage/UserPage";
+import AppBarNav from "../Nav/AppBar";
+import UserPage from "../UserPage/ThankYou";
 import UserProfile from "../UserProfile/UserProfile";
 import LandingPage from "../LandingPage/LandingPage";
 import LoginPage from "../LoginPage/LoginPage";
 import RegisterPage from "../RegisterPage/RegisterPage";
-import BathroomsList from "../BathroomsList/BathroomsList";
-import MyMap from "../Map/Map";
+import BathroomsPage from "../BathroomsPage/BathroomsPage";
 import BathroomDetails from "../BathroomDetails/BathroomDetails";
+import MyMap from "../Map/Map";
 import AdminPage from "../AdminPage/AdminPage";
-import Container from 'react-bootstrap/Container';
+import AddBathrooms from "../AdminPage/AddBathrooms";
+import DeleteBathrooms from "../AdminPage/DeleteBathrooms";
+
+import SidebarNav from "../Nav/SidebarNav";
+import Container from "react-bootstrap/Container";
 // import Nav from 'react-bootstrap/Nav';
-import Navbar from 'react-bootstrap/Navbar';
-import NavDropdown from 'react-bootstrap/NavDropdown';
+import Navbar from "react-bootstrap/Navbar";
+import NavDropdown from "react-bootstrap/NavDropdown";
 // import { DotLoader } from "react-spinners";
+// import GoogleMapsWrapper from '../Wrapper';
 
 import "./App.css";
 
@@ -43,11 +49,12 @@ function App() {
   return (
     <Router>
       <div>
-        {/* <DotLoader color="#36d7b7" /> */}
-        <Nav/>
+        {/* <Nav/> */}
+        <AppBarNav />
+        {/* <SidebarNav /> */}
         <Switch>
           {/* Visiting localhost:3000 will redirect to localhost:3000/home */}
-          <Redirect exact from="/" to="/home" />
+          <Redirect exact from="/" to="/bathrooms" />
 
           {/* Visiting localhost:3000/about will show the about page. */}
           <Route
@@ -59,12 +66,12 @@ function App() {
           </Route>
 
           <Route
-            // shows AboutPage at all times (logged in or not)
+            // shows bathrooms page at all times (logged in or not)
             exact
             path="/bathrooms"
           >
-            <BathroomsList />
-            <MyMap />
+            <BathroomsPage />
+            {/* <MyMap /> */}
           </Route>
 
           <Route exact path="/bathrooms/:id">
@@ -96,14 +103,16 @@ function App() {
             exact
             path="/admin"
           >
+            {user.is_admin ? 
             <AdminPage />
+            : <Redirect to="/user" />}
           </ProtectedRoute>
 
           <Route exact path="/login">
             {user.id ? (
               // If the user is already logged in,
               // redirect to the /user page
-              <Redirect to="/user" />
+              <Redirect to="/bathrooms" />
             ) : (
               // Otherwise, show the login page
               <LoginPage />
@@ -125,7 +134,7 @@ function App() {
             {user.id ? (
               // If the user is already logged in,
               // redirect them to the /user page
-              <Redirect to="/user" />
+              <Redirect to="/bathrooms" />
             ) : (
               // Otherwise, show the Landing page
               <LandingPage />
