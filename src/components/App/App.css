@@ -2,6 +2,7 @@ html,
 body,
 #react-root {
   height: 100%;
+  background: lightpink;
 }
 
 body {
@@ -20,6 +21,7 @@ Container
 
 .container {
   padding: 20px;
+  background-color: lightpink;
 }
 
 /* --------------------------------------------------------------------------------
@@ -37,6 +39,8 @@ Button
   font-size: 1.1rem;
   outline: 0;
   cursor: pointer;
+  /* hacky way of centering login button */
+  margin-left: 100px;
 }
 
 .btn_sizeMin {
@@ -98,12 +102,12 @@ Form Treatment
 .formPanel {
   box-sizing: border-box;
   width: 400px;
-  max-width: 100%;
+  max-width: 90%;
   padding: 25px;
   margin: 0 auto 20px;
-  background-color: #efefef;
+  background-color: rgb(249, 136, 153);
   border-radius: 3px;
-  box-shadow: 0 1px 2px rgb(0, 0, 0, 0.4);
+  box-shadow: 0 1px 2px rgb(159, 74, 87);
 }
 
 input {
@@ -115,13 +119,14 @@ input {
 Table
 -------------------------------------------------------------------------------- */
 
-table {
-  width: 100%;
+.table-div {
+  width: auto;
   text-align: left;
   white-space: normal;
   word-wrap: break-word;
   table-layout: auto;
-  overflow: scroll;
+  overflow-y: scroll;
+  overflow-x: scroll;
 }
 table, th, td {
   border: 1px solid black ;
@@ -134,12 +139,12 @@ th, td {
   width: auto;
 }
 thead {
-  background: rgb(112, 195, 228);
+  background: #124E96;
   color: #fcfcfc;
 }
-/* tbody tr:nth-child(3n+0) {
+tbody tr:nth-child(3n+0) {
   background: rgb(165, 227, 252);
-} */
+}
 tbody tr:nth-child(even) {
   background: rgb(227, 172, 206);
 }
@@ -148,14 +153,15 @@ tbody tr:nth-child(odd) {
   background: rgb(255, 255, 255);
 }
 
-.react-bootstrap-table table {
+.react-bootstrap-table {
   table-layout: auto;
   overflow-y: auto;
+  overflow: scroll;
   }
 
-/* #api-table {
+#api-table {
   overflow: scroll;
-} */
+}
 
 .react-bootstrap-table tab {
   color: white;
@@ -175,10 +181,43 @@ tbody tr:nth-child(odd) {
 }
 
 .link {
-  color: blue;
+  color: rgb(18, 126, 150);
   text-decoration: underline;
 }
 
 /* .profile {
   display: inline;
 } */
+
+#map-container {
+  width: 400px;
+  margin-top: auto;
+  margin-bottom: auto;
+  margin-left: 20px;
+  margin-right: 20px;
+
+}
+
+#need-to-pee {
+  width: 125px;
+  height: 200px;
+  margin: auto;
+}
+
+.text {
+  margin: auto;
+}
+
+#thankyou {
+  font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+  align-content: center;
+}
+
+h1, p, h5 {
+  text-align: center;
+}
+
+.linkInDrawer:link {
+  text-decoration: none;
+}
+
