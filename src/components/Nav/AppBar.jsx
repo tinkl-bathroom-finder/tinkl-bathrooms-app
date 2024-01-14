@@ -83,11 +83,14 @@ function AppBarNav() {
     if (
       event.type === "keydown" &&
       (event.key === "Tab" || event.key === "Shift")
-    )
-    setState({ ...state, [anchor]: open })
-  };
+      // 👇 removing this return is what was breaking my sidebar drawer
+    ) {
+      return
+    }
 
-//   sidebar list - could be moved to its own component at some point, need to figure out how to pass down toggleDrawer function - saga?
+    setState({ ...state, [anchor]: open });
+  };
+// sidebar list - could be moved to its own component at some point, need to figure out how to pass down toggleDrawer function - saga?
   const list = (anchor) => (
     <Box
       sx={{ width: anchor === "top" || anchor === "bottom" ? "auto" : 250 }}
@@ -251,14 +254,11 @@ function AppBarNav() {
               </React.Fragment>
             ))}
           </div>
-
           {/* <SidebarNav /> */}
 
           <Typography variant="h4" component="div" sx={{ flexGrow: 1 }}>
             tinkl
           </Typography>
-
-          {/* user profile icon & menu on right */}
           {user.id && (
             <div>
               <IconButton
