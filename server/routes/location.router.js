@@ -2,23 +2,23 @@ const express = require('express');
 const pool = require('../modules/pool');
 const router = express.Router();
 
-/* GET route for specific bathroom information */
+/* GET route to get bathrooms by proximity to current location */
 router.get('/', (req, res) => {
     console.log('req.query.lat:', req.query.lat)
     console.log('req.query.lng:', req.query.lng)
     // This uses the Haversine formula to calculate distances between coordinates. $1 is current location latitude, $2 is current location longitude.
-        // In this query:
-        // The radians function is used to convert degrees to radians, which is required for the Haversine formula.
-        // The Haversine formula is used to calculate the great-circle distance between two points on the Earth's surface.
-        // The result is ordered by distance in ascending order.
-        // The LIMIT 10 clause ensures that only the top 10 closest businesses are returned.
     const query = `
-    select id, name, street, city, distance from (
+    select id, name, street, city, created_at, updated_at, accessible, unisex, changing_table, distance from (
     SELECT
     id,
     name,
     street,
     city,
+    created_at,
+    updated_at,
+    accessible,
+    unisex,
+    changing_table,
     latitude,
     longitude,
     (
