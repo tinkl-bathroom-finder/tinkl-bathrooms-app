@@ -73,23 +73,34 @@ router.post("/", (req, res) => {
     .query(formattedQueryText)
     .then((result) => {
       const restroom_id_array = result.rows;
-
-      const commentQuery = formatCommmentsQuery(
-        req.body,
-        restroom_id_array
-      );
-      console.log("commentQuery:", commentQuery);
-
+      const commentQuery = formatCommmentsQuery(req.body, restroom_id_array);
       pool
         .query(commentQuery)
+
         .then((result) => {
-          res.sendStatus(201);
+          const actualCommentQuery = formatActualCommmentsQuery(
+            req.body,
+            restroom_id_array
+          );
+          pool
+            .query(actualCommentQuery)
+
+            .then((result) => {
+              res.sendStatus(201);
+            })
+            // catch for first query
+            .catch((err) => {
+              console.log("Error with comments post: ", err);
+              res.sendStatus(500);
+            });
         })
+        // catch for the second query
         .catch((err) => {
-          console.log("Error with comments post: ", err);
+          console.log("Error with directions post: ", err);
           res.sendStatus(500);
         });
     })
+    // catch for first query
     .catch((err) => {
       console.log("Error in /bathrooms POST", err);
       res.sendStatus(500);
@@ -108,24 +119,57 @@ INSERT INTO "comments"
 VALUES
 `;
   for (let i = 0; i < BA.length; i++) {
-    if (i < BA.length - 1) {
+    if (BA[i].directions && i < BA.length - 1) {
       console.log("BA[i]: ", BA[i]);
       console.log("restroomIdArray[i]: ", restroomIdArray[i]);
       commentsQuery += `
-    ('${BA[i].directions.replace(/'/g, "&") || ''}', 
+    ('${BA[i].directions.replace(/'/g, "''") || ""}', 
     ${restroomIdArray[i].id}, 
     '${BA[i].created_at}'), `;
-    } else if (i < BA.length) {
+    } else if (BA[i].directions && i < BA.length) {
       commentsQuery += `
-      ('${BA[i].directions.replace(/'/g, "&") || ''} ', 
+      ('${BA[i].directions.replace(/'/g, "''") || ""} ', 
       ${restroomIdArray[i].id}, 
       '${BA[i].created_at}');
   `;
-    }
+    } 
 
     console.log("commentsQuery:", commentsQuery);
   }
   return commentsQuery;
+}
+
+// function to insert comment into comments table
+function formatActualCommmentsQuery(BA, restroomIdArray) {
+  console.log("BA: ", BA);
+  console.log("restroomIdArray: ", restroomIdArray);
+  // for (let i = 0; i < BA.length; i++) {
+  //   BA[i].directions.replace(/'/g, "''");
+  // }
+  let actualCommentsQuery = `
+INSERT INTO "comments"
+("content", "restroom_id", "inserted_at")
+VALUES
+`;
+  for (let i = 0; i < BA.length; i++) {
+    if (BA[i].comment && i < BA.length - 1) {
+      console.log("BA[i]: ", BA[i]);
+      console.log("restroomIdArray[i]: ", restroomIdArray[i]);
+      actualCommentsQuery += `
+    ('${BA[i].comment.replace(/'/g, "''") || ""}', 
+    ${restroomIdArray[i].id}, 
+    '${BA[i].created_at}'), `;
+    } else if (BA[i].comment && i < BA.length) {
+      actualCommentsQuery += `
+      ('${BA[i].comment.replace(/'/g, "''") || ""} ', 
+      ${restroomIdArray[i].id}, 
+      '${BA[i].created_at}');
+  `;
+    } 
+
+    console.log("commentsQuery:", actualCommentsQuery);
+  }
+  return actualCommentsQuery;
 }
 
 function formatBathroomsQuery(BA) {
@@ -137,14 +181,29 @@ VALUES
   for (let i = 0; i < BA.length; i++) {
     if (i < BA.length - 1) {
       bathroomQuery += `
-  (${BA[i].id}, '${BA[i].name.replace(/'/g, "&") || ''}', '${BA[i].street.replace(/'/g, "&") || ''}', '${BA[i].city}', '${BA[i].state}', ${BA[i].accessible}, ${BA[i].unisex}, ${BA[i].latitude}, ${BA[i].longitude}, '${BA[i].created_at}', '${BA[i].updated_at}', '${BA[i].country}', ${BA[i].changing_table}),
+  (${BA[i].id}, '${BA[i].name.replace(/'/g, "''") || ""}', '${
+        BA[i].street.replace(/'/g, "''") || ""
+      }', '${BA[i].city}', '${BA[i].state}', ${BA[i].accessible}, ${
+        BA[i].unisex
+      }, ${BA[i].latitude}, ${BA[i].longitude}, '${BA[i].created_at}', '${
+        BA[i].updated_at
+      }', '${BA[i].country}', ${BA[i].changing_table}),
   `;
     } else if (i < BA.length) {
-      bathroomQuery += `  (${BA[i].id}, '${BA[i].name.replace(/'/g, "&") || ''}', '${BA[i].street.replace(/'/g, "&") || ''}', '${BA[i].city}', '${BA[i].state}', ${BA[i].accessible}, ${BA[i].unisex}, ${BA[i].latitude}, ${BA[i].longitude}, '${BA[i].created_at}', '${BA[i].updated_at}', '${BA[i].country}', ${BA[i].changing_table})
+      bathroomQuery += `  (${BA[i].id}, '${
+        BA[i].name.replace(/'/g, "''") || ""
+      }', '${BA[i].street.replace(/'/g, "''") || ""}', '${BA[i].city}', '${
+        BA[i].state
+      }', ${BA[i].accessible}, ${BA[i].unisex}, ${BA[i].latitude}, ${
+        BA[i].longitude
+      }, '${BA[i].created_at}', '${BA[i].updated_at}', '${BA[i].country}', ${
+        BA[i].changing_table
+      })
   RETURNING "id";`;
     }
   }
   return bathroomQuery;
 }
+
 
 module.exports = router;
