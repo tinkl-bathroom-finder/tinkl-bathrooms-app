@@ -136,11 +136,20 @@ function BathroomsPage() {
   const [modalShow, setModalShow] = useState(false);
   const [show, setShow] = useState(false);
   const handleClose = () => setShow(false);
+  const [origin, setOrigin] = useState('')
+  const [currentLat, setCurrentLat] = useState(0);
+  const [currentLng, setCurrentLng] = useState(0);
 
   useEffect(() => {
     dispatch({
       type: "SAGA/FETCH_BATHROOMS",
     });
+        // gets user's current location and sets coordinates in React state for directions
+        navigator.geolocation.getCurrentPosition(
+          (position) => {
+            setCurrentLat(position.coords.latitude)
+            setCurrentLng(position.coords.longitude)
+          })
   }, []);
 
   const sendLocation = (e) => {
@@ -149,6 +158,7 @@ function BathroomsPage() {
       // converts address to url-friendly string
       const convertedAddress = value.value.description.split(" ").join("%20");
       console.log("convertedAddress:", convertedAddress);
+      setOrigin(convertedAddress)
       dispatch({
         type: "SAGA/SEND_LOCATION",
         payload: convertedAddress,
@@ -182,7 +192,7 @@ function BathroomsPage() {
       {/* AutoComplete search box */}
       <form onSubmit={(e) => sendLocation(e)}>
         <GooglePlacesAutocomplete
-          apiKey={apiKey}
+          apiKey="AIzaSyBEYEcOGj237bE2zG78LTaQpUplQITQxpE"
           // onChange={(e) => setAddressInput(e.target.value)}
           // value={addressInput}
           selectProps={{
@@ -224,7 +234,7 @@ function BathroomsPage() {
           <div className="table-div">
 
                 {bathroomsByDistance.map((bathroom) => (
-                  <BathroomItem key={bathroom.id} bathroom={bathroom} 
+                  <BathroomItem key={bathroom.id} bathroom={bathroom} origin={origin}
                   />
                 ))}
 
@@ -236,7 +246,7 @@ function BathroomsPage() {
           <div className="table-div">
 
                 {bathrooms.map((bathroom) => (
-                  <BathroomItem key={bathroom.id} bathroom={bathroom} />
+                  <BathroomItem key={bathroom.id} bathroom={bathroom} origin={`${currentLat},${currentLng}`}/>
                 ))}
           </div>
         )
