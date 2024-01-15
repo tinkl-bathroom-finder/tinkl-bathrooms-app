@@ -3,11 +3,13 @@ body,
 #react-root {
   height: 100%;
   background: lightpink;
+  --bg-image: url('http://www.zingerbugimages.com/backgrounds/gold_lights_seamless_texture.jpg');
 }
 
 body {
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
   margin: 0px;
+  background-image: var(--bg-image);
 }
 
 img {
@@ -213,8 +215,9 @@ tbody tr:nth-child(odd) {
   align-content: center;
 }
 
-h1, p, h5 {
+h1, h3, p, h5 {
   text-align: center;
+  margin-bottom: 50px;
 }
 
 .linkInDrawer:link {

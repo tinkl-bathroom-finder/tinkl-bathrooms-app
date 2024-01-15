@@ -1,6 +1,6 @@
 import { useHistory } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import Button from "react-bootstrap/Button";
+import { Button } from "@mui/material";
 
 function DeleteBathroomItem({ bathroom }) {
   const dispatch = useDispatch();
@@ -47,10 +47,10 @@ function DeleteBathroomItem({ bathroom }) {
   return (
     <tr>
       <td>
-        <Button onClick={removeBathroomFromDisplay}>Remove from display</Button>
+        <Button onClick={removeBathroomFromDisplay} variant="outlined">Remove from display</Button>
       </td>
       <td>
-        <Button onClick={deleteBathroomFromDatabase}>
+        <Button onClick={deleteBathroomFromDatabase} variant="outlined">
           Delete from database
         </Button>
       </td>
