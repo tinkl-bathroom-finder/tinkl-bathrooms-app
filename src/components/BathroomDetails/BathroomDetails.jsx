@@ -139,7 +139,7 @@ function BathroomDetails() {
   // opens location in GoogleMaps in new tab
   const openInNewTab = (url) => {
     window.open(url, "_blank", "noreferrer");
-  }
+  };
 
   const handleExpandClick = () => {
     setExpanded(!expanded);
@@ -202,11 +202,10 @@ function BathroomDetails() {
 
   useEffect(() => {
     // gets user's current location and sets coordinates in React state for directions
-    navigator.geolocation.getCurrentPosition(
-    (position) => {
-        setCurrentLat(position.coords.latitude)
-        setCurrentLng(position.coords.longitude)
-    })
+    navigator.geolocation.getCurrentPosition((position) => {
+      setCurrentLat(position.coords.latitude);
+      setCurrentLng(position.coords.longitude);
+    });
     // should log the id of the restroom we're currently on (would expect this to log: {id: '5'} if our browser is at localhost:3000/bathrooms/5)
     console.log("params: ", params);
     // Fire a dispatch that calls a fetchBathroomDetails Saga function
@@ -218,14 +217,9 @@ function BathroomDetails() {
 
   const returnToList = () => {
     history.goBack();
-  }
+  };
 
-
-  const setCurrentPosition = () => {
-
-  }
-
- 
+  const setCurrentPosition = () => {};
 
   return (
     <>
@@ -235,7 +229,7 @@ function BathroomDetails() {
             mb: "20px",
             mt: "25px",
             mr: "25px",
-            pr: "10px"
+            pr: "10px",
           }}
         >
           {/* when theBathroomDetails info was last updated */}
@@ -262,39 +256,72 @@ function BathroomDetails() {
             <CardActions>
               {/* 🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥 make this link to Google Maps directions! */}
               <IconButton
-               onClick={() => openInNewTab(`https://www.google.com/maps/dir/?api=1&destination=${theBathroomDetails.name}`)}
+                onClick={() =>
+                  openInNewTab(
+                    `https://www.google.com/maps/dir/?api=1&destination=${theBathroomDetails.name}`
+                  )
+                }
               >
                 <NearMeOutlinedIcon />
                 <Typography>Get directions</Typography>
               </IconButton>
-              <IconButton onClick={() => openInNewTab(`https://www.google.com/maps/search/?api=1&query=${theBathroomDetails.name}`)}>
+              <IconButton
+                onClick={() =>
+                  openInNewTab(
+                    `https://www.google.com/maps/search/?api=1&query=${theBathroomDetails.name}`
+                  )
+                }
+              >
                 <PlaceIcon />
                 <Typography>Open in Google Maps</Typography>
               </IconButton>
             </CardActions>
-
             {/* icons to show if theBathroomDetailss is all-gender, has changing table, is wheelchair accessible */}
             <Typography variant="h5" gutterBottom>
-              {theBathroomDetails.unisex ? <TransgenderOutlinedIcon /> : ""}
-              {theBathroomDetails.changing_table ? (
-                <BabyChangingStationOutlinedIcon />
+              {theBathroomDetails.unisex ? (
+                <>
+                  <TransgenderOutlinedIcon />
+                  <Typography>Gender-neutral</Typography>
+                </>
               ) : (
                 ""
               )}
+
+              {theBathroomDetails.changing_table ? (
+                <>
+                  <BabyChangingStationOutlinedIcon />
+                  <Typography>Changing table</Typography>
+                </>
+              ) : (
+                ""
+              )}
+
               {theBathroomDetails.accessible ? (
-                <AccessibleForwardOutlinedIcon />
+                <>
+                  <AccessibleForwardOutlinedIcon />
+                  <Typography>Wheelchair accessible</Typography>
+                </>
+              ) : (
+                ""
+              )}
+
+              {theBathroomDetails.is_single_stall ? (
+                <>
+                  <Man4Icon />
+                  <Typography>Single stall</Typography>
+                </>
               ) : (
                 ""
               )}
             </Typography>
-
             {/* theBathroomDetails upvotes and downvotes */}
             <Typography align="right">
               {theBathroomDetails.upvotes || 0}
               <ThumbUpOutlinedIcon sx={{ pr: 1 }} />
               {theBathroomDetails.downvotes || 0}
               <ThumbDownOutlinedIcon sx={{ pr: 1 }} />
-            </Typography>             {/* distance from current/searched location */}
+            </Typography>{" "}
+            {/* distance from current/searched location */}
             <Typography
               align="left"
               color="text.secondary"
@@ -306,9 +333,8 @@ function BathroomDetails() {
                 ? `${theBathroomDetails.distance.toFixed(2)} mi`
                 : ""}
             </Typography>
-            
             {/* if the bathroom has any comments, the comment list box will render */}
-            { <CommentList commentArray={theBathroomDetails.comments}/>}
+            {<CommentList commentArray={theBathroomDetails.comments} />}
             <Button onClick={returnToList} variant="contained">
               <Typography color="black">Back</Typography>
             </Button>
@@ -317,12 +343,11 @@ function BathroomDetails() {
               size="lg"
               sx={{
                 ml: 20,
-                mb: "20px"
+                mb: "20px",
               }}
             >
               <Typography color="white">I peed here!</Typography>
-            </Button>           
-
+            </Button>
           </CardContent>
           {/* moves chevron to right */}
           <CardActions disableSpacing>
@@ -333,7 +358,6 @@ function BathroomDetails() {
                   mr: 1,
                 }}
               />
-              
             </IconButton>
 
             {/* <ExpandMore 
@@ -344,7 +368,6 @@ function BathroomDetails() {
         ><ExpandMoreIcon />
         <Typography>Comments</Typography>
         </ExpandMore> */}
-
           </CardActions>
         </Card>
       </Box>

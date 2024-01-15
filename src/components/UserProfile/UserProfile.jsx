@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import LogOutButton from "../LogOutButton/LogOutButton";
+// import LogOutButton from "../LogOutButton/LogOutButton";
 import { useDispatch, useSelector } from "react-redux";
 import Button from "react-bootstrap/Button";
 import { Link } from "react-router-dom";
@@ -99,7 +99,7 @@ function UserProfile() {
         </tbody>
       </table>
 
-      <LogOutButton className="btn" />
+      {/* <LogOutButton className="btn" /> */}
     </div>
   );
 }
