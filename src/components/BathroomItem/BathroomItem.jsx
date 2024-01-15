@@ -37,7 +37,7 @@ const ExpandMore = styled((props) => {
   }),
 }));
 
-function BathroomItem({ bathroom }) {
+function BathroomItem({ bathroom, origin }) {
   const history = useHistory();
   const [expanded, setExpanded] = useState(false);
 
@@ -50,6 +50,11 @@ function BathroomItem({ bathroom }) {
     // to the bathroom details page
     history.push(`/bathrooms/${bathroom.id}`);
   };
+
+  // opens location in GoogleMaps in new tab
+  const openInNewTab = (url) => {
+    window.open(url, "_blank", "noreferrer");
+  }
 
   // formats inserted_at timestamp as readable string
   const stringifyDate = (timestamp) => {
@@ -71,7 +76,7 @@ function BathroomItem({ bathroom }) {
       >
         <Card
           sx={{
-            mb: "20px",
+            mb: "20px"
           }}
         >
                   {/* when bathroom info was last updated */}
@@ -83,9 +88,14 @@ function BathroomItem({ bathroom }) {
           <CardHeader
             title={bathroom.name}
             subheader={bathroom.street + ", " + bathroom.city + ", MN"}
-          ></CardHeader>
+          >
+          </CardHeader>
           <CardMedia />
           <CardContent>
+
+            <CardActions>
+
+            </CardActions>
 
             {/* icons to show if bathrooms is all-gender, has changing table, is wheelchair accessible */}
             <Typography variant="h5" gutterBottom>{bathroom.unisex ? <TransgenderOutlinedIcon/>: ''}{bathroom.changing_table ? <BabyChangingStationOutlinedIcon/>: ''}{bathroom.accessible ? <AccessibleForwardOutlinedIcon/>: ''}</Typography>
@@ -104,7 +114,13 @@ function BathroomItem({ bathroom }) {
 {/* moves chevron to right */}
           <CardActions disableSpacing>
             <Button onClick={goToDetails}>More info</Button>
-            <ExpandMore></ExpandMore>
+            <ExpandMore></ExpandMore>    
+                      {/* 🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥 make this link to Google Maps directions! */}
+              <IconButton
+               onClick={() => openInNewTab(`https://www.google.com/maps/dir/?api=1&destination=${bathroom.name}&origin=${origin}`)}
+              >
+                <NearMeOutlinedIcon />
+              </IconButton>
             {/* distance from current/searched location */}
             <Typography align="right" color="text.secondary"  sx={{
             mr: 2}} >
