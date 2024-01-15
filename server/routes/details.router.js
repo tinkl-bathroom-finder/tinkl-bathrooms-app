@@ -42,6 +42,7 @@ function formatBathroomObject(bathroomRows) {
   bathroom.upvotes = bathroomRows[0].upvotes;
   bathroom.downvotes = bathroomRows[0].downvotes;
   bathroom.is_single_stall = bathroomRows[0].is_single_stall;
+  bathroom.changing_table = bathroomRows[0].changing_table;
   bathroom.comments = [];
 
   for (let row of bathroomRows) {

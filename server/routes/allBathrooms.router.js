@@ -11,7 +11,8 @@ const {
 router.get("/", (req, res) => {
   // GET all bathrooms route
   const query = `SELECT * FROM "restrooms"
-  WHERE "is_removed"=FALSE;`;
+  WHERE "is_removed"=FALSE
+  LIMIT 100;`;
 
   pool
     .query(query)
