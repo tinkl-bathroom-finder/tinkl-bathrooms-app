@@ -28,7 +28,8 @@ function LoginForm() {
   }; // end login
 
   return (
-    <Form className="formPanel" onSubmit={login}>
+    <Form className="formPanel" onSubmit={login} sx={{m: 30
+    }}>
       <h2>Login</h2>
       {errors.loginMessage && (
         <h3 className="alert" role="alert">
