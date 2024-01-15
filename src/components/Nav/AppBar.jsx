@@ -79,6 +79,10 @@ function AppBarNav() {
     left: false,
   });
 
+  const goToLogin = () => {
+    history.push('/login')
+  }
+
   const toggleDrawer = (anchor, open) => (event) => {
     if (
       event.type === "keydown" &&
@@ -151,7 +155,7 @@ function AppBarNav() {
             <ListItem key="admin" disablePadding>
 
               <Link
-                to="/admin"
+                to="/admin/editbathrooms"
                 className="linkInDrawer"
                 // onClick={() => setDrawerOpen(false)}
                 underline="none"
@@ -259,7 +263,7 @@ function AppBarNav() {
 
   return (
     <Box sx={{ flexGrow: 1 }}>
-      <AppBar position="static">
+      <AppBar position="sticky" className="app-bar">
         <Toolbar>
           <div>
             {["left"].map((anchor) => (
@@ -290,7 +294,7 @@ function AppBarNav() {
           <Typography variant="h4" component="div" sx={{ flexGrow: 1 }}>
             tinkl
           </Typography>
-          {user.id && (
+          {user.id ? (
             <div>
               <IconButton
                 size="large"
@@ -320,8 +324,8 @@ function AppBarNav() {
                 <MenuItem onClick={goToProfile}>My profile</MenuItem>
                 <MenuItem onClick={logOut}>Log out</MenuItem>
               </Menu>
-            </div>
-          )}
+            </div> ) : <Button variant="contained" onClick={goToLogin}>Log in!</Button>
+          }
         </Toolbar>
       </AppBar>
     </Box>

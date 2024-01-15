@@ -10,7 +10,7 @@ import Marker from "../Marker/Marker";
 
 function MyMap() {
     const { isLoaded } = useJsApiLoader({
-    googleMapsApiKey: process.env.GOOGLE_MAPS_API_KEY,
+    googleMapsApiKey: "AIzaSyBEYEcOGj237bE2zG78LTaQpUplQITQxpE",
 })
 // // centers map on Minneapolis by default
   // const center = {
@@ -60,7 +60,7 @@ function MyMap() {
   );
 }
 
-//Map is called in the return of MainMap 
+// Map is called in the return of MainMap 
 function Map() {
 
   const locations = useSelector((store) => store.locations)
@@ -68,7 +68,7 @@ function Map() {
   const onLoad = useCallback(map => (mapRef.current = map), []);
   const dispatch = useDispatch();
 
-  //set starting center location 
+  // sets starting center location 
   const [centerLat, setCenterLat] = useState(0)
   const [centerLng, setCenterLng] = useState(0)
 
@@ -76,17 +76,17 @@ function Map() {
   const center = { lat: centerLat, lng: centerLng }
 
   useEffect(() => {
-      //get user current location and set center as geolocation
+      // centers Map on user location
       navigator.geolocation.getCurrentPosition(
           (position) => {
               setCenterLat(position.coords.latitude)
               setCenterLng(position.coords.longitude)
           })
-      // dispatch({ type: 'GET_SPOTS' });
+      // dispatch({ type: 'SAGA/FETCH_BATHROOMS' });
   }, []);
 
 
-  //customization 
+  // customization 
   const options = useMemo(
       () => ({
           disableDefaultUI: true,
@@ -110,6 +110,7 @@ function Map() {
           options={options}
           onLoad={onLoad}
       >
+
       </GoogleMap>
   )
 }
