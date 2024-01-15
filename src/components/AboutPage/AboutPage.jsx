@@ -9,10 +9,10 @@ function AboutPage() {
   return (
     <div className="container">
       <div>
-        <p>
+        <h3>
           Nearly 60% of trans Americans have avoided using public bathrooms in
           the last year.
-        </p>
+        </h3>
 
         <div id="need-to-pee">
           <img src="https://cdn4.iconfinder.com/data/icons/person-actions/227/person-action-006-512.png" />
