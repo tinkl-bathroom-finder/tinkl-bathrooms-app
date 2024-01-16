@@ -10,9 +10,14 @@ const {
  */
 router.get("/", (req, res) => {
   // GET all bathrooms route
-  const query = `SELECT * FROM "restrooms"
-  WHERE "is_removed"=FALSE
-  LIMIT 100;`;
+  const query = `
+  SELECT * FROM (
+    SELECT *, 
+    ROW_NUMBER() OVER (PARTITION BY "restrooms".street) AS ROW_NUMBER
+    FROM "restrooms") AS ROWS
+    WHERE ROW_NUMBER = 1 AND "is_removed"=FALSE
+    ORDER BY "id" asc
+    LIMIT 20;`;
 
   pool
     .query(query)
@@ -70,50 +75,60 @@ router.delete("/:id", rejectUnauthenticated, (req, res) => {
 router.post("/", (req, res) => {
   const formattedQueryText = formatBathroomsQuery(req.body);
   console.log("formattedQueryText: ", formattedQueryText);
+  // first query
   pool
     .query(formattedQueryText)
     .then((result) => {
       const restroom_id_array = result.rows;
       const commentQuery = formatCommmentsQuery(req.body, restroom_id_array);
+      // second query
       pool
         .query(commentQuery)
-
         .then((result) => {
           const actualCommentQuery = formatActualCommmentsQuery(
             req.body,
             restroom_id_array
-          );
+          )
+          // third query
           pool
             .query(actualCommentQuery)
-
             .then((result) => {
-              res.sendStatus(201);
+            
+              const formattedVotesQuery = formatVotesQuery(
+                req.body, restroom_id_array)
+              // fourth query
+              pool
+              .query(formattedVotesQuery)
+              .then((result) => {
+                res.sendStatus(201);
+              })
+              // catch for fourth query
+              .catch((err) => {
+                console.log("Error with votes post: ", err);
+                res.sendStatus(500);
+              })
             })
-            // catch for first query
+            // catch for third query
             .catch((err) => {
               console.log("Error with comments post: ", err);
               res.sendStatus(500);
-            });
+          })
         })
-        // catch for the second query
+        // catch for the second (directions) query
         .catch((err) => {
           console.log("Error with directions post: ", err);
           res.sendStatus(500);
         });
     })
-    // catch for first query
+    // catch for first (restrooms) query
     .catch((err) => {
       console.log("Error in /bathrooms POST", err);
       res.sendStatus(500);
-    });
-});
+    })
+})
 
 function formatCommmentsQuery(BA, restroomIdArray) {
-  console.log("BA: ", BA);
-  console.log("restroomIdArray: ", restroomIdArray);
-  // for (let i = 0; i < BA.length; i++) {
-  //   BA[i].directions.replace(/'/g, "''");
-  // }
+
   let commentsQuery = `
 INSERT INTO "comments"
 ("content", "restroom_id", "inserted_at")
@@ -121,8 +136,6 @@ VALUES
 `;
   for (let i = 0; i < BA.length; i++) {
     if (BA[i].directions && i < BA.length - 1) {
-      console.log("BA[i]: ", BA[i]);
-      console.log("restroomIdArray[i]: ", restroomIdArray[i]);
       commentsQuery += `
     ('${BA[i].directions.replace(/'/g, "''") || ""}', 
     ${restroomIdArray[i].id}, 
@@ -131,22 +144,20 @@ VALUES
       commentsQuery += `
       ('${BA[i].directions.replace(/'/g, "''") || ""} ', 
       ${restroomIdArray[i].id}, 
-      '${BA[i].created_at}');
+      '${BA[i].created_at}'); 
   `;
     } 
 
+  } let finalCommentsQuery = commentsQuery.slice(0, -2)
+    finalCommentsQuery += `;`
     console.log("commentsQuery:", commentsQuery);
-  }
-  return commentsQuery;
+  return finalCommentsQuery;
 }
+
+
 
 // function to insert comment into comments table
 function formatActualCommmentsQuery(BA, restroomIdArray) {
-  console.log("BA: ", BA);
-  console.log("restroomIdArray: ", restroomIdArray);
-  // for (let i = 0; i < BA.length; i++) {
-  //   BA[i].directions.replace(/'/g, "''");
-  // }
   let actualCommentsQuery = `
 INSERT INTO "comments"
 ("content", "restroom_id", "inserted_at")
@@ -160,17 +171,18 @@ VALUES
     ('${BA[i].comment.replace(/'/g, "''") || ""}', 
     ${restroomIdArray[i].id}, 
     '${BA[i].created_at}'), `;
-    } else if (BA[i].comment && i < BA.length) {
+    } else if (BA[i].comment && i <  BA.length) {
       actualCommentsQuery += `
       ('${BA[i].comment.replace(/'/g, "''") || ""} ', 
       ${restroomIdArray[i].id}, 
-      '${BA[i].created_at}');
+      '${BA[i].created_at}'); 
   `;
     } 
 
-    console.log("commentsQuery:", actualCommentsQuery);
-  }
-  return actualCommentsQuery;
+  } let finalCommentsQuery = actualCommentsQuery.slice(0, -2)
+  finalCommentsQuery += `;`
+    console.log("finalCommentsQuery:", finalCommentsQuery);
+  return finalCommentsQuery;
 }
 
 function formatBathroomsQuery(BA) {
@@ -206,5 +218,67 @@ VALUES
   return bathroomQuery;
 }
 
+
+
+
+const formatVotesQuery = (array, restroom_id_array) => {
+  let votesQuery = `
+  INSERT INTO "restroom_votes"
+  ("restroom_id", "upvote", "downvote", "inserted_at")
+  VALUES 
+  `;
+  for (let i=0; i<array.length; i++){
+    if (array[i].upvote && i < array.length - 1) {
+      votesQuery += `
+      (${restroom_id_array[i].id}, ${array[i].upvote}, ${array[i].downvote}, '${array[i].created_at}'), `
+    } else if (array[i].downvote && i < array.length-1){
+      votesQuery += `
+      (${restroom_id_array[i].id}, ${array[i].upvote}, ${array[i].downvote}, '${array[i].created_at}'),  
+      `
+    }
+} let finalVotesQuery = votesQuery.slice(0, -2)
+finalVotesQuery += `;`
+console.log('finalVotesQuery: ', finalVotesQuery)
+return finalVotesQuery
+}
+
+// const formatUpVotesQuery = (array, restroomIdArray) => {
+//   let votesQuery = `
+//   INSERT INTO "restroom_votes"
+//   ("restroom_id", "upvote", "inserted_at")
+//   VALUES 
+//   `;
+//   for (let i=0; i<array.length; i++){
+//     if (array[i].upvote && i < array.length - 1) {
+//       votesQuery += `
+//       (${restroomIdArray[i].id}, ${array[i].upvote}, '${array[i].created_at}'), 
+//       `
+//     } else if (array[i].upvote && i < array.length){
+//       votesQuery += `
+//       (${restroomIdArray[i].id}, ${array[i].upvote}, '${array[i].created_at}'); 
+//       `
+//     }
+// } 
+// return votesQuery
+// }
+
+// const formatDownVotesQuery = (array, restroomIdArray) => {
+//   let votesQuery = `
+//   INSERT INTO "restroom_votes"
+//   ("restroom_id", "downvote", "inserted_at")
+//   VALUES 
+//   `;
+//   for (let i=0; i<array.length; i++){
+//     if (array[i].downvote && i < array.length - 1) {
+//       votesQuery += `
+//       (${restroomIdArray[i].id}, ${array[i].downvote}, '${array[i].created_at}'), 
+//       `
+//     } else if (array[i].downvote && i < array.length){
+//       votesQuery += `
+//       (${restroomIdArray[i].id}, ${array[i].downvote}, '${array[i].created_at}'); 
+//       `
+//     }
+// } return votesQuery
+// }
 
 module.exports = router;
