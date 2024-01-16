@@ -15,10 +15,24 @@ function DeleteBathroomItem({ bathroom }) {
 
   const removeBathroomFromDisplay = () => {
     console.log("bathroom.id", bathroom.id);
+    // popup to confirm you are sure you want to delete
+    Swal.fire({
+      title: "Are you sure?",
+      imageUrl: "https://media.giphy.com/media/Dxcny6WwMO43du9QRu/giphy.gif",
+      imageWidth: 250,
+      imageHeight: 250,
+      imageAlt: "Pink poop",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Yes, flush it!"
+    }).then((result) => {
+      if (result.isConfirmed) {
     dispatch({
-      type: "SAGA/DISABLE_BATHROOM",
-      payload: bathroom.id,
-    });
+      type: "SAGA/DISABLE",
+      payload: bathroom.id
+    })
+  }})
   };
 
   const deleteBathroomFromDatabase = () => {
