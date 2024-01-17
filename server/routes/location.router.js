@@ -33,8 +33,8 @@ router.get('/', (req, res) => {
   FROM
     restrooms)
   ORDER BY
-    distance
-  LIMIT 10;
+    distance ASC
+  LIMIT 200;
     `
     const lat = req.query.lat
     const lng = req.query.lng

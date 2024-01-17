@@ -9,7 +9,7 @@ import {
   Typography,
   CardActions,
   IconButton,
-  CardMedia,
+  Grid
 } from "@mui/material";
 
 import Collapse from "@mui/material/Collapse";
@@ -25,6 +25,7 @@ import Man4Icon from '@mui/icons-material/Man4';
 import Table from "react-bootstrap/Table";
 import { ConstructionOutlined, More } from "@mui/icons-material";
 import { styled } from "@mui/material/styles";
+import Grid2 from "@mui/material/Unstable_Grid2/Grid2";
 
 // animation for 'expand comments' chevron
 const ExpandMore = styled((props) => {
@@ -67,12 +68,11 @@ function BathroomItem({ bathroom, origin }) {
 
   return (
     <>
-      <Box
+        <Grid2
         key={bathroom.id}
         width="100%"
         // padding-left (https://mui.com/system/spacing/)
-        pl="20px"
-      >
+        pl="20px">
         <Card
           sx={{
             mb: "20px",
@@ -91,7 +91,7 @@ function BathroomItem({ bathroom, origin }) {
             title={bathroom.name}
             subheader={bathroom.street + ", " + bathroom.city + ", MN"}
           ></CardHeader>
-          <CardMedia />
+          {/* <CardMedia /> */}
           <CardContent>
             <CardActions></CardActions>
 
@@ -107,17 +107,18 @@ function BathroomItem({ bathroom, origin }) {
               {bathroom.is_single_stall ? <Man4Icon/> : ""}
             </Typography>
 
-            {/* bathroom upvotes and downvotes */}
+            {/* bathroom upvotes and downvotes
             <Typography align="right">
-              {bathroom.upvotes || 0}
+              {bathroom.upvote || 0}
               <ThumbUpOutlinedIcon sx={{ pr: 1 }} />
-              {bathroom.downvotes || 0}
+              {bathroom.downvote || 0}
               <ThumbDownOutlinedIcon sx={{ pr: 1 }} />
-            </Typography>
+            </Typography> */}
+
           </CardContent>
           {/* moves chevron to right */}
           <CardActions disableSpacing>
-            <Button onClick={goToDetails}>More info</Button>
+            <Button variant="outlined" onClick={goToDetails}>More info</Button>
             <ExpandMore></ExpandMore>
             {/* 🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥 make this link to Google Maps directions! */}
             <IconButton
@@ -146,7 +147,7 @@ function BathroomItem({ bathroom, origin }) {
             </CardContent>
           </Collapse>
         </Card>
-      </Box>
+        </Grid2>
     </>
   );
 }

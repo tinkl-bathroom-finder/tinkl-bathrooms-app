@@ -3,6 +3,7 @@ import * as React from "react";
 import { useState } from "react";
 import { useHistory, Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
+import { useParams } from "react-router-dom";
 // import SidebarNav from "./SidebarNav";
 
 // MUI material imports
@@ -48,6 +49,9 @@ function AppBarNav() {
   const [isDrawerOpen, setDrawerOpen] = useState(false);
   const user = useSelector((store) => store.user);
   const [open, setOpen] = useState(false);
+  const params = useParams();
+
+  console.log('params: ', params.user)
 
   const handleClick = () => {
     setOpen(!open);
@@ -70,6 +74,17 @@ function AppBarNav() {
     history.push("/info");
   };
 
+  const goToLogin = () => {
+    history.push('/login')
+    setShowRegister(true)
+
+  };
+
+  const goToRegister = () => {
+    history.push('/registration')
+    setShowRegister(false)
+  }
+
   const logOut = () => {
     dispatch({ type: "LOGOUT" });
     setAnchorEl(null);
@@ -79,9 +94,7 @@ function AppBarNav() {
     left: false,
   });
 
-  const goToLogin = () => {
-    history.push('/login')
-  }
+  const [showRegister, setShowRegister] = useState(false)
 
   const toggleDrawer = (anchor, open) => (event) => {
     if (
@@ -262,9 +275,9 @@ function AppBarNav() {
   );
 
   return (
-    <Box sx={{ flexGrow: 1 }}>
-      <AppBar position="sticky" className="app-bar">
-        <Toolbar>
+    <Box sx={{ flexGrow: 1, mb: 6 }}>
+      <AppBar className="app-bar">
+        <Toolbar position="sticky">
           <div>
             {["left"].map((anchor) => (
               <React.Fragment key={anchor}>
@@ -291,7 +304,11 @@ function AppBarNav() {
           </div>
           {/* <SidebarNav /> */}
 
-          <Typography variant="h4" component="div" sx={{ flexGrow: 1 }}>
+          <Typography 
+          variant="h4" 
+          component="div"
+          fontWeight="bold"
+          sx={{ flexGrow: 1 }}>
             tinkl
           </Typography>
           {user.id ? (
@@ -324,7 +341,8 @@ function AppBarNav() {
                 <MenuItem onClick={goToProfile}>My profile</MenuItem>
                 <MenuItem onClick={logOut}>Log out</MenuItem>
               </Menu>
-            </div> ) : <Button variant="contained" onClick={goToLogin}>Log in!</Button>
+            </div> ) : (showRegister ? <Button variant="contained" onClick={goToRegister}>Register</Button> :
+            <Button variant="contained" onClick={goToLogin}>Log in</Button>)
           }
         </Toolbar>
       </AppBar>

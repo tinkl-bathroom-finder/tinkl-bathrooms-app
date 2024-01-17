@@ -25,8 +25,8 @@ function CommentList() {
         </AccordionSummary>
         {commentArray &&
           commentArray.map((comment) => {
-            console.log('comment: ', comment)
-            console.log('commentArray: ', commentArray)
+            // console.log('comment: ', comment)
+            // console.log('commentArray: ', commentArray)
             return (
               <>
                 <AccordionDetails>
@@ -38,7 +38,6 @@ function CommentList() {
                       mr: 2
                     }}
                   >
-                    <Typography variant='subtitle1'></Typography>
                     <Typography variant='body1' color="black">{comment}</Typography>
                   </Box>
                 </AccordionDetails>

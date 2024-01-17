@@ -1,5 +1,7 @@
 import React from "react";
 
+import { Box, Typography } from "@mui/material";
+
 // This is one of our simplest components
 // It doesn't have local state,
 // It doesn't dispatch any redux actions or display any part of redux state
@@ -7,12 +9,12 @@ import React from "react";
 
 function AboutPage() {
   return (
-    <div className="container">
-      <div>
-        <h3>
+    <Box className="container">
+   
+        <h5 id="about-header">
           Nearly 60% of trans Americans have avoided using public bathrooms in
           the last year.
-        </h3>
+        </h5>
 
         <div id="need-to-pee">
           <img src="https://cdn4.iconfinder.com/data/icons/person-actions/227/person-action-006-512.png" />
@@ -22,8 +24,7 @@ function AboutPage() {
           single-stall bathrooms so that trans, nonbinary and gender
           non-conforming people can pee in peace.
         </h5>
-      </div>
-    </div>
+    </Box>
   );
 }
 

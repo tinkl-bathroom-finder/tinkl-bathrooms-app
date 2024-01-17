@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { Button } from "@mui/material";
+import { Box, Button } from "@mui/material";
 import Form from "react-bootstrap/Form";
 import Table from "react-bootstrap/Table";
 import DeleteBathroomItem from "../BathroomItem/DeleteBathroomItem";
@@ -16,7 +16,7 @@ function DeleteBathrooms() {
   };
 
   return (
-    <>
+    <Box sx={{mt: 10}}>
     <input placeholder="Enter name, id" label="Filter by:"></input>
       <Button onClick={getAllBathrooms} variant="contained">Load all bathrooms</Button>
       <table>
@@ -36,7 +36,7 @@ function DeleteBathrooms() {
           ))}
         </tbody>
       </table>
-    </>
+    </Box>
   );
 }
 

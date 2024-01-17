@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import {useSelector} from 'react-redux';
 
-import Button from 'react-bootstrap/Button';
+import { Button, Box, Typography } from '@mui/material';
 import Form from 'react-bootstrap/Form';
 
 function LoginForm() {
@@ -28,9 +28,23 @@ function LoginForm() {
   }; // end login
 
   return (
-    <Form className="formPanel" onSubmit={login} sx={{m: 30
+    <Box 
+    display="flex"
+    flexDirection="column"
+    align="center"
+    justifyContent="center"
+    className="form-box"
+    >
+    <Form display='flex' alignContent='center' className="formPanel" onSubmit={login} sx={{m: 30
     }}>
-      <h2>Login</h2>
+      <Typography 
+      variant="h4" 
+      component="h4"
+      fontWeight='500'
+      align='center'
+      sx={{
+        mb: 2
+      }} >Login</Typography>
       {errors.loginMessage && (
         <h3 className="alert" role="alert">
           {errors.loginMessage}
@@ -60,10 +74,15 @@ function LoginForm() {
           />
         </label>
       </div>
-      <div>
-        <Button className="btn" type="submit" name="submit" value="Log In">Log in</Button>
-      </div>
+      <Box textAlign='center'>
+        <Button className="btn"
+         type="submit" 
+         name="submit" 
+         value="Log In"
+         variant="contained">Log in</Button>
+      </Box>
     </Form>
+    </Box>
   );
 }
 

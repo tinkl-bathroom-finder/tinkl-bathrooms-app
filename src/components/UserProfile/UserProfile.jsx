@@ -82,7 +82,7 @@ function UserProfile() {
     </tr> */}
         </thead>
         <tbody>
-          {userComments.map((comment) => (
+          {userComments && userComments.map((comment) => (
             <tr>
                 <td onClick={() => goToDetails(comment.restroom_id)} className="link">{comment.name}</td>
 

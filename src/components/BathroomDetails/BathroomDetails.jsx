@@ -18,7 +18,10 @@ import {
   CardActions,
   IconButton,
   CardMedia,
+  Grid
 } from "@mui/material";
+
+// import Grid from '@mui/material/Unstable_Grid2';
 
 import Collapse from "@mui/material/Collapse";
 import ThumbUpOutlinedIcon from "@mui/icons-material/ThumbUpOutlined";
@@ -31,7 +34,9 @@ import OutlinedFlagOutlinedIcon from "@mui/icons-material/OutlinedFlagOutlined";
 import PlaceIcon from "@mui/icons-material/Place";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
+import Man4Icon from '@mui/icons-material/Man4';
 import { styled } from "@mui/material/styles";
+import Grid2 from "@mui/material/Unstable_Grid2/Grid2";
 
 function IPeedHereModal(props) {
   const dispatch = useDispatch();
@@ -60,7 +65,11 @@ function IPeedHereModal(props) {
       `,
       });
     } else if (!props.userId) {
-      alert("Register as a user to leave feedback.");
+      Swal.fire({
+        title: "Register or log in to leave feedback!",
+        text: "Users help keep this app up-to-date.",
+        icon: "question",
+      });
       // closes modal after submitting feedback
     }
     props.onHide();
@@ -192,6 +201,24 @@ function BathroomDetails() {
     // console.log('Downvote:', downvote)
   };
 
+  const clickIPeedHere = () => {
+    if (userId){
+      setModalShow(true)
+    } else
+      Swal.fire({
+      title: "Hey, stranger.",
+        imageUrl: "https://media.giphy.com/media/HULqwwF5tWKznstIEE/giphy.gif",
+        imageWidth: 360,
+        imageHeight: 203,
+        imageAlt: "Goat unicorn",
+      text: "Come here often? Log in to leave feedback!",
+      confirmButtonText: "Log in"
+    }).then((result) => {
+      if (result.isConfirmed) {
+    history.push('/login')
+  }})
+  }
+
   // formats inserted_at timestamp as readable string
   const stringifyDate = (timestamp) => {
     const date = new Date(timestamp);
@@ -224,6 +251,8 @@ function BathroomDetails() {
   return (
     <>
       <Box key={theBathroomDetails.id} width="100%" pl="20px">
+        <Grid2>
+          
         <Card
           sx={{
             mb: "20px",
@@ -339,7 +368,7 @@ function BathroomDetails() {
               <Typography color="black">Back</Typography>
             </Button>
             <Button
-              onClick={() => setModalShow(true)}
+              onClick={() => clickIPeedHere()}
               size="lg"
               sx={{
                 ml: 20,
@@ -370,6 +399,7 @@ function BathroomDetails() {
         </ExpandMore> */}
           </CardActions>
         </Card>
+        </Grid2>
       </Box>
 
       <IPeedHereModal

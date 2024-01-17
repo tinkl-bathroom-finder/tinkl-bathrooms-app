@@ -1,5 +1,8 @@
 import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { Form } from 'react-bootstrap';
+
+import { Box, Button, Card, TextField, Typography } from '@mui/material';
 
 function RegisterForm() {
   const [username, setUsername] = useState('');
@@ -20,8 +23,22 @@ function RegisterForm() {
   }; // end registerUser
 
   return (
-    <form className="formPanel" onSubmit={registerUser}>
-      <h2>Register User</h2>
+    <Box 
+    display="flex"
+    flexDirection="column"
+    align="center"
+    className="form-box"
+    >
+    <Form className="formPanel" onSubmit={registerUser} display='flex' alignContent='center'>
+      <Typography 
+      variant="h4" 
+      component="h4"
+      fontWeight='500'
+      align='center'
+      sx={{
+        mb: 2
+      }}
+      >Register User</Typography>
       {errors.registrationMessage && (
         <h3 className="alert" role="alert">
           {errors.registrationMessage}
@@ -51,10 +68,15 @@ function RegisterForm() {
           />
         </label>
       </div>
-      <div>
-        <input className="btn" type="submit" name="submit" value="Register" />
-      </div>
-    </form>
+      <Box 
+  display="flex"
+  flexDirection="column"
+  alignItems="center"
+  >
+        <Button className="btn" type="submit" name="submit" value="Register" align='center' variant='contained'>Register</Button>
+      </Box>
+    </Form>
+    </Box>
   );
 }
 

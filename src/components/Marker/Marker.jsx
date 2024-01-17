@@ -1,21 +1,28 @@
 import { useState } from "react";
 import { useSelector } from "react-redux";
 
+import BathroomItem from "../BathroomItem/BathroomItem";
+
 // Google Maps API
 import { MarkerF, InfoWindowF} from "@react-google-maps/api"
 
-function Marker({bathroomObject}){
+function Marker({bathroom}){
     const [infoWindowOpen, setInfoWindowOpen] = useState(false);
     return(
         <>
-        <MarkerF>
+        <MarkerF
+        id={bathroom.id}
+        position={({lat: bathroom.latitude, lng: bathroom.longitude})}
+        onClick={() => setInfoWindowOpen(true)}
+        >
             {infoWindowOpen && (
                 <InfoWindowF
                     onCloseClick={() => setInfoWindowOpen(false)}
-                    position={({lat: 44.978145599365234, lng: -93.26353454589844})}
+                    position={({lat: bathroom?.latitude, lng: bathroom?.longitude})}
+                    maxwidth="100px"
                 >
                     <>
-                    <h2>Test window text</h2>
+                    <BathroomItem key={bathroom.id} bathroom={bathroom}/>
                     </>
                  </InfoWindowF>
             )}

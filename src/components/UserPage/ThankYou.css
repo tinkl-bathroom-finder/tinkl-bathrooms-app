@@ -1,0 +1,9 @@
+.aboutBox {
+    font-size: large;
+    overflow-y: auto;
+    box-shadow: 0 3px 3px 3px rgb(0, 0, 0, 0.4);
+    background-color: rgba(203, 200, 200, 0.5);
+    height: 75vh;
+    width: 79vw;
+    padding: 10px;
+}

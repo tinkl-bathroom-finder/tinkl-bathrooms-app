@@ -3,13 +3,14 @@ import GooglePlacesAutocomplete from "react-google-places-autocomplete";
 // import { Autocomplete } from "@react-google-maps/api";
 import { useDispatch, useSelector } from "react-redux";
 import BathroomItem from "../BathroomItem/BathroomItem";
+const dotenv = require('dotenv').config();
 
 import Modal from "react-bootstrap/Modal";
 import Form from "react-bootstrap/Form";
 import ToggleButton from "react-bootstrap/ToggleButton";
 import ToggleButtonGroup from "react-bootstrap/ToggleButtonGroup";
 // need to require dot env if we use it I believe
-import Map from "../Map/Map";
+import MyMap from "../Map/Map";
 import { Button } from "@mui/material";
 import {
   Box,
@@ -48,17 +49,17 @@ function FilterByModal(props) {
 
   const requireSingleStall = () => {
     setSingleStall(!singleStall);
-    console.log("singleStall:", singleStall);
+    console.log("singleStall required:", singleStall);
   };
 
   const requireChangingTable = () => {
     setChangingTable(!changingTable);
-    console.log("changingTable:", changingTable);
+    console.log("changingTable required:", changingTable);
   };
 
   const requireAccessible = () => {
     setAccessible(!accessible);
-    console.log("accessible:", accessible);
+    console.log("accessible required:", accessible);
   };
 
   const submitFilters = () => {
@@ -70,7 +71,7 @@ function FilterByModal(props) {
   };
   return (
     <>
-      <Button variant="dark" onClick={handleShow}>
+      <Button variant="outlined" onClick={handleShow}>
         Filter by
       </Button>
 
@@ -129,27 +130,32 @@ function BathroomsPage() {
   const bathrooms = useSelector((store) => store.bathrooms);
   const bathroomsByDistance = useSelector((store) => store.bathroomsByDistance);
   const addressCoordinates = useSelector((store) => store.addressCoordinates);
+
   // captures value of address typed in search bar as local state
   const [value, setValue] = useState("");
-  const [listView, setListView] = useState(true);
-  const myApiKey = process.env.GOOGLE_MAPS_API_KEY;
+  const mapView = useSelector((store) => store.mapView);
   const [modalShow, setModalShow] = useState(false);
   const [show, setShow] = useState(false);
+  const [isChecked, setIsChecked] = useState(false);
   const handleClose = () => setShow(false);
   const [origin, setOrigin] = useState('')
   const [currentLat, setCurrentLat] = useState(0);
   const [currentLng, setCurrentLng] = useState(0);
 
   useEffect(() => {
-    dispatch({
-      type: "SAGA/FETCH_BATHROOMS",
-    });
         // gets user's current location and sets coordinates in React state for directions
         navigator.geolocation.getCurrentPosition(
           (position) => {
             setCurrentLat(position.coords.latitude)
             setCurrentLng(position.coords.longitude)
-          })
+          });
+    (dispatch({
+      type: 'SAGA/FETCH_BATHROOMS',
+      // payload: {
+      //   lat: currentLat,
+      //   lng: currentLng
+      // }
+    }))
   }, []);
 
   const sendLocation = (e) => {
@@ -177,8 +183,10 @@ function BathroomsPage() {
   // function to toggle between map and list view
   const toggleView = (e) => {
     e.preventDefault();
-    setListView(!listView);
-    console.log("listView:", listView);
+    setIsChecked(!isChecked);
+    dispatch({
+      type: 'TOGGLE_VIEW',
+    });
   };
 
   const clearInput = () => {
@@ -188,11 +196,11 @@ function BathroomsPage() {
   const apiKey=process.env.GOOGLE_MAPS_API_KEY
 
   return (
-    <div className="container" >
+    <Box className="container" sx={{mt: 6}}>
       {/* AutoComplete search box */}
       <form onSubmit={(e) => sendLocation(e)}>
         <GooglePlacesAutocomplete
-          apiKey="AIzaSyBEYEcOGj237bE2zG78LTaQpUplQITQxpE"
+          apiKey={apiKey}
           // onChange={(e) => setAddressInput(e.target.value)}
           // value={addressInput}
           selectProps={{
@@ -211,7 +219,8 @@ function BathroomsPage() {
         <Form.Check // prettier-ignore
           type="switch"
           id="custom-switch"
-          label={listView ? "Map view" : "List view"}
+          label={mapView ? "Map view" : "List view" }
+          checked={isChecked}
           onClick={(e) => toggleView(e)}
         />
       </Form>
@@ -227,13 +236,13 @@ function BathroomsPage() {
       />
 
       {/* if "List View" is selected, renders a list of bathrooms */}
-      {listView === true ? (
+      {mapView === true ? (
 
         // if you have searched for bathrooms by proximity to your location, renders a list of those bathrooms by distance
-        bathroomsByDistance.length > 0 ? (
+        bathroomsByDistance && bathroomsByDistance.length > 0 ? (
           <div className="table-div">
 
-                {bathroomsByDistance.map((bathroom) => (
+                {bathrooms && bathroomsByDistance.map((bathroom) => (
                   <BathroomItem key={bathroom.id} bathroom={bathroom} origin={origin}
                   />
                 ))}
@@ -245,17 +254,18 @@ function BathroomsPage() {
           // otherwise, if you haven't entered a search query, renders a list of *all* bathrooms (default upon page load)
           <div className="table-div">
 
-                {bathrooms.map((bathroom) => (
-                  <BathroomItem key={bathroom.id} bathroom={bathroom} origin={`${currentLat},${currentLng}`}/>
+                {bathrooms && bathrooms.map((bathroom) => (
+                  <BathroomItem key={bathroom.id} bathroom={bathroom} origin={currentLat ? `${currentLat},${currentLng}` : '44.97997, -93.26384'}/>
                 ))}
           </div>
         )
       ) : (
              // if "Map View" is selected, renders a map
-        <Map />
-      )}
+        // <MyMap />
+     ''
+     )}
 
-    </div>
+    </Box>
   );
 }
 

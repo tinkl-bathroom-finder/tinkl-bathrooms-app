@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { Button } from "@mui/material";
+import { Button, Box } from "@mui/material";
 import Form from "react-bootstrap/Form";
 import Table from "react-bootstrap/Table";
 import ApiBathroomItem from "../ApiBathroomItem/ApiBathroomItem";
@@ -44,7 +44,8 @@ function AddBathrooms() {
     });
   };
   return (
-    <Form onSubmit={loadBathrooms}>
+    <Form onSubmit={loadBathrooms} sx={{mt: 10}}>
+      <Box sx={{mt: 10}}>
       {isLoading && <DotLoader />}
       <h3>Load bathrooms from Refuge API</h3>
       <input
@@ -101,6 +102,7 @@ function AddBathrooms() {
           ))}
         </tbody>
       </Table>
+      </Box>
     </Form>
   );
 }

@@ -1,6 +1,8 @@
+import { Box } from "@mui/material";
+
 function AdminComments() {
 return(
-<h2>Comments here!</h2>
+<Box></Box>
 )
 }
 
