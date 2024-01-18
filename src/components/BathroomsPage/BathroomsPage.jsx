@@ -3,7 +3,7 @@ import GooglePlacesAutocomplete from "react-google-places-autocomplete";
 // import { Autocomplete } from "@react-google-maps/api";
 import { useDispatch, useSelector } from "react-redux";
 import BathroomItem from "../BathroomItem/BathroomItem";
-const dotenv = require('dotenv').config();
+// const dotenv = require('dotenv').config();
 
 import Modal from "react-bootstrap/Modal";
 import Form from "react-bootstrap/Form";
@@ -13,15 +13,8 @@ import ToggleButtonGroup from "react-bootstrap/ToggleButtonGroup";
 import MyMap from "../Map/Map";
 import { Button } from "@mui/material";
 import {
-  Box,
-  Card,
-  CardContent,
-  Typography,
-  CardActions,
-  IconButton,
-  CardMedia,
+  Box
 } from "@mui/material";
-import Table from "react-bootstrap/Table";
 // import FilterByModal from "./FilterByModal";
 
 function FilterByModal(props) {
@@ -158,6 +151,7 @@ function BathroomsPage() {
     }))
   }, []);
 
+  // sends address types into Autocomplete box to server to get bathrooms list
   const sendLocation = (e) => {
     e.preventDefault();
     if (value !== "") {
@@ -180,6 +174,7 @@ function BathroomsPage() {
       });
     }
   };
+
   // function to toggle between map and list view
   const toggleView = (e) => {
     e.preventDefault();
@@ -193,14 +188,14 @@ function BathroomsPage() {
     setValue('')
   }
 
-  const apiKey=process.env.GOOGLE_MAPS_API_KEY
+  // const apiKey=process.env.GOOGLE_MAPS_API_KEY
 
   return (
-    <Box className="container" sx={{mt: 6}}>
+    <Box className="container" sx={{mt: 6, width: 9/10}}>
       {/* AutoComplete search box */}
       <form onSubmit={(e) => sendLocation(e)}>
         <GooglePlacesAutocomplete
-          apiKey={apiKey}
+          apiKey="AIzaSyBEYEcOGj237bE2zG78LTaQpUplQITQxpE"
           // onChange={(e) => setAddressInput(e.target.value)}
           // value={addressInput}
           selectProps={{
@@ -261,8 +256,8 @@ function BathroomsPage() {
         )
       ) : (
              // if "Map View" is selected, renders a map
-        // <MyMap />
-     ''
+        <MyMap />
+    //  ''
      )}
 
     </Box>

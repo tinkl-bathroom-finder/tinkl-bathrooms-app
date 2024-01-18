@@ -51,7 +51,7 @@ function AppBarNav() {
   const [open, setOpen] = useState(false);
   const params = useParams();
 
-  console.log('params: ', params.user)
+  console.log('params.user: ', params.user)
 
   const handleClick = () => {
     setOpen(!open);

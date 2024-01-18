@@ -4,7 +4,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { DotLoader } from "react-spinners"
 
 //google maps import
-import { GoogleMap, useJsApiLoader } from "@react-google-maps/api"
+import { GoogleMap, useJsApiLoader, MarkerF, InfoWindowF } from "@react-google-maps/api"
 
 import Marker from "../Marker/Marker";
 import { Box } from "@mui/material";
@@ -14,49 +14,45 @@ function MyMap() {
     googleMapsApiKey: process.env.GOOGLE_MAPS_API_KEY,
 })
 
-const bathrooms = useSelector((store) => store.bathrooms)
-
   if (!isLoaded) { return <div><DotLoader/></div>}
 
-  return (
-    <Box  
-    sx={{
-      width: 390,
-      mr: 'auto',
-      ml: '20px',
-      my: '20px'
-      }}
-  >
-      <Map />
-    </Box>
-  );
+  return       <Map />
+    // <Box  
+    // sx={{
+    //   width: '350px',
+    //   mr: '20px',
+    //   ml: '20px',
+    //   my: '20px'
+    //   }}
+  // >
+
+    // {/* </Box> */}
+  
 }
 
 function Map() {
-
-  const locations = useSelector((store) => store.locations)
+  const bathrooms = useSelector((store) => store.bathrooms)
   const mapRef = useRef();
   const onLoad = useCallback(map => (mapRef.current = map), []);
   const dispatch = useDispatch();
-  const bathrooms = useSelector((store) => store.bathrooms)
 
   // sets starting center location 
   const [centerLat, setCenterLat] = useState(0)
   const [centerLng, setCenterLng] = useState(0)
 
     // useMemo performs the calculation once everytime the array arg changes, reuse the same value every time it re-renders
-    // const center = useMemo(() => ({lat: centerLat, lng: centerLng}), [centerLat, centerLng] );
+    const center = useMemo(() => ({lat: centerLat, lng: centerLng}), [centerLat, centerLng] );
 
-    const center = {lat: centerLat, lng: centerLng }
+    // const center = {lat: centerLat, lng: centerLng }
 
-//   useEffect(() => {
-//       // centers Map on user location
-//       navigator.geolocation.getCurrentPosition(
-//           (position) => {
-//               setCenterLat(position.coords.latitude)
-//               setCenterLng(position.coords.longitude)
-//           })
-//   }, []);
+  useEffect(() => {
+      // centers Map on user location
+      navigator.geolocation.getCurrentPosition(
+          (position) => {
+              setCenterLat(position.coords.latitude)
+              setCenterLng(position.coords.longitude)
+          })
+  }, []);
 
 
   // customization 
@@ -69,7 +65,7 @@ function Map() {
   );
 
   const containerStyle = {
-      width: '400px',
+      width: '350px',
       height: '600px',
       leftMargin: '20px',
       rightMargin: '20px'
@@ -86,7 +82,7 @@ function Map() {
 {bathrooms && bathrooms.map((bathroom, i) => {
     return (
    
-        <Marker key={i} bathroom={bathroom}/>
+        <Marker key={i} bathroom={bathroom} MarkerF={MarkerF} InfoWindowF={InfoWindowF}/>
   
     )
 })}
