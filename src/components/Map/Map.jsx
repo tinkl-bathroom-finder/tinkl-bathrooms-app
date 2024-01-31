@@ -65,8 +65,8 @@ function Map() {
   );
 
   const containerStyle = {
-      width: '350px',
-      height: '600px',
+      width: '80vw',
+      height: '70vh',
       leftMargin: '20px',
       rightMargin: '20px'
   }

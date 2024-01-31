@@ -81,6 +81,10 @@ function AppBarNav() {
 
   };
 
+  const goToBathrooms = () => {
+    history.push('/bathrooms')
+  }
+
   const goToRegister = () => {
     history.push('/registration')
     setShowRegister(false)
@@ -276,15 +280,16 @@ function AppBarNav() {
   );
 
   return (
-    <Box sx={{ flexGrow: 1, mb: 6 }}>
+    <Box sx={{ flexGrow: 1, mb: 15 }}>
+      {/* Top NavBar with hamburger menu, tinkl, and user profile or login button */}
       <AppBar className="app-bar">
-        <Toolbar position="sticky">
+        <Toolbar position="sticky" sx={{ height: 100 }}>
           <div>
             {["left"].map((anchor) => (
               <React.Fragment key={anchor}>
                 <IconButton
                   size="large"
-                  edge="start"
+                  // edge="start"
                   color="inherit"
                   aria-label="menu"
                   sx={{ mr: 2 }}
@@ -310,7 +315,8 @@ function AppBarNav() {
           component="div"
           fontWeight="bold"
           textAlign={"center"}
-          sx={{ flexGrow: 1 }}>
+          sx={{ flexGrow: 1, fontSize: 50 }}
+          onClick={goToBathrooms}>
             tinkl
           </Typography>
           {/* If a user is logged in, an account circle icon will appear in the upper right in the top NavBar */}
