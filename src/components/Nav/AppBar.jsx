@@ -81,6 +81,10 @@ function AppBarNav() {
 
   };
 
+  const goToBathrooms = () => {
+    history.push('/bathrooms')
+  }
+
   const goToRegister = () => {
     history.push('/registration')
     setShowRegister(false)
@@ -310,7 +314,8 @@ function AppBarNav() {
           component="div"
           fontWeight="bold"
           textAlign={"center"}
-          sx={{ flexGrow: 1 }}>
+          sx={{ flexGrow: 1 }}
+          onClick={goToBathrooms}>
             tinkl
           </Typography>
           {/* If a user is logged in, an account circle icon will appear in the upper right in the top NavBar */}
