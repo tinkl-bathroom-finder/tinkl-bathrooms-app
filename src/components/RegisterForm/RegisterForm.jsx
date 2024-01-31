@@ -23,13 +23,13 @@ function RegisterForm() {
   }; // end registerUser
 
   return (
-    <Box 
-    display="flex"
-    flexDirection="column"
-    align="center"
-    className="form-box"
-    >
-    <Form className="formPanel" onSubmit={registerUser} display='flex' alignContent='center'>
+    // <Box 
+    // display="flex"
+    // flexDirection="column"
+    // align="center"
+    // className="form-box"
+    // >
+    <Form className="formPanel" onSubmit={registerUser} display='flex'>
       <Typography 
       variant="h4" 
       component="h4"
@@ -76,7 +76,7 @@ function RegisterForm() {
         <Button className="btn" type="submit" name="submit" value="Register" align='center' variant='contained'>Register</Button>
       </Box>
     </Form>
-    </Box>
+    // </Box>
   );
 }
 
