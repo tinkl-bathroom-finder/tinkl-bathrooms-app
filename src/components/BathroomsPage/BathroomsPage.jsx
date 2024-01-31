@@ -22,8 +22,8 @@ function FilterByModal(props) {
 
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
-  // const openNow = useSelector((store) => store.openNow);
-  const [openNow, setOpenNow] = useState(false)
+  const openNow = useSelector((store) => store.openNow);
+  // const [openNow, setOpenNow] = useState(false)
   const [singleStall, setSingleStall] = useState(false);
   const [changingTable, setChangingTable] = useState(false);
   const [accessible, setAccessible] = useState(false);
@@ -107,7 +107,7 @@ function FilterByModal(props) {
           <Button variant="secondary" onClick={handleClose}>
             Close
           </Button>
-          <Button variant="success" onClick={handleClose}>
+          <Button variant="success" onClick={submitFilters}>
             Save Changes
           </Button>
         </Modal.Footer>
@@ -144,6 +144,10 @@ function BathroomsPage() {
           });
     (dispatch({
       type: 'SAGA/FETCH_BATHROOMS',
+      // payload: {
+      //   lat: currentLat,
+      //   lng: currentLng
+      // }
     }))
   }, []);
 
@@ -163,13 +167,6 @@ function BathroomsPage() {
       // 👇 clears the input field after we make a search
       // setValue('')
     } else {
-      // (dispatch({
-      //   type: 'SAGA/FETCH_BATHROOMS',
-      //   payload: {
-      //       lat: currentLat,
-      //       lng: currentLng
-      //   }
-      // }))
       Swal.fire({
         title: "Trying to search by location?",
         text: "Start typing an address to begin!",
@@ -196,43 +193,24 @@ function BathroomsPage() {
   return (
     <Box className="container" sx={{mt: 6, width: 9/10}}>
       {/* AutoComplete search box */}
-      <div>
-      <Form onSubmit={(e) => sendLocation(e)}>
+      <form onSubmit={(e) => sendLocation(e)}>
         <GooglePlacesAutocomplete
           apiKey="AIzaSyBEYEcOGj237bE2zG78LTaQpUplQITQxpE"
           // onChange={(e) => setAddressInput(e.target.value)}
           // value={addressInput}
           selectProps={{
             value,
-            onChange: setValue
+            onChange: setValue,
           }}
-          // biases autocomplete search results to locations near IP address
-          ipbias
         />
-        <Button variant="outlined" onClick={(e) => sendLocation(e)} sx={{mb: 1, mt: 1, mr: 1}}>
+        <button type="submit" onClick={(e) => sendLocation(e)}>
           Search nearby
-        </Button>
+        </button>
         {/* <button onClick={getBathrooms}>See all bathrooms</button> */}
-            <Button onClick={(e) => toggleView(e)} variant="contained" sx={{mb: 1, mt: 1}}
-            >
-        {mapView ? "Map view" : "List view" }
-        </Button>
-        </Form>
-      </div>
-
-      {/* "Filter by" toggle switch (choose filters in popup modal) */}
-      {/* <FilterByModal
-        show={modalShow}
-        onHide={() => setModalShow(false)}
-        setShow={setShow}
-        handleClose={handleClose}
-        modalShow={modalShow}
-        setModalShow={setModalShow}
-      /> */}
+      </form>
 
       {/* toggle switch for Map View/List View */}
-
-      {/* <Form>
+      <Form>
         <Form.Check // prettier-ignore
           type="switch"
           id="custom-switch"
@@ -240,9 +218,17 @@ function BathroomsPage() {
           checked={isChecked}
           onClick={(e) => toggleView(e)}
         />
-      </Form> */}
+      </Form>
 
-
+      {/* "Filter by" toggle switch (choose filters in popup modal) */}
+      <FilterByModal
+        show={modalShow}
+        onHide={() => setModalShow(false)}
+        setShow={setShow}
+        handleClose={handleClose}
+        modalShow={modalShow}
+        setModalShow={setModalShow}
+      />
 
       {/* if "List View" is selected, renders a list of bathrooms */}
       {mapView === true ? (
