@@ -64,7 +64,7 @@ function DeleteBathroomItem({ bathroom }) {
         <Button onClick={removeBathroomFromDisplay} variant="outlined">Remove from display</Button>
       </td>
       <td>
-        <Button onClick={deleteBathroomFromDatabase} variant="outlined">
+        <Button onClick={deleteBathroomFromDatabase} variant="outlined" color="warning">
           Delete from database
         </Button>
       </td>
