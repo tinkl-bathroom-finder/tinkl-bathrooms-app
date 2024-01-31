@@ -53,6 +53,7 @@ function AppBarNav() {
 
   console.log('params.user: ', params.user)
 
+// function to open or close drawer NavBar
   const handleClick = () => {
     setOpen(!open);
   };
@@ -308,9 +309,12 @@ function AppBarNav() {
           variant="h4" 
           component="div"
           fontWeight="bold"
+          textAlign={"center"}
           sx={{ flexGrow: 1 }}>
             tinkl
           </Typography>
+          {/* If a user is logged in, an account circle icon will appear in the upper right in the top NavBar */}
+          {/* If a user clicks on the account circle icon, a menu will pop up with the choices of "My profile" or "Log out" */}
           {user.id ? (
             <div>
               <IconButton
@@ -341,6 +345,8 @@ function AppBarNav() {
                 <MenuItem onClick={goToProfile}>My profile</MenuItem>
                 <MenuItem onClick={logOut}>Log out</MenuItem>
               </Menu>
+              {/* If a user is not logged in, a Log In button will appear on the right in the top NavBar */}
+              {/* Once you click Log In and are navigated to the Log In page, the same button will now say Register and will be a link to the registration page */}
             </div> ) : (showRegister ? <Button variant="contained" onClick={goToRegister}>Register</Button> :
             <Button variant="contained" onClick={goToLogin}>Log in</Button>)
           }
