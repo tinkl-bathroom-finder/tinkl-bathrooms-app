@@ -20,21 +20,24 @@ import {
   CardMedia,
   Grid
 } from "@mui/material";
+import Collapse from "@mui/material/Collapse";
 
 // import Grid from '@mui/material/Unstable_Grid2';
-
-import Collapse from "@mui/material/Collapse";
-import ThumbUpOutlinedIcon from "@mui/icons-material/ThumbUpOutlined";
-import ThumbDownOutlinedIcon from "@mui/icons-material/ThumbDownOutlined";
-import BabyChangingStationOutlinedIcon from "@mui/icons-material/BabyChangingStationOutlined";
-import AccessibleForwardOutlinedIcon from "@mui/icons-material/AccessibleForwardOutlined";
-import TransgenderOutlinedIcon from "@mui/icons-material/TransgenderOutlined";
-import NearMeOutlinedIcon from "@mui/icons-material/NearMeOutlined";
-import OutlinedFlagOutlinedIcon from "@mui/icons-material/OutlinedFlagOutlined";
-import PlaceIcon from "@mui/icons-material/Place";
-import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
+import {
+  AccessibleForwardOutlined, 
+  BabyChangingStationOutlined,
+  ExpandMore, 
+  Man4,
+  NearMeOutlined,
+  OutlinedFlagOutlined,
+  Place,
+  TransgenderOutlined,
+  ThumbDownOutlined,
+  ThumbUpOutlined} from "@mui/icons-material"
+// import PlaceIcon from "@mui/icons-material/Place";
+// import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
-import Man4Icon from '@mui/icons-material/Man4';
+// import Man4Icon from '@mui/icons-material/Man4';
 import { styled } from "@mui/material/styles";
 import Grid2 from "@mui/material/Unstable_Grid2/Grid2";
 
@@ -291,7 +294,7 @@ function BathroomDetails() {
                   )
                 }
               >
-                <NearMeOutlinedIcon />
+                <NearMeOutlined />
                 <Typography>Get directions</Typography>
               </IconButton>
               <IconButton
@@ -301,7 +304,7 @@ function BathroomDetails() {
                   )
                 }
               >
-                <PlaceIcon />
+                <Place />
                 <Typography>Open in Google Maps</Typography>
               </IconButton>
             </CardActions>
@@ -309,7 +312,7 @@ function BathroomDetails() {
             <Typography variant="h5" gutterBottom>
               {theBathroomDetails.unisex ? (
                 <>
-                  <TransgenderOutlinedIcon />
+                  <TransgenderOutlined />
                   <Typography>Gender-neutral</Typography>
                 </>
               ) : (
@@ -318,7 +321,7 @@ function BathroomDetails() {
 
               {theBathroomDetails.changing_table ? (
                 <>
-                  <BabyChangingStationOutlinedIcon />
+                  <BabyChangingStationOutlined />
                   <Typography>Changing table</Typography>
                 </>
               ) : (
@@ -327,7 +330,7 @@ function BathroomDetails() {
 
               {theBathroomDetails.accessible ? (
                 <>
-                  <AccessibleForwardOutlinedIcon />
+                  <AccessibleForwardOutlined />
                   <Typography>Wheelchair accessible</Typography>
                 </>
               ) : (
@@ -336,7 +339,7 @@ function BathroomDetails() {
 
               {theBathroomDetails.is_single_stall ? (
                 <>
-                  <Man4Icon />
+                  <Man4 />
                   <Typography>Single stall</Typography>
                 </>
               ) : (
@@ -346,9 +349,9 @@ function BathroomDetails() {
             {/* theBathroomDetails upvotes and downvotes */}
             <Typography align="right">
               {theBathroomDetails.upvotes || 0}
-              <ThumbUpOutlinedIcon sx={{ pr: 1 }} />
+              <ThumbUpOutlined sx={{ pr: 1 }} />
               {theBathroomDetails.downvotes || 0}
-              <ThumbDownOutlinedIcon sx={{ pr: 1 }} />
+              <ThumbDownOutlined sx={{ pr: 1 }} />
             </Typography>{" "}
             {/* distance from current/searched location */}
             <Typography
@@ -382,7 +385,7 @@ function BathroomDetails() {
           <CardActions disableSpacing>
             <IconButton>
               <Typography> Something not look right?</Typography>
-              <OutlinedFlagOutlinedIcon
+              <OutlinedFlagOutlined
                 sx={{
                   mr: 1,
                 }}
