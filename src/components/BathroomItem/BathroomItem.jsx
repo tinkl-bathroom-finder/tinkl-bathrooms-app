@@ -75,8 +75,7 @@ function BathroomItem({ bathroom, origin }) {
         pl="20px">
         <Card
           sx={{
-            mb: "15px",
-            // height: '25vw'
+            mb: "20px",
           }}
         >
           {/* when bathroom info was last updated */}
