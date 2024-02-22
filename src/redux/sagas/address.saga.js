@@ -13,6 +13,7 @@ function* getAddressCoordinates(action){
         type: 'SAGA/GET_BATHROOMS_BY_DISTANCE',
         payload: response.data.results[0].geometry.location
     }) 
+    // sends address coordinates to addressCoordinates reducer
       yield put({
         type: 'SET_ADDRESS_COORDINATES',
         // location should be object with lat and lng coordinates

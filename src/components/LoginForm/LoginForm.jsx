@@ -35,8 +35,7 @@ function LoginForm() {
     justifyContent="center"
     className="form-box"
     >
-    <Form display='flex' alignContent='center' className="formPanel" onSubmit={login} sx={{m: 30
-    }}>
+    <Form display='flex' className="formPanel" onSubmit={login}>
       <Typography 
       variant="h4" 
       component="h4"
@@ -44,7 +43,9 @@ function LoginForm() {
       align='center'
       sx={{
         mb: 2
-      }} >Login</Typography>
+      }} >
+        Login
+        </Typography>
       {errors.loginMessage && (
         <h3 className="alert" role="alert">
           {errors.loginMessage}

@@ -22,7 +22,7 @@ router.get("/", (req, res) => {
   pool
     .query(query)
     .then((dbRes) => {
-      console.log("dbRes.rows in GET /all route:", dbRes);
+      // console.log("dbRes.rows in GET /all route:", dbRes);
       res.send(dbRes.rows);
     })
     .catch((dbErr) => {

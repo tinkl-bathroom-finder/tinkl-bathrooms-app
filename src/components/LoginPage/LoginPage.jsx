@@ -11,15 +11,6 @@ function LoginPage() {
       <LoginForm />
 
       <center>
-        {/* <Button
-          type="button"
-          variant="contained"
-          onClick={() => {
-            history.push('/registration');
-          }}
-        >
-          Register
-        </Button> */}
       </center>
     </div>
   );
