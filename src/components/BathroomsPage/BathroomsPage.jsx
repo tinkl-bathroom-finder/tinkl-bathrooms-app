@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from "react";
 import GooglePlacesAutocomplete from "react-google-places-autocomplete";
+
+import { GoogleMap, LoadScript, Marker } from '@react-google-maps/api';
 // import { Autocomplete } from "@react-google-maps/api";
 import { useDispatch, useSelector } from "react-redux";
 import BathroomItem from "../BathroomItem/BathroomItem";
@@ -135,6 +137,19 @@ function BathroomsPage() {
   const [currentLat, setCurrentLat] = useState(0);
   const [currentLng, setCurrentLng] = useState(0);
 
+  const [selectedLocation, setSelectedLocation] = useState(null);
+  const [mapCenter, setMapCenter] = useState({ lat: 0, lng: 0 });
+
+  const handlePlaceSelect = (place) => {
+    setCurrentLat(place.result.geometry.location.lat())
+    setCurrentLng(place.result.geometry.location.lng())
+
+    setSelectedLocation({
+      lat: place.result.geometry.location.lat(),
+      lng: place.result.geometry.location.lng()
+    });
+  };
+
   useEffect(() => {
         // gets user's current location and sets coordinates in React state for directions
         navigator.geolocation.getCurrentPosition(
@@ -206,6 +221,7 @@ function BathroomsPage() {
             value,
             onChange: setValue
           }}
+          onSelect={handlePlaceSelect}
           // biases autocomplete search results to locations near IP address
           ipbias
         />
@@ -269,8 +285,15 @@ function BathroomsPage() {
           </div>
         )
       ) : (
+        <GoogleMap
+          mapContainerStyle={{ width: '100%', height: '400px' }}
+          center={mapCenter}
+          zoom={10}
+        >
+          <Marker position={mapCenter} />
+        </GoogleMap>
              // if "Map View" is selected, renders a map
-        <MyMap />
+        // <MyMap  selectedLocation={selectedLocation} />
     //  ''
      )}
 
