@@ -4,7 +4,7 @@ import { useSelector } from "react-redux";
 import BathroomItem from "../BathroomItem/BathroomItem";
 
 // Google Maps API
-// import { MarkerF, InfoWindowF} from "@react-google-maps/api"
+import { MarkerF, InfoWindowF} from "@react-google-maps/api"
 
 function Marker({bathroom, MarkerF, InfoWindowF}){
     const [infoWindowOpen, setInfoWindowOpen] = useState(false);
