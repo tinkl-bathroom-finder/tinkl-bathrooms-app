@@ -1,6 +1,21 @@
 
 # tinkl
 A mobile bathroom-finding app that locates nearby gender-neutral and single-stall restrooms and user-generated verification and feedback.
+<img width="330" alt="Screenshot 2024-02-25 at 11 52 14 PM" src="https://github.com/essiero/prime-solo-project/assets/141077443/04a6b6f5-0a9c-4f68-9b5d-8f87f44dc101">
+<img width="321" alt="Screenshot 2024-02-25 at 11 55 43 PM" src="https://github.com/essiero/prime-solo-project/assets/141077443/f99bd2ff-ce74-4ac3-b960-2d085062d004">
+<img width="322" alt="Screenshot 2024-02-25 at 11 57 26 PM" src="https://github.com/essiero/prime-solo-project/assets/141077443/395ba044-36fe-4517-ac5f-0bffd0f5608d">
+
+
+# Technologies used
+ 
+<img src="https://user-images.githubusercontent.com/25181517/192158954-f88b5814-d510-4564-b285-dff7d6400dad.png" alt="html" width="40" height="40"/> 
+<img src="https://user-images.githubusercontent.com/25181517/183898674-75a4a1b1-f960-4ea9-abcb-637170a00a75.png" alt="css" width="40" height="40"/> 
+<img src="https://user-images.githubusercontent.com/25181517/117447155-6a868a00-af3d-11eb-9cfe-245df15c9f3f.png" alt="javascript" width="40" height="40"/>
+<img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/react/react-original-wordmark.svg" alt="react" width="40" height="40"/>
+<img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/postgresql/postgresql-original-wordmark.svg" alt="postgresql" width="40" height="40"/>
+<img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/express/express-original-wordmark.svg" alt="express" width="40" height="40"/> 
+<img src="https://user-images.githubusercontent.com/25181517/189716630-fe6c084c-6c66-43af-aa49-64c8aea4a5c2.png" alt="mui" width="40" height="40"/> 
+<img src="https://user-images.githubusercontent.com/25181517/187896150-cc1dcb12-d490-445c-8e4d-1275cd2388d6.png" alt="redux" width="40" height="40"/>
 
 This version uses React, Redux, Express, Passport, and PostgreSQL (a full list of dependencies can be found in `package.json`).
 
