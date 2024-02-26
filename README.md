@@ -2,7 +2,7 @@
 # tinkl
 tinkl is a mobile bathroom-finding app that locates nearby gender-neutral and single-stall restrooms and user-generated verification and feedback. 
 
-Enter your location or share your current location, and tinkl will pull up the closest bathrooms to you in either a map or a list, depending on how you want to view them; and you can see its address and distance from you.
+Enter your location or share your current location, and tinkl will pull up the closest bathrooms to you in either a map or a list, depending on how you want to view them. You will also be able to see its address and distance from you.
 
 You can also see additional information about each bathroom, like if it is wheelchair-accessible, has a changing table, and whether it is single-stall or gender-neutral.
 
