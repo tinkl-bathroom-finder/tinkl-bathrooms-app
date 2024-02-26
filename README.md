@@ -1,7 +1,8 @@
 
-# Prime Solo Project Starting Repo
-This version uses React, Redux, Express, Passport, and PostgreSQL (a full list of dependencies can be found in `package.json`).
+# tinkl
+A mobile bathroom-finding app that locates nearby gender-neutral and single-stall restrooms and user-generated verification and feedback.
 
+This version uses React, Redux, Express, Passport, and PostgreSQL (a full list of dependencies can be found in `package.json`).
 
 ## Prerequisites
 
