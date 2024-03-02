@@ -42,8 +42,8 @@ function App() {
       primary: {
         // periwinkle - AppBar
         main: '#5272F2',
-        // dark navy - navbar text
-        contrastText: '#072541',
+        // off-white - navbar text. Formerly: #072541
+        contrastText: '#FFF6F6',
 
         light: '#FFF6F6',
       },
