@@ -12,10 +12,10 @@ router.get("/", (req, res) => {
   // GET all bathrooms route
   const query = `
   SELECT * FROM (
-    SELECT *, 
+    SELECT * , 
     ROW_NUMBER() OVER (PARTITION BY "restrooms".street ORDER BY updated_at DESC) AS ROW_NUMBER
     FROM "restrooms") AS ROWS
-    WHERE ROW_NUMBER = 1 AND "is_removed"=FALSE
+    WHERE ROW_NUMBER = 1 AND "is_removed" = FALSE
     ORDER BY "id"
     LIMIT 250;`;
 

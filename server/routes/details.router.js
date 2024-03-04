@@ -6,12 +6,12 @@ const router = express.Router();
 router.get("/:id", (req, res) => {
   const query = `
     SELECT 
-    "restrooms"."name", "restrooms"."street", "restrooms"."city", "restrooms"."state", "restrooms"."updated_at", "restrooms"."accessible", "restrooms"."unisex", "restrooms"."changing_table", "restrooms"."is_single_stall", SUM("restroom_votes"."upvote") AS "upvotes", SUM ("restroom_votes"."downvote") AS "downvotes", "comments"."content"
+    "restrooms"."name", "restrooms"."street", "restrooms"."city", "restrooms"."state", "restrooms"."updated_at", "restrooms"."accessible", "restrooms"."unisex", "restrooms"."changing_table", "restrooms"."is_single_stall", SUM("restroom_votes"."upvote") AS "upvotes", SUM ("restroom_votes"."downvote") AS "downvotes", "comments"."content", "comments"."inserted_at"
   FROM "restrooms"
    LEFT JOIN "comments" ON "restrooms"."id"="comments"."restroom_id"
    LEFT JOIN "restroom_votes" ON "restrooms"."id"="restroom_votes"."restroom_id"
   WHERE "restrooms"."id"=$1
-  GROUP BY "restrooms"."id", "comments"."content";
+  GROUP BY "restrooms"."id", "comments"."content", "comments"."inserted_at";
     `;
   const values = [req.params.id];
   pool

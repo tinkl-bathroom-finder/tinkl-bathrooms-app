@@ -251,6 +251,7 @@ function BathroomDetails() {
 
   const setCurrentPosition = () => {};
 
+  console.log('theBathroomDetails: ', theBathroomDetails)
   return (
     <>
       <Box key={theBathroomDetails.id} width="100%" pl="20px">
@@ -366,7 +367,7 @@ function BathroomDetails() {
                 : ""}
             </Typography>
             {/* if the bathroom has any comments, the comment list box will render */}
-            {<CommentList commentArray={theBathroomDetails.comments} />}
+            {<CommentList commentArray={theBathroomDetails.comments}/>}
             <Button onClick={returnToList} variant="contained">
               <Typography color="black">Back</Typography>
             </Button>
