@@ -10,6 +10,7 @@ function* getAddressCoordinates(action){
         url: `https://maps.googleapis.com/maps/api/geocode/json?key=AIzaSyBEYEcOGj237bE2zG78LTaQpUplQITQxpE&address=${action.payload}`
       })
     yield put({
+      // yells at SAGA to get bathrooms by distance based on coordinates
         type: 'SAGA/GET_BATHROOMS_BY_DISTANCE',
         payload: response.data.results[0].geometry.location
     }) 
@@ -20,7 +21,6 @@ function* getAddressCoordinates(action){
         payload: response.data.results[0].geometry.location
       })
       console.log('response.data...location (should be object with address info including coordinates):', response.data.results[0].geometry.location)
-      // yells at SAGA to get bathrooms by distance based on coordinates
     } catch (error) {
       console.log('Saga function getAddressCoordinates failed: ', error)
     }

@@ -9,14 +9,14 @@ import { GoogleMap, useJsApiLoader, MarkerF, InfoWindowF } from "@react-google-m
 import Marker from "../Marker/Marker";
 import { Box } from "@mui/material";
 
-function MyMap() {
+function MyMap(selectedLocation) {
     const { isLoaded } = useJsApiLoader({
     googleMapsApiKey: process.env.GOOGLE_MAPS_API_KEY,
 })
 
   if (!isLoaded) { return <div><DotLoader/></div>}
 
-  return       <Map />
+  return       <Map  selectedLocation={selectedLocation} />
     // <Box  
     // sx={{
     //   width: '350px',
@@ -30,7 +30,7 @@ function MyMap() {
   
 }
 
-function Map() {
+function Map(selectedLocation) {
   const bathrooms = useSelector((store) => store.bathrooms)
   const mapRef = useRef();
   const onLoad = useCallback(map => (mapRef.current = map), []);
@@ -42,8 +42,9 @@ function Map() {
 
     // useMemo performs the calculation once everytime the array arg changes, reuse the same value every time it re-renders
     const center = useMemo(() => ({lat: centerLat, lng: centerLng}), [centerLat, centerLng] );
-
+    const selectedLocationObject = useMemo(() => ({lat: selectedLocation.lat, lng: selectedLocation.lng}), [selectedLocation.lat, selectedLocation.lng] );
     // const center = {lat: centerLat, lng: centerLng }
+    // const selectedLocationObject = null;
 
   useEffect(() => {
       // centers Map on user location
@@ -74,7 +75,7 @@ function Map() {
   return (
       <GoogleMap
           zoom={14}
-          center={center}
+          center={selectedLocationObject || center}
           mapContainerStyle={containerStyle}
           options={options}
           onLoad={onLoad}

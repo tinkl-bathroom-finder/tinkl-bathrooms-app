@@ -1,5 +1,9 @@
-import React, { useState, useEffect } from "react";
+import React, { useMemo, useRef, useCallback, useState, useEffect } from "react";
 import GooglePlacesAutocomplete from "react-google-places-autocomplete";
+
+import Marker from "../Marker/Marker";
+
+import { GoogleMap, useJsApiLoader, MarkerF, InfoWindowF } from '@react-google-maps/api';
 // import { Autocomplete } from "@react-google-maps/api";
 import { useDispatch, useSelector } from "react-redux";
 import BathroomItem from "../BathroomItem/BathroomItem";
@@ -135,6 +139,32 @@ function BathroomsPage() {
   const [currentLat, setCurrentLat] = useState(0);
   const [currentLng, setCurrentLng] = useState(0);
 
+  const [selectedLocation, setSelectedLocation] = useState({ lat: 0, lng: 0 });
+  const onLoad = useCallback(map => (mapRef.current = map), []);
+  const mapRef = useRef();
+  // const [mapCenter, setMapCenter] = useState({ lat: 0, lng: 0 });
+
+const selectedCenter = useMemo(() => ({lat: selectedLocation.lat, lng: selectedLocation.lng}), [selectedLocation.lat, selectedLocation.lng] );
+
+    // customization 
+    const options = useMemo(
+      () => ({
+          disableDefaultUI: false,
+          clickableIcons: false,
+          gestureHandling: 'greedy',
+      }), []
+  );
+
+  const containerStyle = {
+      width: '80vw',
+      height: '70vh',
+      leftMargin: '20px',
+      rightMargin: '20px'
+  }
+
+     // useMemo performs the calculation once everytime the array arg changes, reuses the same value every time it re-renders
+     const center = useMemo(() => ({lat: currentLat, lng: currentLng }), [currentLat, currentLng] );
+
   useEffect(() => {
         // gets user's current location and sets coordinates in React state for directions
         navigator.geolocation.getCurrentPosition(
@@ -148,20 +178,26 @@ function BathroomsPage() {
   }, []);
 
   // sends address types into Autocomplete box to server to get bathrooms list
-  const sendLocation = (e) => {
+  const sendLocation = async (e) => {
     e.preventDefault();
     if (value !== "") {
-      // converts address to url-friendly string
+      // converts address to url-friendly string 
       const convertedAddress = value.value.description.split(" ").join("%20");
-      console.log("convertedAddress:", convertedAddress);
-      setOrigin(convertedAddress)
-      dispatch({
+        console.log("convertedAddress:", convertedAddress);
+        // 🔥🔥🔥🔥🔥🔥 NEED TO FIGURE OUT THIS ASYNC/AWAIT THING! It is indeed recentering the map correctly if you click "search nearby" twice - so the setCurrentLat and setCurrentLng are working, they just aren't happening asynchronously - we need to wait until we get the addressCoordinates back from the address saga to plug them in
+    try { 
+      await setOrigin(convertedAddress)
+      await dispatch({
         type: "SAGA/SEND_LOCATION",
         payload: convertedAddress,
       });
+      await setCurrentLat(addressCoordinates?.lat);
+      await setCurrentLng(addressCoordinates?.lng);
       console.log("addressCoordinates:", addressCoordinates);
-      // 👇 clears the input field after we make a search
-      // setValue('')
+     } catch (err) {
+      console.log('Error sending location: ', err)
+     }
+
     } else {
       // (dispatch({
       //   type: 'SAGA/FETCH_BATHROOMS',
@@ -246,7 +282,7 @@ function BathroomsPage() {
 
       {/* if "List View" is selected, renders a list of bathrooms */}
       {mapView === true ? (
-
+// While you are in "List View" mode:
         // if you have searched for bathrooms by proximity to your location, renders a list of those bathrooms by distance
         bathroomsByDistance && bathroomsByDistance.length > 0 ? (
           <div className="table-div">
@@ -264,18 +300,56 @@ function BathroomsPage() {
           <div className="table-div">
 
                 {bathrooms && bathrooms.map((bathroom) => (
-                  <BathroomItem key={bathroom.id} bathroom={bathroom} origin={currentLat ? `${currentLat},${currentLng}` : '44.97997, -93.26384'}/>
+                  <BathroomItem key={bathroom.id} bathroom={bathroom} origin={currentLat !== 0 ? `${currentLat},${currentLng}` : '44.97997, -93.26384'}/>
                 ))}
           </div>
         )
-      ) : (
-             // if "Map View" is selected, renders a map
-        <MyMap />
-    //  ''
-     )}
+      ) : 
+      // otherwise if you are in "Map View" mode:
+      (
+        // if you have searched for bathrooms by proximity to your location, recenters the map on your location and shows markers close by you
+        bathroomsByDistance && bathroomsByDistance.length > 0 ? (
+          <GoogleMap
+          zoom={15}
+          center={center}
+          mapContainerStyle={containerStyle}
+          options={options}
+          onLoad={onLoad}
+      >
+        {/* 👇 shows a marker for your queried address. But seems to then not show bathroom markers? */}
+        {/* TO-DO: figure out how to show BOTH a marker for your current location AND markers for each bathroom location */}
+        {/* <MarkerF position={center} label="You are here"/> */}
+{bathrooms && bathroomsByDistance.map((bathroom, i) => {
+    return (
+   
+        <Marker key={i} bathroom={bathroom} MarkerF={MarkerF} InfoWindowF={InfoWindowF}/>
+  
+    )
+})}
+      </GoogleMap>
+        ) : (
+        // otherwise, if you haven't entered a search query, renders a list of *all* bathrooms (default upon page load) with map centered on your current location or default Minneapolis location
+        <GoogleMap
+        mapContainerStyle={{ width: '100%', height: '70vh' }}
+        center={center}
+        zoom={14}
+      >
+     {bathrooms && bathrooms.map((bathroom, i) => {
+    return (
+   
+        <Marker key={i} bathroom={bathroom} MarkerF={MarkerF} InfoWindowF={InfoWindowF}/>
+  
+    )
+})}
+      </GoogleMap>
 
+             // if "Map View" is selected, renders a map
+        // <MyMap  selectedLocation={selectedLocation} />
+    //  ''
+     )
+     )}
     </Box>
-  );
+  )
 }
 
 export default BathroomsPage;
