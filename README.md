@@ -7,14 +7,11 @@ Search by your current location or enter a different location, and tinkl will pu
 Click on the "more info" button to see user comments and ratings and to leave feedback of your own! User-generated feedback helps keep this app informative and relevant.
 <br/>
 <div>
- <img width="25%" alt="Screenshot 2024-03-05 at 4 12 46 AM" src="https://github.com/essiero/tinkl-bathrooms-app/assets/141077443/68e249af-38e6-4880-a7c7-2a35cef8216a">
+ <img width="20%" alt="Bathrooms list" src="https://github.com/essiero/tinkl-bathrooms-app/assets/141077443/68e249af-38e6-4880-a7c7-2a35cef8216a">
+ <img width="20%" alt="Search by address" src="https://github.com/essiero/tinkl-bathrooms-app/assets/141077443/dac77eca-203e-47df-a1d2-7aea00b4f2d2">
+<img width="20%" alt="Map view with details modal" src="https://github.com/essiero/tinkl-bathrooms-app/assets/141077443/0b4bca35-7b2d-46fd-98fd-4254b0c6d79e">
+ <img width="20%" alt="Bathrooms details page" src="https://github.com/essiero/tinkl-bathrooms-app/assets/141077443/c5fcdb45-9a80-46fd-95a6-bb01e762ceb9">
 
- 
- <img width="25%" alt="Screenshot 2024-03-05 at 4 15 04 AM" src="https://github.com/essiero/tinkl-bathrooms-app/assets/141077443/dac77eca-203e-47df-a1d2-7aea00b4f2d2">
-
- <img width="25%" alt="Screenshot 2024-03-05 at 4 16 52 AM" src="https://github.com/essiero/tinkl-bathrooms-app/assets/141077443/c5fcdb45-9a80-46fd-95a6-bb01e762ceb9">
-
-<img width="25%" alt="Map view with details modal" src="https://github.com/essiero/tinkl-bathrooms-app/assets/141077443/0b4bca35-7b2d-46fd-98fd-4254b0c6d79e">
 </div>
 
 
