@@ -31,11 +31,13 @@ function* deleteBathroom(action) {
       method: "DELETE",
       url: `/bathrooms/${action.payload}`,
     });
+    // SweetAlert confirmation popup that bathroom has been deleted
     yield Swal.fire({
       title: "Deleted!",
       text: "This bathroom has been permanently deleted from the database.",
       icon: "success",
     });
+    // then, re-fetches the updated bathroom array
     yield put({
       type: "SAGA/FETCH_BATHROOMS",
     });
