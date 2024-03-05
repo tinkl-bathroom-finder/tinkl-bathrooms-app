@@ -191,10 +191,9 @@ const selectedCenter = useMemo(() => ({lat: selectedLocation.lat, lng: selectedL
         type: "SAGA/SEND_LOCATION",
         payload: convertedAddress,
       });
-      await setCurrentLat(addressCoordinates.lat);
-      await setCurrentLng(addressCoordinates.lng);
+      await setCurrentLat(addressCoordinates?.lat);
+      await setCurrentLng(addressCoordinates?.lng);
       console.log("addressCoordinates:", addressCoordinates);
-      // 👇 clears the input field after we make a search
      } catch (err) {
       console.log('Error sending location: ', err)
      }
