@@ -7,8 +7,20 @@ Search by your current location or enter a different location, and tinkl will pu
 Click on the "more info" button to see user comments and ratings and to leave feedback of your own! User-generated feedback helps keep this app informative and relevant.
 <br/>
 <div>
-<img width="25%" alt="Screenshot 2024-02-26 at 12 01 47 AM" src="https://github.com/essiero/prime-solo-project/assets/141077443/60b00808-7a21-4bf1-9431-fd0a9f9770ab"> <img width="25%" alt="Screenshot 2024-02-25 at 11 55 43 PM" src="https://github.com/essiero/prime-solo-project/assets/141077443/f99bd2ff-ce74-4ac3-b960-2d085062d004"> <img width="25%" alt="Screenshot 2024-02-25 at 11 57 26 PM" src="https://github.com/essiero/prime-solo-project/assets/141077443/395ba044-36fe-4517-ac5f-0bffd0f5608d">
+ <img width="25%" alt="Screenshot 2024-03-05 at 4 12 46 AM" src="https://github.com/essiero/tinkl-bathrooms-app/assets/141077443/68e249af-38e6-4880-a7c7-2a35cef8216a">
+
+ 
+ <img width="25%" alt="Screenshot 2024-03-05 at 4 15 04 AM" src="https://github.com/essiero/tinkl-bathrooms-app/assets/141077443/dac77eca-203e-47df-a1d2-7aea00b4f2d2">
+
+ <img width="25%" alt="Screenshot 2024-03-05 at 4 15 30 AM" src="https://github.com/essiero/tinkl-bathrooms-app/assets/141077443/dde1f486-a571-4a0b-9d0e-462a4dee0347">
+
+ <img width="25%" alt="Screenshot 2024-03-05 at 4 16 52 AM" src="https://github.com/essiero/tinkl-bathrooms-app/assets/141077443/c5fcdb45-9a80-46fd-95a6-bb01e762ceb9">
+
+<img width="25%" alt="Map view with details modal" src="https://github.com/essiero/tinkl-bathrooms-app/assets/141077443/0b4bca35-7b2d-46fd-98fd-4254b0c6d79e">
 </div>
+
+
+
 
 # Technologies used
  <p align="left"> <img src="https://user-images.githubusercontent.com/25181517/192158954-f88b5814-d510-4564-b285-dff7d6400dad.png" alt="html" width="40" height="40"/> <img src="https://user-images.githubusercontent.com/25181517/183898674-75a4a1b1-f960-4ea9-abcb-637170a00a75.png" alt="css" width="40" height="40"/> <img src="https://user-images.githubusercontent.com/25181517/117447155-6a868a00-af3d-11eb-9cfe-245df15c9f3f.png" alt="javascript" width="40" height="40"/> <img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/react/react-original-wordmark.svg" alt="react" width="40" height="40"/> <img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/postgresql/postgresql-original-wordmark.svg" alt="postgresql" width="40" height="40"/> <img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/express/express-original-wordmark.svg" alt="express" width="40" height="40"/> <img src="https://user-images.githubusercontent.com/25181517/187896150-cc1dcb12-d490-445c-8e4d-1275cd2388d6.png" alt="redux" width="40" height="40"/> <img src="https://user-images.githubusercontent.com/25181517/189716630-fe6c084c-6c66-43af-aa49-64c8aea4a5c2.png" alt="mui" width="40" height="40"/>
