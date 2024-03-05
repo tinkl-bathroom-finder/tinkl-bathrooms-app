@@ -1,6 +1,7 @@
 import { put, take, takeLatest } from 'redux-saga/effects';
 import axios from 'axios';
 
+// sends rating and comments to post to database. TO-DO: Need to make a conditional function so that they only post if they aren't empty!
 function* sendFeedback(action){
     try{
         yield axios.post('/feedback', action.payload);
