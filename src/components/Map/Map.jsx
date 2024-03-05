@@ -9,24 +9,11 @@ import { GoogleMap, useJsApiLoader, MarkerF, InfoWindowF } from "@react-google-m
 import Marker from "../Marker/Marker";
 import { Box } from "@mui/material";
 
-function MyMap(selectedLocation) {
-    const { isLoaded } = useJsApiLoader({
-    googleMapsApiKey: process.env.GOOGLE_MAPS_API_KEY,
-})
-
+function MyMap() {
+    const { isLoaded } = useJsApiLoader({ googleMapsApiKey: process.env.GOOGLE_MAPS_API_KEY })
   if (!isLoaded) { return <div><DotLoader/></div>}
 
-  return       <Map  selectedLocation={selectedLocation} />
-    // <Box  
-    // sx={{
-    //   width: '350px',
-    //   mr: '20px',
-    //   ml: '20px',
-    //   my: '20px'
-    //   }}
-  // >
-
-    // {/* </Box> */}
+  return       <Map />
   
 }
 
@@ -37,8 +24,8 @@ function Map(selectedLocation) {
   const dispatch = useDispatch();
 
   // sets starting center location 
-  const [centerLat, setCenterLat] = useState(0)
-  const [centerLng, setCenterLng] = useState(0)
+  const [centerLat, setCenterLat] = useState(44.977753)
+  const [centerLng, setCenterLng] = useState(-93.2650108)
 
     // useMemo performs the calculation once everytime the array arg changes, reuse the same value every time it re-renders
     const center = useMemo(() => ({lat: centerLat, lng: centerLng}), [centerLat, centerLng] );
@@ -48,11 +35,11 @@ function Map(selectedLocation) {
 
   useEffect(() => {
       // centers Map on user location
-      navigator.geolocation.getCurrentPosition(
-          (position) => {
-              setCenterLat(position.coords.latitude)
-              setCenterLng(position.coords.longitude)
-          })
+    //   navigator.geolocation.getCurrentPosition(
+    //       (position) => {
+    //           setCenterLat(position.coords.latitude)
+    //           setCenterLng(position.coords.longitude)
+    //       })
   }, []);
 
 
