@@ -317,6 +317,7 @@ const selectedCenter = useMemo(() => ({lat: selectedLocation.lat, lng: selectedL
           onLoad={onLoad}
       >
         {/* 👇 shows a marker for your queried address. But seems to then not show bathroom markers? */}
+        {/* TO-DO: figure out how to show BOTH a marker for your current location AND markers for each bathroom location */}
         {/* <MarkerF position={center} label="You are here"/> */}
 {bathrooms && bathroomsByDistance.map((bathroom, i) => {
     return (
