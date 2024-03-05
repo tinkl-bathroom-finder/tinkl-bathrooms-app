@@ -1,13 +1,21 @@
 
-# Prime Solo Project Starting Repo
-This version uses React, Redux, Express, Passport, and PostgreSQL (a full list of dependencies can be found in `package.json`).
+# tinkl
+tinkl is a mobile bathroom-finding app that locates nearby gender-neutral and single-stall restrooms and user-generated verification and feedback. 
 
-We **STRONGLY** recommend following these instructions carefully. It's a lot, and will take some time to set up, but your life will be much easier this way in the long run.
+Search by your current location or enter a different location, and tinkl will pull up the closest bathrooms to you in either a map or a list, depending on how you want to view them. You will also be able to see the bathroom's address, distance from you, and additional information; like if it is wheelchair-accessible, has a changing table, and whether it is single-stall or gender-neutral.
 
-## Use the Template for This Repository (Don't Clone)
+Click on the "more info" button to see user comments and ratings and to leave feedback of your own! User-generated feedback helps keep this app informative and relevant.
+<br/>
+<div>
+<img width="25%" alt="Screenshot 2024-02-26 at 12 01 47 AM" src="https://github.com/essiero/prime-solo-project/assets/141077443/60b00808-7a21-4bf1-9431-fd0a9f9770ab"> <img width="25%" alt="Screenshot 2024-02-25 at 11 55 43 PM" src="https://github.com/essiero/prime-solo-project/assets/141077443/f99bd2ff-ce74-4ac3-b960-2d085062d004"> <img width="25%" alt="Screenshot 2024-02-25 at 11 57 26 PM" src="https://github.com/essiero/prime-solo-project/assets/141077443/395ba044-36fe-4517-ac5f-0bffd0f5608d">
+</div>
 
-- Don't Fork or Clone. Instead, click the `Use this Template` button, and make a copy to your personal account. Make the project `PUBLIC`!
+# Technologies used
+ <p align="left"> <img src="https://user-images.githubusercontent.com/25181517/192158954-f88b5814-d510-4564-b285-dff7d6400dad.png" alt="html" width="40" height="40"/> <img src="https://user-images.githubusercontent.com/25181517/183898674-75a4a1b1-f960-4ea9-abcb-637170a00a75.png" alt="css" width="40" height="40"/> <img src="https://user-images.githubusercontent.com/25181517/117447155-6a868a00-af3d-11eb-9cfe-245df15c9f3f.png" alt="javascript" width="40" height="40"/> <img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/react/react-original-wordmark.svg" alt="react" width="40" height="40"/> <img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/postgresql/postgresql-original-wordmark.svg" alt="postgresql" width="40" height="40"/> <img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/express/express-original-wordmark.svg" alt="express" width="40" height="40"/> <img src="https://user-images.githubusercontent.com/25181517/187896150-cc1dcb12-d490-445c-8e4d-1275cd2388d6.png" alt="redux" width="40" height="40"/> <img src="https://user-images.githubusercontent.com/25181517/189716630-fe6c084c-6c66-43af-aa49-64c8aea4a5c2.png" alt="mui" width="40" height="40"/>
 
+</p>
+
+This version uses JavaScript, React, Redux, Express, Passport, MUI, and PostgreSQL (a full list of dependencies can be found in `package.json`).
 
 ## Prerequisites
 
