@@ -15,6 +15,7 @@ function* removeUserComment(action) {
         });
     } catch (error) {
         console.log(`Error deleting item`, error);
+        // SweetAlert popup delete confirmation window
     }    Swal.fire({
         title: "Deleted!",
         text: "Your comment has been deleted.",
