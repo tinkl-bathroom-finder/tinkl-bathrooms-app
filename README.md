@@ -12,8 +12,6 @@ Click on the "more info" button to see user comments and ratings and to leave fe
  
  <img width="25%" alt="Screenshot 2024-03-05 at 4 15 04 AM" src="https://github.com/essiero/tinkl-bathrooms-app/assets/141077443/dac77eca-203e-47df-a1d2-7aea00b4f2d2">
 
- <img width="25%" alt="Screenshot 2024-03-05 at 4 15 30 AM" src="https://github.com/essiero/tinkl-bathrooms-app/assets/141077443/dde1f486-a571-4a0b-9d0e-462a4dee0347">
-
  <img width="25%" alt="Screenshot 2024-03-05 at 4 16 52 AM" src="https://github.com/essiero/tinkl-bathrooms-app/assets/141077443/c5fcdb45-9a80-46fd-95a6-bb01e762ceb9">
 
 <img width="25%" alt="Map view with details modal" src="https://github.com/essiero/tinkl-bathrooms-app/assets/141077443/0b4bca35-7b2d-46fd-98fd-4254b0c6d79e">
