@@ -31,10 +31,10 @@ function RegisterForm() {
     // >
     <Form className="formPanel" onSubmit={registerUser} display='flex'>
       <Typography 
-      variant="h4" 
-      component="h4"
+      variant="h4"
       fontWeight='500'
       align='center'
+      color='#FFF6F6'
       sx={{
         mb: 2
       }}
@@ -45,35 +45,31 @@ function RegisterForm() {
         </h3>
       )}
       <div>
-        <label htmlFor="username">
-          Username:
-          <input
+
+          <TextField
             type="text"
-            name="username"
+            label="username"
             value={username}
             required
             onChange={(event) => setUsername(event.target.value)}
+            margin="normal"
           />
-        </label>
       </div>
       <div>
-        <label htmlFor="password">
-          Password:
-          <input
+          <TextField
             type="password"
-            name="password"
+            label="password"
             value={password}
             required
             onChange={(event) => setPassword(event.target.value)}
           />
-        </label>
       </div>
       <Box 
   display="flex"
   flexDirection="column"
   alignItems="center"
   >
-        <Button className="btn" type="submit" name="submit" value="Register" align='center' variant='contained'>Register</Button>
+        <Button className="btn" type="submit" name="submit" value="Register" align='center' variant='contained' sx={{borderRadius: 28, m: 4}}>Register</Button>
       </Box>
     </Form>
     // </Box>
