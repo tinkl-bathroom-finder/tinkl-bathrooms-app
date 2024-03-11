@@ -54,7 +54,7 @@ function App() {
       },
       background: {
 
-        default: '#FBECB2',
+        default: '#ffe6e8',
         // light pink
         paper: '#ffe6e8',
       },
@@ -94,7 +94,7 @@ function App() {
         '"Segoe UI Emoji"',
         '"Segoe UI Symbol"',
       ].join(','),
-    },
+    }
   
 })
   const dispatch = useDispatch();
