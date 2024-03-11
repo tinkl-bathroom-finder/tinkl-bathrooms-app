@@ -41,6 +41,7 @@ function LoginForm() {
       component="h4"
       fontWeight='500'
       align='center'
+      color='#FFF6F6'
       sx={{
         mb: 2
       }} >
