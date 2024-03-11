@@ -38,7 +38,7 @@ Button
   outline: 0;
   cursor: pointer;
   /* hacky way of centering login button */
-  margin-left: 100px;
+  /* margin-left: 100px; */
 }
 
 .btn_sizeMin {
@@ -73,6 +73,8 @@ Button
 .btn_asLink:hover {
   background-color: transparent;
 }
+
+
 
 /* --------------------------------------------------------------------------------
 Alert
@@ -126,29 +128,28 @@ Table
   overflow-y: scroll;
   overflow-x: scroll;
 }
-table, th, td {
+/* table, thead, td, th, tbody {
   border: 1px solid black ;
-  border-collapse: collapse;
   height: 2.15em;
-}
+} */
 th, td {
-  padding: .5em;
-  min-width: 5em;
+  /* padding: .5em;
+  min-width: 5em; */
   width: auto;
 }
-thead {
+/* thead {
   background: #124E96;
   color: #fcfcfc;
-}
-tbody tr:nth-child(3n+0) {
+} */
+/* tbody tr:nth-child(3n+0) {
   background: rgb(165, 227, 252);
 }
-tbody tr:nth-child(even) {
-  background: rgb(227, 172, 206);
-}
-
+*/
 tbody tr:nth-child(odd) {
-  background: rgb(255, 255, 255);
+  background: #fbcace;
+}
+tbody tr:nth-child(even) {
+  background: #f7edee;
 }
 
 .react-bootstrap-table {
@@ -207,7 +208,7 @@ tbody tr:nth-child(odd) {
 }
 
 #thankyou {
-  font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+  font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
   align-content: center;
 }
 
