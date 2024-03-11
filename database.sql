@@ -52,7 +52,7 @@ CREATE TABLE "comments" (
 	"user_id"  INTEGER REFERENCES "user" ON DELETE CASCADE,
 	"is_removed" BOOLEAN DEFAULT FALSE,
 	"is_flagged" BOOLEAN DEFAULT FALSE,
-	"inserted_at" TIMESTAMP WITH TIME ZONE DEFAULT NOW().
+	"inserted_at" TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
 	"updated_at" TIMESTAMP WITH TIME ZONE DEFAULT NOW()
 );
 
@@ -85,13 +85,6 @@ CREATE TABLE "restroom_votes" (
 	"updated_at" TIMESTAMP WITH TIME ZONE DEFAULT NOW()
 );
 
-CREATE TABLE "restroom_visits" (
-	"id" SERIAL PRIMARY KEY,
-	"user_id" INTEGER REFERENCES "user" ON DELETE CASCADE,
-	"restroom_id" INTEGER REFERENCES "restrooms" ON DELETE CASCADE,
-	"inserted_at" TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
-	"updated_at" TIMESTAMP WITH TIME ZONE DEFAULT NOW()
-);
 -- function to update the restrooms updated_at column with a new timestamp of the current time upon being triggered
 CREATE OR REPLACE FUNCTION update_updated_at_restrooms()
 RETURNS TRIGGER AS $$
