@@ -9,9 +9,6 @@ function LoginPage() {
   return (
     <div>
       <LoginForm />
-
-      <center>
-      </center>
     </div>
   );
 }
