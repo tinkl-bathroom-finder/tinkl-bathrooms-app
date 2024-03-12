@@ -38,7 +38,7 @@ Button
   outline: 0;
   cursor: pointer;
   /* hacky way of centering login button */
-  /* margin-left: 100px; */
+  margin-left: 125px;
 }
 
 .btn_sizeMin {
