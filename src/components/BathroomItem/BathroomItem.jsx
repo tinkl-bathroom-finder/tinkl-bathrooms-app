@@ -66,7 +66,7 @@ function BathroomItem({ bathroom, origin }) {
     return stringifiedDate;
   };
 
-  console.log('bathroom: ', bathroom)
+  // console.log('bathroom: ', bathroom)
 
   return (
     <>
