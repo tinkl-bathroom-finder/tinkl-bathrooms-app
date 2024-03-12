@@ -217,15 +217,19 @@ h1, h3, p, h5 {
   margin-bottom: 50px;
 }
 
+p {
+  margin-bottom: 15px;
+}
+
 .linkInDrawer:link {
   text-decoration: none;
   color: black;
 }
 
-footer {
+/* footer {
   margin-top: 325px;
   color: rgb(255, 255, 255)
-}
+} */
 
 .app-bar {
   position: sticky;
