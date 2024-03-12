@@ -88,6 +88,7 @@ function BathroomItem({ bathroom, origin }) {
           <CardHeader
             sx={{ pb: 0 }}
             title={bathroom.name}
+            titleTypographyProps={{fontSize: 'large'}}
             subheader={bathroom.street}
             action={
               <>
@@ -112,6 +113,18 @@ function BathroomItem({ bathroom, origin }) {
           ></CardHeader>
           <CardContent sx={{ p: 0 }}>
 
+                {/* distance from current/searched location */}
+                <Typography
+                  align="right"
+                  color="text.secondary"
+                  sx={{
+                    mr: 2,
+                  }}
+                >
+                  {bathroom.distance
+                    ? `${bathroom.distance.toFixed(2)} mi`
+                    : ""}
+                </Typography>
             <Collapse in={expanded} timeout="auto" unmountOnExit>
 
 
@@ -133,18 +146,6 @@ function BathroomItem({ bathroom, origin }) {
                   sx={{ m: 0, p: 0 }}
                 ></ExpandMore>
 
-                {/* distance from current/searched location */}
-                <Typography
-                  align="right"
-                  color="text.secondary"
-                  sx={{
-                    mr: 2,
-                  }}
-                >
-                  {bathroom.distance
-                    ? `${bathroom.distance.toFixed(2)} mi`
-                    : ""}
-                </Typography>
 
               {/* bathroom upvotes and downvotes */}
             <Typography align="left" sx={{ mr: 2}}>
