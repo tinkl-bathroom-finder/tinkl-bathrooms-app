@@ -1,7 +1,7 @@
 import React, { useEffect, useState, createRef } from "react";
 import { useParams, useHistory } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import Button from "react-bootstrap/Button";
+// import Button from "react-bootstrap/Button";
 import Modal from "react-bootstrap/Modal";
 import Form from "react-bootstrap/Form";
 import ToggleButton from "react-bootstrap/ToggleButton";
@@ -11,6 +11,7 @@ import { Close } from "@mui/icons-material";
 
 import {
   Box,
+  Button,
   Card,
   CardContent,
   CardHeader,
@@ -127,14 +128,13 @@ function IPeedHereModal(props) {
       </Modal.Body>
       <Modal.Footer>
         <Button
-          as="input"
+        variant="contained"
           type="submit"
-          value="Submit"
           onClick={submitFeedback}
-        ></Button>
+        >Submit</Button>
       </Modal.Footer>
     </Modal>
-  );
+  )
 }
 
 function BathroomDetails() {
@@ -255,19 +255,26 @@ function BathroomDetails() {
   return (
     <>
       <Box key={theBathroomDetails.id} width="100%" pl="20px">
-        <Grid2>
-          
         <Card
           sx={{
             mb: "20px",
             mt: "25px",
             mr: "25px",
             pr: "10px",
-          }}
-        >
+            maxHeight: '82vh'
+          }}>
+        <Button onClick={returnToList}
+        size="lg"
+        sx={{
+          mb: "20px",
+          display: 'inline', ml: 2, mt: 3, mr: 3, mb: 0
+        }} 
+        variant="outlined">
+          <Typography color="#5272F2">Back</Typography>
+        </Button>
           {/* when theBathroomDetails info was last updated */}
           <Typography
-            sx={{ fontSize: 14, mr: 2, mt: 3 }}
+            sx={{ fontSize: 14, ml: 13, mt: 3, display: 'inline' }}
             color="text.secondary"
             align="right"
           >
@@ -283,21 +290,8 @@ function BathroomDetails() {
               theBathroomDetails.city +
               ", MN"
             }
-          ></CardHeader>
-          <CardMedia />
-          <CardContent>
-            <CardActions>
-              {/* 🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥 make this link to Google Maps directions! */}
-              <IconButton
-                onClick={() =>
-                  openInNewTab(
-                    `https://www.google.com/maps/dir/?api=1&destination=${theBathroomDetails.name}`
-                  )
-                }
-              >
-                <NearMeOutlined />
-                <Typography>Get directions</Typography>
-              </IconButton>
+            action={
+              <Box>
               <IconButton
                 onClick={() =>
                   openInNewTab(
@@ -306,15 +300,43 @@ function BathroomDetails() {
                 }
               >
                 <Place />
-                <Typography>Open in Google Maps</Typography>
+              </IconButton>             
+              <IconButton
+                onClick={() =>
+                  openInNewTab(
+                    `https://www.google.com/maps/dir/?api=1&destination=${theBathroomDetails.name}`
+                  )
+                }
+                
+              >
+                <NearMeOutlined />
               </IconButton>
+              </Box>
+            }
+                sx={{
+                  mb: 0, pb: 0
+                }}
+          />
+          <CardContent
+                sx={{
+                  mb: 0, pt: 1
+                }}>
+            {/* theBathroomDetails upvotes and downvotes */}
+            <Typography align="left">
+              {theBathroomDetails.upvotes || 0}
+              <ThumbUpOutlined sx={{ pr: 1}} />
+              {theBathroomDetails.downvotes || 0}
+              <ThumbDownOutlined sx={{ pr: 1 }} />
+            </Typography>{" "}
+            <CardActions>
+
             </CardActions>
             {/* icons to show if theBathroomDetailss is all-gender, has changing table, is wheelchair accessible */}
-            <Typography variant="h5" gutterBottom>
+            <Typography variant="h5" gutterBottom sx={{display: 'inline'}}>
               {theBathroomDetails.unisex ? (
                 <>
-                  <TransgenderOutlined />
-                  <Typography>Gender-neutral</Typography>
+                  <TransgenderOutlined   sx={{display: 'inline'}}/>
+                  <Typography sx={{display: 'inline'}}> Gender-neutral</Typography>
                 </>
               ) : (
                 ""
@@ -322,8 +344,9 @@ function BathroomDetails() {
 
               {theBathroomDetails.changing_table ? (
                 <>
-                  <BabyChangingStationOutlined />
-                  <Typography>Changing table</Typography>
+                <br/>
+                  <BabyChangingStationOutlined  sx={{display: 'inline'}}/>
+                  <Typography sx={{display: 'inline'}}> Changing table</Typography>
                 </>
               ) : (
                 ""
@@ -331,8 +354,9 @@ function BathroomDetails() {
 
               {theBathroomDetails.accessible ? (
                 <>
-                  <AccessibleForwardOutlined />
-                  <Typography>Wheelchair accessible</Typography>
+                <br/>
+                  <AccessibleForwardOutlined  sx={{display: 'inline'}}/>
+                  <Typography sx={{display: 'inline'}}> Wheelchair accessible</Typography>
                 </>
               ) : (
                 ""
@@ -340,20 +364,14 @@ function BathroomDetails() {
 
               {theBathroomDetails.is_single_stall ? (
                 <>
-                  <Man4 />
-                  <Typography>Single stall</Typography>
+                <br/>
+                  <Man4   sx={{display: 'inline'}}/>
+                  <Typography  sx={{display: 'inline'}}>Single stall</Typography>
                 </>
               ) : (
                 ""
               )}
             </Typography>
-            {/* theBathroomDetails upvotes and downvotes */}
-            <Typography align="right">
-              {theBathroomDetails.upvotes || 0}
-              <ThumbUpOutlined sx={{ pr: 1 }} />
-              {theBathroomDetails.downvotes || 0}
-              <ThumbDownOutlined sx={{ pr: 1 }} />
-            </Typography>{" "}
             {/* distance from current/searched location */}
             <Typography
               align="left"
@@ -366,25 +384,24 @@ function BathroomDetails() {
                 ? `${theBathroomDetails.distance.toFixed(2)} mi`
                 : ""}
             </Typography>
+
             {/* if the bathroom has any comments, the comment list box will render */}
-            {<CommentList commentArray={theBathroomDetails.comments}/>}
-            <Button onClick={returnToList} variant="contained">
-              <Typography color="black">Back</Typography>
-            </Button>
+            {<CommentList commentArray={theBathroomDetails.comments} />}
+
             <Button
               onClick={() => clickIPeedHere()}
               size="lg"
               sx={{
-                ml: 20,
-                mb: "20px",
+                ml: '33%',
+                mt: "3px"
               }}
+              variant="contained"
             >
-              <Typography color="white">I peed here!</Typography>
+              <Typography color="white" >I peed here!</Typography>
             </Button>
-          </CardContent>
           {/* moves chevron to right */}
-          <CardActions disableSpacing>
-            <IconButton>
+          <CardActions  disableSpacing>
+            <IconButton >
               <Typography> Something not look right?</Typography>
               <OutlinedFlagOutlined
                 sx={{
@@ -402,8 +419,8 @@ function BathroomDetails() {
         <Typography>Comments</Typography>
         </ExpandMore> */}
           </CardActions>
+          </CardContent>
         </Card>
-        </Grid2>
       </Box>
 
       <IPeedHereModal
