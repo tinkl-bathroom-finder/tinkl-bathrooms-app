@@ -24,37 +24,33 @@ function CommentList() {
     };
 
   return (
-    <Box >
-      <Accordion defaultExpanded>
+      <Accordion defaultExpanded sx={{maxHeight: '38vh', overflowY: 'scroll'}}>
         <AccordionSummary 
         expandIcon={<ExpandMore />}
           aria-controls="panel1-content"
-          id="panel1-header">
-          <Typography color="black">Comments</Typography>
+          id="panel1-header"
+          >
+          <Typography color="black" fontWeight="bold">Comments</Typography>
         </AccordionSummary>
         {commentArray &&
           commentArray.map((comment) => {
             console.log('comment:', comment)
             return (
-              <>
                 <AccordionDetails>
                   <Box
                     sx={{
-                      // border: "1px solid",
-                      padding: "8px",
+                      pl: "8px",
                       justifyContent: "left",
                       mr: 2
                     }}
                   >
-                    {/* <Typography>On {stringifyDate(comment.inserted_at)}, a user wrote:</Typography> */}
-                    <Typography variant='body1' color="black">{comment}</Typography>
+                    <Typography sx={{textAlign: 'left', color: 'darkgrey'}}>{stringifyDate(comment.inserted_at)}</Typography>
+                    <Typography variant='body1' color="black" sx={{textAlign: 'left'}}>{comment.content}</Typography>
                   </Box>
                 </AccordionDetails>
-              </>
             )
           })}
       </Accordion>
-    </Box>
   )
 }
 
