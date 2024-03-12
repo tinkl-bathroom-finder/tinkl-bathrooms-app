@@ -16,7 +16,7 @@ router.get("/:id", (req, res) => {
     'user_id', comments.user_id,
     'inserted_at', comments.inserted_at
 )) FROM comments
-WHERE restrooms.id = comments.restroom_id
+WHERE restrooms.id = comments.restroom_id AND comments.is_removed = FALSE
 ) AS comments
 FROM "restrooms"
 LEFT JOIN "comments" ON "restrooms"."id"="comments"."restroom_id"
