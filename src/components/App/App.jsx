@@ -44,7 +44,6 @@ function App() {
         main: '#5272F2',
         // off-white - navbar text. Formerly: #072541
         contrastText: '#FFF6F6',
-
         light: '#FFF6F6',
       },
       secondary: {
@@ -128,10 +127,12 @@ function App() {
             exact
             path="/bathrooms"
           >
+            {/* homepage: shows map by default, or list view. Don't need to be logged in to see*/}
             <BathroomsPage />
             {/* <MyMap /> */}
           </Route>
 
+{/* for a specific bathroom with id :id */}
           <Route exact path="/bathrooms/:id">
             <BathroomDetails />
           </Route>
@@ -145,6 +146,7 @@ function App() {
             exact
             path="/user"
           >
+            {/* 🔥🔥🔥🔥🔥🔥 This is currently the thank you page that is linked through the "About" link on the drawer (side) navbar */}
             <UserPage />
           </ProtectedRoute>
 
@@ -161,10 +163,12 @@ function App() {
             exact
             path="/admin"
           >
+            {/* admin page, where you access the add bathrooms/delete bathrooms/etc pages */}
             {user.is_admin ? 
             <AdminPage />
             : <Redirect to="/user" />}
           </ProtectedRoute>
+
 
           <ProtectedRoute exact path="/admin/addbathrooms">
           {user.is_admin ? 
@@ -193,7 +197,7 @@ function App() {
           <Route exact path="/login">
             {user.id ? (
               // If the user is already logged in,
-              // redirect to the /user page
+              // redirect to the /bathrooms page
               <Redirect to="/bathrooms" />
             ) : (
               // Otherwise, show the login page
@@ -212,6 +216,7 @@ function App() {
             )}
           </Route>
 
+          {/* 🔥🔥🔥🔥🔥🔥🔥 This could probably be deleted at some point. There's no link to it anywhere currently */}
           <Route exact path="/home">
             {user.id ? (
               // If the user is already logged in,
