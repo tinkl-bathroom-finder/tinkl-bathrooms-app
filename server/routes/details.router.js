@@ -10,7 +10,7 @@ router.get("/:id", (req, res) => {
   FROM "restrooms"
    LEFT JOIN "comments" ON "restrooms"."id"="comments"."restroom_id"
    LEFT JOIN "restroom_votes" ON "restrooms"."id"="restroom_votes"."restroom_id"
-  WHERE "restrooms"."id"=$1
+  WHERE "restrooms"."id"=$1 AND "comments".is_removed = FALSE
   GROUP BY "restrooms"."id", "comments"."content", "comments"."inserted_at";
     `;
   const values = [req.params.id];
