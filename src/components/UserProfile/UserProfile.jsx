@@ -1,14 +1,15 @@
 import React, { useState, useEffect } from "react";
 // import LogOutButton from "../LogOutButton/LogOutButton";
 import { useDispatch, useSelector } from "react-redux";
-import Button from "react-bootstrap/Button";
 import { Link } from "react-router-dom";
 import { useHistory } from 'react-router-dom';
+import { Button, Card, CardHeader, CardActions, CardContent, IconButton, Table, TableContainer, TableHead, TableBody, TableCell, TableRow, Typography } from "@mui/material";
+import EditIcon from '@mui/icons-material/Edit';
 // import editIcon from '../../public/edit_icon_transparent.png';
 
 
 import Avatar from '@mui/material/Avatar';
-import { deepOrange, deepPurple } from '@mui/material/colors'
+import { deepPurple } from '@mui/material/colors'
 
 // This is one of our simplest components
 // It doesn't have local state
@@ -67,40 +68,48 @@ function UserProfile() {
   
 
   return (
-    <div className="container">
-      <Avatar sx={{ bgcolor: deepOrange[400] }}>🦁</Avatar>
-      <h2 className="profile">{userInfo.username}</h2>
-      <span onClick={editUsername}>✎</span>
-      <p>Member since {stringifyDate(userInfo.inserted_at)}</p>
-      <p className="profile">My comments:</p>
-      <table>
-        <thead>
-          {/* <tr>
-      <th>Restroom</th>
-      <th>Comment</th>
-      <th>Date</th>
-    </tr> */}
-        </thead>
-        <tbody>
+    <Card className="container" sx={{borderRadius: 0, height: '100vh'}}>
+      <CardHeader 
+        avatar={
+      <Avatar sx={{ bgcolor: deepPurple[400] }}>e</Avatar>
+        }
+        action={
+          <CardActions>
+          <IconButton aria-label="edit">
+            <EditIcon/>
+          </IconButton>
+          </CardActions>
+        }
+        title={userInfo.username}
+        subheader={"Joined " + stringifyDate(userInfo.inserted_at)}
+      />
+      <TableContainer>
+        <Table responsive="m" overflow="fit">
+          <TableHead >
+            <TableRow>
+              <TableCell sx={{borderBottom: '1px solid darkgray'}}></TableCell>
+              <TableCell sx={{borderBottom: '1px solid darkgray'}}>My comments:</TableCell>
+              <TableCell sx={{borderBottom: '1px solid darkgray'}}></TableCell>
+            </TableRow>
+          </TableHead>
+        <TableBody>
           {userComments && userComments.map((comment) => (
-            <tr>
-                <td onClick={() => goToDetails(comment.restroom_id)} className="link">{comment.name}</td>
+            <TableRow>
+                <TableCell onClick={() => goToDetails(comment.restroom_id)} className="link" sx={{borderBottom: '1px solid darkgray'}}>{comment.name}</TableCell>
 
-              <td>{comment.content}</td>
-              <td>{userInfo.username}</td>
-              <td>{stringifyDate(comment.inserted_at)}</td>
-              <td>
-                <Button variant="danger" size="small" onClick={() => deleteComment(comment.comment_id)}>
+              <TableCell sx={{p: 0, borderBottom: '1px solid darkgray'}}>{comment.content}</TableCell>
+              <TableCell sx={{borderBottom: '1px solid darkgray'}}>
+                <Button color="warning" variant="contained" size="small" onClick={() => deleteComment(comment.comment_id)}>
                   Delete
                 </Button>
-              </td>
-            </tr>
+              </TableCell>
+            </TableRow>
           ))}
-        </tbody>
-      </table>
+        </TableBody>
+      </Table>
 
-      {/* <LogOutButton className="btn" /> */}
-    </div>
+      </TableContainer>
+    </Card>
   );
 }
 
