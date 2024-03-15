@@ -43,7 +43,11 @@ import Grid2 from "@mui/material/Unstable_Grid2/Grid2";
 
 function IPeedHereModal(props) {
   const dispatch = useDispatch();
+  const [voteSelected, setVoteSelected] = useState(false); // state tracking whether the user has voted
   const submitFeedback = () => {
+    // Check if the user has voted before submitting feedback
+    if (voteSelected) {
+
     // if a user is signed in, submit will send feedback; otherwise,
     // an alert will popup asking the guest to log in to leave feedback.
     console.log("onHide:", props.onHide);
@@ -76,6 +80,13 @@ function IPeedHereModal(props) {
       // closes modal after submitting feedback
     }
     props.onHide();
+  } else {
+    // Show a message indicating that the user needs to vote before submitting
+    Swal.fire({
+      title: "Please vote before submitting feedback!",
+      icon: "error",
+    });
+  }
   };
 
   return (
