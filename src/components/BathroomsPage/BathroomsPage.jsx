@@ -15,10 +15,7 @@ import ToggleButton from "react-bootstrap/ToggleButton";
 import ToggleButtonGroup from "react-bootstrap/ToggleButtonGroup";
 // need to require dot env if we use it I believe
 import MyMap from "../Map/Map";
-import { Button } from "@mui/material";
-import {
-  Box
-} from "@mui/material";
+import { Button, Box } from "@mui/material";
 // import FilterByModal from "./FilterByModal";
 
 // FilterByModal was built for future use but is not currently functional
@@ -291,24 +288,24 @@ const selectedCenter = useMemo(() => ({lat: selectedLocation.lat, lng: selectedL
 // While you are in "List View" mode:
         // if you have searched for bathrooms by proximity to your location, renders a list of those bathrooms by distance
         bathroomsByDistance && bathroomsByDistance.length > 0 ? (
-          <div className="table-div">
+          <Box className="table-div" sx={{ height: '70vh'}}>
 
                 {bathrooms && bathroomsByDistance.map((bathroom) => (
                   <BathroomItem key={bathroom.id} bathroom={bathroom} origin={origin}
                   />
                 ))}
 
-          </div>
+          </Box>
         ) : (
           
 
           // otherwise, if you haven't entered a search query, renders a list of *all* bathrooms (default upon page load)
-          <div className="table-div">
+          <Box className="table-div" sx={{ height: '70vh'}}>
 
                 {bathrooms && bathrooms.map((bathroom) => (
                   <BathroomItem key={bathroom.id} bathroom={bathroom} origin={currentLat !== 0 ? `${currentLat},${currentLng}` : '44.97997, -93.26384'}/>
                 ))}
-          </div>
+          </Box>
         )
       ) : 
       // otherwise if you are in "Map View" mode:
