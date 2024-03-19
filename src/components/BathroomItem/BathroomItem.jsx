@@ -88,6 +88,7 @@ function BathroomItem({ bathroom, origin }) {
           <CardHeader
             sx={{ pb: 0 }}
             title={bathroom.name}
+            titleTypographyProps={{fontSize: 'large'}}
             subheader={bathroom.street}
             action={
               <>
@@ -107,6 +108,15 @@ function BathroomItem({ bathroom, origin }) {
                 {bathroom.accessible ? <AccessibleForwardOutlinedIcon /> : ""}
                 {bathroom.is_single_stall ? <Man4Icon /> : ""}
               </Typography>
+              
+{/* chevron to expand bathroom item card */}
+              <Typography
+                variant="h6"
+                align="right"
+                color={'grey'}
+                sx={{ mr: 1, mt: 2 }}>
+                <ExpandMoreIcon />
+                </Typography>
               </>
             }
           ></CardHeader>
@@ -148,9 +158,9 @@ function BathroomItem({ bathroom, origin }) {
 
               {/* bathroom upvotes and downvotes */}
             <Typography align="left" sx={{ mr: 2}}>
-              {bathroom.upvote || 0}
+              {bathroom.upvotes || 0}
               <ThumbUpOutlinedIcon sx={{ pr: 1, ml: .5 }} />
-              {bathroom.downvote || 0}
+              {bathroom.downvotes || 0}
               <ThumbDownOutlinedIcon sx={{ pr: 1, ml: .5 }} />
             </Typography>
 
