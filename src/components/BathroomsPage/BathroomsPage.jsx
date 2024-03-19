@@ -21,6 +21,8 @@ import {
 } from "@mui/material";
 // import FilterByModal from "./FilterByModal";
 
+// FilterByModal was built for future use but is not currently functional
+// There is a duplicate FilterByComponent
 function FilterByModal(props) {
   const [show, setShow] = useState(false);
 
@@ -133,8 +135,10 @@ function BathroomsPage() {
   const mapView = useSelector((store) => store.mapView);
   const [modalShow, setModalShow] = useState(false);
   const [show, setShow] = useState(false);
+  // state for filter by toggles (open now, wheelchair accessible, single-stall, changing table)
   const [isChecked, setIsChecked] = useState(false);
   const handleClose = () => setShow(false);
+  // origin is the searched address from the search bar, converted into 
   const [origin, setOrigin] = useState('')
   const [currentLat, setCurrentLat] = useState(0);
   const [currentLng, setCurrentLng] = useState(0);
@@ -215,6 +219,7 @@ const selectedCenter = useMemo(() => ({lat: selectedLocation.lat, lng: selectedL
   };
 
   // function to toggle between map and list view
+  // 🔥🔥🔥🔥🔥 should be refactored at some point bc "Map View" button is no longer a toggle
   const toggleView = (e) => {
     e.preventDefault();
     setIsChecked(!isChecked);
@@ -246,10 +251,10 @@ const selectedCenter = useMemo(() => ({lat: selectedLocation.lat, lng: selectedL
           ipbias
         />
         <Button variant="outlined" onClick={(e) => sendLocation(e)} sx={{mb: 1, mt: 1, mr: 1}}>
-          Search nearby
+          Search
         </Button>
-        {/* <button onClick={getBathrooms}>See all bathrooms</button> */}
-            <Button onClick={(e) => toggleView(e)} variant="contained" sx={{mb: 1, mt: 1}}
+        {/* Button to change to Map View or List View */}
+        <Button onClick={(e) => toggleView(e)} variant="contained" sx={{mb: 1, mt: 1}}
             >
         {mapView ? "Map view" : "List view" }
         </Button>
@@ -281,6 +286,7 @@ const selectedCenter = useMemo(() => ({lat: selectedLocation.lat, lng: selectedL
 
 
       {/* if "List View" is selected, renders a list of bathrooms */}
+      {/* 🔥🔥🔥🔥🔥🔥 mapView is currently listView.... */}
       {mapView === true ? (
 // While you are in "List View" mode:
         // if you have searched for bathrooms by proximity to your location, renders a list of those bathrooms by distance
@@ -317,7 +323,7 @@ const selectedCenter = useMemo(() => ({lat: selectedLocation.lat, lng: selectedL
           onLoad={onLoad}
       >
         {/* 👇 shows a marker for your queried address. But seems to then not show bathroom markers? */}
-        {/* TO-DO: figure out how to show BOTH a marker for your current location AND markers for each bathroom location */}
+        {/* 🔥🔥🔥🔥🔥 TO-DO: figure out how to show BOTH a marker for your current location AND markers for each bathroom location */}
         {/* <MarkerF position={center} label="You are here"/> */}
 {bathrooms && bathroomsByDistance.map((bathroom, i) => {
     return (

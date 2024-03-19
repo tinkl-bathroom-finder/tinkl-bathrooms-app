@@ -19,7 +19,7 @@ FROM "restrooms"
 LEFT JOIN "comments" ON "restrooms"."id"="comments"."restroom_id"
 LEFT JOIN "restroom_votes" ON "restrooms"."id"="restroom_votes"."restroom_id"
 WHERE "restrooms".is_removed = FALSE
-GROUP BY "restrooms"."id";`;
+GROUP BY "restrooms"."id";`
 
   pool
     .query(query)
