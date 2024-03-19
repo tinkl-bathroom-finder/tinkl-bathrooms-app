@@ -11,13 +11,15 @@ const {
 router.get("/", (req, res) => {
   // GET all bathrooms route
   const query = `
-  SELECT * FROM (
-    SELECT * , 
-    ROW_NUMBER() OVER (PARTITION BY "restrooms".street ORDER BY updated_at DESC) AS ROW_NUMBER
-    FROM "restrooms") AS ROWS
-    WHERE ROW_NUMBER = 1 AND "is_removed" = FALSE
-    ORDER BY "id"
-    LIMIT 250;`;
+  SELECT 
+  "restrooms".*, 
+  SUM("restroom_votes"."upvote") AS "upvotes", 
+  SUM ("restroom_votes"."downvote") AS "downvotes"
+FROM "restrooms"
+LEFT JOIN "comments" ON "restrooms"."id"="comments"."restroom_id"
+LEFT JOIN "restroom_votes" ON "restrooms"."id"="restroom_votes"."restroom_id"
+WHERE "restrooms".is_removed = FALSE
+GROUP BY "restrooms"."id";`;
 
   pool
     .query(query)
