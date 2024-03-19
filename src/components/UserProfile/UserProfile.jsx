@@ -88,7 +88,7 @@ function UserProfile() {
           <TableHead >
             <TableRow>
               <TableCell sx={{borderBottom: '1px solid darkgray'}}></TableCell>
-              <TableCell sx={{borderBottom: '1px solid darkgray'}}>My comments:</TableCell>
+              <TableCell sx={{borderBottom: '1px solid darkgray', color: "white"}}>My comments:</TableCell>
               <TableCell sx={{borderBottom: '1px solid darkgray'}}></TableCell>
             </TableRow>
           </TableHead>
@@ -97,7 +97,7 @@ function UserProfile() {
             <TableRow>
                 <TableCell onClick={() => goToDetails(comment.restroom_id)} className="link" sx={{borderBottom: '1px solid darkgray'}}>{comment.name}</TableCell>
 
-              <TableCell sx={{p: 0, borderBottom: '1px solid darkgray'}}>{comment.content}</TableCell>
+              <TableCell sx={{p: 1, borderBottom: '1px solid darkgray'}}>{comment.content}</TableCell>
               <TableCell sx={{borderBottom: '1px solid darkgray'}}>
                 <Button color="warning" variant="contained" size="small" onClick={() => deleteComment(comment.comment_id)}>
                   Delete
