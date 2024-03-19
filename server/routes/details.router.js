@@ -22,7 +22,7 @@ FROM "restrooms"
 LEFT JOIN "comments" ON "restrooms"."id"="comments"."restroom_id"
 LEFT JOIN "restroom_votes" ON "restrooms"."id"="restroom_votes"."restroom_id"
 WHERE "restrooms"."id"=$1
-GROUP BY "restrooms"."id"
+GROUP BY "restrooms"."id";
     `;
   const values = [req.params.id];
   pool

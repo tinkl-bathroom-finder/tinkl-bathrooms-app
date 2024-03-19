@@ -137,18 +137,18 @@ th, td {
   width: auto;
 }
 thead {
-  background: #124E96;
+  background: rgb(252, 94, 194);
   color: #fcfcfc;
 }
 tbody tr:nth-child(3n+0) {
   background: rgb(165, 227, 252);
 }
 tbody tr:nth-child(even) {
-  background: rgb(227, 172, 206);
+  background: rgb(242, 191, 223);
 }
 
 tbody tr:nth-child(odd) {
-  background: rgb(255, 255, 255);
+  background: rgb(255, 224, 244);
 }
 
 .react-bootstrap-table {
@@ -211,7 +211,7 @@ tbody tr:nth-child(odd) {
   align-content: center;
 }
 
-h1, h3, p, h5 {
+h1, h3, h5 {
   text-align: center;
   margin-bottom: 50px;
 }
