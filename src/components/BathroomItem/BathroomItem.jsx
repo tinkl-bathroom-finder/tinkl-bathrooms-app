@@ -2,10 +2,12 @@ import { useHistory } from "react-router-dom";
 import { Button } from "@mui/material";
 import { useState } from "react";
 import {
+  Avatar,
   Box,
   Card,
   CardContent,
   CardHeader,
+  Paper,
   Typography,
   CardActions,
   IconButton,
@@ -13,6 +15,7 @@ import {
 } from "@mui/material";
 
 import Collapse from "@mui/material/Collapse";
+import DirectionsIcon from "@mui/icons-material/Directions";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
 import ThumbUpOutlinedIcon from "@mui/icons-material/ThumbUpOutlined";
@@ -80,7 +83,7 @@ function BathroomItem({ bathroom, origin }) {
           sx={{
             mb: "5px",
             // height: '25vw'
-            height: expanded ? "auto" : "25vw",
+            height: expanded ? "auto" : "30vw",
           }}
           // if you click on the bathroom item card, it will expand with more details
           onClick={handleExpandClick}
@@ -88,39 +91,26 @@ function BathroomItem({ bathroom, origin }) {
           <CardHeader
             sx={{ pb: 0 }}
             title={bathroom.name}
-            titleTypographyProps={{fontSize: 'large'}}
+            titleTypographyProps={{ fontSize: "large" }}
             subheader={bathroom.street}
             action={
               <>
-              {/* icons to show if bathrooms is all-gender, has changing table, is wheelchair accessible */}
-              <Typography
-                variant="h6"
-                gutterBottom
-                align="right"
-                sx={{ mr: 1 , mt: .5}}
-              >
-                {bathroom.unisex ? <TransgenderOutlinedIcon /> : ""}
-                {bathroom.changing_table ? (
-                  <BabyChangingStationOutlinedIcon />
-                ) : (
-                  ""
-                )}
-                {bathroom.accessible ? <AccessibleForwardOutlinedIcon /> : ""}
-                {bathroom.is_single_stall ? <Man4Icon /> : ""}
-              </Typography>
-              
-{/* chevron to expand bathroom item card */}
-              <Typography
-                variant="h6"
-                align="right"
-                color={'grey'}
-                sx={{ mr: 1, mt: 2 }}>
-                <ExpandMoreIcon />
+                {/* icons to show if bathrooms is all-gender, has changing table, is wheelchair accessible */}
+                <Typography
+                  variant="h6"
+                  gutterBottom
+                  align="right"
+                  sx={{ mr: 1, mt: 0.5 }}
+                >
+                  {bathroom.unisex ? <TransgenderOutlinedIcon /> : ""}
+                  {bathroom.changing_table ? (
+                    <BabyChangingStationOutlinedIcon />
+                  ) : (
+                    ""
+                  )}
+                  {bathroom.accessible ? <AccessibleForwardOutlinedIcon /> : ""}
+                  {bathroom.is_single_stall ? <Man4Icon /> : ""}
                 </Typography>
-              </>
-            }
-          ></CardHeader>
-          <CardContent sx={{ p: 0 }}>
 
                 {/* distance from current/searched location */}
                 <Typography
@@ -134,50 +124,72 @@ function BathroomItem({ bathroom, origin }) {
                     ? `${bathroom.distance.toFixed(2)} mi`
                     : ""}
                 </Typography>
+
+                {/* chevron to expand bathroom item card */}
+                <Typography
+                  variant="h6"
+                  align="right"
+                  color={"grey"}
+                  sx={{ mr: 1, mt: 2 }}
+                >
+                  <ExpandMoreIcon />
+                </Typography>
+              </>
+            }
+          />
+          <CardContent sx={{ p: 0 }}>
             <Collapse in={expanded} timeout="auto" unmountOnExit>
-
-
-            {/* when bathroom info was last updated */}
-            <Typography
-              sx={{ fontSize: 14, mr: 2, ml: 2 }}
-              color="text.secondary"
-              align="left"
-            >
-              {"Updated " + stringifyDate(bathroom.updated_at)}
-            </Typography>
+              {/* when bathroom info was last updated */}
+              <Typography
+                sx={{ fontSize: 14, mr: 2, ml: 2 }}
+                color="text.secondary"
+                align="left"
+              >
+                {`Updated ${stringifyDate(bathroom.updated_at)}`}
+              </Typography>
               {/* moves chevron to right */}
-              <CardActions >
+              <CardActions>
                 <ExpandMore
                   expand={expanded}
                   onClick={handleExpandClick}
                   aria-expanded={expanded}
                   aria-label="show more"
                   sx={{ m: 0, p: 0 }}
-                ></ExpandMore>
+                />
 
+                {/* bathroom upvotes and downvotes */}
+                <Typography align="left" sx={{ mr: 2 }}>
+                  {bathroom.upvotes || 0}
+                  <ThumbUpOutlinedIcon sx={{ pr: 1, ml: 0.5 }} />
+                  {bathroom.downvotes || 0}
+                  <ThumbDownOutlinedIcon sx={{ pr: 1, ml: 0.5 }} />
+                </Typography>
 
-              {/* bathroom upvotes and downvotes */}
-            <Typography align="left" sx={{ mr: 2}}>
-              {bathroom.upvotes || 0}
-              <ThumbUpOutlinedIcon sx={{ pr: 1, ml: .5 }} />
-              {bathroom.downvotes || 0}
-              <ThumbDownOutlinedIcon sx={{ pr: 1, ml: .5 }} />
-            </Typography>
-
-                <IconButton
-                  onClick={() =>
-                    openInNewTab(
-                      `https://www.google.com/maps/dir/?api=1&destination=${bathroom.name}&origin=${origin}`
-                    )
-                  }
-                >
-                  <NearMeOutlinedIcon />
-                </IconButton>
+                <Button variant="contained" onClick={goToDetails}>
+                  More info
+                </Button>
                 
-              <Button variant="contained" onClick={goToDetails}>
-                More info
-              </Button>
-
+                {/* button to open directions to bathroom in Google Maps in a new tab */}
+                <Avatar
+                  component={Paper}
+                  elevation={2}
+                  sx={{
+                    m: 0.5,
+                    bgcolor: "#5272F2",
+                    display: "inline-block",
+                    verticalAlign: "bottom",
+                  }}
+                >
+                  <IconButton
+                    onClick={() =>
+                      openInNewTab(
+                        `https://www.google.com/maps/dir/?api=1&destination=${bathroom.name}&origin=${origin}`
+                      )
+                    }
+                  >
+                    <DirectionsIcon sx={{ color: "#FFF6F6" }} />
+                  </IconButton>
+                </Avatar>
               </CardActions>
             </Collapse>
           </CardContent>
