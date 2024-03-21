@@ -82,7 +82,8 @@ function BathroomItemMap({ bathroom, origin }) {
           sx={{
             mb: "5px",
             // height: '25vw'
-            height: expanded ? "auto" : "25vw",
+            width: "100%",
+            height: "auto"
           }}
           // if you click on the bathroom item card, it will expand with more details
           onClick={handleExpandClick}
@@ -111,7 +112,7 @@ function BathroomItemMap({ bathroom, origin }) {
                   variant="h6"
                   align="right"
                   color={"grey"}
-                  sx={{ mr: 1, mt: 2 }}
+                  sx={{ mr: 1, mt: 2, verticalAlign: 'bottom' }}
                 >
                   <ExpandMore
                     expand={expanded}
@@ -150,7 +151,7 @@ function BathroomItemMap({ bathroom, origin }) {
                 {/* bathroom upvotes and downvotes */}
                 <Typography
                   align="left"
-                  sx={{ display: "inline", verticalAlign: "top" }}
+                  sx={{ ml: 1, display: "inline", verticalAlign: "top" }}
                 >
                   {bathroom.upvotes || 0}
                 </Typography>
@@ -179,6 +180,8 @@ function BathroomItemMap({ bathroom, origin }) {
                 >
                   More info
                 </Button>
+                    
+                {/* button to open directions to bathroom in Google Maps in a new tab */}
                 <Avatar
                   component={Paper}
                   elevation={2}
