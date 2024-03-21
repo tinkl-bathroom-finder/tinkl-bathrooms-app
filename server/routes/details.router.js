@@ -15,32 +15,32 @@ router.get("/:id", (req, res) => {
   COALESCE("upvotes_query"."upvotes", 0) AS "upvotes", 
   COALESCE("downvotes_query"."downvotes", 0) AS "downvotes",
   COALESCE("comments_query"."comments", '[]'::json) AS "comments"
-FROM "restrooms"
-LEFT JOIN (
-  SELECT 
-    "restroom_id", 
-    SUM("upvote") AS "upvotes"
-  FROM "restroom_votes"
-  GROUP BY "restroom_id"
-) AS "upvotes_query" ON "restrooms"."id" = "upvotes_query"."restroom_id"
-LEFT JOIN (
-  SELECT 
-    "restroom_id", 
-    SUM("downvote") AS "downvotes"
-  FROM "restroom_votes"
-  GROUP BY "restroom_id"
-) AS "downvotes_query" ON "restrooms"."id" = "downvotes_query"."restroom_id"
-LEFT JOIN (
-  SELECT 
-    "restroom_id",
-    json_agg(
-      json_build_object(
-        'id', comments.id,
-        'content', comments.content,
-        'user_id', comments.user_id,
-        'inserted_at', comments.inserted_at
-      )
-    ) AS "comments"
+  FROM "restrooms"
+      LEFT JOIN (
+            SELECT 
+              "restroom_id", 
+              SUM("upvote") AS "upvotes"
+            FROM "restroom_votes"
+            GROUP BY "restroom_id"
+          ) AS "upvotes_query" ON "restrooms"."id" = "upvotes_query"."restroom_id"
+      LEFT JOIN (
+            SELECT 
+              "restroom_id", 
+              SUM("downvote") AS "downvotes"
+            FROM "restroom_votes"
+            GROUP BY "restroom_id"
+          ) AS "downvotes_query" ON "restrooms"."id" = "downvotes_query"."restroom_id"
+      LEFT JOIN (
+            SELECT 
+              "restroom_id",
+              json_agg(
+                json_build_object(
+                  'id', comments.id,
+                  'content', comments.content,
+                  'user_id', comments.user_id,
+                  'inserted_at', comments.inserted_at
+                )
+              ) AS "comments"
   FROM "comments"
   WHERE "comments"."is_removed" = FALSE
   GROUP BY "comments"."restroom_id"
@@ -51,7 +51,7 @@ WHERE "restrooms"."id" = $1;
   pool
     .query(query, values)
     .then((dbRes) => {
-      let theBathroom = formatBathroomObject(dbRes.rows);
+      const theBathroom = formatBathroomObject(dbRes.rows);
       console.log("BathroomObject:", theBathroom);
       // dbRes.rows aka theBathroom gets sent to details.saga.js
       res.send(theBathroom);
@@ -64,7 +64,7 @@ WHERE "restrooms"."id" = $1;
 
 function formatBathroomObject(bathroomRows) {
   console.log('bathroomRows:', bathroomRows)
-  let bathroom = {};
+  const bathroom = {};
 
   bathroom.name = bathroomRows[0].name;
   bathroom.street = bathroomRows[0].street;
