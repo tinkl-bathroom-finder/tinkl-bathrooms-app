@@ -87,7 +87,8 @@ function IPeedHereModal(props) {
       aria-labelledby="contained-modal-title-vcenter"
       centered
     >
-      <Modal.Header closeButton>
+      {/* 🔥🔥🔥🔥🔥 TO-DO: delete onClick function after using for app demonstration video!! */}
+      <Modal.Header closeButton onClick={() => props.setComment('Two gender-neutral, single-stall bathrooms in the back.')}>
         <Modal.Title id="contained-modal-title-vcenter">
           How was your experience?
         </Modal.Title>
@@ -143,6 +144,7 @@ function BathroomDetails() {
   const dispatch = useDispatch();
   const history = useHistory();
   const theBathroomDetails = useSelector((store) => store.bathroomDetails);
+  const commentArray = useSelector((store) => store.bathroomDetails.comments);
   const [modalShow, setModalShow] = useState(false);
   const [expanded, setExpanded] = useState(false);
   const [currentLat, setCurrentLat] = useState(0);
@@ -170,18 +172,6 @@ function BathroomDetails() {
     user_id: userId,
   };
 
-  // animation for 'expand comments' chevron
-  // const ExpandMore = styled((props) => {
-  //   const { expand, ...other } = props;
-  //   return <IconButton {...other} />;
-  // })(({ theme, expand }) => ({
-  //   transform: !expand ? "rotate(0deg)" : "rotate(180deg)",
-  //   marginLeft: "auto",
-  //   transition: theme.transitions.create("transform", {
-  //     duration: theme.transitions.duration.shortest,
-  //   }),
-  // }));
-
   // handle change event
   const handleInputChange = (e) => {
     e.preventDefault();
@@ -200,8 +190,6 @@ function BathroomDetails() {
       setUpvote(0);
       setDownvote(1);
     }
-    // console.log('Upvote:', upvote)
-    // console.log('Downvote:', downvote)
   };
 
   const clickIPeedHere = () => {
@@ -243,7 +231,7 @@ function BathroomDetails() {
       type: "SAGA/FETCH_BATHROOM_DETAILS",
       payload: params.id,
     });
-  }, [params.id]); // 👈 useEffect will retrigger if params.id (the id in url) changes
+  }, [commentArray]); // 👈 useEffect will retrigger if params.id (the id in url) changes
 
   const returnToList = () => {
     history.goBack();
@@ -278,17 +266,14 @@ function BathroomDetails() {
             color="text.secondary"
             align="right"
           >
-            {"Updated " + stringifyDate(theBathroomDetails.updated_at)}
+            {`Updated ${stringifyDate(theBathroomDetails.updated_at)}`}
           </Typography>
 
           <CardHeader
             // avatar={<Close/>}
             title={theBathroomDetails.name}
             subheader={
-              theBathroomDetails.street +
-              ", " +
-              theBathroomDetails.city +
-              ", MN"
+              `${theBathroomDetails.street}, ${theBathroomDetails.city}, MN`
             }
             action={
               <Box>
@@ -410,14 +395,6 @@ function BathroomDetails() {
               />
             </IconButton>
 
-            {/* <ExpandMore 
-          expand={expanded}
-          onClick={handleExpandClick}
-          aria-expanded={expanded}
-          aria-label="show more"
-        ><ExpandMoreIcon />
-        <Typography>Comments</Typography>
-        </ExpandMore> */}
           </CardActions>
           </CardContent>
         </Card>
@@ -427,6 +404,7 @@ function BathroomDetails() {
         show={modalShow}
         onHide={() => setModalShow(false)}
         comment={comment}
+        setComment={setComment}
         handleInputChange={(e) => handleInputChange(e)}
         upvote={upvote}
         handleVoteChange={handleVoteChange}
