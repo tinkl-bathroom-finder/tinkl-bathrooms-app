@@ -11,25 +11,22 @@ const router = express.Router();
 router.get("/:id", (req, res) => {
   const query = /*sql*/`
   SELECT 
-  "restrooms".*, 
-  COALESCE("upvotes_query"."upvotes", 0) AS "upvotes", 
-  COALESCE("downvotes_query"."downvotes", 0) AS "downvotes",
-  COALESCE("comments_query"."comments", '[]'::json) AS "comments"
-  FROM "restrooms"
+    "restrooms".*, 
+    COALESCE("votes_query"."upvotes", 0) AS "upvotes", 
+    COALESCE("votes_query"."downvotes", 0) AS "downvotes",
+    COALESCE("comments_query"."comments", '[]'::json) AS "comments"
+      FROM "restrooms"
+
       LEFT JOIN (
             SELECT 
               "restroom_id", 
-              SUM("upvote") AS "upvotes"
-            FROM "restroom_votes"
-            GROUP BY "restroom_id"
-          ) AS "upvotes_query" ON "restrooms"."id" = "upvotes_query"."restroom_id"
-      LEFT JOIN (
-            SELECT 
-              "restroom_id", 
+              SUM("upvote") AS "upvotes",
               SUM("downvote") AS "downvotes"
             FROM "restroom_votes"
             GROUP BY "restroom_id"
-          ) AS "downvotes_query" ON "restrooms"."id" = "downvotes_query"."restroom_id"
+          ) 
+          AS "votes_query" ON "restrooms"."id" = "votes_query"."restroom_id"
+      
       LEFT JOIN (
             SELECT 
               "restroom_id",
@@ -40,12 +37,15 @@ router.get("/:id", (req, res) => {
                   'user_id', comments.user_id,
                   'inserted_at', comments.inserted_at
                 )
-              ) AS "comments"
-  FROM "comments"
-  WHERE "comments"."is_removed" = FALSE
-  GROUP BY "comments"."restroom_id"
-) AS "comments_query" ON "restrooms"."id" = "comments_query"."restroom_id"
-WHERE "restrooms"."id" = $1;
+              ) 
+              AS "comments"
+                
+                FROM "comments"
+                WHERE "comments"."is_removed" = FALSE
+                GROUP BY "comments"."restroom_id"
+                ) 
+                AS "comments_query" ON "restrooms"."id" = "comments_query"."restroom_id"
+                WHERE "restrooms"."id" = $1;
     `;
   const values = [req.params.id];
   pool

@@ -3,7 +3,6 @@ import * as React from "react";
 import { useState } from "react";
 import { useHistory, Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { useParams } from "react-router-dom";
 // import SidebarNav from "./SidebarNav";
 
 // MUI material imports
@@ -49,9 +48,6 @@ function AppBarNav() {
   const [isDrawerOpen, setDrawerOpen] = useState(false);
   const user = useSelector((store) => store.user);
   const [open, setOpen] = useState(false);
-  const params = useParams();
-
-  console.log('params.user: ', params.user)
 
 // function to open or close drawer NavBar
   const handleClick = () => {

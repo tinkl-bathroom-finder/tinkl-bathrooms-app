@@ -7,31 +7,36 @@ router.get('/', (req, res) => {
     console.log('req.query.lat:', req.query.lat)
     console.log('req.query.lng:', req.query.lng)
     // This uses the Haversine formula to calculate distances between coordinates. $1 is current location latitude, $2 is current location longitude.
-    const query = `
-    select id, name, street, city, created_at, updated_at, accessible, unisex, changing_table, distance from (
-    SELECT
-    id,
-    name,
-    street,
-    city,
-    created_at,
-    updated_at,
-    accessible,
-    unisex,
-    changing_table,
-    latitude,
-    longitude,
-    (
-        6371 * acos(cos(radians($1)) * 
-        cos(radians(latitude)) * 
-        cos(radians(longitude) - 
-        radians($2)) + 
-        sin(radians($1)) * 
-        sin(radians(latitude)))
-    ) AS distance
-
-  FROM
-    restrooms)
+    const query = /*sql*/`
+	    select 
+      id, 
+      name, 
+      street, 
+      city, 
+      created_at, 
+      updated_at, 
+      accessible, 
+      unisex, 
+      changing_table,
+      COALESCE("votes_query"."upvotes", 0) AS "upvotes", 
+      COALESCE("votes_query"."downvotes", 0) AS "downvotes",
+          (
+              6371 * acos(cos(radians($1)) * 
+              cos(radians(latitude)) * 
+              cos(radians(longitude) - 
+              radians($2)) + 
+              sin(radians($1)) * 
+              sin(radians(latitude)))
+          ) AS distance  from restrooms 
+      LEFT JOIN (
+            SELECT 
+              "restroom_id", 
+              SUM("upvote") AS "upvotes",
+              SUM("downvote") AS "downvotes"
+            FROM "restroom_votes"
+            GROUP BY "restroom_id"
+          ) 
+          AS "votes_query" ON "restrooms"."id" = "votes_query"."restroom_id"
   ORDER BY
     distance ASC
   LIMIT 200;
