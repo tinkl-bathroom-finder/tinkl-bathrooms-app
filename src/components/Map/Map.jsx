@@ -67,7 +67,7 @@ function Map(selectedLocation) {
           options={options}
           onLoad={onLoad}
       >
-{bathrooms && bathrooms.map((bathroom, i) => {
+{bathrooms?.map((bathroom, i) => {
     return (
    
         <Marker key={i} bathroom={bathroom} MarkerF={MarkerF} InfoWindowF={InfoWindowF}/>
