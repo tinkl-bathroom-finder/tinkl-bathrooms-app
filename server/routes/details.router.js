@@ -3,32 +3,55 @@ const pool = require("../modules/pool");
 const router = express.Router();
 
 /* GET route for specific bathroom information */
+// In this modified query:
+
+// We create subqueries (upvotes_query, downvotes_query, and comments_query) to aggregate data separately for upvotes, downvotes, and comments.
+// We then left join these subqueries with the restrooms table using the restroom ID as the join condition.
+// We use COALESCE to handle cases where there might be no upvotes, downvotes, or comments for a particular restroom, returning 0 for votes and an empty JSON array for comments in such cases.
 router.get("/:id", (req, res) => {
   const query = /*sql*/`
   SELECT 
   "restrooms".*, 
-  SUM("restroom_votes"."upvote") AS "upvotes", 
-  SUM ("restroom_votes"."downvote") AS "downvotes",
-  (SELECT json_agg(
-  json_build_object(
-    'id', comments.id,
-    'content', comments.content,
-    'user_id', comments.user_id,
-    'inserted_at', comments.inserted_at
-)) FROM comments
-WHERE restrooms.id = comments.restroom_id AND comments.is_removed = FALSE
-) AS comments
-FROM "restrooms"
-LEFT JOIN "comments" ON "restrooms"."id"="comments"."restroom_id"
-LEFT JOIN "restroom_votes" ON "restrooms"."id"="restroom_votes"."restroom_id"
-WHERE "restrooms"."id"=$1
-GROUP BY "restrooms"."id"
+  COALESCE("upvotes_query"."upvotes", 0) AS "upvotes", 
+  COALESCE("downvotes_query"."downvotes", 0) AS "downvotes",
+  COALESCE("comments_query"."comments", '[]'::json) AS "comments"
+  FROM "restrooms"
+      LEFT JOIN (
+            SELECT 
+              "restroom_id", 
+              SUM("upvote") AS "upvotes"
+            FROM "restroom_votes"
+            GROUP BY "restroom_id"
+          ) AS "upvotes_query" ON "restrooms"."id" = "upvotes_query"."restroom_id"
+      LEFT JOIN (
+            SELECT 
+              "restroom_id", 
+              SUM("downvote") AS "downvotes"
+            FROM "restroom_votes"
+            GROUP BY "restroom_id"
+          ) AS "downvotes_query" ON "restrooms"."id" = "downvotes_query"."restroom_id"
+      LEFT JOIN (
+            SELECT 
+              "restroom_id",
+              json_agg(
+                json_build_object(
+                  'id', comments.id,
+                  'content', comments.content,
+                  'user_id', comments.user_id,
+                  'inserted_at', comments.inserted_at
+                )
+              ) AS "comments"
+  FROM "comments"
+  WHERE "comments"."is_removed" = FALSE
+  GROUP BY "comments"."restroom_id"
+) AS "comments_query" ON "restrooms"."id" = "comments_query"."restroom_id"
+WHERE "restrooms"."id" = $1;
     `;
   const values = [req.params.id];
   pool
     .query(query, values)
     .then((dbRes) => {
-      let theBathroom = formatBathroomObject(dbRes.rows);
+      const theBathroom = formatBathroomObject(dbRes.rows);
       console.log("BathroomObject:", theBathroom);
       // dbRes.rows aka theBathroom gets sent to details.saga.js
       res.send(theBathroom);
@@ -41,7 +64,7 @@ GROUP BY "restrooms"."id"
 
 function formatBathroomObject(bathroomRows) {
   console.log('bathroomRows:', bathroomRows)
-  let bathroom = {};
+  const bathroom = {};
 
   bathroom.name = bathroomRows[0].name;
   bathroom.street = bathroomRows[0].street;

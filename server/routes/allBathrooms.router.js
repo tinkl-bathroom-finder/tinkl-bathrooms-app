@@ -10,16 +10,15 @@ const {
  */
 router.get("/", (req, res) => {
   // GET all bathrooms route
-  // Workaround to deal with redundant data. For bathrooms that have the same street address, it will only return the most recently updated row.
   const query = /*sql*/`
-  SELECT * FROM (
-    SELECT * , 
-    ROW_NUMBER() OVER (PARTITION BY "restrooms".street ORDER BY updated_at DESC) AS ROW_NUMBER
-    FROM "restrooms") AS ROWS
-    WHERE ROW_NUMBER = 1 AND "is_removed" = FALSE
-    ORDER BY "id"
-    -- I just put limit of 250 because I thought it would load faster but this could be changed or removed at some point
-    LIMIT 250;`;
+  SELECT 
+  "restrooms".*, 
+  SUM("restroom_votes"."upvote") AS "upvotes", 
+  SUM ("restroom_votes"."downvote") AS "downvotes"
+FROM "restrooms"
+LEFT JOIN "restroom_votes" ON "restrooms"."id"="restroom_votes"."restroom_id"
+WHERE "restrooms".is_removed = FALSE
+GROUP BY "restrooms"."id";`
 
   pool
     .query(query)

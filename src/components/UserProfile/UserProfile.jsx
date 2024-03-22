@@ -58,7 +58,7 @@ function UserProfile() {
       type: "SAGA/FETCH_USER_INFO",
       payload: userId,
     });
-  }, []);
+  }, [userComments]);
 
   const goToDetails = (id) => {
     // maybe add a function to set the details before navigating
@@ -87,17 +87,15 @@ function UserProfile() {
         <Table responsive="m" overflow="fit">
           <TableHead >
             <TableRow>
-              <TableCell sx={{borderBottom: '1px solid darkgray'}}></TableCell>
-              <TableCell sx={{borderBottom: '1px solid darkgray'}}>My comments:</TableCell>
-              <TableCell sx={{borderBottom: '1px solid darkgray'}}></TableCell>
+              <TableCell colSpan={3} sx={{borderBottom: '1px solid black', color: "white", textAlign: 'center'}}>My comments:</TableCell>
             </TableRow>
           </TableHead>
         <TableBody>
-          {userComments && userComments.map((comment) => (
+          {userComments?.map((comment) => (
             <TableRow>
                 <TableCell onClick={() => goToDetails(comment.restroom_id)} className="link" sx={{borderBottom: '1px solid darkgray'}}>{comment.name}</TableCell>
 
-              <TableCell sx={{p: 0, borderBottom: '1px solid darkgray'}}>{comment.content}</TableCell>
+              <TableCell sx={{p: 1, borderBottom: '1px solid darkgray'}}>{comment.content}</TableCell>
               <TableCell sx={{borderBottom: '1px solid darkgray'}}>
                 <Button color="warning" variant="contained" size="small" onClick={() => deleteComment(comment.comment_id)}>
                   Delete
