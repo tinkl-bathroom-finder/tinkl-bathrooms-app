@@ -3,6 +3,7 @@ body,
 #react-root {
   height: 100%;
   background-color: #FFC0D9;
+  overflow: scroll;
   /* --bg-image: url('http://www.zingerbugimages.com/backgrounds/gold_lights_seamless_texture.jpg'); */
 }
 

@@ -7,11 +7,11 @@ import {
   Card,
   CardContent,
   CardHeader,
-  Paper,
   Typography,
   CardActions,
   IconButton,
   Grid,
+  Paper,
 } from "@mui/material";
 
 import Collapse from "@mui/material/Collapse";
@@ -42,7 +42,7 @@ const ExpandMore = styled((props) => {
   }),
 }));
 
-function BathroomItem({ bathroom, origin }) {
+function BathroomItemMap({ bathroom, origin }) {
   const history = useHistory();
   const [expanded, setExpanded] = useState(false);
 
@@ -77,13 +77,13 @@ function BathroomItem({ bathroom, origin }) {
         key={bathroom.id}
         width="100%"
         // padding-left (https://mui.com/system/spacing/)
-        pl="20px"
       >
         <Card
           sx={{
             mb: "5px",
             // height: '25vw'
-            height: expanded ? "auto" : "30vw",
+            width: "100%",
+            height: "auto"
           }}
           // if you click on the bathroom item card, it will expand with more details
           onClick={handleExpandClick}
@@ -96,12 +96,7 @@ function BathroomItem({ bathroom, origin }) {
             action={
               <>
                 {/* icons to show if bathrooms is all-gender, has changing table, is wheelchair accessible */}
-                <Typography
-                  variant="h6"
-                  gutterBottom
-                  align="right"
-                  sx={{ mr: 1, mt: 0.5 }}
-                >
+                <Typography variant="h6" align="right" sx={{ mr: 1, mt: 0.5 }}>
                   {bathroom.unisex ? <TransgenderOutlinedIcon /> : ""}
                   {bathroom.changing_table ? (
                     <BabyChangingStationOutlinedIcon />
@@ -112,32 +107,36 @@ function BathroomItem({ bathroom, origin }) {
                   {bathroom.is_single_stall ? <Man4Icon /> : ""}
                 </Typography>
 
-                {/* distance from current/searched location */}
-                <Typography
-                  align="right"
-                  color="text.secondary"
-                  sx={{
-                    mr: 2,
-                  }}
-                >
-                  {bathroom.distance
-                    ? `${bathroom.distance.toFixed(2)} mi`
-                    : ""}
-                </Typography>
-
                 {/* chevron to expand bathroom item card */}
                 <Typography
                   variant="h6"
                   align="right"
                   color={"grey"}
-                  sx={{ mr: 1, mt: 2 }}
+                  sx={{ mr: 1, mt: 2, verticalAlign: 'bottom' }}
                 >
-                  <ExpandMoreIcon />
+                  <ExpandMore
+                    expand={expanded}
+                    onClick={handleExpandClick}
+                    aria-expanded={expanded}
+                    aria-label="show more"
+                  >
+                    <ExpandMoreIcon />
+                  </ExpandMore>
                 </Typography>
               </>
             }
           />
           <CardContent sx={{ p: 0 }}>
+            {/* distance from current/searched location */}
+            <Typography
+              align="right"
+              color="text.secondary"
+              sx={{
+                m: 2,
+              }}
+            >
+              {bathroom.distance ? `${bathroom.distance.toFixed(2)} mi` : ""}
+            </Typography>
             <Collapse in={expanded} timeout="auto" unmountOnExit>
               {/* when bathroom info was last updated */}
               <Typography
@@ -148,27 +147,40 @@ function BathroomItem({ bathroom, origin }) {
                 {`Updated ${stringifyDate(bathroom.updated_at)}`}
               </Typography>
               {/* moves chevron to right */}
-              <CardActions>
-                <ExpandMore
-                  expand={expanded}
-                  onClick={handleExpandClick}
-                  aria-expanded={expanded}
-                  aria-label="show more"
-                  sx={{ m: 0, p: 0 }}
+              <CardActions sx={{ display: "inline-block" }}>
+                {/* bathroom upvotes and downvotes */}
+                <Typography
+                  align="left"
+                  sx={{ ml: 1, display: "inline", verticalAlign: "top" }}
+                >
+                  {bathroom.upvotes || 0}
+                </Typography>
+                <ThumbUpOutlinedIcon
+                  sx={{ pr: 1, display: "inline", verticalAlign: "top" }}
                 />
 
-                {/* bathroom upvotes and downvotes */}
-                <Typography align="left" sx={{ mr: 2 }}>
-                  {bathroom.upvotes || 0}
-                  <ThumbUpOutlinedIcon sx={{ pr: 1, ml: 0.5 }} />
+                <Typography
+                  align="left"
+                  sx={{ display: "inline", verticalAlign: "top" }}
+                >
                   {bathroom.downvotes || 0}
-                  <ThumbDownOutlinedIcon sx={{ pr: 1, ml: 0.5 }} />
                 </Typography>
-
-                <Button variant="contained" onClick={goToDetails}>
+                <ThumbDownOutlinedIcon
+                  sx={{ pr: 1, display: "inline", verticalAlign: "top" }}
+                />
+                <Button
+                  variant="contained"
+                  onClick={goToDetails}
+                  sx={{
+                    m: 1,
+                    justifyContent: "center",
+                    display: "inline-block",
+                    verticalAlign: "bottom",
+                  }}
+                >
                   More info
                 </Button>
-                
+                    
                 {/* button to open directions to bathroom in Google Maps in a new tab */}
                 <Avatar
                   component={Paper}
@@ -199,4 +211,4 @@ function BathroomItem({ bathroom, origin }) {
   );
 }
 
-export default BathroomItem;
+export default BathroomItemMap;

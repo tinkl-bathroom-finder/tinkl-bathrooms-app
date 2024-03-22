@@ -32,8 +32,7 @@ function CommentList() {
           >
           <Typography color="black" fontWeight="bold">Comments</Typography>
         </AccordionSummary>
-        {commentArray &&
-          commentArray.map((comment) => {
+        {commentArray?.map((comment) => {
             console.log('comment:', comment)
             return (
                 <AccordionDetails>
