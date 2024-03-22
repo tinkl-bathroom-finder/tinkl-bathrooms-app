@@ -168,7 +168,7 @@ function BathroomDetails() {
     upvote: upvote,
     downvote: downvote,
     comment: comment,
-    restroom_id: params.id,
+    restroom_id: Number(params.id),
     user_id: userId,
   };
 
@@ -231,7 +231,7 @@ function BathroomDetails() {
       type: "SAGA/FETCH_BATHROOM_DETAILS",
       payload: params.id,
     });
-  }, [commentArray]); // 👈 useEffect will retrigger if params.id (the id in url) changes
+  }, []); // 👈 useEffect will retrigger if params.id (the id in url) changes
 
   const returnToList = () => {
     history.goBack();
