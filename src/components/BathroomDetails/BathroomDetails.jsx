@@ -168,7 +168,7 @@ function BathroomDetails() {
     upvote: upvote,
     downvote: downvote,
     comment: comment,
-    restroom_id: params.id,
+    restroom_id: Number(params.id),
     user_id: userId,
   };
 
