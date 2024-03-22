@@ -87,9 +87,9 @@ function IPeedHereModal(props) {
       aria-labelledby="contained-modal-title-vcenter"
       centered
     >
+      <Modal.Header closeButton>
       {/* 🔥🔥🔥🔥🔥 TO-DO: delete onClick function after using for app demonstration video!! */}
-      <Modal.Header closeButton onClick={() => props.setComment('Two gender-neutral, single-stall bathrooms in the back.')}>
-        <Modal.Title id="contained-modal-title-vcenter">
+        <Modal.Title id="contained-modal-title-vcenter" onClick={() => props.setComment('Two gender-neutral, single-stall bathrooms in the back.')}>
           How was your experience?
         </Modal.Title>
       </Modal.Header>
@@ -231,7 +231,7 @@ function BathroomDetails() {
       type: "SAGA/FETCH_BATHROOM_DETAILS",
       payload: params.id,
     });
-  }, []); // 👈 useEffect will retrigger if params.id (the id in url) changes
+  }, [params.id]); // 👈 useEffect will retrigger if params.id (the id in url) changes
 
   const returnToList = () => {
     history.goBack();
@@ -375,6 +375,7 @@ function BathroomDetails() {
 
             <Button
               onClick={() => clickIPeedHere()}
+              position='fixed'
               size="lg"
               sx={{
                 ml: '33%',
