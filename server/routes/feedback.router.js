@@ -22,7 +22,7 @@ router.post('/', (req, res) => {
     // first query inserts upvote or downvote into restroom_votes table
     pool.query(voteQuery, voteValues)
         .then(result => {
-            if (req.body.comment.length >= 1) {
+            if (req.body.comment.length) {
                 const commentQuery = `
                 INSERT INTO "comments"
                     ("content", "restroom_id", "user_id")
