@@ -81,7 +81,7 @@ function UserProfile() {
           </CardActions>
         }
         title={userInfo.username}
-        subheader={"Joined " + stringifyDate(userInfo.inserted_at)}
+        subheader={`Joined ${stringifyDate(userInfo.inserted_at)}`}
       />
       <TableContainer>
         <Table responsive="m" overflow="fit">
