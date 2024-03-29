@@ -64,7 +64,26 @@ function BathroomDetails() {
     window.open(url, "_blank", "noreferrer");
   };
 
-  const clickSomethingNotLookRight = (e) => {
+
+  const handleExpandClick = () => {
+    setExpanded(!expanded);
+  };
+
+  let [upvote, setUpvote] = useState(0);
+  let [downvote, setDownvote] = useState(0);
+  let [comment, setComment] = useState(""); // sets local state for comment
+  let userId = useSelector((store) => store.user.id);
+
+  let feedbackObject = {
+    upvote: upvote,
+    downvote: downvote,
+    comment: comment,
+    restroom_id: Number(params.id),
+    user_id: userId,
+  };
+
+  // handle change event
+  const handleInputChange = (e) => {
     e.preventDefault();
     console.log("you did indeed click the flag!")
     if (userId) {
