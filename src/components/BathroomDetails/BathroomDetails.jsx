@@ -1,13 +1,14 @@
 import React, { useEffect, useState, createRef } from "react";
 import { useParams, useHistory } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-// import Button from "react-bootstrap/Button";
 import Modal from "react-bootstrap/Modal";
 import Form from "react-bootstrap/Form";
 import ToggleButton from "react-bootstrap/ToggleButton";
 import ToggleButtonGroup from "react-bootstrap/ToggleButtonGroup";
-import CommentList from "./Comments";
 import { Close } from "@mui/icons-material";
+import CommentList from "./Comments";
+import IPeedHereModal from "./IPeedHereModal";
+import MarkAsFlaggedModal from "./MarkAsFlaggedModal";
 
 import {
   Box,
@@ -42,102 +43,6 @@ import MoreVertIcon from "@mui/icons-material/MoreVert";
 import { styled } from "@mui/material/styles";
 import Grid2 from "@mui/material/Unstable_Grid2/Grid2";
 
-function IPeedHereModal(props) {
-  const dispatch = useDispatch();
-  const submitFeedback = () => {
-    // if a user is signed in, submit will send feedback; otherwise,
-    // an alert will popup asking the guest to log in to leave feedback.
-    console.log("onHide:", props.onHide);
-    if (props.userId) {
-      console.log("feedbackObject:", props.feedbackObject);
-      dispatch({
-        type: "SAGA/SEND_FEEDBACK",
-        payload: props.feedbackObject,
-      });
-      Swal.fire({
-        title: "Thank you for sharing! Users help keep this app up-to-date.",
-        width: 600,
-        padding: "3em",
-        color: "#716add",
-        background:
-          "#fff url(https://media.giphy.com/media/ifMCKz51hfD9RUWXbI/giphy.gif)",
-        backdrop: `
-        rgba(0,0,123,0.4)
-        url("https://media.giphy.com/media/mTs11L9uuyGiI/giphy.gif")
-        left top
-        no-repeat
-      `,
-      });
-    } else if (!props.userId) {
-      Swal.fire({
-        title: "Register or log in to leave feedback!",
-        text: "Users help keep this app up-to-date.",
-        icon: "question",
-      });
-      // closes modal after submitting feedback
-    }
-    props.onHide();
-  };
-
-  return (
-    <Modal
-      show={props.show}
-      onHide={props.onHide}
-      size="sm"
-      aria-labelledby="contained-modal-title-vcenter"
-      centered
-    >
-      <Modal.Header closeButton>
-      {/* 🔥🔥🔥🔥🔥 TO-DO: delete onClick function after using for app demonstration video!! */}
-        <Modal.Title id="contained-modal-title-vcenter" onClick={() => props.setComment('Two gender-neutral, single-stall bathrooms in the back.')}>
-          How was your experience?
-        </Modal.Title>
-      </Modal.Header>
-      <Modal.Body>
-        <Form>
-          <ToggleButtonGroup type="radio" name="options">
-            <ToggleButton
-              id="tbg-radio-2"
-              value={2}
-              onClick={() => props.handleVoteChange(2)}
-            >
-              👍
-            </ToggleButton>
-            <ToggleButton
-              id="tbg-radio-3"
-              value={1}
-              onClick={() => props.handleVoteChange(1)}
-            >
-              👎
-            </ToggleButton>
-          </ToggleButtonGroup>
-          <br />
-          <Form.Group controlId="commentForm">
-            <Form.Label>Leave a comment:</Form.Label>
-            <Form.Control
-              componentClass="input"
-              id="comment"
-              type="text"
-              aria-describedby="comment"
-              onChange={(e) => props.handleInputChange(e)}
-              value={props.comment}
-              // inputRef = {(ref) => this.comment = ref }
-              // ref="ReactDOM.findDOMNode(ref)"
-            />
-          </Form.Group>
-        </Form>
-      </Modal.Body>
-      <Modal.Footer>
-        <Button
-        variant="contained"
-          type="submit"
-          onClick={submitFeedback}
-        >Submit</Button>
-      </Modal.Footer>
-    </Modal>
-  )
-}
-
 function BathroomDetails() {
   // this gets us the bathroom id that exists in the url bar
   const params = useParams();
@@ -147,13 +52,18 @@ function BathroomDetails() {
   const commentArray = useSelector((store) => store.bathroomDetails.comments);
   const [modalShow, setModalShow] = useState(false);
   const [expanded, setExpanded] = useState(false);
+ const [open, setOpen] = useState(true);
+ const handleOpen = () => setOpen(true);
+ const handleClose = () => setOpen(false);
   const [currentLat, setCurrentLat] = useState(0);
   const [currentLng, setCurrentLng] = useState(0);
+  let userId = useSelector((store) => store.user.id);
 
-  // opens location in GoogleMaps in new tab
+  // opens bathroom in GoogleMaps in new tab
   const openInNewTab = (url) => {
     window.open(url, "_blank", "noreferrer");
   };
+
 
   const handleExpandClick = () => {
     setExpanded(!expanded);
@@ -175,22 +85,23 @@ function BathroomDetails() {
   // handle change event
   const handleInputChange = (e) => {
     e.preventDefault();
-    console.log("feedbackObject:", feedbackObject);
-    setComment(e.target.value);
-  };
-
-  const handleVoteChange = (value) => {
-    console.log("value: ", value);
-    // if thumbs-up button is clicked, upvote gets set to 1 and downvote set to 0
-    // if thumbs-down button is clicked, downvote gets set to 1 and upvote to 0
-    if (value === 2) {
-      setUpvote(1);
-      setDownvote(0);
-    } else if (value === 1) {
-      setUpvote(0);
-      setDownvote(1);
-    }
-  };
+    console.log("you did indeed click the flag!")
+    if (userId) {
+      handleOpen;
+    } else
+    Swal.fire({
+    title: "Hey, stranger.",
+      imageUrl: "https://media.giphy.com/media/HULqwwF5tWKznstIEE/giphy.gif",
+      imageWidth: 360,
+      imageHeight: 203,
+      imageAlt: "Goat unicorn",
+    text: "Come here often? Log in to leave feedback!",
+    confirmButtonText: "Log in"
+  }).then((result) => {
+    if (result.isConfirmed) {
+  history.push('/login')
+}})
+  }
 
   const clickIPeedHere = () => {
     if (userId){
@@ -231,7 +142,7 @@ function BathroomDetails() {
       type: "SAGA/FETCH_BATHROOM_DETAILS",
       payload: params.id,
     });
-  }, [params.id]); // 👈 useEffect will retrigger if params.id (the id in url) changes
+  }, [params.id]); // 👈 useEffect will retrigger if params.id (id in url) changes
 
   const returnToList = () => {
     history.goBack();
@@ -239,7 +150,6 @@ function BathroomDetails() {
 
   const setCurrentPosition = () => {};
 
-  console.log('theBathroomDetails: ', theBathroomDetails)
   return (
     <>
       <Box key={theBathroomDetails.id} width="100%" pl="20px">
@@ -251,15 +161,17 @@ function BathroomDetails() {
             pr: "10px",
             maxHeight: '82vh'
           }}>
+
+            {/* BACK button */}
         <Button onClick={returnToList}
         size="lg"
         sx={{
-          mb: "20px",
           display: 'inline', ml: 2, mt: 3, mr: 3, mb: 0
         }} 
         variant="outlined">
           <Typography color="#5272F2">Back</Typography>
         </Button>
+
           {/* when theBathroomDetails info was last updated */}
           <Typography
             sx={{ fontSize: 14, ml: 13, mt: 3, display: 'inline' }}
@@ -277,6 +189,8 @@ function BathroomDetails() {
             }
             action={
               <Box>
+
+                {/* Opens bathroom location in Google Maps */}
               <IconButton
                 onClick={() =>
                   openInNewTab(
@@ -285,7 +199,9 @@ function BathroomDetails() {
                 }
               >
                 <Place />
-              </IconButton>             
+              </IconButton>
+
+                {/* Directions icon and link */}          
               <IconButton
                 onClick={() =>
                   openInNewTab(
@@ -302,11 +218,13 @@ function BathroomDetails() {
                   mb: 0, pb: 0
                 }}
           />
+
           <CardContent
                 sx={{
                   mb: 0, pt: 1
                 }}>
-            {/* theBathroomDetails upvotes and downvotes */}
+
+            {/* upvotes and downvotes */}
             <Typography align="left">
               {theBathroomDetails.upvotes || 0}
               <ThumbUpOutlined sx={{ pr: 1}} />
@@ -316,7 +234,8 @@ function BathroomDetails() {
             <CardActions>
 
             </CardActions>
-            {/* icons to show if theBathroomDetailss is all-gender, has changing table, is wheelchair accessible */}
+
+            {/* icons to show if the selected bathroom is all-gender, etc. */}
             <Typography variant="h5" gutterBottom sx={{display: 'inline'}}>
               {theBathroomDetails.unisex ? (
                 <>
@@ -326,7 +245,7 @@ function BathroomDetails() {
               ) : (
                 ""
               )}
-
+{/* has changing table */}
               {theBathroomDetails.changing_table ? (
                 <>
                 <br/>
@@ -337,6 +256,7 @@ function BathroomDetails() {
                 ""
               )}
 
+{/* is wheelchair accessible */}
               {theBathroomDetails.accessible ? (
                 <>
                 <br/>
@@ -347,6 +267,7 @@ function BathroomDetails() {
                 ""
               )}
 
+{/* is single-stall */}
               {theBathroomDetails.is_single_stall ? (
                 <>
                 <br/>
@@ -357,6 +278,7 @@ function BathroomDetails() {
                 ""
               )}
             </Typography>
+
             {/* distance from current/searched location */}
             <Typography
               align="left"
@@ -373,6 +295,7 @@ function BathroomDetails() {
             {/* if the bathroom has any comments, the comment list box will render */}
             {<CommentList commentArray={theBathroomDetails.comments} />}
 
+{/* button to open IPeedHereModal */}
             <Button
               onClick={() => clickIPeedHere()}
               position='fixed'
@@ -385,10 +308,10 @@ function BathroomDetails() {
             >
               <Typography color="white" >I peed here!</Typography>
             </Button>
-          {/* moves chevron to right */}
+
           <CardActions  disableSpacing>
-            <IconButton >
               <Typography> Something not look right?</Typography>
+            <IconButton onClick={(e) => clickSomethingNotLookRight(e)}>
               <OutlinedFlagOutlined
                 sx={{
                   mr: 1,
@@ -403,14 +326,16 @@ function BathroomDetails() {
 
       <IPeedHereModal
         show={modalShow}
+        setModalShow={setModalShow}
         onHide={() => setModalShow(false)}
-        comment={comment}
-        setComment={setComment}
-        handleInputChange={(e) => handleInputChange(e)}
-        upvote={upvote}
-        handleVoteChange={handleVoteChange}
-        userId={userId}
-        feedbackObject={feedbackObject}
+      />
+
+      <MarkAsFlaggedModal
+      open={open}
+      onClose={handleClose}
+      setOpen={setOpen}
+      aria-labelledby="something-isnt-right-modal"
+      aria-describedby="Form to flag outdated or bad information about the bathroom."
       />
     </>
   );
