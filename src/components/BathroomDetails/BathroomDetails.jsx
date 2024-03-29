@@ -72,7 +72,6 @@ function BathroomDetails() {
   let [upvote, setUpvote] = useState(0);
   let [downvote, setDownvote] = useState(0);
   let [comment, setComment] = useState(""); // sets local state for comment
-  let userId = useSelector((store) => store.user.id);
 
   let feedbackObject = {
     upvote: upvote,

@@ -138,8 +138,8 @@ function BathroomsPage() {
   const handleClose = () => setShow(false);
   // origin is the searched address from the search bar, converted into 
   const [origin, setOrigin] = useState('')
-  const [currentLat, setCurrentLat] = useState(0);
-  const [currentLng, setCurrentLng] = useState(0);
+  const [currentLat, setCurrentLat] = useState(44.979225);
+  const [currentLng, setCurrentLng] = useState(-93.266945);
 
   const [selectedLocation, setSelectedLocation] = useState({ lat: 0, lng: 0 });
   const onLoad = useCallback(map => (mapRef.current = map), []);
