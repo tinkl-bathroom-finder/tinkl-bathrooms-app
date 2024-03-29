@@ -37,14 +37,15 @@ router.get("/:id", (req, res) => {
                   'user_id', comments.user_id,
                   'inserted_at', comments.inserted_at
                 )
+                order by "inserted_at"
               ) 
               AS "comments"
-                
                 FROM "comments"
                 WHERE "comments"."is_removed" = FALSE
                 GROUP BY "comments"."restroom_id"
                 ) 
                 AS "comments_query" ON "restrooms"."id" = "comments_query"."restroom_id"
+                
                 WHERE "restrooms"."id" = $1;
     `;
   const values = [req.params.id];
