@@ -67,6 +67,7 @@ function Map(selectedLocation) {
           options={options}
           onLoad={onLoad}
       >
+        <MarkerF position={({lat: bathroom.latitude, lng: bathroom.longitude})}/>
 {bathrooms?.map((bathroom, i) => {
     return (
    

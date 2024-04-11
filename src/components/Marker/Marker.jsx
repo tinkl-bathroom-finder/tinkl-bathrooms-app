@@ -11,7 +11,7 @@ function Marker({bathroom, MarkerF, InfoWindowF}){
 
       // Define your custom icon
   const customIcon = {
-    url: (require('./toilet-marker.png')), // path to your custom icon
+    url: (require('./toilet-marker2.png')), // path to your custom icon
     scaledSize: new google.maps.Size(50, 50), // adjust the size as needed
     origin: new google.maps.Point(0, 0)
   };
