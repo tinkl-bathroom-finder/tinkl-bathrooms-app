@@ -146,6 +146,12 @@ function BathroomsPage() {
   const mapRef = useRef();
   // const [mapCenter, setMapCenter] = useState({ lat: 0, lng: 0 });
 
+  const blueDot = {
+    url: (require('./favicon2.png')), // path to your custom icon
+    scaledSize: new google.maps.Size(50, 50), // adjust the size as needed
+    origin: new google.maps.Point(0, 0)
+  };
+
 const selectedCenter = useMemo(() => ({lat: selectedLocation.lat, lng: selectedLocation.lng}), [selectedLocation.lat, selectedLocation.lng] );
 
     // customization 
@@ -322,7 +328,9 @@ const selectedCenter = useMemo(() => ({lat: selectedLocation.lat, lng: selectedL
       >
         {/* 👇 shows a marker for your queried address. But seems to then not show bathroom markers? */}
         {/* 🔥🔥🔥🔥🔥 TO-DO: figure out how to show BOTH a marker for your current location AND markers for each bathroom location */}
-        {/* <MarkerF position={center} label="You are here"/> */}
+        <MarkerF 
+        position={({lat: currentLat, lng: currentLng})}
+        icon={blueDot}/>
 {bathrooms && bathroomsByDistance.map((bathroom, i) => {
     return (
    
@@ -338,6 +346,9 @@ const selectedCenter = useMemo(() => ({lat: selectedLocation.lat, lng: selectedL
         center={center}
         zoom={14}
       >
+      <MarkerF 
+      position={({lat: currentLat, lng: currentLng})}
+      icon={blueDot}/>
      {bathrooms?.map((bathroom, i) => {
     return (
    
