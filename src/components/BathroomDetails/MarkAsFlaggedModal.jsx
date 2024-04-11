@@ -23,6 +23,7 @@ function MarkAsFlaggedModal(props){
       <Modal
         show={props.show}
         onHide={props.onHide}
+        size="sm"
         centered
       >
         <Box sx={style}>
