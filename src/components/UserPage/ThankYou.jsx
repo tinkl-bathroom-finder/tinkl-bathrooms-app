@@ -1,6 +1,6 @@
 import React from 'react';
 import LogOutButton from '../LogOutButton/LogOutButton';
-import {useSelector} from 'react-redux';
+import { useSelector } from 'react-redux';
 import { styled } from '@mui/material/styles';
 import Box from '@mui/material/Box';
 import Paper from '@mui/material/Paper';
@@ -19,15 +19,15 @@ function UserPage() {
   // this component doesn't do much to start, just renders some user reducer info to the DOM
   const user = useSelector((store) => store.user);
   return (
-    <Grid className="container" container spacing={1} sx={{mt: 5}}>
-    <h1>About this app </h1>
-    
-      <div className = 'aboutBox'>
+    <Grid className="container" container spacing={1} sx={{ mt: 5 }}>
+      <h1>About this app </h1>
+
+      <div className='aboutBox'>
         <h2> Technologies Used</h2>
         <ul>
           <li>HTML   • CSS     • Javascript       • React.js
-            • SweetAlert            • Material UI    <br/>      
-              • Bootstrap
+            • SweetAlert            • Material UI    <br />
+            • Bootstrap
             • Refuge Restrooms API            • Google Maps API</li>
         </ul>
 
@@ -42,16 +42,16 @@ function UserPage() {
           <li>Get map view working</li>
           <li>Add user badges</li>
         </ul>
-<h4>This app would not be possible without:</h4>
-<ul>
-<li>Matt, Dane, Key, Dev and the other instructors at Prime</li>
- <li>The Moonstone cohort</li>
-<li>James SQL Jobs</li>
- <li>My mentors and the Prime community</li>
-    </ul> 
-     </div>
-  </Grid>
-);
+        <h4>This app would not be possible without:</h4>
+        <ul>
+          <li>Matt, Dane, Key, Dev and the other instructors at Prime</li>
+          <li>The Moonstone cohort</li>
+          <li>James SQL Jobs</li>
+          <li>My mentors and the Prime community</li>
+        </ul>
+      </div>
+    </Grid>
+  );
   //   <Box>
   //   <Grid container spacing={2}>
   //     <Grid item xs={8}></Grid>
