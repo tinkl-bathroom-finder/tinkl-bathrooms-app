@@ -58,7 +58,7 @@ function UserProfile() {
       type: "SAGA/FETCH_USER_INFO",
       payload: userId,
     });
-  }, [userComments]);
+  }, []);
 
   const goToDetails = (id) => {
     // maybe add a function to set the details before navigating
@@ -71,7 +71,7 @@ function UserProfile() {
     <Card className="container" sx={{borderRadius: 0, height: '100vh'}}>
       <CardHeader 
         avatar={
-      <Avatar sx={{ bgcolor: deepPurple[400] }}>e</Avatar>
+      <Avatar sx={{ bgcolor: deepPurple[400] }}>{userInfo.username.charAt(0)}</Avatar>
         }
         action={
           <CardActions>
