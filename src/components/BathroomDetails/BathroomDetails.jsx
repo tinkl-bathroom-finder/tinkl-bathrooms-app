@@ -49,12 +49,17 @@ function BathroomDetails() {
   const dispatch = useDispatch();
   const history = useHistory();
   const theBathroomDetails = useSelector((store) => store.bathroomDetails);
-  const commentArray = useSelector((store) => store.bathroomDetails.comments);
-  const [modalShow, setModalShow] = useState(false);
+  const commentArray = useSelector((store) => store.bathroomDetails.comments);  
   const [expanded, setExpanded] = useState(false);
- const [open, setOpen] = useState(true);
+
+  // React state for IPeedHereModal
+  const [modalShow, setModalShow] = useState(false);
+
+  // React state for MarkAsFlaggedModal
+ const [modal2Show, setModal2Show] = useState(false);
  const handleOpen = () => setOpen(true);
  const handleClose = () => setOpen(false);
+
   const [currentLat, setCurrentLat] = useState(0);
   const [currentLng, setCurrentLng] = useState(0);
   let userId = useSelector((store) => store.user.id);
@@ -64,29 +69,12 @@ function BathroomDetails() {
     window.open(url, "_blank", "noreferrer");
   };
 
-
-  const handleExpandClick = () => {
-    setExpanded(!expanded);
-  };
-
-  let [upvote, setUpvote] = useState(0);
-  let [downvote, setDownvote] = useState(0);
-  let [comment, setComment] = useState(""); // sets local state for comment
-
-  let feedbackObject = {
-    upvote: upvote,
-    downvote: downvote,
-    comment: comment,
-    restroom_id: Number(params.id),
-    user_id: userId,
-  };
-
-  // handle change event
-  const handleInputChange = (e) => {
-    e.preventDefault();
+  const clickSomethingNotLookRight = () => {
+    // e.preventDefault();
     console.log("you did indeed click the flag!")
     if (userId) {
-      handleOpen;
+      console.log('You do indeed have a user id.')
+      setModal2Show(true);
     } else
     Swal.fire({
     title: "Hey, stranger.",
@@ -310,7 +298,7 @@ function BathroomDetails() {
 
           <CardActions  disableSpacing>
               <Typography> Something not look right?</Typography>
-            <IconButton onClick={(e) => clickSomethingNotLookRight(e)}>
+            <IconButton onClick={() => clickSomethingNotLookRight()}>
               <OutlinedFlagOutlined
                 sx={{
                   mr: 1,
@@ -330,9 +318,9 @@ function BathroomDetails() {
       />
 
       <MarkAsFlaggedModal
-      open={open}
-      onClose={handleClose}
-      setOpen={setOpen}
+      show={modal2Show}
+      setModal2Show={setModal2Show}
+      onHide={() => setModal2Show(false)}
       aria-labelledby="something-isnt-right-modal"
       aria-describedby="Form to flag outdated or bad information about the bathroom."
       />
