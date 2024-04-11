@@ -147,8 +147,8 @@ function BathroomsPage() {
   // const [mapCenter, setMapCenter] = useState({ lat: 0, lng: 0 });
 
   const blueDot = {
-    url: (require('./favicon2.png')), // path to your custom icon
-    scaledSize: new google.maps.Size(50, 50), // adjust the size as needed
+    url: (require('./blue_dot.png')), // path to your custom icon
+    scaledSize: new google.maps.Size(30, 30), // adjust the size as needed
     origin: new google.maps.Point(0, 0)
   };
 
