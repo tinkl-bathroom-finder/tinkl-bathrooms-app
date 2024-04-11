@@ -8,6 +8,7 @@ import { useDispatch, useSelector } from "react-redux";
 // MUI material imports
 import {
   AppBar,
+  Avatar,
   Box,
   Button,
   Collapse,
@@ -39,6 +40,7 @@ import {
   WaterDrop,
 } from "@mui/icons-material";
 import MenuIcon from "@mui/icons-material/Menu";
+import { deepPurple } from '@mui/material/colors'
 
 function AppBarNav() {
   const dispatch = useDispatch();
@@ -48,8 +50,9 @@ function AppBarNav() {
   const [isDrawerOpen, setDrawerOpen] = useState(false);
   const user = useSelector((store) => store.user);
   const [open, setOpen] = useState(false);
+  const userInfo = useSelector((store) => store.user);
 
-// function to open or close drawer NavBar
+  // function to open or close drawer NavBar
   const handleClick = () => {
     setOpen(!open);
   };
@@ -108,7 +111,7 @@ function AppBarNav() {
 
     setState({ ...state, [anchor]: open });
   };
-// sidebar list - could be moved to its own component at some point, need to figure out how to pass down toggleDrawer function - saga?
+  // sidebar list - could be moved to its own component at some point, need to figure out how to pass down toggleDrawer function - saga?
   const list = (anchor) => (
     <Box
       sx={{ width: anchor === "top" || anchor === "bottom" ? "auto" : 250 }}
@@ -138,7 +141,7 @@ function AppBarNav() {
             className="linkInDrawer"
             onClick={() => setDrawerOpen(false)}
             underline="none"
-   >
+          >
             <ListItemButton onClick={toggleDrawer(anchor, false)}>
               <ListItemIcon>{<WaterDrop />}</ListItemIcon>
               <ListItemText primary="About" />
@@ -187,83 +190,83 @@ function AppBarNav() {
 
                     {/* Add bathrooms page */}
                     <Link
-                to="/admin/addbathrooms"
-                className="linkInDrawer"
-                onClick={() => setDrawerOpen(false)}
-                underline="none"
-              >
-                    <ListItem key="addbathrooms" disablePadding>
-                      <ListItemButton
-                        sx={{ pl: 4 }}
-                        onClick={toggleDrawer(anchor, false)}
-                      >
-                        <ListItemIcon>
-                          <AddCircleOutlineOutlined />
-                        </ListItemIcon>
-                        <ListItemText primary="Add bathrooms" />
-                      </ListItemButton>
-                    </ListItem>
+                      to="/admin/addbathrooms"
+                      className="linkInDrawer"
+                      onClick={() => setDrawerOpen(false)}
+                      underline="none"
+                    >
+                      <ListItem key="addbathrooms" disablePadding>
+                        <ListItemButton
+                          sx={{ pl: 4 }}
+                          onClick={toggleDrawer(anchor, false)}
+                        >
+                          <ListItemIcon>
+                            <AddCircleOutlineOutlined />
+                          </ListItemIcon>
+                          <ListItemText primary="Add bathrooms" />
+                        </ListItemButton>
+                      </ListItem>
                     </Link>
 
                     {/* Edit/delete bathrooms page */}
                     <Link
-                to="/admin/editbathrooms"
-                className="linkInDrawer"
-                onClick={() => setDrawerOpen(false)}
-                underline="none"
-              >
-     
-                    <ListItem key="deletebathrooms" disablePadding>
-                      <ListItemButton
-                        sx={{ pl: 4 }}
-                        onClick={toggleDrawer(anchor, false)}
-                      >
-                        <ListItemIcon>
-                          <EditNoteOutlined />
-                        </ListItemIcon>
-                        <ListItemText primary="Edit/delete bathrooms" />
-                      </ListItemButton>
-                    </ListItem>           
-              </Link>
+                      to="/admin/editbathrooms"
+                      className="linkInDrawer"
+                      onClick={() => setDrawerOpen(false)}
+                      underline="none"
+                    >
 
-              <Link
-                to="/admin/comments"
-                className="linkInDrawer"
-                onClick={() => setDrawerOpen(false)}
-                underline="none"
-              >
-                    {/* Comments page */}
-                    <ListItem key="admin-comments" disablePadding>
-                      <ListItemButton
-                        sx={{ pl: 4 }}
-                        onClick={toggleDrawer(anchor, false)}
-                      >
-                        <ListItemIcon>
-                          <CommentOutlined />
-                        </ListItemIcon>
-                        <ListItemText primary="Comments" />
-                      </ListItemButton>
-                    </ListItem>
+                      <ListItem key="deletebathrooms" disablePadding>
+                        <ListItemButton
+                          sx={{ pl: 4 }}
+                          onClick={toggleDrawer(anchor, false)}
+                        >
+                          <ListItemIcon>
+                            <EditNoteOutlined />
+                          </ListItemIcon>
+                          <ListItemText primary="Edit/delete bathrooms" />
+                        </ListItemButton>
+                      </ListItem>
+                    </Link>
+
+                    <Link
+                      to="/admin/comments"
+                      className="linkInDrawer"
+                      onClick={() => setDrawerOpen(false)}
+                      underline="none"
+                    >
+                      {/* Comments page */}
+                      <ListItem key="admin-comments" disablePadding>
+                        <ListItemButton
+                          sx={{ pl: 4 }}
+                          onClick={toggleDrawer(anchor, false)}
+                        >
+                          <ListItemIcon>
+                            <CommentOutlined />
+                          </ListItemIcon>
+                          <ListItemText primary="Comments" />
+                        </ListItemButton>
+                      </ListItem>
                     </Link>
 
                     {/* Users list page */}
                     <Link
-                to="/admin/users"
-                className="linkInDrawer"
-                onClick={() => setDrawerOpen(false)}
-                underline="none"
-              >
-                    <ListItem key="admin-users" disablePadding>
-                      <ListItemButton
-                        sx={{ pl: 4 }}
-                        onClick={toggleDrawer(anchor, false)}
-                      >
-                        <ListItemIcon>
-                          <GroupOutlined />
-                        </ListItemIcon>
-                        <ListItemText primary="Users" />
-                      </ListItemButton>
-                    </ListItem>
+                      to="/admin/users"
+                      className="linkInDrawer"
+                      onClick={() => setDrawerOpen(false)}
+                      underline="none"
+                    >
+                      <ListItem key="admin-users" disablePadding>
+                        <ListItemButton
+                          sx={{ pl: 4 }}
+                          onClick={toggleDrawer(anchor, false)}
+                        >
+                          <ListItemIcon>
+                            <GroupOutlined />
+                          </ListItemIcon>
+                          <ListItemText primary="Users" />
+                        </ListItemButton>
+                      </ListItem>
                     </Link>
                   </List>
                 </Collapse>
@@ -306,20 +309,20 @@ function AppBarNav() {
           </div>
           {/* <SidebarNav /> */}
 
-          <Typography 
-          variant="h4" 
-          component="div"
-          fontWeight="bold"
-          textAlign={"center"}
-          sx={{ flexGrow: 1, fontSize: 50 }}
-          onClick={goToBathrooms}>
+          <Typography
+            variant="h4"
+            component="div"
+            fontWeight="bold"
+            textAlign={"center"}
+            sx={{ flexGrow: 1, fontSize: 50 }}
+            onClick={goToBathrooms}>
             tinkl
           </Typography>
           {/* If a user is logged in, an account circle icon will appear in the upper right in the top NavBar */}
           {/* If a user clicks on the account circle icon, a menu will pop up with the choices of "My profile" or "Log out" */}
           {user.id ? (
             <div>
-              <IconButton
+              {/* <IconButton
                 size="large"
                 aria-label="account of current user"
                 aria-controls="menu-appbar"
@@ -328,7 +331,16 @@ function AppBarNav() {
                 color="inherit"
               >
                 <AccountCircle />
-              </IconButton>
+              </IconButton> */}
+              <Avatar
+                sx={{ color: '#fecd4f', bgcolor: "#3ab5fb", border: 1, borderColor: '#FFF6F6' }}
+                aria-label="account of current user"
+                aria-controls="menu-appbar"
+                aria-haspopup="true"
+                onClick={handleMenu}
+                color="inherit"
+              >{userInfo.username.charAt(0)}</Avatar>
+
               <Menu
                 id="menu-appbar"
                 anchorEl={anchorEl}
@@ -349,8 +361,8 @@ function AppBarNav() {
               </Menu>
               {/* If a user is not logged in, a Log In button will appear on the right in the top NavBar */}
               {/* Once you click Log In and are navigated to the Log In page, the same button will now say Register and will be a link to the registration page */}
-            </div> ) : (showRegister ? <Button variant="contained" onClick={goToRegister}>Register</Button> :
-            <Button variant="contained" onClick={goToLogin}>Log in</Button>)
+            </div>) : (showRegister ? <Button variant="contained" onClick={goToRegister}>Register</Button> :
+              <Button variant="contained" onClick={goToLogin}>Log in</Button>)
           }
         </Toolbar>
       </AppBar>
