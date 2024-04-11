@@ -17,12 +17,13 @@ function MarkAsFlaggedModal(props){
         p: 4,
           }
 
-          
+
 
   return (
       <Modal
-        open={props.open}
-        onClose={props.setOpen(false)}
+        show={props.show}
+        onHide={props.onHide}
+        centered
       >
         <Box sx={style}>
           <Typography id="modal-modal-title" variant="h6" component="h2">
