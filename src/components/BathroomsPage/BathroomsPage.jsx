@@ -133,9 +133,11 @@ function BathroomsPage() {
   const mapView = useSelector((store) => store.mapView);
   const [modalShow, setModalShow] = useState(false);
   const [show, setShow] = useState(false);
+
   // state for filter by toggles (open now, wheelchair accessible, single-stall, changing table)
   const [isChecked, setIsChecked] = useState(false);
   const handleClose = () => setShow(false);
+  
   // origin is the searched address from the search bar, converted into 
   const [origin, setOrigin] = useState('')
   const [currentLat, setCurrentLat] = useState(44.979225);
