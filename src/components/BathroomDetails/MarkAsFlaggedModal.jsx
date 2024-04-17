@@ -15,6 +15,7 @@ function MarkAsFlaggedModal(props){
         border: '2px solid #000',
         boxShadow: 24,
         p: 4,
+        borderRadius: 2
           }
 
 
@@ -24,15 +25,58 @@ function MarkAsFlaggedModal(props){
         show={props.show}
         onHide={props.onHide}
         size="sm"
+        aria-labelledby="modal-title"
         centered
       >
         <Box sx={style}>
-          <Typography id="modal-modal-title" variant="h6" component="h2">
-            Is anybody out there???
-          </Typography>
-          <Typography id="modal-modal-description" sx={{ mt: 2 }}>
-            Duis mollis, est non commodo luctus, nisi erat porttitor ligula.
-          </Typography>
+          <Modal.Header id="modal-title">
+            <Modal.Title>
+            Here's what we have:
+            </Modal.Title>
+          </Modal.Header>
+
+          <Modal.Body>
+            <Form>
+                <Form.Group>
+                    <Form.Label>Name</Form.Label>
+                    <Form.Control type="text" defaultValue={props.details.name} />
+                </Form.Group>
+
+                <Form.Group>
+                    <Form.Label>Address</Form.Label>
+                    <Form.Control type="text" defaultValue={props.details.street + ", " + props.details.city + ", " + props.details.state} />
+                </Form.Group>
+
+                <Form.Check 
+                type="checkbox"
+                defaultChecked={props.details.accessible}
+                label="Wheelchair accessible"
+                />
+
+                <Form.Check 
+                type="checkbox"
+                defaultChecked={props.details.changing_table}
+                label="Changing table"
+                />
+
+                <Form.Check 
+                type="checkbox"
+                defaultChecked={props.details.unisex}
+                label="Gender neutral/all-gender"
+                />
+
+                <Form.Check 
+                type="checkbox"
+                defaultChecked={props.details.single_stall}
+                label="Single stall"
+                />
+
+            </Form>
+          </Modal.Body>
+          <Modal.Footer>
+          <Button variant="outlined" sx={{mr: 2}}>Cancel</Button> 
+                <Button variant="contained">Submit</Button> 
+          </Modal.Footer>
         </Box>
       </Modal>
   );
