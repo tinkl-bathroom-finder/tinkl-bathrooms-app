@@ -103,11 +103,7 @@ function BathroomItem({ bathroom, origin }) {
                   sx={{ mr: 1, mt: 0.5 }}
                 >
                   {bathroom.unisex ? <TransgenderOutlinedIcon /> : ""}
-                  {bathroom.changing_table ? (
-                    <BabyChangingStationOutlinedIcon />
-                  ) : (
-                    ""
-                  )}
+                  {bathroom.changing_table ? <BabyChangingStationOutlinedIcon /> :  ""}
                   {bathroom.accessible ? <AccessibleForwardOutlinedIcon /> : ""}
                   {bathroom.is_single_stall ? <Man4Icon /> : ""}
                 </Typography>
