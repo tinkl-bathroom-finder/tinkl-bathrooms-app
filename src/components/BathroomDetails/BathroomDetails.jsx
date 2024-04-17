@@ -323,7 +323,7 @@ function BathroomDetails() {
       onHide={() => setModal2Show(false)}
       aria-labelledby="something-isnt-right-modal"
       aria-describedby="Form to flag outdated or bad information about the bathroom."
-      />
+      details={theBathroomDetails}/>
     </>
   );
 }
