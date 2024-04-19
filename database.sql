@@ -4,7 +4,6 @@ DROP TABLE IF EXISTS "comments";
 DROP TABLE IF EXISTS "comment_votes";
 DROP TABLE IF EXISTS "images";
 DROP TABLE IF EXISTS "restroom_votes";
-DROP TABLE IF EXISTS "restroom_visits";
 
 DROP TRIGGER IF EXISTS "trigger_update_updated_at_restrooms" ON "restrooms";
 DROP TRIGGER IF EXISTS "trigger_update_updated_at_comments" ON "comments";
