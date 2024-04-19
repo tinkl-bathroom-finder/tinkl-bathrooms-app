@@ -20,22 +20,23 @@ import {
   CardActions,
   IconButton,
   CardMedia,
-  Grid
+  Grid,
 } from "@mui/material";
 import Collapse from "@mui/material/Collapse";
 
 // import Grid from '@mui/material/Unstable_Grid2';
 import {
-  AccessibleForwardOutlined, 
+  AccessibleForwardOutlined,
   BabyChangingStationOutlined,
-  ExpandMore, 
+  ExpandMore,
   Man4,
   NearMeOutlined,
   OutlinedFlagOutlined,
   Place,
   TransgenderOutlined,
   ThumbDownOutlined,
-  ThumbUpOutlined} from "@mui/icons-material"
+  ThumbUpOutlined,
+} from "@mui/icons-material";
 // import PlaceIcon from "@mui/icons-material/Place";
 // import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
@@ -49,16 +50,16 @@ function BathroomDetails() {
   const dispatch = useDispatch();
   const history = useHistory();
   const theBathroomDetails = useSelector((store) => store.bathroomDetails);
-  const commentArray = useSelector((store) => store.bathroomDetails.comments);  
+  const commentArray = useSelector((store) => store.bathroomDetails.comments);
   const [expanded, setExpanded] = useState(false);
 
   // React state for IPeedHereModal
   const [modalShow, setModalShow] = useState(false);
 
   // React state for MarkAsFlaggedModal
- const [modal2Show, setModal2Show] = useState(false);
- const handleOpen = () => setOpen(true);
- const handleClose = () => setOpen(false);
+  const [modal2Show, setModal2Show] = useState(false);
+  const handleOpen = () => setOpen(true);
+  const handleClose = () => setOpen(false);
 
   const [currentLat, setCurrentLat] = useState(0);
   const [currentLng, setCurrentLng] = useState(0);
@@ -71,42 +72,44 @@ function BathroomDetails() {
 
   const clickSomethingNotLookRight = () => {
     // e.preventDefault();
-    console.log("you did indeed click the flag!")
+    console.log("you did indeed click the flag!");
     if (userId) {
-      console.log('You do indeed have a user id.')
+      console.log("You do indeed have a user id.");
       setModal2Show(true);
     } else
-    Swal.fire({
-    title: "Hey, stranger.",
-      imageUrl: "https://media.giphy.com/media/HULqwwF5tWKznstIEE/giphy.gif",
-      imageWidth: 360,
-      imageHeight: 203,
-      imageAlt: "Goat unicorn",
-    text: "Come here often? Log in to leave feedback!",
-    confirmButtonText: "Log in"
-  }).then((result) => {
-    if (result.isConfirmed) {
-  history.push('/login')
-}})
-  }
-
-  const clickIPeedHere = () => {
-    if (userId){
-      setModalShow(true)
-    } else
       Swal.fire({
-      title: "Hey, stranger.",
+        title: "Hey, stranger.",
         imageUrl: "https://media.giphy.com/media/HULqwwF5tWKznstIEE/giphy.gif",
         imageWidth: 360,
         imageHeight: 203,
         imageAlt: "Goat unicorn",
-      text: "Come here often? Log in to leave feedback!",
-      confirmButtonText: "Log in"
-    }).then((result) => {
-      if (result.isConfirmed) {
-    history.push('/login')
-  }})
-  }
+        text: "Come here often? Log in to leave feedback!",
+        confirmButtonText: "Log in",
+      }).then((result) => {
+        if (result.isConfirmed) {
+          history.push("/login");
+        }
+      });
+  };
+
+  const clickIPeedHere = () => {
+    if (userId) {
+      setModalShow(true);
+    } else
+      Swal.fire({
+        title: "Hey, stranger.",
+        imageUrl: "https://media.giphy.com/media/HULqwwF5tWKznstIEE/giphy.gif",
+        imageWidth: 360,
+        imageHeight: 203,
+        imageAlt: "Goat unicorn",
+        text: "Come here often? Log in to leave feedback!",
+        confirmButtonText: "Log in",
+      }).then((result) => {
+        if (result.isConfirmed) {
+          history.push("/login");
+        }
+      });
+  };
 
   // formats inserted_at timestamp as readable string
   const stringifyDate = (timestamp) => {
@@ -146,22 +149,29 @@ function BathroomDetails() {
             mt: "25px",
             mr: "25px",
             pr: "10px",
-            maxHeight: '82vh'
-          }}>
-
-            {/* BACK button */}
-        <Button onClick={returnToList}
-        size="lg"
-        sx={{
-          display: 'inline', ml: 2, mt: 3, mr: 3, mb: 0
-        }} 
-        variant="outlined">
-          <Typography color="#5272F2">Back</Typography>
-        </Button>
+            maxHeight: "82vh",
+          }}
+        >
+          
+          {/* BACK button */}
+          <Button
+            onClick={returnToList}
+            size="lg"
+            sx={{
+              display: "inline",
+              ml: 2,
+              mt: 3,
+              mr: 3,
+              mb: 0,
+            }}
+            variant="outlined"
+          >
+            <Typography color="#5272F2">Back</Typography>
+          </Button>
 
           {/* when theBathroomDetails info was last updated */}
           <Typography
-            sx={{ fontSize: 14, ml: 13, mt: 3, display: 'inline' }}
+            sx={{ fontSize: 14, ml: 13, mt: 3, display: "inline" }}
             color="text.secondary"
             align="right"
           >
@@ -171,95 +181,101 @@ function BathroomDetails() {
           <CardHeader
             // avatar={<Close/>}
             title={theBathroomDetails.name}
-            subheader={
-              `${theBathroomDetails.street}, ${theBathroomDetails.city}, MN`
-            }
+            subheader={`${theBathroomDetails.street}, ${theBathroomDetails.city}, MN`}
             action={
               <Box>
-
                 {/* Opens bathroom location in Google Maps */}
-              <IconButton
-                onClick={() =>
-                  openInNewTab(
-                    `https://www.google.com/maps/search/?api=1&query=${theBathroomDetails.name}`
-                  )
-                }
-              >
-                <Place />
-              </IconButton>
+                <IconButton
+                  onClick={() =>
+                    openInNewTab(
+                      `https://www.google.com/maps/search/?api=1&query=${theBathroomDetails.name}`
+                    )
+                  }
+                >
+                  <Place />
+                </IconButton>
 
-                {/* Directions icon and link */}          
-              <IconButton
-                onClick={() =>
-                  openInNewTab(
-                    `https://www.google.com/maps/dir/?api=1&destination=${theBathroomDetails.name}`
-                  )
-                }
-                
-              >
-                <NearMeOutlined />
-              </IconButton>
+                {/* Directions icon and link */}
+                <IconButton
+                  onClick={() =>
+                    openInNewTab(
+                      `https://www.google.com/maps/dir/?api=1&destination=${theBathroomDetails.name}`
+                    )
+                  }
+                >
+                  <NearMeOutlined />
+                </IconButton>
               </Box>
             }
-                sx={{
-                  mb: 0, pb: 0
-                }}
+            sx={{
+              mb: 0,
+              pb: 0,
+            }}
           />
 
           <CardContent
-                sx={{
-                  mb: 0, pt: 1
-                }}>
-
+            sx={{
+              mb: 0,
+              pt: 1,
+            }}
+          >
             {/* upvotes and downvotes */}
             <Typography align="left">
               {theBathroomDetails.upvotes || 0}
-              <ThumbUpOutlined sx={{ pr: 1}} />
+              <ThumbUpOutlined sx={{ pr: 1 }} />
               {theBathroomDetails.downvotes || 0}
               <ThumbDownOutlined sx={{ pr: 1 }} />
             </Typography>{" "}
-            <CardActions>
-
-            </CardActions>
-
+            <CardActions></CardActions>
             {/* icons to show if the selected bathroom is all-gender, etc. */}
-            <Typography variant="h5" gutterBottom sx={{display: 'inline'}}>
+            <Typography variant="h5" gutterBottom sx={{ display: "inline" }}>
               {theBathroomDetails.unisex ? (
                 <>
-                  <TransgenderOutlined   sx={{display: 'inline'}}/>
-                  <Typography sx={{display: 'inline'}}> Gender-neutral</Typography>
+                  <TransgenderOutlined sx={{ display: "inline" }} />
+                  <Typography sx={{ display: "inline" }}>
+                    {" "}
+                    Gender-neutral
+                  </Typography>
                 </>
               ) : (
                 ""
               )}
-{/* has changing table */}
+              {/* has changing table */}
               {theBathroomDetails.changing_table ? (
                 <>
-                <br/>
-                  <BabyChangingStationOutlined  sx={{display: 'inline'}}/>
-                  <Typography sx={{display: 'inline'}}> Changing table</Typography>
+                  <br />
+                  <BabyChangingStationOutlined sx={{ display: "inline" }} />
+                  <Typography sx={{ display: "inline" }}>
+                    {" "}
+                    Changing table
+                  </Typography>
                 </>
               ) : (
                 ""
               )}
 
-{/* is wheelchair accessible */}
+              {/* is wheelchair accessible */}
               {theBathroomDetails.accessible ? (
                 <>
-                <br/>
-                  <AccessibleForwardOutlined  sx={{display: 'inline'}}/>
-                  <Typography sx={{display: 'inline'}}> Wheelchair accessible</Typography>
+                  <br />
+                  <AccessibleForwardOutlined sx={{ display: "inline" }} />
+                  <Typography sx={{ display: "inline" }}>
+                    {" "}
+                    Wheelchair accessible
+                  </Typography>
                 </>
               ) : (
                 ""
               )}
 
-{/* is single-stall */}
+              {/* is single-stall */}
               {theBathroomDetails.is_single_stall ? (
                 <>
-                <br/>
-                  <Man4   sx={{display: 'inline'}}/>
-                  <Typography  sx={{display: 'inline'}}>Single stall</Typography>
+                  <br />
+                  <Man4 sx={{ display: "inline" }} />
+                  <Typography sx={{ display: "inline" }}>
+                    Single stall
+                  </Typography>
                 </>
               ) : (
                 ""
@@ -282,31 +298,29 @@ function BathroomDetails() {
             {/* if the bathroom has any comments, the comment list box will render */}
             {<CommentList commentArray={theBathroomDetails.comments} />}
 
-{/* button to open IPeedHereModal */}
+            {/* button to open IPeedHereModal */}
             <Button
               onClick={() => clickIPeedHere()}
-              position='fixed'
+              position="fixed"
               size="lg"
               sx={{
-                ml: '33%',
-                mt: "3px"
+                ml: "33%",
+                mt: "3px",
               }}
               variant="contained"
             >
-              <Typography color="white" >I peed here!</Typography>
+              <Typography color="white">I peed here!</Typography>
             </Button>
-
-          <CardActions  disableSpacing>
+            <CardActions disableSpacing>
               <Typography> Something not look right?</Typography>
-            <IconButton onClick={() => clickSomethingNotLookRight()}>
-              <OutlinedFlagOutlined
-                sx={{
-                  mr: 1,
-                }}
-              />
-            </IconButton>
-
-          </CardActions>
+              <IconButton onClick={() => clickSomethingNotLookRight()}>
+                <OutlinedFlagOutlined
+                  sx={{
+                    mr: 1,
+                  }}
+                />
+              </IconButton>
+            </CardActions>
           </CardContent>
         </Card>
       </Box>
@@ -318,12 +332,13 @@ function BathroomDetails() {
       />
 
       <MarkAsFlaggedModal
-      show={modal2Show}
-      setModal2Show={setModal2Show}
-      onHide={() => setModal2Show(false)}
-      aria-labelledby="something-isnt-right-modal"
-      aria-describedby="Form to flag outdated or bad information about the bathroom."
-      details={theBathroomDetails}/>
+        show={modal2Show}
+        setModal2Show={setModal2Show}
+        onHide={() => setModal2Show(false)}
+        aria-labelledby="something-isnt-right-modal"
+        aria-describedby="Form to flag outdated or bad information about the bathroom."
+        details={theBathroomDetails}
+      />
     </>
   );
 }
