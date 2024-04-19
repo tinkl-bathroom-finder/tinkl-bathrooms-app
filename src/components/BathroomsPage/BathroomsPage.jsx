@@ -320,7 +320,7 @@ const selectedCenter = useMemo(() => ({lat: selectedLocation.lat, lng: selectedL
       // otherwise if you are in "Map View" mode:
       (
         // if you have searched for bathrooms by proximity to your location, recenters the map on your location and shows markers close by you
-        bathroomsByDistance && bathroomsByDistance.length > 0 ? (
+        bathrooms && bathrooms.length > 0 ? (
           <GoogleMap
           zoom={15}
           center={center}
@@ -328,12 +328,12 @@ const selectedCenter = useMemo(() => ({lat: selectedLocation.lat, lng: selectedL
           options={options}
           onLoad={onLoad}
       >
-        {/* 👇 shows a marker for your queried address. But seems to then not show bathroom markers? */}
-        {/* 🔥🔥🔥🔥🔥 TO-DO: figure out how to show BOTH a marker for your current location AND markers for each bathroom location */}
+        {/* blue dot marker to searched address */}
         <MarkerF 
         position={({lat: currentLat, lng: currentLng})}
         icon={blueDot}/>
-{bathrooms && bathroomsByDistance.map((bathroom, i) => {
+
+{bathrooms?.map((bathroom, i) => {
     return (
    
         <Marker key={i} bathroom={bathroom} MarkerF={MarkerF} InfoWindowF={InfoWindowF}/>
