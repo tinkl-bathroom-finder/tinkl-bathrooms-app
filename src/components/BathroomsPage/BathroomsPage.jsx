@@ -173,12 +173,13 @@ const selectedCenter = useMemo(() => ({lat: selectedLocation.lat, lng: selectedL
   }
 
      // useMemo performs the calculation once everytime the array arg changes, reuses the same value every time it re-renders
-     const center = useMemo(() => ({lat: currentLat, lng: currentLng }), [currentLat, currentLng] );
+     const center = useMemo(() => ({lat: addressCoordinates.lat, lng: addressCoordinates.lng }), [addressCoordinates] );
 
   useEffect(() => {
         // gets user's current location and sets coordinates in React state for directions
         navigator.geolocation.getCurrentPosition(
           (position) => {
+
             setCurrentLat(position.coords.latitude)
             setCurrentLng(position.coords.longitude)
           });
@@ -191,6 +192,7 @@ const selectedCenter = useMemo(() => ({lat: selectedLocation.lat, lng: selectedL
   const sendLocation = async (e) => {
     e.preventDefault();
     if (value !== "") {
+      console.log("value: ", value)
       // converts address to url-friendly string 
       const convertedAddress = value.value.description.split(" ").join("%20");
         console.log("convertedAddress:", convertedAddress);
@@ -201,9 +203,6 @@ const selectedCenter = useMemo(() => ({lat: selectedLocation.lat, lng: selectedL
         type: "SAGA/SEND_LOCATION",
         payload: convertedAddress,
       });
-      await setCurrentLat(addressCoordinates?.lat);
-      await setCurrentLng(addressCoordinates?.lng);
-      console.log("addressCoordinates:", addressCoordinates);
      } catch (err) {
       console.log('Error sending location: ', err)
      }
@@ -225,7 +224,7 @@ const selectedCenter = useMemo(() => ({lat: selectedLocation.lat, lng: selectedL
   };
 
   // function to toggle between map and list view
-  // 🔥🔥🔥🔥🔥 should be refactored at some point bc "Map View" button is no longer a toggle
+  // 🔥🔥🔥🔥🔥 should be refactored at some point bc "Map View" button is no longer a toggle switch (it's a button)
   const toggleView = (e) => {
     e.preventDefault();
     setIsChecked(!isChecked);
@@ -268,28 +267,14 @@ const selectedCenter = useMemo(() => ({lat: selectedLocation.lat, lng: selectedL
       </div>
 
       {/* "Filter by" toggle switch (choose filters in popup modal) */}
-      {/* <FilterByModal
+      <FilterByModal
         show={modalShow}
         onHide={() => setModalShow(false)}
         setShow={setShow}
         handleClose={handleClose}
         modalShow={modalShow}
         setModalShow={setModalShow}
-      /> */}
-
-      {/* toggle switch for Map View/List View */}
-
-      {/* <Form>
-        <Form.Check // prettier-ignore
-          type="switch"
-          id="custom-switch"
-          label={mapView ? "Map view" : "List view" }
-          checked={isChecked}
-          onClick={(e) => toggleView(e)}
-        />
-      </Form> */}
-
-
+      />
 
       {/* if "List View" is selected, renders a list of bathrooms */}
       {/* 🔥🔥🔥🔥🔥🔥 mapView is currently listView.... */}
@@ -330,7 +315,7 @@ const selectedCenter = useMemo(() => ({lat: selectedLocation.lat, lng: selectedL
       >
         {/* blue dot marker to searched address */}
         <MarkerF 
-        position={({lat: currentLat, lng: currentLng})}
+        position={({lat: addressCoordinates.lat, lng: addressCoordinates.lng})}
         icon={blueDot}/>
 
 {bathrooms?.map((bathroom, i) => {
