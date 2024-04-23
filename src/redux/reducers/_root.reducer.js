@@ -9,6 +9,7 @@ import addressCoordinates from './addressCoordinates.reducer';
 import apiBathrooms from './apiBathrooms.reducer';
 import userComments from './userComments.reducer';
 import mapView from './mapView.reducer';
+import userList from './userList.reducer';
 
 // rootReducer is the primary reducer for our entire project
 // It bundles up all of the other reducers so our project can use them.
@@ -25,6 +26,7 @@ const rootReducer = combineReducers({
   addressCoordinates,
   apiBathrooms,
   userComments,
+  userList,
   mapView
 });
 
