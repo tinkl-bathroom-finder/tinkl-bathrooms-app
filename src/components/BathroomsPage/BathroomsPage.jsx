@@ -72,6 +72,7 @@ const selectedCenter = useMemo(() => ({lat: selectedLocation.lat, lng: selectedL
       leftMargin: '20px',
       rightMargin: '20px',
       bottomMargin: '20px',
+      borderRadius: '8px'
   }
 
      // useMemo performs the calculation once everytime the array arg changes, reuses the same value every time it re-renders
@@ -153,7 +154,43 @@ const selectedCenter = useMemo(() => ({lat: selectedLocation.lat, lng: selectedL
           // value={addressInput}
           selectProps={{
             searchBarAddress,
-            onChange: setSearchBarAddress
+            onChange: setSearchBarAddress,
+            styles: {
+              input: (provided) => ({
+                  ...provided,
+                  color: 'black',
+              }),
+              option: (provided) => ({
+                  ...provided,
+                  color: 'black',
+                  background: '#00000000',
+              }),
+              singleValue: (provided) => ({
+                  ...provided,
+                  // color: "blue",
+                  // background:"black"
+              }),
+              control: (provided) => ({
+                  ...provided,
+                  width: '100%',
+                  // background: 'rgba(255, 255, 255, 0.25)',
+                  border: '1px solid rgba(255, 255, 255, 0.41)',
+                  backdropFilter: 'blur(50px)',
+                  borderRadius: '20px',
+              }),
+              menu: (provided) => ({
+                  ...provided,
+                  width: '100%',
+                  background: 'rgba(255, 255, 255, 0.25)',
+                  border: '1px solid rgba(255, 255, 255, 0.41)',
+                  backdropFilter: 'blur(50px)',
+                  borderRadius: '12px',
+              }),
+              container: (provided) => ({
+                  ...provided,
+              }),
+
+          }
           }}
           // biases autocomplete search results to locations near IP address
           ipbias
@@ -161,12 +198,12 @@ const selectedCenter = useMemo(() => ({lat: selectedLocation.lat, lng: selectedL
         <div class="btn-toolbar justify-content-between">
 
         {/* Button to change to Map View or List View */}
-        <Button onClick={(e) => toggleView(e)} variant="outlined" sx={{mb: 1, mt: 1}}
+        <Button onClick={(e) => toggleView(e)} variant="outlined" sx={{mb: 1, mt: 1, borderRadius: 5}}
             >
         {mapView ? "List view" : "Map view"}
         </Button>
 
-        <Button variant="contained" onClick={(e) => sendLocation(e)} sx={{mb: 1, mt: 1,backgroundColor: 'white', border: '1px solid lightgrey'}}>
+        <Button variant="contained" onClick={(e) => sendLocation(e)} sx={{mb: 1, mt: 1,backgroundColor: 'white', border: '1px solid lightgrey', borderRadius: 5}}>
           🔎
         </Button>
 </div>
