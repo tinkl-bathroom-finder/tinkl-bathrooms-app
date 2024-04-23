@@ -17,121 +17,22 @@ import ToggleButtonGroup from "react-bootstrap/ToggleButtonGroup";
 // need to require dot env if we use it I believe
 import MyMap from "../Map/Map";
 import { Button, Box } from "@mui/material";
-// import FilterByModal from "./FilterByModal";
-
-// FilterByModal was built for future use but is not currently functional
-// There is a duplicate FilterByComponent
-function FilterByModal(props) {
-  const [show, setShow] = useState(false);
-
-  const handleClose = () => setShow(false);
-  const handleShow = () => setShow(true);
-  // const openNow = useSelector((store) => store.openNow);
-  const [openNow, setOpenNow] = useState(false)
-  const [singleStall, setSingleStall] = useState(false);
-  const [changingTable, setChangingTable] = useState(false);
-  const [accessible, setAccessible] = useState(false);
-
-  const filterObject = {
-    is_open: openNow,
-    is_single_stall: singleStall,
-    changing_table: changingTable,
-    accessible: accessible,
-  };
-
-  const requireOpen = () => {
-    setOpenNow(!openNow);
-    console.log("openNow:", openNow);
-  };
-
-  const requireSingleStall = () => {
-    setSingleStall(!singleStall);
-    console.log("singleStall required:", singleStall);
-  };
-
-  const requireChangingTable = () => {
-    setChangingTable(!changingTable);
-    console.log("changingTable required:", changingTable);
-  };
-
-  const requireAccessible = () => {
-    setAccessible(!accessible);
-    console.log("accessible required:", accessible);
-  };
-
-  const submitFilters = () => {
-    console.log("filterObject:", filterObject);
-    dispatch({
-      type: "SAGA/SET_FILTERS",
-      payload: filterObject,
-    });
-  };
-  return (
-    <>
-      <Button variant="outlined" onClick={handleShow}>
-        Filter by
-      </Button>
-
-      <Modal show={show} onHide={handleClose}>
-        <Modal.Header closeButton>
-          <Modal.Title>Filter by:</Modal.Title>
-        </Modal.Header>
-        <Modal.Body>
-          <Form>
-            {/* filter by "open now" */}
-            <Form.Check // prettier-ignore
-              type="switch"
-              id="custom-switch"
-              label="open now"
-              onClick={requireOpen}
-            />
-            {/* filter by "single stall" */}
-            <Form.Check // prettier-ignore
-              type="switch"
-              id="custom-switch"
-              label="single-stall"
-              onClick={requireSingleStall}
-            />
-            {/* filter by "changing table" */}
-            <Form.Check // prettier-ignore
-              type="switch"
-              id="custom-switch"
-              label="changing table"
-              onClick={requireChangingTable}
-            />
-            <Form.Check // prettier-ignore
-              type="switch"
-              id="custom-switch"
-              label="wheelchair accessible"
-              onClick={requireAccessible}
-            />
-          </Form>
-        </Modal.Body>
-        <Modal.Footer>
-          <Button variant="secondary" onClick={handleClose}>
-            Close
-          </Button>
-          <Button variant="success" onClick={handleClose}>
-            Save Changes
-          </Button>
-        </Modal.Footer>
-      </Modal>
-    </>
-  );
-}
+import FilterByModal from "./FilterByModal";
 
 function BathroomsPage() {
   const dispatch = useDispatch();
 
-  const store = useSelector((store) => store);
+  // const store = useSelector((store) => store);
   const bathrooms = useSelector((store) => store.bathrooms);
   const bathroomsByDistance = useSelector((store) => store.bathroomsByDistance);
   const addressCoordinates = useSelector((store) => store.addressCoordinates);
 
   // captures value of address typed in search bar as local state
-  const [value, setValue] = useState("");
+  const [searchBarAddress, setSearchBarAddress] = useState("");
   const mapView = useSelector((store) => store.mapView);
+  // state to open or close FilterByModal
   const [modalShow, setModalShow] = useState(false);
+
   const [show, setShow] = useState(false);
 
   // state for filter by toggles (open now, wheelchair accessible, single-stall, changing table)
@@ -166,10 +67,11 @@ const selectedCenter = useMemo(() => ({lat: selectedLocation.lat, lng: selectedL
   );
 
   const containerStyle = {
-      width: '80vw',
-      height: '70vh',
+      width: '100%',
+      height: '65vh',
       leftMargin: '20px',
-      rightMargin: '20px'
+      rightMargin: '20px',
+      bottomMargin: '20px',
   }
 
      // useMemo performs the calculation once everytime the array arg changes, reuses the same value every time it re-renders
@@ -189,32 +91,33 @@ const selectedCenter = useMemo(() => ({lat: selectedLocation.lat, lng: selectedL
   }, []);
 
   // sends address types into Autocomplete box to server to get bathrooms list
-  const sendLocation = async (e) => {
+  const sendLocation = (e) => {
     e.preventDefault();
-    if (value !== "") {
-      console.log("value: ", value)
+    if (searchBarAddress !== "") {
+      console.log("searchBarAddress: ", searchBarAddress)
       // converts address to url-friendly string 
-      const convertedAddress = value.value.description.split(" ").join("%20");
-        console.log("convertedAddress:", convertedAddress);
-        // 🔥🔥🔥🔥🔥🔥 NEED TO FIGURE OUT THIS ASYNC/AWAIT THING! It is indeed recentering the map correctly if you click "search nearby" twice - so the setCurrentLat and setCurrentLng are working, they just aren't happening asynchronously - we need to wait until we get the addressCoordinates back from the address saga to plug them in
-    try { 
-      await setOrigin(convertedAddress)
-      await dispatch({
-        type: "SAGA/SEND_LOCATION",
-        payload: convertedAddress,
-      });
-     } catch (err) {
-      console.log('Error sending location: ', err)
-     }
-
-    } else {
-      // (dispatch({
-      //   type: 'SAGA/FETCH_BATHROOMS',
-      //   payload: {
-      //       lat: currentLat,
-      //       lng: currentLng
-      //   }
-      // }))
+      const convertedAddress = searchBarAddress.value.description.split(" ").join("%20");
+      try { 
+        setOrigin(convertedAddress)
+        dispatch({
+          type: "SAGA/SEND_LOCATION",
+          payload: convertedAddress,
+        });
+       } catch (err) {
+        console.log('Error sending location: ', err)
+       }
+  
+    } 
+    // else if (currentLat) {
+    //   (dispatch({
+    //     type: 'SAGA/FETCH_BATHROOMS',
+    //     payload: {
+    //         lat: currentLat,
+    //         lng: currentLng
+    //     }
+    //   }))
+    // }
+     else {
       Swal.fire({
         title: "Trying to search by location?",
         text: "Start typing an address to begin!",
@@ -234,50 +137,53 @@ const selectedCenter = useMemo(() => ({lat: selectedLocation.lat, lng: selectedL
   };
 
   const clearInput = () => {
-    setValue('')
+    setSearchBarAddress('')
   }
 
   // const apiKey=process.env.GOOGLE_MAPS_API_KEY
 
   return (
     <Box className="container" sx={{mt: 6, width: 9/10}}>
+
       {/* AutoComplete search box */}
-      <div>
       <Form onSubmit={(e) => sendLocation(e)}>
         <GooglePlacesAutocomplete
           apiKey="AIzaSyBEYEcOGj237bE2zG78LTaQpUplQITQxpE"
           // onChange={(e) => setAddressInput(e.target.value)}
           // value={addressInput}
           selectProps={{
-            value,
-            onChange: setValue
+            searchBarAddress,
+            onChange: setSearchBarAddress
           }}
           // biases autocomplete search results to locations near IP address
           ipbias
         />
-        <Button variant="outlined" onClick={(e) => sendLocation(e)} sx={{mb: 1, mt: 1, mr: 1}}>
-          Search
-        </Button>
+        <div class="btn-toolbar justify-content-between">
+
         {/* Button to change to Map View or List View */}
-        <Button onClick={(e) => toggleView(e)} variant="contained" sx={{mb: 1, mt: 1}}
+        <Button onClick={(e) => toggleView(e)} variant="outlined" sx={{mb: 1, mt: 1}}
             >
         {mapView ? "List view" : "Map view"}
         </Button>
+
+        <Button variant="contained" onClick={(e) => sendLocation(e)} sx={{mb: 1, mt: 1,backgroundColor: 'white', border: '1px solid lightgrey'}}>
+          🔎
+        </Button>
+</div>
         </Form>
-      </div>
 
       {/* "Filter by" toggle switch (choose filters in popup modal) */}
-      <FilterByModal
-        show={modalShow}
+      {/* <FilterByModal
+        // show={modalShow}
         onHide={() => setModalShow(false)}
-        setShow={setShow}
+        // setShow={setShow}
         handleClose={handleClose}
         modalShow={modalShow}
         setModalShow={setModalShow}
-      />
+      /> */}
 
       {/* if "List View" is selected, renders a list of bathrooms */}
-      {/* 🔥🔥🔥🔥🔥🔥 mapView is currently listView.... */}
+
       {mapView === false ? (
 // While you are in "List View" mode:
         // if you have searched for bathrooms by proximity to your location, renders a list of those bathrooms by distance
@@ -327,7 +233,7 @@ const selectedCenter = useMemo(() => ({lat: selectedLocation.lat, lng: selectedL
 })}
       </GoogleMap>
         ) : (
-        // otherwise, if you haven't entered a search query, renders a list of *all* bathrooms (default upon page load) with map centered on your current location or default Minneapolis location
+        // otherwise, if you haven't entered a search query, renders map centered on your current location or default Minneapolis location
         <GoogleMap
         mapContainerStyle={{ width: '100%', height: '70vh' }}
         center={center}
