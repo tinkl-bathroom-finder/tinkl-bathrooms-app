@@ -67,10 +67,11 @@ const selectedCenter = useMemo(() => ({lat: selectedLocation.lat, lng: selectedL
   );
 
   const containerStyle = {
-      width: '80vw',
+      width: '100%',
       height: '70vh',
       leftMargin: '20px',
-      rightMargin: '20px'
+      rightMargin: '20px',
+      bottomMargin: '20px'
   }
 
      // useMemo performs the calculation once everytime the array arg changes, reuses the same value every time it re-renders
@@ -90,7 +91,7 @@ const selectedCenter = useMemo(() => ({lat: selectedLocation.lat, lng: selectedL
   }, []);
 
   // sends address types into Autocomplete box to server to get bathrooms list
-  const sendLocation = async (e) => {
+  const sendLocation = (e) => {
     e.preventDefault();
     if (searchBarAddress !== "") {
       console.log("searchBarAddress: ", searchBarAddress)
@@ -106,15 +107,17 @@ const selectedCenter = useMemo(() => ({lat: selectedLocation.lat, lng: selectedL
         console.log('Error sending location: ', err)
        }
   
-    } else if (currentLat) {
-      (dispatch({
-        type: 'SAGA/FETCH_BATHROOMS',
-        payload: {
-            lat: currentLat,
-            lng: currentLng
-        }
-      }))
-    } else {
+    } 
+    // else if (currentLat) {
+    //   (dispatch({
+    //     type: 'SAGA/FETCH_BATHROOMS',
+    //     payload: {
+    //         lat: currentLat,
+    //         lng: currentLng
+    //     }
+    //   }))
+    // }
+     else {
       Swal.fire({
         title: "Trying to search by location?",
         text: "Start typing an address to begin!",
@@ -155,27 +158,29 @@ const selectedCenter = useMemo(() => ({lat: selectedLocation.lat, lng: selectedL
           // biases autocomplete search results to locations near IP address
           ipbias
         />
-
-        <Button variant="outlined" onClick={(e) => sendLocation(e)} sx={{mb: 1, mt: 1, mr: 1}}>
-          Search
-        </Button>
+        <div class="btn-toolbar justify-content-between">
 
         {/* Button to change to Map View or List View */}
-        <Button onClick={(e) => toggleView(e)} variant="contained" sx={{mb: 1, mt: 1}}
+        <Button onClick={(e) => toggleView(e)} variant="outlined" sx={{mb: 1, mt: 1}}
             >
         {mapView ? "List view" : "Map view"}
         </Button>
+
+        <Button variant="contained" onClick={(e) => sendLocation(e)} sx={{mb: 1, mt: 1,backgroundColor: 'white', border: '1px solid lightgrey'}}>
+          🔎
+        </Button>
+</div>
         </Form>
 
       {/* "Filter by" toggle switch (choose filters in popup modal) */}
-      <FilterByModal
+      {/* <FilterByModal
         // show={modalShow}
         onHide={() => setModalShow(false)}
         // setShow={setShow}
         handleClose={handleClose}
         modalShow={modalShow}
         setModalShow={setModalShow}
-      />
+      /> */}
 
       {/* if "List View" is selected, renders a list of bathrooms */}
 
@@ -228,7 +233,7 @@ const selectedCenter = useMemo(() => ({lat: selectedLocation.lat, lng: selectedL
 })}
       </GoogleMap>
         ) : (
-        // otherwise, if you haven't entered a search query, renders a list of *all* bathrooms (default upon page load) with map centered on your current location or default Minneapolis location
+        // otherwise, if you haven't entered a search query, renders map centered on your current location or default Minneapolis location
         <GoogleMap
         mapContainerStyle={{ width: '100%', height: '70vh' }}
         center={center}
