@@ -19,14 +19,10 @@ import MyMap from "../Map/Map";
 import { Button, Box } from "@mui/material";
 import FilterByModal from "./FilterByModal";
 
-// FilterByModal was built for future use but is not currently functional
-// There is a duplicate FilterByComponent
-
-
 function BathroomsPage() {
   const dispatch = useDispatch();
 
-  const store = useSelector((store) => store);
+  // const store = useSelector((store) => store);
   const bathrooms = useSelector((store) => store.bathrooms);
   const bathroomsByDistance = useSelector((store) => store.bathroomsByDistance);
   const addressCoordinates = useSelector((store) => store.addressCoordinates);
@@ -34,7 +30,9 @@ function BathroomsPage() {
   // captures value of address typed in search bar as local state
   const [searchBarAddress, setSearchBarAddress] = useState("");
   const mapView = useSelector((store) => store.mapView);
+  // state to open or close FilterByModal
   const [modalShow, setModalShow] = useState(false);
+
   const [show, setShow] = useState(false);
 
   // state for filter by toggles (open now, wheelchair accessible, single-stall, changing table)
@@ -134,8 +132,8 @@ const selectedCenter = useMemo(() => ({lat: selectedLocation.lat, lng: selectedL
 
   return (
     <Box className="container" sx={{mt: 6, width: 9/10}}>
+
       {/* AutoComplete search box */}
-      <div>
       <Form onSubmit={(e) => sendLocation(e)}>
         <GooglePlacesAutocomplete
           apiKey="AIzaSyBEYEcOGj237bE2zG78LTaQpUplQITQxpE"
@@ -148,22 +146,23 @@ const selectedCenter = useMemo(() => ({lat: selectedLocation.lat, lng: selectedL
           // biases autocomplete search results to locations near IP address
           ipbias
         />
+
         <Button variant="outlined" onClick={(e) => sendLocation(e)} sx={{mb: 1, mt: 1, mr: 1}}>
           Search
         </Button>
+
         {/* Button to change to Map View or List View */}
         <Button onClick={(e) => toggleView(e)} variant="contained" sx={{mb: 1, mt: 1}}
             >
         {mapView ? "List view" : "Map view"}
         </Button>
         </Form>
-      </div>
 
       {/* "Filter by" toggle switch (choose filters in popup modal) */}
       <FilterByModal
-        show={modalShow}
+        // show={modalShow}
         onHide={() => setModalShow(false)}
-        setShow={setShow}
+        // setShow={setShow}
         handleClose={handleClose}
         modalShow={modalShow}
         setModalShow={setModalShow}
