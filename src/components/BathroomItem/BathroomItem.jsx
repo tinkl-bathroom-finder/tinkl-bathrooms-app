@@ -81,7 +81,7 @@ function BathroomItem({ bathroom, origin }) {
         <Card
           sx={{
             mb: "5px",
-            // height: '25vw'
+            maxHeight: '200px',
             height: expanded ? "auto" : "30vw",
             paddingLeft: 0,
             // borderRadius: '10px',
