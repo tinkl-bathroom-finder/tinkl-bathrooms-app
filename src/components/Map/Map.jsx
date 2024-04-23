@@ -53,7 +53,7 @@ function Map(selectedLocation) {
   );
 
   const containerStyle = {
-      width: '80vw',
+      width: '100%',
       height: '70vh',
       leftMargin: '20px',
       rightMargin: '20px'
