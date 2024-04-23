@@ -55,7 +55,7 @@ function FilterByModal(props) {
   return (
     <>
       <Button variant="outlined" onClick={handleShow}>
-        Filter by
+        Filter results
       </Button>
 
       <Modal show={show} onHide={handleClose}>
