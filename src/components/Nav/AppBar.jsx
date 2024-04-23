@@ -333,7 +333,7 @@ function AppBarNav() {
                 <AccountCircle />
               </IconButton> */}
               <Avatar
-                sx={{ color: '#fecd4f', bgcolor: "#3ab5fb", border: 1, borderColor: '#FFF6F6' }}
+                sx={{ color: 'darkslategrey', bgcolor: "#ffe6e8", border: 1, borderColor: '#FFF6F6', fontWeight: 'bold'}}
                 aria-label="account of current user"
                 aria-controls="menu-appbar"
                 aria-haspopup="true"
@@ -355,9 +355,12 @@ function AppBarNav() {
                 }}
                 open={Boolean(anchorEl)}
                 onClose={handleClose}
+                sx={{
+                  borderRadius: '20px'
+                }}
               >
-                <MenuItem onClick={goToProfile}>My profile</MenuItem>
-                <MenuItem onClick={logOut}>Log out</MenuItem>
+                <MenuItem onClick={goToProfile} sx={{color: 'darkslategray'}}>My profile</MenuItem>
+                <MenuItem onClick={logOut} sx={{color: 'darkslategray'}}>Log out</MenuItem>
               </Menu>
               {/* If a user is not logged in, a Log In button will appear on the right in the top NavBar */}
               {/* Once you click Log In and are navigated to the Log In page, the same button will now say Register and will be a link to the registration page */}
