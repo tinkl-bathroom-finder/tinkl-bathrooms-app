@@ -68,10 +68,10 @@ const selectedCenter = useMemo(() => ({lat: selectedLocation.lat, lng: selectedL
 
   const containerStyle = {
       width: '100%',
-      height: '70vh',
+      height: '65vh',
       leftMargin: '20px',
       rightMargin: '20px',
-      bottomMargin: '20px'
+      bottomMargin: '20px',
   }
 
      // useMemo performs the calculation once everytime the array arg changes, reuses the same value every time it re-renders
