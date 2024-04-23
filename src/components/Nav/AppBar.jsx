@@ -30,6 +30,7 @@ import {
 
 // MUI icons
 import {
+  AddCircle,
   AccountCircle,
   AddCircleOutlineOutlined,
   CommentOutlined,
@@ -37,10 +38,14 @@ import {
   ExpandLess,
   ExpandMore,
   GroupOutlined,
+  Help,
   WaterDrop,
+
 } from "@mui/icons-material";
 import MenuIcon from "@mui/icons-material/Menu";
-import { deepPurple } from '@mui/material/colors'
+import { deepPurple } from '@mui/material/colors';
+import AdminPanelSettingsIcon from '@mui/icons-material/AdminPanelSettings';
+import InfoIcon from '@mui/icons-material/Info';
 
 function AppBarNav() {
   const dispatch = useDispatch();
@@ -143,7 +148,7 @@ function AppBarNav() {
             underline="none"
           >
             <ListItemButton onClick={toggleDrawer(anchor, false)}>
-              <ListItemIcon>{<WaterDrop />}</ListItemIcon>
+              <ListItemIcon>{<Help />}</ListItemIcon>
               <ListItemText primary="About" />
             </ListItemButton>
           </Link>
@@ -159,9 +164,27 @@ function AppBarNav() {
           >
             <ListItemButton onClick={toggleDrawer(anchor, false)}>
               <ListItemIcon>
-                <WaterDrop />
+                <InfoIcon />
               </ListItemIcon>
               <ListItemText primary="Info" />
+            </ListItemButton>
+          </Link>
+        </ListItem>
+
+
+        {/* "info" aka about app page which is /info... */}
+        <ListItem key="add" disablePadding>
+          <Link
+            to="/addbathroom"
+            className="linkInDrawer"
+            onClick={() => setDrawerOpen(false)}
+            underline="none"
+          >
+            <ListItemButton onClick={toggleDrawer(anchor, false)}>
+              <ListItemIcon>
+                <AddCircle />
+              </ListItemIcon>
+              <ListItemText primary="Add bathroom" />
             </ListItemButton>
           </Link>
         </ListItem>
@@ -179,7 +202,7 @@ function AppBarNav() {
               >
                 <ListItemButton onClick={handleClick}>
                   <ListItemIcon>
-                    <WaterDrop />
+                    <AdminPanelSettingsIcon />
                   </ListItemIcon>
                   <ListItemText primary="Admin" />
                   {open ? <ExpandLess /> : <ExpandMore />}
