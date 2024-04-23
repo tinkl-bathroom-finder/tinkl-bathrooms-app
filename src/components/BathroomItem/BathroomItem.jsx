@@ -77,13 +77,14 @@ function BathroomItem({ bathroom, origin }) {
         key={bathroom.id}
         width="100%"
         // padding-left (https://mui.com/system/spacing/)
-        pl="20px"
       >
         <Card
           sx={{
             mb: "5px",
             // height: '25vw'
             height: expanded ? "auto" : "30vw",
+            paddingLeft: 0,
+            // borderRadius: '10px',
           }}
           // if you click on the bathroom item card, it will expand with more details
           onClick={handleExpandClick}
