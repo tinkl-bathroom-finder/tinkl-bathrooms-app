@@ -5,7 +5,15 @@ tinkl is a mobile bathroom-finding app that locates nearby gender-neutral and si
 Search by your current location or enter a different location, and tinkl will pull up the closest bathrooms to you in either a map or a list, depending on how you want to view them. You will also be able to see the bathroom's address, distance from you, and additional information; like if it is wheelchair-accessible, has a changing table, and whether it is single-stall or gender-neutral.
 
 Click on the "more info" button to see user comments and ratings and to leave feedback of your own! User-generated feedback helps keep this app informative and relevant.
+
+Check out the deployed version on Heroku here:
+<p>
+<a href="https://tinkl-946316b8de2d.herokuapp.com/#/bathrooms">
+<img src="https://github.com/essiero/github-read-me/assets/141077443/6c4dba8b-252d-4934-86bf-97d9d5a7261e" width="50px"/>
+    </a>
+ </p>
 <br/>
+App preview:
 <div>
  <img width="20%" alt="Bathrooms list" src="https://github.com/essiero/tinkl-bathrooms-app/assets/141077443/68e249af-38e6-4880-a7c7-2a35cef8216a">
  <img width="20%" alt="Search by address" src="https://github.com/essiero/tinkl-bathrooms-app/assets/141077443/dac77eca-203e-47df-a1d2-7aea00b4f2d2">
