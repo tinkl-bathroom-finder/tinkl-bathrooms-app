@@ -94,8 +94,7 @@ const selectedCenter = useMemo(() => ({lat: selectedLocation.lat, lng: selectedL
 
   // sends address types into Autocomplete box to server to get bathrooms list
   const sendLocation = () => {
-    
-    // e.preventDefault();
+    // Ensures that sendLocation isn't triggered when search box is cleared
     if (searchBarAddress === null) {
       return;
     }
@@ -136,43 +135,45 @@ const selectedCenter = useMemo(() => ({lat: selectedLocation.lat, lng: selectedL
     });
   };
 
+  // TODO: Can this function now be removed?
   const clearInput = () => {
     setSearchBarAddress('')
   }
 
+  // Ensures searchBarAddress is set in state before executing sendLocation()
   useEffect(() => {
     if (searchBarAddress !== '') {
     menuClosed()}
   }, [searchBarAddress])
 
+  // Runs when search menu is closed, allowing whatever has been selected to be sent to sendLocation()
   const menuClosed = () => {
     if (searchBarAddress == "") {
       console.log('Search bar is empty');
     } else {
     sendLocation();}
   }
-  
+  // Runs when search menu is opened, emptying the menu of text
   const menuOpened = () => {
     if (searchBarAddress !== '') {
       setSearchBarAddress('');}
-    console.log('current address is ', searchBarAddress)
   }
 
   // const apiKey=process.env.GOOGLE_MAPS_API_KEY
 
   return (
     <Box className="container" sx={{mt: 6, width: 9/10}}>
-        <div class="btn-toolbar justify-content-between">
+        
       {/* AutoComplete search box */}
           <GooglePlacesAutocomplete
           
           apiKey="AIzaSyBEYEcOGj237bE2zG78LTaQpUplQITQxpE"
           selectProps={{
-            className:"searchBar",
+            className:"searchBar", // Provides the component with a class for styling
             isClearable: true, // Allows the textbox to be emptied with X
             onBlur: () => menuClosed(), // Triggers menuClosed() when clicking off of the textbox
             onMenuOpen: () => menuOpened(), // Triggers textbox to clear when clicking on it
-            //onMenuClose: () => menuClosed(),
+            //onMenuClose: () => menuClosed(), // Triggers menuClosed() although may be redundant
             value: searchBarAddress,
             onChange: setSearchBarAddress,
             placeholder: 'Enter an address', // Sets the placeholder for textbox
@@ -181,6 +182,7 @@ const selectedCenter = useMemo(() => ({lat: selectedLocation.lat, lng: selectedL
                   ...provided,
                   color: 'black',
               }),
+              // Removes highlight on hover
               option: (provided) => ({
                   ...provided,
                   color: 'black',
@@ -219,14 +221,13 @@ const selectedCenter = useMemo(() => ({lat: selectedLocation.lat, lng: selectedL
         />
 
         
-
+<div class="btn-toolbar justify-content-between">
         {/* Button to change to Map View or List View */}
         <Button onClick={(e) => toggleView(e)} variant="contained" sx={{mb: 1, mt: 1, borderRadius: 5, flexGrow: 0}}
             >
         {mapView ? "List view" : "Map view"}
         </Button>
 </div>
-        {/* </Form> */}
 
       {/* "Filter by" toggle switch (choose filters in popup modal) */}
       {/* <FilterByModal
