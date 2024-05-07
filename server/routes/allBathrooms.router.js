@@ -4,33 +4,34 @@ const router = express.Router();
 const {
   rejectUnauthenticated,
 } = require("../modules/authentication-middleware");
+const axios = require('axios');
 
 /**
  * GET route template
  */
-router.get("/", (req, res) => {
-  // GET all bathrooms route
-  const query = /*sql*/`
-  SELECT 
-  "restrooms".*, 
-  SUM("restroom_votes"."upvote") AS "upvotes", 
-  SUM ("restroom_votes"."downvote") AS "downvotes"
-FROM "restrooms"
-LEFT JOIN "restroom_votes" ON "restrooms"."id"="restroom_votes"."restroom_id"
-WHERE "restrooms".is_removed = FALSE
-GROUP BY "restrooms"."id";`
+// router.get("/", (req, res) => {
+//   // GET all bathrooms route
+//   const query = /*sql*/`
+//   SELECT 
+//   "restrooms".*, 
+//   SUM("restroom_votes"."upvote") AS "upvotes", 
+//   SUM ("restroom_votes"."downvote") AS "downvotes"
+// FROM "restrooms"
+// LEFT JOIN "restroom_votes" ON "restrooms"."id"="restroom_votes"."restroom_id"
+// WHERE "restrooms".is_removed = FALSE
+// GROUP BY "restrooms"."id";`
 
-  pool
-    .query(query)
-    .then((dbRes) => {
-      // console.log("dbRes.rows in GET /all route:", dbRes);
-      res.send(dbRes.rows);
-    })
-    .catch((dbErr) => {
-      console.log("fail:", dbErr);
-      res.sendStatus(500);
-    });
-});
+//   pool
+//     .query(query)
+//     .then((dbRes) => {
+//       // console.log("dbRes.rows in GET /all route:", dbRes);
+//       res.send(dbRes.rows);
+//     })
+//     .catch((dbErr) => {
+//       console.log("fail:", dbErr);
+//       res.sendStatus(500);
+//     });
+// });
 
 // PUT route for admin to soft "delete" a bathroom AKA turn "is_removed" to true
 router.put("/:id", rejectUnauthenticated, (req, res) => {
@@ -94,26 +95,26 @@ router.post("/", (req, res) => {
           pool
             .query(actualCommentQuery)
             .then((result) => {
-            
+
               const formattedVotesQuery = formatVotesQuery(
                 req.body, restroom_id_array)
               // fourth query
               pool
-              .query(formattedVotesQuery)
-              .then((result) => {
-                res.sendStatus(201);
-              })
-              // catch for fourth query
-              .catch((err) => {
-                console.log("Error with votes post: ", err);
-                res.sendStatus(500);
-              })
+                .query(formattedVotesQuery)
+                .then((result) => {
+                  res.sendStatus(201);
+                })
+                // catch for fourth query
+                .catch((err) => {
+                  console.log("Error with votes post: ", err);
+                  res.sendStatus(500);
+                })
             })
             // catch for third query
             .catch((err) => {
               console.log("Error with comments post: ", err);
               res.sendStatus(500);
-          })
+            })
         })
         // catch for the second (directions) query
         .catch((err) => {
@@ -147,11 +148,11 @@ VALUES
       ${restroomIdArray[i].id}, 
       '${BA[i].created_at}'); 
   `;
-    } 
+    }
 
   } let finalCommentsQuery = commentsQuery.slice(0, -2)
-    finalCommentsQuery += `;`
-    console.log("commentsQuery:", commentsQuery);
+  finalCommentsQuery += `;`
+  console.log("commentsQuery:", commentsQuery);
   return finalCommentsQuery;
 }
 
@@ -172,17 +173,17 @@ VALUES
     ('${BA[i].comment.replace(/'/g, "''") || ""}', 
     ${restroomIdArray[i].id}, 
     '${BA[i].created_at}'), `;
-    } else if (BA[i].comment && i <  BA.length) {
+    } else if (BA[i].comment && i < BA.length) {
       actualCommentsQuery += `
       ('${BA[i].comment.replace(/'/g, "''") || ""} ', 
       ${restroomIdArray[i].id}, 
       '${BA[i].created_at}'); 
   `;
-    } 
+    }
 
   } let finalCommentsQuery = actualCommentsQuery.slice(0, -2)
   finalCommentsQuery += `;`
-    console.log("finalCommentsQuery:", finalCommentsQuery);
+  console.log("finalCommentsQuery:", finalCommentsQuery);
   return finalCommentsQuery;
 }
 
@@ -195,24 +196,17 @@ VALUES
   for (let i = 0; i < BA.length; i++) {
     if (i < BA.length - 1) {
       bathroomQuery += `
-  (${BA[i].id}, '${BA[i].name.replace(/'/g, "''") || ""}', '${
-        BA[i].street.replace(/'/g, "''") || ""
-      }', '${BA[i].city}', '${BA[i].state}', ${BA[i].accessible}, ${
-        BA[i].unisex
-      }, ${BA[i].latitude}, ${BA[i].longitude}, '${BA[i].created_at}', '${
-        BA[i].updated_at
-      }', '${BA[i].country}', ${BA[i].changing_table}),
+  (${BA[i].id}, '${BA[i].name.replace(/'/g, "''") || ""}', '${BA[i].street.replace(/'/g, "''") || ""
+        }', '${BA[i].city}', '${BA[i].state}', ${BA[i].accessible}, ${BA[i].unisex
+        }, ${BA[i].latitude}, ${BA[i].longitude}, '${BA[i].created_at}', '${BA[i].updated_at
+        }', '${BA[i].country}', ${BA[i].changing_table}),
   `;
     } else if (i < BA.length) {
-      bathroomQuery += `  (${BA[i].id}, '${
-        BA[i].name.replace(/'/g, "''") || ""
-      }', '${BA[i].street.replace(/'/g, "''") || ""}', '${BA[i].city}', '${
-        BA[i].state
-      }', ${BA[i].accessible}, ${BA[i].unisex}, ${BA[i].latitude}, ${
-        BA[i].longitude
-      }, '${BA[i].created_at}', '${BA[i].updated_at}', '${BA[i].country}', ${
-        BA[i].changing_table
-      })
+      bathroomQuery += `  (${BA[i].id}, '${BA[i].name.replace(/'/g, "''") || ""
+        }', '${BA[i].street.replace(/'/g, "''") || ""}', '${BA[i].city}', '${BA[i].state
+        }', ${BA[i].accessible}, ${BA[i].unisex}, ${BA[i].latitude}, ${BA[i].longitude
+        }, '${BA[i].created_at}', '${BA[i].updated_at}', '${BA[i].country}', ${BA[i].changing_table
+        })
   RETURNING "id";`;
     }
   }
@@ -228,19 +222,19 @@ const formatVotesQuery = (array, restroom_id_array) => {
   ("restroom_id", "upvote", "downvote", "inserted_at")
   VALUES 
   `;
-  for (let i=0; i<array.length; i++){
+  for (let i = 0; i < array.length; i++) {
     if (array[i].upvote && i < array.length - 1) {
       votesQuery += `
       (${restroom_id_array[i].id}, ${array[i].upvote}, ${array[i].downvote}, '${array[i].created_at}'), `
-    } else if (array[i].downvote && i < array.length-1){
+    } else if (array[i].downvote && i < array.length - 1) {
       votesQuery += `
       (${restroom_id_array[i].id}, ${array[i].upvote}, ${array[i].downvote}, '${array[i].created_at}'),  
       `
     }
-} let finalVotesQuery = votesQuery.slice(0, -2)
-finalVotesQuery += `;`
-console.log('finalVotesQuery: ', finalVotesQuery)
-return finalVotesQuery
+  } let finalVotesQuery = votesQuery.slice(0, -2)
+  finalVotesQuery += `;`
+  console.log('finalVotesQuery: ', finalVotesQuery)
+  return finalVotesQuery
 }
 
 // const formatUpVotesQuery = (array, restroomIdArray) => {
@@ -281,5 +275,55 @@ return finalVotesQuery
 //     }
 // } return votesQuery
 // }
+
+
+
+/**
+ * GOOGLE PLACES API
+ */
+router.get("/", (req, res) => {
+  // GET all bathrooms route
+  const query = /*sql*/`
+  SELECT *
+FROM "restrooms"
+WHERE "restrooms".is_removed = FALSE AND id = 20
+ORDER BY id
+LIMIT 2;`
+  pool.query(query)
+    .then((dbRes) => {
+      let db_bathrooms = dbRes.rows
+      console.log('db bathrooms:', db_bathrooms);
+      for (let i = 0; i < db_bathrooms.length; i++) {
+        apiGeocode = `https://maps.googleapis.com/maps/api/geocode/json?key=AIzaSyCXfizt8q0KOhephD9TP55AqYdnUFNp1H0&address=${db_bathrooms[i].name.split(" ").join("%20")}%20${db_bathrooms[i].street.split(" ").join("%20")}%20${db_bathrooms[i].city.split(" ").join("%20")}%20${db_bathrooms[i].state.split(" ").join("%20")}`
+        console.log('serach string:', apiGeocode);
+        axios({
+          method: "GET",
+          url: `${apiGeocode}`
+        })
+          .then((response) => {
+            let place_id = response.data.results[0].place_id
+            console.log('placeID from Geocoding:', response.data.results[0].place_id);
+            axios({
+              method: "GET",
+              url: `https://places.googleapis.com/v1/places/${place_id}?fields=*&key=AIzaSyDwUFUMBNNbnaNJQjykE2YU6gnk-s5w5mo`
+            })
+              .then((response) => {
+                console.log('info from place API:', response.data);
+              })
+              .catch((error) => {
+                console.log("Error in place API", error);
+              })
+          })
+          .catch((error) => {
+            console.log("Error in geocode API", error);
+          })
+      }
+      // res.send(dbRes.rows);
+    })
+    .catch((dbErr) => {
+      console.log("fail:", dbErr);
+      res.sendStatus(500);
+    });
+});
 
 module.exports = router;
