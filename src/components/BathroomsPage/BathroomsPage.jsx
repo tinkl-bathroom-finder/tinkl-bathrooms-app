@@ -247,11 +247,9 @@ const selectedCenter = useMemo(() => ({lat: selectedLocation.lat, lng: selectedL
         setModalShow={setModalShow}
       /> */}
 
-        <Button variant="contained" onClick={(e) => sendLocation(e)} sx={{mb: 1, mt: 1,backgroundColor: 'white', border: '1px solid lightgrey', borderRadius: 5}}>
-          Search
-        </Button>
+
 </div>
-        </Form>
+
 
 
       {/* if "List View" is selected, renders a list of bathrooms */}
