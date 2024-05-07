@@ -227,6 +227,9 @@ const selectedCenter = useMemo(() => ({lat: selectedLocation.lat, lng: selectedL
             >
         {mapView ? "List view" : "Map view"}
         </Button>
+        <Button variant="contained" onClick={(e) => sendLocation(e)} sx={{mb: 1, mt: 1,backgroundColor: 'white', border: '1px solid lightgrey', borderRadius: 5}}>
+          🔎
+        </Button>
 </div>
 
       {/* "Filter by" toggle switch (choose filters in popup modal) */}
