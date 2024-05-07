@@ -142,8 +142,8 @@ const selectedCenter = useMemo(() => ({lat: selectedLocation.lat, lng: selectedL
 
   // Ensures searchBarAddress is set in state before executing sendLocation()
   useEffect(() => {
-    if (searchBarAddress !== '') {
-    menuClosed()}
+    //if (searchBarAddress !== '') {
+    menuClosed()
   }, [searchBarAddress])
 
   // Runs when search menu is closed, allowing whatever has been selected to be sent to sendLocation()
@@ -163,7 +163,7 @@ const selectedCenter = useMemo(() => ({lat: selectedLocation.lat, lng: selectedL
 
   return (
     <Box className="container" sx={{mt: 6, width: 9/10}}>
-        
+        <div class="btn-toolbar justify-content-between">
       {/* AutoComplete search box */}
           <GooglePlacesAutocomplete
           
@@ -173,7 +173,6 @@ const selectedCenter = useMemo(() => ({lat: selectedLocation.lat, lng: selectedL
             isClearable: true, // Allows the textbox to be emptied with X
             onBlur: () => menuClosed(), // Triggers menuClosed() when clicking off of the textbox
             onMenuOpen: () => menuOpened(), // Triggers textbox to clear when clicking on it
-            //onMenuClose: () => menuClosed(), // Triggers menuClosed() although may be redundant
             value: searchBarAddress,
             onChange: setSearchBarAddress,
             placeholder: 'Enter an address', // Sets the placeholder for textbox
@@ -221,15 +220,15 @@ const selectedCenter = useMemo(() => ({lat: selectedLocation.lat, lng: selectedL
         />
 
         
-<div class="btn-toolbar justify-content-between">
+
         {/* Button to change to Map View or List View */}
         <Button onClick={(e) => toggleView(e)} variant="contained" sx={{mb: 1, mt: 1, borderRadius: 5, flexGrow: 0}}
             >
         {mapView ? "List view" : "Map view"}
         </Button>
-        <Button variant="contained" onClick={(e) => sendLocation(e)} sx={{mb: 1, mt: 1,backgroundColor: 'white', border: '1px solid lightgrey', borderRadius: 5}}>
+        {/* <Button variant="contained" onClick={(e) => sendLocation(e)} sx={{mb: 1, mt: 1,backgroundColor: 'white', border: '1px solid lightgrey', borderRadius: 5}}>
           🔎
-        </Button>
+        </Button> */}
 </div>
 
       {/* "Filter by" toggle switch (choose filters in popup modal) */}
