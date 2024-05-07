@@ -20,6 +20,7 @@ import MyMap from "../Map/Map";
 import { Button, Box } from "@mui/material";
 import FilterByModal from "./FilterByModal";
 
+
 function BathroomsPage() {
   const dispatch = useDispatch();
 
@@ -94,9 +95,12 @@ const selectedCenter = useMemo(() => ({lat: selectedLocation.lat, lng: selectedL
   }, []);
 
   // sends address types into Autocomplete box to server to get bathrooms list
-  const sendLocation = (e) => {
-    e.preventDefault();
-    if (searchBarAddress !== "") {
+  const sendLocation = () => {
+    // Ensures that sendLocation isn't triggered when search box is cleared
+    if (searchBarAddress === null) {
+      return;
+    }
+    else if (searchBarAddress !== "") {
       console.log("searchBarAddress: ", searchBarAddress)
       // converts address to url-friendly string 
       const convertedAddress = searchBarAddress.value.description.split(" ").join("%20");
@@ -120,13 +124,7 @@ const selectedCenter = useMemo(() => ({lat: selectedLocation.lat, lng: selectedL
     //     }
     //   }))
     // }
-     else {
-      Swal.fire({
-        title: "Trying to search by location?",
-        text: "Start typing an address to begin!",
-        icon: "question",
-      });
-    }
+     
   };
 
   // function to toggle between map and list view
@@ -139,22 +137,47 @@ const selectedCenter = useMemo(() => ({lat: selectedLocation.lat, lng: selectedL
     });
   };
 
+  // TODO: Can this function now be removed?
   const clearInput = () => {
     setSearchBarAddress('')
+  }
+
+  // Ensures searchBarAddress is set in state before executing sendLocation()
+  useEffect(() => {
+    //if (searchBarAddress !== '') {
+    menuClosed()
+  }, [searchBarAddress])
+
+  // Runs when search menu is closed, allowing whatever has been selected to be sent to sendLocation()
+  const menuClosed = () => {
+    if (searchBarAddress == "") {
+      console.log('Search bar is empty');
+    } else {
+    sendLocation();}
+  }
+  // Runs when search menu is opened, emptying the menu of text
+  const menuOpened = () => {
+    if (searchBarAddress !== '') {
+      setSearchBarAddress('');}
   }
 
   // const apiKey=process.env.GOOGLE_MAPS_API_KEY
 
   return (
     <Box className="container" sx={{mt: 6, width: 9/10}}>
-
+        <div class="btn-toolbar justify-content-between">
       {/* AutoComplete search box */}
-      <Form onSubmit={(e) => sendLocation(e)}>
-        <GooglePlacesAutocomplete
+          <GooglePlacesAutocomplete
+          
           apiKey="AIzaSyBEYEcOGj237bE2zG78LTaQpUplQITQxpE"
           selectProps={{
-            searchBarAddress,
+            className:"searchBar", // Provides the component with a class for styling
+            isClearable: true, // Allows the textbox to be emptied with X
+            onBlur: () => menuClosed(), // Triggers menuClosed() when clicking off of the textbox
+            onMenuOpen: () => menuOpened(), // Triggers textbox to clear when clicking on it
+            value: searchBarAddress,
             onChange: setSearchBarAddress,
+            placeholder: 'Enter an address', // Sets the placeholder for textbox
             styles: {
               input: (provided) => ({
                   ...provided,
@@ -162,6 +185,7 @@ const selectedCenter = useMemo(() => ({lat: selectedLocation.lat, lng: selectedL
                   color: 'black',
 
               }),
+              // Removes highlight on hover
               option: (provided) => ({
                   ...provided,
                   // text color for dropdown menu items
@@ -198,15 +222,17 @@ const selectedCenter = useMemo(() => ({lat: selectedLocation.lat, lng: selectedL
                   ...provided,
               }),
 
-          }
+          }, 
+          
           }}
           // biases autocomplete search results to locations near IP address
           ipbias
         />
-        <div class="btn-toolbar justify-content-between">
+
+        
 
         {/* Button to change to Map View or List View */}
-        <Button onClick={(e) => toggleView(e)} variant="outlined" sx={{mb: 1, mt: 1, borderRadius: 5}}
+        <Button onClick={(e) => toggleView(e)} variant="contained" sx={{mb: 1, mt: 1, borderRadius: 5, flexGrow: 0}}
             >
         {mapView ? "List view" : "Map view"}
         </Button>
