@@ -6,7 +6,6 @@ import Button from "react-bootstrap/Button";
 function ApiBathroomItem({ bathroom, bathroomArray }) {
   const history = useHistory();
   const dispatch = useDispatch();
-  const geocodeBathrooms = useSelector((store) => store.apiBathrooms);
 
   const goToDetails = () => {
     // maybe add a function to set the details before navigating
@@ -77,11 +76,8 @@ function ApiBathroomItem({ bathroom, bathroomArray }) {
     //   <td>{bathroom.country || ""}</td>
     // </tr>
     <>
-      <h2>Hello world</h2>
+      <h2>Geocoding API</h2>
       <button onClick={geocodeApiRequest}>click here to run the geocoding api</button>
-      {geocodeBathrooms.map((bathroom) => (
-        <li>id: {bathroom.restroom_id}, places_id: {bathroom.place_id}</li>
-      ))}
     </>
   );
 }

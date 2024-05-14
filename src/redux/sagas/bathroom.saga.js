@@ -22,10 +22,6 @@ function* fetchBathrooms() {
         method: 'GET',
         url: '/api'
       })
-      yield put({
-        type: 'SET_BATHROOMS_GEOCODING',
-        payload: response.data
-      })
     } catch (error) {
       console.log('Saga function fetchBathroomsGeocoding failed: ', error)
     }

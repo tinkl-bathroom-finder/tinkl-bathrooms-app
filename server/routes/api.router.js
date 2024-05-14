@@ -3,6 +3,8 @@ const pool = require('../modules/pool');
 const router = express.Router();
 const axios = require('axios');
 
+//Essie's old api route
+
 // router.get('/', (req,res) => {
 //     console.log('req.query.perPage: ', req.query.perPage)
 //     console.log('req.query.perPage: ', req.query.pageNumber)
@@ -24,68 +26,64 @@ const axios = require('axios');
  * GOOGLE PLACES API
  */
 router.get("/", (req, res) => {
-  // GET all bathrooms route
+  // query for which restrroms to get geocoding info for
   const query = /*sql*/`
   SELECT *
-FROM "restrooms"
-WHERE "restrooms".is_removed = FALSE
-ORDER BY id
-LIMIT 1;`
+  FROM "restrooms"
+  WHERE "restrooms".is_removed = FALSE AND "restrooms".id > 119 AND "restrooms".id < 150
+  ORDER BY id;`
   pool.query(query)
-    .then((dbRes) => {
+    .then(async (dbRes) => {
+      // db_bathrooms array of bathroom objects from db
       let db_bathrooms = dbRes.rows
-      // console.log('db bathrooms:', db_bathrooms);
+      console.log('db bathrooms:', db_bathrooms);
       for (let i = 0; i < db_bathrooms.length; i++) {
-        restroom_id = db_bathrooms[i].id
-        apiGeocode = `https://maps.googleapis.com/maps/api/geocode/json?key=AIzaSyCXfizt8q0KOhephD9TP55AqYdnUFNp1H0&address=${db_bathrooms[i].name.split(" ").join("%20")}%20${db_bathrooms[i].street.split(" ").join("%20")}%20${db_bathrooms[i].city.split(" ").join("%20")}%20${db_bathrooms[i].state.split(" ").join("%20")}`
-        console.log('serach string:', apiGeocode);
-        axios({
+        let restroom_id = db_bathrooms[i].id
+        let apiGeocode = `https://maps.googleapis.com/maps/api/geocode/json?key=AIzaSyCXfizt8q0KOhephD9TP55AqYdnUFNp1H0&address=${db_bathrooms[i].name.split(" ").join("%20")}%20${db_bathrooms[i].street.split(" ").join("%20")}%20${db_bathrooms[i].city.split(" ").join("%20")}%20${db_bathrooms[i].state.split(" ").join("%20")}`
+        console.log('search string:', apiGeocode);
+        await axios({
           method: "GET",
           url: `${apiGeocode}`
         })
-
           .then((response) => {
-            console.log('place id', response.data.results[0].place_id);
-            
-            const sqlQuery = `
+            console.log('place id:', response.data.results[0].place_id);
+            if (response.data.results[0].place_id) {
+              const sqlQuery = `
               UPDATE "restrooms"
                   SET "google_place_id"=$1
                   WHERE "id"=$2
               `;
-            const sqlValues = [response.data.results[0].place_id, restroom_id];
-            pool
-              .query(sqlQuery, sqlValues)
-              // this gets sent to bathroom.saga.js
-              .then((dbResult) => res.send({ restroom_id: restroom_id, place_id: response.data.results[0].place_id }))
-              .catch((error) => {
-                console.log("Error adding google place id to bathroom:", error);
-                res.sendStatus(500);
-              });
+              const sqlValues = [response.data.results[0].place_id, restroom_id];
+              pool.query(sqlQuery, sqlValues)
+            }
+            // not sure if we need this?
+            else { res.sendStatus(200) }
           })
-          // .then((response) => {
-          //   let place_id = response.data.results[0].place_id
-          //   console.log('placeID from Geocoding:', response.data.results[0].place_id);
-          //   axios({
-          //     method: "GET",
-          //     url: `https://places.googleapis.com/v1/places/${place_id}?fields=*&key=AIzaSyDwUFUMBNNbnaNJQjykE2YU6gnk-s5w5mo`
-          //   })
-          //     .then((response) => {
-          //       console.log('info from place API:', response.data);
-          //     })
-          //     .catch((error) => {
-          //       console.log("Error in place API", error);
-          //     })
-          // })
           .catch((error) => {
             console.log("Error in geocode API", error);
           })
       }
-      // res.send(dbRes.rows);
     })
     .catch((dbErr) => {
       console.log("fail:", dbErr);
       res.sendStatus(500);
     });
 });
+
+//goop for places API
+// .then((response) => {
+//   let place_id = response.data.results[0].place_id
+//   console.log('placeID from Geocoding:', response.data.results[0].place_id);
+//   axios({
+//     method: "GET",
+//     url: `https://places.googleapis.com/v1/places/${place_id}?fields=*&key=AIzaSyDwUFUMBNNbnaNJQjykE2YU6gnk-s5w5mo`
+//   })
+//     .then((response) => {
+//       console.log('info from place API:', response.data);
+//     })
+//     .catch((error) => {
+//       console.log("Error in place API", error);
+//     })
+// })
 
 module.exports = router;
