@@ -32,6 +32,7 @@ import { ThemeProvider, createTheme } from '@mui/material';
 import "./SignikaNegative-VariableFont_wght.ttf";
 
 import "./App.css";
+import ApiBathroomItem from "../ApiBathroomItem/ApiBathroomItem";
 
 function App() {
   const theme = createTheme({
@@ -133,6 +134,11 @@ function App() {
 {/* for a specific bathroom with id :id */}
           <Route exact path="/bathrooms/:id">
             <BathroomDetails />
+          </Route>
+
+          {/* for api calls to google*/}
+          <Route exact path="/api">
+            <ApiBathroomItem />
           </Route>
 
           {/* For protected routes, the view could show one of several things on the same route.
