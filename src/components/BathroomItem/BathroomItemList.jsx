@@ -42,7 +42,7 @@ const ExpandMore = styled((props) => {
   }),
 }));
 
-function BathroomItem({ bathroom, origin }) {
+function BathroomItemList({ bathroom, origin }) {
   const history = useHistory();
   const [expanded, setExpanded] = useState(false);
 
@@ -196,4 +196,4 @@ function BathroomItem({ bathroom, origin }) {
   );
 }
 
-export default BathroomItem;
+export default BathroomItemList;
