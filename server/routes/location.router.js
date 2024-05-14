@@ -37,6 +37,7 @@ router.get('/', (req, res) => {
             GROUP BY "restroom_id"
           ) 
           AS "votes_query" ON "restrooms"."id" = "votes_query"."restroom_id"
+          WHERE "restrooms".is_removed = FALSE
   ORDER BY
     distance ASC
   LIMIT 200;

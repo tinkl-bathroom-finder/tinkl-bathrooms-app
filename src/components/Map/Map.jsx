@@ -1,7 +1,8 @@
 import React, { useMemo, useRef, useCallback, useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 
-import { DotLoader } from "react-spinners"
+import DotSensor from "../DotLoader/DotLoader";
+// check this out!
 
 //google maps import
 import { GoogleMap, useJsApiLoader, MarkerF, InfoWindowF } from "@react-google-maps/api"
@@ -11,7 +12,7 @@ import { Box } from "@mui/material";
 
 function MyMap() {
     const { isLoaded } = useJsApiLoader({ googleMapsApiKey: process.env.GOOGLE_MAPS_API_KEY })
-  if (!isLoaded) { return <div><DotLoader/></div>}
+  if (!isLoaded) { return <div><DotSensor/></div>}
 
   return       <Map />
   
@@ -19,28 +20,24 @@ function MyMap() {
 
 function Map(selectedLocation) {
   const bathrooms = useSelector((store) => store.bathrooms)
+  const addressCoordinates = useSelector((store) => store.addressCoordinates);
   const mapRef = useRef();
   const onLoad = useCallback(map => (mapRef.current = map), []);
   const dispatch = useDispatch();
+   
+  // origin is the searched address from the search bar, converted into 
+  const [origin, setOrigin] = useState('')
 
-  // sets starting center location 
-  const [centerLat, setCenterLat] = useState(44.977753)
-  const [centerLng, setCenterLng] = useState(-93.2650108)
+    // blue dot to show current location/searched address
+    const blueDot = {
+      url: (require('./blue_dot.png')), // path to your custom icon
+      scaledSize: new google.maps.Size(30, 30), // adjust the size as needed
+      origin: new google.maps.Point(0, 0)
+    };
 
     // useMemo performs the calculation once everytime the array arg changes, reuse the same value every time it re-renders
-    const center = useMemo(() => ({lat: centerLat, lng: centerLng}), [centerLat, centerLng] );
+    const center = useMemo(() => ({lat: addressCoordinates.lat, lng: addressCoordinates.lng}), [addressCoordinates] );
     const selectedLocationObject = useMemo(() => ({lat: selectedLocation.lat, lng: selectedLocation.lng}), [selectedLocation.lat, selectedLocation.lng] );
-    // const center = {lat: centerLat, lng: centerLng }
-    // const selectedLocationObject = null;
-
-  useEffect(() => {
-      // centers Map on user location
-    //   navigator.geolocation.getCurrentPosition(
-    //       (position) => {
-    //           setCenterLat(position.coords.latitude)
-    //           setCenterLng(position.coords.longitude)
-    //       })
-  }, []);
 
 
   // customization 
@@ -60,22 +57,52 @@ function Map(selectedLocation) {
   }
 
   return (
-      <GoogleMap
-          zoom={14}
-          center={selectedLocationObject || center}
-          mapContainerStyle={containerStyle}
-          options={options}
-          onLoad={onLoad}
-      >
-        <MarkerF position={({lat: bathroom.latitude, lng: bathroom.longitude})}/>
+    (
+      // if you have searched for bathrooms by proximity to your location, recenters the map on your location and shows markers close by you
+      bathrooms && bathrooms.length > 0 ? (
+        <GoogleMap
+        zoom={15}
+        center={center}
+        mapContainerStyle={containerStyle}
+        options={options}
+        onLoad={onLoad}
+    >
+      {/* blue dot marker to searched address */}
+      <MarkerF 
+      position={({lat: addressCoordinates.lat, lng: addressCoordinates.lng})}
+      icon={blueDot}/>
+
 {bathrooms?.map((bathroom, i) => {
-    return (
-   
-        <Marker key={i} bathroom={bathroom} MarkerF={MarkerF} InfoWindowF={InfoWindowF}/>
-  
-    )
+  return (
+ 
+      <Marker key={i} bathroom={bathroom} MarkerF={MarkerF} InfoWindowF={InfoWindowF}/>
+
+  )
 })}
-      </GoogleMap>
+    </GoogleMap>
+      ) : (
+      // otherwise, if you haven't entered a search query, renders map centered on your current location or default Minneapolis location
+      <GoogleMap
+      mapContainerStyle={{ width: '100%', height: '70vh' }}
+      center={center}
+      zoom={14}
+    >
+
+    <MarkerF 
+    position={({lat: addressCoordinates.lat, lng: addressCoordinates.lng})}
+    icon={blueDot}/>
+    
+   {bathrooms?.map((bathroom, i) => {
+  return (
+ 
+      <Marker key={i} bathroom={bathroom} MarkerF={MarkerF} InfoWindowF={InfoWindowF}/>
+
+  )
+})}
+
+    </GoogleMap>
+   )
+   )
   )
 }
 

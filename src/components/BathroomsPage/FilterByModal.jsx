@@ -54,7 +54,7 @@ function FilterByModal(props) {
   };
   return (
     <>
-      <Button variant="outlined" onClick={handleShow}>
+      <Button variant="outlined" onClick={handleShow} sx={{mb: 1, mt: 1, borderRadius: 8}}>
         Filter results
       </Button>
 

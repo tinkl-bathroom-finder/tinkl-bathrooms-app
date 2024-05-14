@@ -4,7 +4,7 @@ import { Button, Box } from "@mui/material";
 import Form from "react-bootstrap/Form";
 import Table from "react-bootstrap/Table";
 import ApiBathroomItem from "../ApiBathroomItem/ApiBathroomItem";
-import { DotLoader } from "react-spinners";
+import DotSensor from "../DotLoader/DotLoader";
 
 function AddBathrooms() {
   const dispatch = useDispatch();
@@ -46,7 +46,7 @@ function AddBathrooms() {
   return (
     <Form onSubmit={loadBathrooms} sx={{mt: 10}}>
       <Box sx={{mt: 10}}>
-      {isLoading && <DotLoader />}
+      {isLoading && <DotSensor />}
       <h3>Load bathrooms from Refuge API</h3>
       <input
         placeholder="Bathrooms per page"

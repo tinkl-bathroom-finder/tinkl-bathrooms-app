@@ -12,7 +12,6 @@ import Footer from "../Footer/Footer";
 import ProtectedRoute from "../ProtectedRoute/ProtectedRoute";
 import AboutPage from "../AboutPage/AboutPage";
 import AppBarNav from "../Nav/AppBar";
-import UserPage from "../UserPage/ThankYou";
 import UserProfile from "../UserProfile/UserProfile";
 import LandingPage from "../LandingPage/LandingPage";
 import LoginPage from "../LoginPage/LoginPage";
@@ -27,7 +26,6 @@ import AdminComments from "../AdminPage/AdminComments";
 import AdminUsers from "../AdminPage/AdminUsers";
 
 import Container from "react-bootstrap/Container";
-// import { DotLoader } from "react-spinners";
 // import GoogleMapsWrapper from '../Wrapper';
 
 import { ThemeProvider, createTheme } from '@mui/material';
@@ -141,19 +139,11 @@ function App() {
             Visiting localhost:3000/user will show the UserPage if the user is logged in.
             If the user is not logged in, the ProtectedRoute will show the LoginPage (component).
             Even though it seems like they are different pages, the user is always on localhost:3000/user */}
-          <ProtectedRoute
-            // logged in shows UserPage else shows LoginPage
-            exact
-            path="/user"
-          >
-            {/* 🔥🔥🔥🔥🔥🔥 This is currently the thank you page that is linked through the "About" link on the drawer (side) navbar */}
-            <UserPage />
-          </ProtectedRoute>
 
           <ProtectedRoute
             // logged in shows UserProfile else shows LoginPage
             exact
-            path="/info"
+            path="/user"
           >
             <UserProfile />
           </ProtectedRoute>

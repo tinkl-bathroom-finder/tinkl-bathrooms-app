@@ -76,7 +76,7 @@ function AppBarNav() {
 
   const goToProfile = () => {
     setAnchorEl(null);
-    history.push("/info");
+    history.push("/user");
   };
 
   const goToLogin = () => {
@@ -139,23 +139,9 @@ function AppBarNav() {
           </Link>
         </ListItem>
 
-        {/* About page which is actually /user right now 🤪*/}
-        <ListItem key="about" disablePadding>
-          <Link
-            to="/user"
-            className="linkInDrawer"
-            onClick={() => setDrawerOpen(false)}
-            underline="none"
-          >
-            <ListItemButton onClick={toggleDrawer(anchor, false)}>
-              <ListItemIcon>{<Help />}</ListItemIcon>
-              <ListItemText primary="About" />
-            </ListItemButton>
-          </Link>
-        </ListItem>
 
         {/* "info" aka about app page which is /info... */}
-        <ListItem key="info" disablePadding>
+        <ListItem key="about" disablePadding>
           <Link
             to="/about"
             className="linkInDrawer"
@@ -166,7 +152,7 @@ function AppBarNav() {
               <ListItemIcon>
                 <InfoIcon />
               </ListItemIcon>
-              <ListItemText primary="Info" />
+              <ListItemText primary="About" />
             </ListItemButton>
           </Link>
         </ListItem>
@@ -330,6 +316,8 @@ function AppBarNav() {
               </React.Fragment>
             ))}
           </div>
+
+
           {/* <SidebarNav /> */}
 
           <Typography
