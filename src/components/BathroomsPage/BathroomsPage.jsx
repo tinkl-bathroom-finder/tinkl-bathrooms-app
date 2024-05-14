@@ -2,7 +2,6 @@ import React, { useMemo, useRef, useCallback, useState, useEffect } from "react"
 import GooglePlacesAutocomplete from "react-google-places-autocomplete";
 
 import Marker from "../Marker/Marker";
-import { DotLoader } from "react-spinners";
 
 import { GoogleMap, useJsApiLoader, MarkerF, InfoWindowF } from '@react-google-maps/api';
 // import { Autocomplete } from "@react-google-maps/api";
@@ -267,7 +266,6 @@ const selectedCenter = useMemo(() => ({lat: selectedLocation.lat, lng: selectedL
 
           </Box>
         ) : (
-          
 
           // otherwise, if you haven't entered a search query, renders a list of *all* bathrooms (default upon page load)
           <Box className="table-div" sx={{ height: '70vh'}}>

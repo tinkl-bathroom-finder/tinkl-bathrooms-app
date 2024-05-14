@@ -6,7 +6,7 @@ function DotSensor() {
         <div>
             <h3>Dot Sensor</h3>
             <div className='sweet-loading'>
-                <DotLoader color={'#36d7b7'} loading={true} />
+                <DotLoader color={'#5272F2'} loading={true} />
             </div>
         </div>
     )

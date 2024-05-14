@@ -1,7 +1,8 @@
 import React, { useMemo, useRef, useCallback, useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 
-import { DotLoader } from "react-spinners"
+import DotSensor from "../DotLoader/DotLoader";
+// check this out!
 
 //google maps import
 import { GoogleMap, useJsApiLoader, MarkerF, InfoWindowF } from "@react-google-maps/api"
@@ -11,7 +12,7 @@ import { Box } from "@mui/material";
 
 function MyMap() {
     const { isLoaded } = useJsApiLoader({ googleMapsApiKey: process.env.GOOGLE_MAPS_API_KEY })
-  if (!isLoaded) { return <div><DotLoader/></div>}
+  if (!isLoaded) { return <div><DotSensor/></div>}
 
   return       <Map />
   
