@@ -136,11 +136,6 @@ const selectedCenter = useMemo(() => ({lat: selectedLocation.lat, lng: selectedL
     });
   };
 
-  // TODO: Can this function now be removed?
-  const clearInput = () => {
-    setSearchBarAddress('')
-  }
-
   // Ensures searchBarAddress is set in state before executing sendLocation()
   useEffect(() => {
     //if (searchBarAddress !== '') {
