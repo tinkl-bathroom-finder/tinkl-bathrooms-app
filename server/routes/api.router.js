@@ -47,22 +47,24 @@ router.get("/", (req, res) => {
         })
           .then((response) => {
             // get good street address from geocoding api - double loop digging into "address_components"
+            console.log(response.data.results[0].address_components.length);
             let formatted_address = response.data.results[0].formatted_address
-            let street_number
-            let street
-            let city
-            for (let i = 0; i<response.data.results[0].address_components.length; i++) {
-              console.log('in loop at i', i);
-              let type = response.data.results[0].address_components[i].types[0]
-              console.log('type:', type);
-              if (type = "street_number") {
+            let street_number = ''
+            let street = ''
+            let city = ''
+            console.log('street_number:', street_number, 'street:', street, 'city:', city, "formatted address:", formatted_address);
+            let i = 0
+            while (i < response.data.results[0].address_components.length) {
+              console.log('1 in loop at i', i);
+              console.log('1 type', response.data.results[0].address_components[i].types[0]);
+              if (response.data.results[0].address_components[i].types[0] === "street_number") {
                 street_number = response.data.results[0].address_components[i].short_name
-              } if (type = "route") {
+              } else if (response.data.results[0].address_components[i].types[0] === "route") {
                 street = response.data.results[0].address_components[i].short_name
-              } if (type = "locality") {
+              } else  if (response.data.results[0].address_components[i].types[0] === "locality") {
                 city = response.data.results[0].address_components[i].short_name
-              } 
-              return (street_number, street, city)
+              }
+              i++;
             }
             console.log('street_number:', street_number, 'street:', street, 'city:', city, "formatted address:", formatted_address);
             // if (response.data.results[0].place_id) {
