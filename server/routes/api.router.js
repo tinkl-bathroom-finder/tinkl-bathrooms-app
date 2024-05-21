@@ -30,7 +30,7 @@ router.get("/", (req, res) => {
   const query = /*sql*/`
   SELECT *
   FROM "restrooms"
-  WHERE "restrooms".is_removed = FALSE AND "restrooms".id > 119 AND "restrooms".id < 150
+  WHERE "restrooms".id < 50
   ORDER BY id;`
   pool.query(query)
     .then(async (dbRes) => {
@@ -46,14 +46,15 @@ router.get("/", (req, res) => {
           url: `${apiGeocode}`
         })
           .then((response) => {
-            console.log('place id:', response.data.results[0].place_id);
+            console.log('response.data.results[0]:', response.data.results[0]);
+            console.log('response.data.results[0].formatted_address:', response.data.results[0].formatted_address)
             if (response.data.results[0].place_id) {
               const sqlQuery = `
               UPDATE "restrooms"
-                  SET "google_place_id"=$1
+                  SET "place_id"=$1, "formatted_address"=$3
                   WHERE "id"=$2
               `;
-              const sqlValues = [response.data.results[0].place_id, restroom_id];
+              const sqlValues = [response.data.results[0].place_id, restroom_id, response.data.results[0].formatted_address];
               pool.query(sqlQuery, sqlValues)
             }
             // not sure if we need this?
