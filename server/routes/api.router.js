@@ -129,6 +129,10 @@ router.get("/places", (req, res) => {
             if (place.businessStatus) {
               business_status = place.businessStatus
             }
+            let wheelchair_accessible = null
+            if (place.accessibilityOptions.wheelchairAccessibleRestroom){
+              wheelchair_accessible = place.accessibilityOptions.wheelchairAccessibleRestroom
+            }
             let weekday_text = null
             let day_0_open = null
             let day_0_close = null
@@ -177,12 +181,33 @@ router.get("/places", (req, res) => {
             pool.query(sqlQuery, sqlValues)
               .then(result => {
               // then update statement for wheelchair accessability and open status on restrooms table
-              const sqlQuery = `
-              UPDATE "restrooms"
-                  SET "google_place_id"=$1
-                  WHERE "id"=$2
-              `;
-              const sqlValues = [response.data.results[0].place_id, restroom_id];
+              let sqlQuery
+              if (wheelchair_accessible && business_status === 'OPERATIONAL'){
+                sqlQuery = `
+                UPDATE "restrooms"
+                    SET "accessibile"=TRUE, "is_removed"=FALSE
+                    WHERE "id"=$1
+                `;
+              } else if (wheelchair_accessible && business_status === 'CLOSED_PERMANENTLY') {
+                sqlQuery = `
+                UPDATE "restrooms"
+                    SET "accessibile"=TRUE, "is_removed"=TRUE
+                    WHERE "id"=$1
+                `;
+              } else if (wheelchair_accessible === null && business_status === 'OPERATIONAL') {
+                sqlQuery = `
+                UPDATE "restrooms"
+                    SET "accessibile"=FALSE, "is_removed"=FALSE
+                    WHERE "id"=$1
+                `;
+              } else if (wheelchair_accessible === null && business_status === 'CLOSED_PERMANENTLY') {
+                sqlQuery = `
+                UPDATE "restrooms"
+                    SET "accessibile"=FALSE, "is_removed"=TRUE
+                    WHERE "id"=$1
+                `;
+              }
+              const sqlValues = [restroom_id];
               pool.query(sqlQuery, sqlValues)
                   .then(result => {
                     //Now that both are done, send back success!
