@@ -30,6 +30,7 @@ router.get("/", (req, res) => {
   const query = /*sql*/`
   SELECT *
   FROM "restrooms"
+  WHERE "restrooms".place_id = NULL
   ORDER BY id;`
   pool.query(query)
     .then(async (dbRes) => {
