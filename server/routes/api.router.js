@@ -49,10 +49,14 @@ router.get("/", (req, res) => {
             // get good street address from geocoding api - double loop digging into "address_components"
             console.log(response.data.results[0].address_components.length);
             let formatted_address = response.data.results[0].formatted_address
+            let latitude_geo = response.data.results[0].location.latitude
+            let longitude_geo = response.data.results[0].location.longitude
             let street_number = ''
             let street = ''
             let city = ''
-            console.log('street_number:', street_number, 'street:', street, 'city:', city, "formatted address:", formatted_address);
+            let state = ''
+            let country = ''
+            let zip = ''
             let i = 0
             while (i < response.data.results[0].address_components.length) {
               console.log('1 in loop at i', i);
@@ -63,21 +67,27 @@ router.get("/", (req, res) => {
                 street = response.data.results[0].address_components[i].short_name
               } else  if (response.data.results[0].address_components[i].types[0] === "locality") {
                 city = response.data.results[0].address_components[i].short_name
+              } else if (response.data.results[0].address_components[i].types[0] === "administrative_area_level_1") {
+                state = response.data.results[0].address_components[i].short_name
+               }else if (response.data.results[0].address_components[i].types[0] === "country") {
+                country = response.data.results[0].address_components[i].short_name
+              } else if (response.data.results[0].address_components[i].types[0] === "postal_code") {
+                zip = response.data.results[0].address_components[i].short_name
               }
               i++;
             }
-            console.log('street_number:', street_number, 'street:', street, 'city:', city, "formatted address:", formatted_address);
-            // if (response.data.results[0].place_id) {
-            //   const sqlQuery = `
-            //   UPDATE "restrooms"
-            //       SET "google_place_id"=$1
-            //       WHERE "id"=$2
-            //   `;
-            //   const sqlValues = [response.data.results[0].place_id, restroom_id];
-            //   pool.query(sqlQuery, sqlValues)
-            // }
-            // // not sure if we need this?
-            // else { res.sendStatus(200) }
+            console.log('street_number:', street_number, 'street:', street, 'city:', city, 'state:', state, 'country:', country, 'zip:', zip, "formatted address:", formatted_address);
+            if (response.data.results[0].place_id) {
+              const sqlQuery = `
+              UPDATE "restrooms"
+                  SET "google_place_id"=$1
+                  WHERE "id"=$2
+              `;
+              const sqlValues = [response.data.results[0].place_id, restroom_id];
+              pool.query(sqlQuery, sqlValues)
+            }
+            // not sure if we need this?
+            else { res.sendStatus(200) }
           })
           .catch((error) => {
             console.log("Error in geocode API", error);
@@ -93,7 +103,7 @@ router.get("/", (req, res) => {
 /**
  * GOOGLE PLACES API
  */
-router.get("/", (req, res) => {
+router.get("/places", (req, res) => {
   // query for which restrroms to get geocoding info for
   const query = /*sql*/`
   SELECT *
@@ -107,27 +117,47 @@ router.get("/", (req, res) => {
       console.log('db bathrooms:', db_bathrooms);
       for (let i = 0; i < db_bathrooms.length; i++) {
         let restroom_id = db_bathrooms[i].id
-        let places_id = db_bathrooms[i].google_place_id
+        let places_id = db_bathrooms[i].place_id
         await axios({
           method: "GET",
           url: `https://places.googleapis.com/v1/places/${place_id}?fields=*&key=AIzaSyDwUFUMBNNbnaNJQjykE2YU6gnk-s5w5mo`
         })
           .then((response) => {
-            console.log('place id:', response.data.results[0].place_id);
-            if (response.data.results[0].place_id) {
+            let place = response.data.results[0]
+            console.log('place id:', place.id);
+            let business_status = place.businessStatus
+            let weekday_text = ''
+            for (let i = 0; i < place.regularOpeningHours.weekdayDescriptions.length; i++) {
+              weekday_text += `${place.regularOpeningHours.weekdayDescriptions[i]}`
+            }
+            let day_0_open = `${place.regularOpeningHours.periods[0].open.hour}00`
+            let day_0_close = `${place.regularOpeningHours.periods[0].close.hour}00`
+            let day_1_open = `${place.regularOpeningHours.periods[1].open.hour}00`
+            let day_1_close = `${place.regularOpeningHours.periods[1].close.hour}00`
+            let day_2_open = `${place.regularOpeningHours.periods[2].open.hour}00`
+            let day_2_close = `${place.regularOpeningHours.periods[2].close.hour}00`
+            let day_3_open = `${place.regularOpeningHours.periods[3].open.hour}00`
+            let day_3_close = `${place.regularOpeningHours.periods[3].close.hour}00`
+            let day_4_open = `${place.regularOpeningHours.periods[4].open.hour}00`
+            let day_4_close = `${place.regularOpeningHours.periods[4].close.hour}00`
+            let day_5_open = `${place.regularOpeningHours.periods[5].open.hour}00`
+            let day_5_close = `${place.regularOpeningHours.periods[5].close.hour}00`
+            let day_6_open = `${place.regularOpeningHours.periods[6].open.hour}00`
+            let day_6_close = `${place.regularOpeningHours.periods[6].close.hour}00`
+            if (place.place_id) {
               const sqlQuery = `
-              UPDATE "restrooms"
-                  SET "google_place_id"=$1
-                  WHERE "id"=$2
-              `;
-              const sqlValues = [response.data.results[0].place_id, restroom_id];
+              INSERT INTO "opening_hours"
+              ("restroom_id", "business_status", "weekday_text", "day_0_open", "day_0_close", "day_1_open", "day_1_close", "day_2_open", "day_2_close", "day_3_open", "day_3_close", "day_4_open", "day_4_close", "day_5_open", "day_5_close", "day_6_open", "day_6_close")
+              VALUES
+              ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16, $17)`;
+              const sqlValues = [restroom_id, business_status, weekday_text, Num(day_0_open), Num(day_0_close), Num(day_1_open), Num(day_1_close), Num(day_2_open), Num(day_2_close), Num(day_3_open), Num(day_3_close), Num(day_4_open), Num(day_4_close), Num(day_5_open), Num(day_5_close), Num(day_6_open), Num(day_6_close)];
               pool.query(sqlQuery, sqlValues)
             }
             // not sure if we need this?
             else { res.sendStatus(200) }
           })
           .catch((error) => {
-            console.log("Error in geocode API", error);
+            console.log("Error in places API", error);
           })
       }
     })
