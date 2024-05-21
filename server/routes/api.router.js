@@ -78,6 +78,7 @@ router.get("/", (req, res) => {
             }
             console.log('street_number:', street_number, 'street:', street, 'city:', city, 'state:', state, 'country:', country, 'zip:', zip, "formatted address:", formatted_address);
             if (response.data.results[0].place_id) {
+              // add more variables
               const sqlQuery = `
               UPDATE "restrooms"
                   SET "google_place_id"=$1
@@ -108,14 +109,14 @@ router.get("/places", (req, res) => {
   const query = /*sql*/`
   SELECT *
   FROM "restrooms"
-  WHERE "restrooms".id = 42
+  WHERE "restrooms".id = 149
   ORDER BY id;`
   pool.query(query)
     .then(async (dbRes) => {
       // db_bathrooms array of bathroom objects from db
       let db_bathrooms = dbRes.rows
-      console.log('db bathrooms:', db_bathrooms);
       for (let i = 0; i < db_bathrooms.length; i++) {
+        console.log('db bathrooms id and place id:', db_bathrooms[i].id, db_bathrooms[i].place_id);
         let restroom_id = db_bathrooms[i].id
         let place_id = db_bathrooms[i].place_id
         await axios({
@@ -125,14 +126,18 @@ router.get("/places", (req, res) => {
           .then((response) => {
             // insert into opening_hours table 
             let place = response.data
-            console.log('place:', place);
+            console.log('place_id:', place.id);
             let business_status = null
             if (place.businessStatus) {
               business_status = place.businessStatus
             }
             let wheelchair_accessible = null
             if (place.accessibilityOptions.wheelchairAccessibleRestroom) {
-              wheelchair_accessible = place.accessibilityOptions.wheelchairAccessibleRestroom
+              if (place.accessibilityOptions.wheelchairAccessibleRestroom === true) {
+                wheelchair_accessible = true
+              } else if (place.accessibilityOptions.wheelchairAccessibleRestroom === false) {
+                wheelchair_accessible = false
+              }
             }
             let weekday_text = null
             let day_0_open = null
@@ -149,6 +154,7 @@ router.get("/places", (req, res) => {
             let day_5_close = null
             let day_6_open = null
             let day_6_close = null
+            // need to loop over place.regularOpeningHours.periods[0] to get hours
             if (place.regularOpeningHours) {
               day_0_open = `${place.regularOpeningHours.periods[0].open.hour}00`
               day_0_close = `${place.regularOpeningHours.periods[0].close.hour}00`
@@ -183,28 +189,45 @@ router.get("/places", (req, res) => {
               .then(result => {
                 // then update statement for wheelchair accessability and open status on restrooms table
                 let sqlQuery
-                if (wheelchair_accessible && business_status === 'OPERATIONAL') {
+                console.log('wheelchair:', wheelchair_accessible, 'status:', business_status);
+                if (wheelchair_accessible === TRUE && business_status === 'OPERATIONAL') {
                   sqlQuery = `
                 UPDATE "restrooms"
-                    SET "accessibile"=TRUE, "is_removed"=FALSE
+                    SET "accessible"=TRUE, 
+                    "is_removed"=FALSE
                     WHERE "id"=$1
                 `;
-                } else if (wheelchair_accessible && business_status === 'CLOSED_PERMANENTLY') {
+                } else if (wheelchair_accessible === TRUE && business_status === 'CLOSED_PERMANENTLY') {
                   sqlQuery = `
                 UPDATE "restrooms"
-                    SET "accessibile"=TRUE, "is_removed"=TRUE
+                    SET "accessible"=TRUE,
+                    "is_removed"=TRUE
+                    WHERE "id"=$1
+                `;
+                } else if (wheelchair_accessible === FALSE && business_status === 'OPERATIONAL') {
+                  sqlQuery = `
+                UPDATE "restrooms"
+                    SET "accessible"=FALSE,
+                    "is_removed"=FALSE
+                    WHERE "id"=$1
+                `;
+                } else if (wheelchair_accessible === FALSE && business_status === 'CLOSED_PERMANENTLY') {
+                  sqlQuery = `
+                UPDATE "restrooms"
+                    SET "accessible"=FALSE,
+                    "is_removed"=TRUE
                     WHERE "id"=$1
                 `;
                 } else if (wheelchair_accessible === null && business_status === 'OPERATIONAL') {
                   sqlQuery = `
                 UPDATE "restrooms"
-                    SET "accessibile"=FALSE, "is_removed"=FALSE
+                    SET "is_removed"=FALSE
                     WHERE "id"=$1
                 `;
                 } else if (wheelchair_accessible === null && business_status === 'CLOSED_PERMANENTLY') {
                   sqlQuery = `
                 UPDATE "restrooms"
-                    SET "accessibile"=FALSE, "is_removed"=TRUE
+                    SET "is_removed"=TRUE
                     WHERE "id"=$1
                 `;
                 }
@@ -218,7 +241,7 @@ router.get("/places", (req, res) => {
                     res.sendStatus(500)
                   })
               }).catch(err => {
-                console.log('error in insert opening_hours table',err);
+                console.log('error in insert opening_hours table', err);
                 res.sendStatus(500)
               })
           })
