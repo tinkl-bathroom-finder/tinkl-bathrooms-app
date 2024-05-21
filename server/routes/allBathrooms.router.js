@@ -9,29 +9,29 @@ const axios = require('axios');
 /**
  * GET route template
  */
-// router.get("/", (req, res) => {
-//   // GET all bathrooms route
-//   const query = /*sql*/`
-//   SELECT 
-//   "restrooms".*, 
-//   SUM("restroom_votes"."upvote") AS "upvotes", 
-//   SUM ("restroom_votes"."downvote") AS "downvotes"
-// FROM "restrooms"
-// LEFT JOIN "restroom_votes" ON "restrooms"."id"="restroom_votes"."restroom_id"
-// WHERE "restrooms".is_removed = FALSE
-// GROUP BY "restrooms"."id";`
+router.get("/", (req, res) => {
+  // GET all bathrooms route
+  const query = /*sql*/`
+  SELECT 
+  "restrooms".*, 
+  SUM("restroom_votes"."upvote") AS "upvotes", 
+  SUM ("restroom_votes"."downvote") AS "downvotes"
+FROM "restrooms"
+LEFT JOIN "restroom_votes" ON "restrooms"."id"="restroom_votes"."restroom_id"
+WHERE "restrooms".is_removed = FALSE
+GROUP BY "restrooms"."id";`
 
-//   pool
-//     .query(query)
-//     .then((dbRes) => {
-//       // console.log("dbRes.rows in GET /all route:", dbRes);
-//       res.send(dbRes.rows);
-//     })
-//     .catch((dbErr) => {
-//       console.log("fail:", dbErr);
-//       res.sendStatus(500);
-//     });
-// });
+  pool
+    .query(query)
+    .then((dbRes) => {
+      // console.log("dbRes.rows in GET /all route:", dbRes);
+      res.send(dbRes.rows);
+    })
+    .catch((dbErr) => {
+      console.log("fail:", dbErr);
+      res.sendStatus(500);
+    });
+});
 
 // PUT route for admin to soft "delete" a bathroom AKA turn "is_removed" to true
 router.put("/:id", rejectUnauthenticated, (req, res) => {
