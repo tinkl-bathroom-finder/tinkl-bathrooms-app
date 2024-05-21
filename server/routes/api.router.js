@@ -65,11 +65,11 @@ router.get("/", (req, res) => {
                 street_number = response.data.results[0].address_components[i].short_name
               } else if (response.data.results[0].address_components[i].types[0] === "route") {
                 street = response.data.results[0].address_components[i].short_name
-              } else  if (response.data.results[0].address_components[i].types[0] === "locality") {
+              } else if (response.data.results[0].address_components[i].types[0] === "locality") {
                 city = response.data.results[0].address_components[i].short_name
               } else if (response.data.results[0].address_components[i].types[0] === "administrative_area_level_1") {
                 state = response.data.results[0].address_components[i].short_name
-               }else if (response.data.results[0].address_components[i].types[0] === "country") {
+              } else if (response.data.results[0].address_components[i].types[0] === "country") {
                 country = response.data.results[0].address_components[i].short_name
               } else if (response.data.results[0].address_components[i].types[0] === "postal_code") {
                 zip = response.data.results[0].address_components[i].short_name
@@ -108,7 +108,7 @@ router.get("/places", (req, res) => {
   const query = /*sql*/`
   SELECT *
   FROM "restrooms"
-  WHERE "restrooms".id =33
+  WHERE "restrooms".id = 42
   ORDER BY id;`
   pool.query(query)
     .then(async (dbRes) => {
@@ -117,44 +117,87 @@ router.get("/places", (req, res) => {
       console.log('db bathrooms:', db_bathrooms);
       for (let i = 0; i < db_bathrooms.length; i++) {
         let restroom_id = db_bathrooms[i].id
-        let places_id = db_bathrooms[i].place_id
+        let place_id = db_bathrooms[i].place_id
         await axios({
           method: "GET",
           url: `https://places.googleapis.com/v1/places/${place_id}?fields=*&key=AIzaSyDwUFUMBNNbnaNJQjykE2YU6gnk-s5w5mo`
         })
           .then((response) => {
-            let place = response.data.results[0]
-            console.log('place id:', place.id);
-            let business_status = place.businessStatus
-            let weekday_text = ''
-            for (let i = 0; i < place.regularOpeningHours.weekdayDescriptions.length; i++) {
-              weekday_text += `${place.regularOpeningHours.weekdayDescriptions[i]}`
+            let place = response.data
+            console.log('place:', place);
+            let business_status = null
+            if (place.businessStatus) {
+              business_status = place.businessStatus
             }
-            let day_0_open = `${place.regularOpeningHours.periods[0].open.hour}00`
-            let day_0_close = `${place.regularOpeningHours.periods[0].close.hour}00`
-            let day_1_open = `${place.regularOpeningHours.periods[1].open.hour}00`
-            let day_1_close = `${place.regularOpeningHours.periods[1].close.hour}00`
-            let day_2_open = `${place.regularOpeningHours.periods[2].open.hour}00`
-            let day_2_close = `${place.regularOpeningHours.periods[2].close.hour}00`
-            let day_3_open = `${place.regularOpeningHours.periods[3].open.hour}00`
-            let day_3_close = `${place.regularOpeningHours.periods[3].close.hour}00`
-            let day_4_open = `${place.regularOpeningHours.periods[4].open.hour}00`
-            let day_4_close = `${place.regularOpeningHours.periods[4].close.hour}00`
-            let day_5_open = `${place.regularOpeningHours.periods[5].open.hour}00`
-            let day_5_close = `${place.regularOpeningHours.periods[5].close.hour}00`
-            let day_6_open = `${place.regularOpeningHours.periods[6].open.hour}00`
-            let day_6_close = `${place.regularOpeningHours.periods[6].close.hour}00`
-            if (place.place_id) {
-              const sqlQuery = `
+            let weekday_text = null
+            let day_0_open = null
+            let day_0_close = null
+            let day_1_open = null
+            let day_1_close = null
+            let day_2_open = null
+            let day_2_close = null
+            let day_3_open = null
+            let day_3_close = null
+            let day_4_open = null
+            let day_4_close = null
+            let day_5_open = null
+            let day_5_close = null
+            let day_6_open = null
+            let day_6_close = null
+            if (place.regularOpeningHours) {
+              day_0_open = `${place.regularOpeningHours.periods[0].open.hour}00`
+              day_0_close = `${place.regularOpeningHours.periods[0].close.hour}00`
+              day_1_open = `${place.regularOpeningHours.periods[1].open.hour}00`
+              day_1_close = `${place.regularOpeningHours.periods[1].close.hour}00`
+              day_2_open = `${place.regularOpeningHours.periods[2].open.hour}00`
+              day_2_close = `${place.regularOpeningHours.periods[2].close.hour}00`
+              day_3_open = `${place.regularOpeningHours.periods[3].open.hour}00`
+              day_3_close = `${place.regularOpeningHours.periods[3].close.hour}00`
+              day_4_open = `${place.regularOpeningHours.periods[4].open.hour}00`
+              day_4_close = `${place.regularOpeningHours.periods[4].close.hour}00`
+              day_5_open = `${place.regularOpeningHours.periods[5].open.hour}00`
+              day_5_close = `${place.regularOpeningHours.periods[5].close.hour}00`
+              day_6_open = `${place.regularOpeningHours.periods[6].open.hour}00`
+              day_6_close = `${place.regularOpeningHours.periods[6].close.hour}00`
+              for (let i = 0; i < place.regularOpeningHours.weekdayDescriptions.length; i++) {
+                weekday_text += `${place.regularOpeningHours.weekdayDescriptions[i]}`
+              }
+            }
+            const sqlQuery = `
               INSERT INTO "opening_hours"
               ("restroom_id", "business_status", "weekday_text", "day_0_open", "day_0_close", "day_1_open", "day_1_close", "day_2_open", "day_2_close", "day_3_open", "day_3_close", "day_4_open", "day_4_close", "day_5_open", "day_5_close", "day_6_open", "day_6_close")
               VALUES
               ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16, $17)`;
-              const sqlValues = [restroom_id, business_status, weekday_text, Num(day_0_open), Num(day_0_close), Num(day_1_open), Num(day_1_close), Num(day_2_open), Num(day_2_close), Num(day_3_open), Num(day_3_close), Num(day_4_open), Num(day_4_close), Num(day_5_open), Num(day_5_close), Num(day_6_open), Num(day_6_close)];
-              pool.query(sqlQuery, sqlValues)
+            let sqlValues
+            if (place.regularOpeningHours) {
+              sqlValues = [restroom_id, business_status, weekday_text, Number(day_0_open), Number(day_0_close), Number(day_1_open), Number(day_1_close), Number(day_2_open), Number(day_2_close), Number(day_3_open), Number(day_3_close), Number(day_4_open), Number(day_4_close), Number(day_5_open), Number(day_5_close), Number(day_6_open), Number(day_6_close)]
+            } else {
+              sqlValues = [restroom_id, business_status, weekday_text, day_0_open, day_0_close, day_1_open, day_1_close, day_2_open, day_2_close, day_3_open, day_3_close, day_4_open, day_4_close, day_5_open, day_5_close, day_6_open, day_6_close]
             }
-            // not sure if we need this?
-            else { res.sendStatus(200) }
+            pool.query(sqlQuery, sqlValues)
+              .then(result => {
+              // then update statement for wheelchair accessability and open status on restrooms table
+              const sqlQuery = `
+              UPDATE "restrooms"
+                  SET "google_place_id"=$1
+                  WHERE "id"=$2
+              `;
+              const sqlValues = [response.data.results[0].place_id, restroom_id];
+              pool.query(sqlQuery, sqlValues)
+                  .then(result => {
+                    //Now that both are done, send back success!
+                    res.sendStatus(201);
+                  }).catch(err => {
+                    console.log(err);
+                    res.sendStatus(500)
+                  })
+              }).catch(err => {
+                console.log(err);
+                res.sendStatus(500)
+              })
+
+            
+
           })
           .catch((error) => {
             console.log("Error in places API", error);
