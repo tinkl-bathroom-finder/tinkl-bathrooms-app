@@ -109,7 +109,7 @@ router.get("/places", (req, res) => {
   const query = /*sql*/`
   SELECT *
   FROM "restrooms"
-  WHERE "restrooms".id = 149
+  WHERE "restrooms".id =7
   ORDER BY id;`
   pool.query(query)
     .then(async (dbRes) => {
@@ -132,10 +132,10 @@ router.get("/places", (req, res) => {
               business_status = place.businessStatus
             }
             let wheelchair_accessible = null
-            if (place.accessibilityOptions.wheelchairAccessibleRestroom) {
-              if (place.accessibilityOptions.wheelchairAccessibleRestroom === true) {
+            if (place.accessibilityOptions) {
+              if (place.accessibilityOptions.wheelchairAccessibleRestroom && place.accessibilityOptions.wheelchairAccessibleRestroom === true) {
                 wheelchair_accessible = true
-              } else if (place.accessibilityOptions.wheelchairAccessibleRestroom === false) {
+              } else if (place.accessibilityOptions.wheelchairAccessibleRestroom && place.accessibilityOptions.wheelchairAccessibleRestroom === false) {
                 wheelchair_accessible = false
               }
             }
@@ -190,28 +190,28 @@ router.get("/places", (req, res) => {
                 // then update statement for wheelchair accessability and open status on restrooms table
                 let sqlQuery
                 console.log('wheelchair:', wheelchair_accessible, 'status:', business_status);
-                if (wheelchair_accessible === TRUE && business_status === 'OPERATIONAL') {
+                if (wheelchair_accessible === true && business_status === 'OPERATIONAL') {
                   sqlQuery = `
                 UPDATE "restrooms"
                     SET "accessible"=TRUE, 
                     "is_removed"=FALSE
                     WHERE "id"=$1
                 `;
-                } else if (wheelchair_accessible === TRUE && business_status === 'CLOSED_PERMANENTLY') {
+                } else if (wheelchair_accessible === true && business_status === 'CLOSED_PERMANENTLY') {
                   sqlQuery = `
                 UPDATE "restrooms"
                     SET "accessible"=TRUE,
                     "is_removed"=TRUE
                     WHERE "id"=$1
                 `;
-                } else if (wheelchair_accessible === FALSE && business_status === 'OPERATIONAL') {
+                } else if (wheelchair_accessible === false && business_status === 'OPERATIONAL') {
                   sqlQuery = `
                 UPDATE "restrooms"
                     SET "accessible"=FALSE,
                     "is_removed"=FALSE
                     WHERE "id"=$1
                 `;
-                } else if (wheelchair_accessible === FALSE && business_status === 'CLOSED_PERMANENTLY') {
+                } else if (wheelchair_accessible === false && business_status === 'CLOSED_PERMANENTLY') {
                   sqlQuery = `
                 UPDATE "restrooms"
                     SET "accessible"=FALSE,
