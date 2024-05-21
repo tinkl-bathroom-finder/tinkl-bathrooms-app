@@ -123,6 +123,7 @@ router.get("/places", (req, res) => {
           url: `https://places.googleapis.com/v1/places/${place_id}?fields=*&key=AIzaSyDwUFUMBNNbnaNJQjykE2YU6gnk-s5w5mo`
         })
           .then((response) => {
+            // insert into opening_hours table 
             let place = response.data
             console.log('place:', place);
             let business_status = null
@@ -130,7 +131,7 @@ router.get("/places", (req, res) => {
               business_status = place.businessStatus
             }
             let wheelchair_accessible = null
-            if (place.accessibilityOptions.wheelchairAccessibleRestroom){
+            if (place.accessibilityOptions.wheelchairAccessibleRestroom) {
               wheelchair_accessible = place.accessibilityOptions.wheelchairAccessibleRestroom
             }
             let weekday_text = null
@@ -180,49 +181,46 @@ router.get("/places", (req, res) => {
             }
             pool.query(sqlQuery, sqlValues)
               .then(result => {
-              // then update statement for wheelchair accessability and open status on restrooms table
-              let sqlQuery
-              if (wheelchair_accessible && business_status === 'OPERATIONAL'){
-                sqlQuery = `
+                // then update statement for wheelchair accessability and open status on restrooms table
+                let sqlQuery
+                if (wheelchair_accessible && business_status === 'OPERATIONAL') {
+                  sqlQuery = `
                 UPDATE "restrooms"
                     SET "accessibile"=TRUE, "is_removed"=FALSE
                     WHERE "id"=$1
                 `;
-              } else if (wheelchair_accessible && business_status === 'CLOSED_PERMANENTLY') {
-                sqlQuery = `
+                } else if (wheelchair_accessible && business_status === 'CLOSED_PERMANENTLY') {
+                  sqlQuery = `
                 UPDATE "restrooms"
                     SET "accessibile"=TRUE, "is_removed"=TRUE
                     WHERE "id"=$1
                 `;
-              } else if (wheelchair_accessible === null && business_status === 'OPERATIONAL') {
-                sqlQuery = `
+                } else if (wheelchair_accessible === null && business_status === 'OPERATIONAL') {
+                  sqlQuery = `
                 UPDATE "restrooms"
                     SET "accessibile"=FALSE, "is_removed"=FALSE
                     WHERE "id"=$1
                 `;
-              } else if (wheelchair_accessible === null && business_status === 'CLOSED_PERMANENTLY') {
-                sqlQuery = `
+                } else if (wheelchair_accessible === null && business_status === 'CLOSED_PERMANENTLY') {
+                  sqlQuery = `
                 UPDATE "restrooms"
                     SET "accessibile"=FALSE, "is_removed"=TRUE
                     WHERE "id"=$1
                 `;
-              }
-              const sqlValues = [restroom_id];
-              pool.query(sqlQuery, sqlValues)
+                }
+                const sqlValues = [restroom_id];
+                pool.query(sqlQuery, sqlValues)
                   .then(result => {
                     //Now that both are done, send back success!
                     res.sendStatus(201);
                   }).catch(err => {
-                    console.log(err);
+                    console.log('error in update restrooms table', err);
                     res.sendStatus(500)
                   })
               }).catch(err => {
-                console.log(err);
+                console.log('error in insert opening_hours table',err);
                 res.sendStatus(500)
               })
-
-            
-
           })
           .catch((error) => {
             console.log("Error in places API", error);
@@ -234,132 +232,5 @@ router.get("/places", (req, res) => {
       res.sendStatus(500);
     });
 });
-
-//goop for places API
-// .then((response) => {
-//   let place_id = response.data.results[0].place_id
-//   console.log('placeID from Geocoding:', response.data.results[0].place_id);
-//   axios({
-//     method: "GET",
-//     url: `https://places.googleapis.com/v1/places/${place_id}?fields=*&key=AIzaSyDwUFUMBNNbnaNJQjykE2YU6gnk-s5w5mo`
-//   })
-//     .then((response) => {
-//       console.log('info from place API:', response.data);
-//     })
-//     .catch((error) => {
-//       console.log("Error in place API", error);
-//     })
-// })
-
-// EXAMPLE GEOCODING API RESULT
-// {
-//   "results": [
-//   {
-//   "address_components": [
-//   {
-//   "long_name": "Municipal Building",
-//   "short_name": "Municipal Building",
-//   "types": [
-//   "premise"
-//   ]
-//   },
-//   {
-//   "long_name": "350",
-//   "short_name": "350",
-//   "types": [
-//   "street_number"
-//   ]
-//   },
-//   {
-//   "long_name": "South 5th Street",
-//   "short_name": "S 5th St",
-//   "types": [
-//   "route"
-//   ]
-//   },
-//   {
-//   "long_name": "Central Minneapolis",
-//   "short_name": "Central Minneapolis",
-//   "types": [
-//   "neighborhood",
-//   "political"
-//   ]
-//   },
-//   {
-//   "long_name": "Minneapolis",
-//   "short_name": "Minneapolis",
-//   "types": [
-//   "locality",
-//   "political"
-//   ]
-//   },
-//   {
-//   "long_name": "Hennepin County",
-//   "short_name": "Hennepin County",
-//   "types": [
-//   "administrative_area_level_2",
-//   "political"
-//   ]
-//   },
-//   {
-//   "long_name": "Minnesota",
-//   "short_name": "MN",
-//   "types": [
-//   "administrative_area_level_1",
-//   "political"
-//   ]
-//   },
-//   {
-//   "long_name": "United States",
-//   "short_name": "US",
-//   "types": [
-//   "country",
-//   "political"
-//   ]
-//   },
-//   {
-//   "long_name": "55415",
-//   "short_name": "55415",
-//   "types": [
-//   "postal_code"
-//   ]
-//   }
-//   ],
-//   "formatted_address": "Municipal Building, 350 S 5th St, Minneapolis, MN 55415, USA",
-//   "geometry": {
-//   "bounds": {
-//   "northeast": {
-//   "lat": 44.9778515,
-//   "lng": -93.2646335
-//   },
-//   "southwest": {
-//   "lat": 44.976716,
-//   "lng": -93.26624269999999
-//   }
-//   },
-//   "location": {
-//   "lat": 44.9772839,
-//   "lng": -93.2652365
-//   },
-//   "location_type": "ROOFTOP",
-//   "viewport": {
-//   "northeast": {
-//   "lat": 44.97863273029149,
-//   "lng": -93.2640891197085
-//   },
-//   "southwest": {
-//   "lat": 44.9759347697085,
-//   "lng": -93.26678708029151
-//   }
-//   }
-//   },
-//   "place_id": "ChIJiXW5Gpwys1IRtAwsAGrj2cU",
-//   "types": [
-//   "premise"
-//   ]
-//   }
-//   ],
-//   "status": "OK"
-//   }
 
 module.exports = router;
