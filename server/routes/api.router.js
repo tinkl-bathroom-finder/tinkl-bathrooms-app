@@ -108,7 +108,7 @@ router.get("/places", (req, res) => {
   const query = /*sql*/`
   SELECT *
   FROM "restrooms"
-  WHERE "restrooms".is_removed = FALSE AND "restrooms".id > 1 AND "restrooms".id < 5
+  WHERE "restrooms".id =33
   ORDER BY id;`
   pool.query(query)
     .then(async (dbRes) => {
