@@ -46,8 +46,6 @@ router.get("/", (req, res) => {
           url: `${apiGeocode}`
         })
           .then((response) => {
-            // get good street address from geocoding api - double loop digging into "address_components"
-            console.log(response.data.results[0].address_components.length);
             let formatted_address = response.data.results[0].formatted_address
             let latitude_geo = response.data.results[0].location.latitude
             let longitude_geo = response.data.results[0].location.longitude
@@ -59,8 +57,6 @@ router.get("/", (req, res) => {
             let zip = ''
             let i = 0
             while (i < response.data.results[0].address_components.length) {
-              console.log('1 in loop at i', i);
-              console.log('1 type', response.data.results[0].address_components[i].types[0]);
               if (response.data.results[0].address_components[i].types[0] === "street_number") {
                 street_number = response.data.results[0].address_components[i].short_name
               } else if (response.data.results[0].address_components[i].types[0] === "route") {
@@ -78,7 +74,7 @@ router.get("/", (req, res) => {
             }
             console.log('street_number:', street_number, 'street:', street, 'city:', city, 'state:', state, 'country:', country, 'zip:', zip, "formatted address:", formatted_address);
             if (response.data.results[0].place_id) {
-              // add more variables
+              // add more variables to query to match DB
               const sqlQuery = `
               UPDATE "restrooms"
                   SET "google_place_id"=$1
@@ -109,7 +105,7 @@ router.get("/places", (req, res) => {
   const query = /*sql*/`
   SELECT *
   FROM "restrooms"
-  WHERE "restrooms".id =7
+  WHERE "restrooms".id = 15 OR "restrooms".id = 33
   ORDER BY id;`
   pool.query(query)
     .then(async (dbRes) => {
@@ -123,7 +119,7 @@ router.get("/places", (req, res) => {
           method: "GET",
           url: `https://places.googleapis.com/v1/places/${place_id}?fields=*&key=AIzaSyDwUFUMBNNbnaNJQjykE2YU6gnk-s5w5mo`
         })
-          .then((response) => {
+          .then(async (response) => {
             // insert into opening_hours table 
             let place = response.data
             console.log('place_id:', place.id);
@@ -139,7 +135,7 @@ router.get("/places", (req, res) => {
                 wheelchair_accessible = false
               }
             }
-            let weekday_text = null
+            let weekday_text = ''
             let day_0_open = null
             let day_0_close = null
             let day_1_open = null
@@ -154,24 +150,39 @@ router.get("/places", (req, res) => {
             let day_5_close = null
             let day_6_open = null
             let day_6_close = null
-            // need to loop over place.regularOpeningHours.periods[0] to get hours
             if (place.regularOpeningHours) {
-              day_0_open = `${place.regularOpeningHours.periods[0].open.hour}00`
-              day_0_close = `${place.regularOpeningHours.periods[0].close.hour}00`
-              day_1_open = `${place.regularOpeningHours.periods[1].open.hour}00`
-              day_1_close = `${place.regularOpeningHours.periods[1].close.hour}00`
-              day_2_open = `${place.regularOpeningHours.periods[2].open.hour}00`
-              day_2_close = `${place.regularOpeningHours.periods[2].close.hour}00`
-              day_3_open = `${place.regularOpeningHours.periods[3].open.hour}00`
-              day_3_close = `${place.regularOpeningHours.periods[3].close.hour}00`
-              day_4_open = `${place.regularOpeningHours.periods[4].open.hour}00`
-              day_4_close = `${place.regularOpeningHours.periods[4].close.hour}00`
-              day_5_open = `${place.regularOpeningHours.periods[5].open.hour}00`
-              day_5_close = `${place.regularOpeningHours.periods[5].close.hour}00`
-              day_6_open = `${place.regularOpeningHours.periods[6].open.hour}00`
-              day_6_close = `${place.regularOpeningHours.periods[6].close.hour}00`
+              let i = 0
+              while (i < place.regularOpeningHours.periods.length) {
+                if (place.regularOpeningHours.periods[i].open.day === 0) {
+                  day_0_open = place.regularOpeningHours.periods[i].open.hour * 100
+                  day_0_close = place.regularOpeningHours.periods[i].close.hour * 100
+                } else if (place.regularOpeningHours.periods[i].open.day === 1) {
+                  day_1_open = place.regularOpeningHours.periods[i].open.hour * 100
+                  day_1_close = place.regularOpeningHours.periods[i].close.hour * 100
+                } else if (place.regularOpeningHours.periods[i].open.day === 2) {
+                  day_2_open = place.regularOpeningHours.periods[i].open.hour * 100
+                  day_2_close = place.regularOpeningHours.periods[i].close.hour * 100
+                } else if (place.regularOpeningHours.periods[i].open.day === 3) {
+                  day_3_open = place.regularOpeningHours.periods[i].open.hour * 100
+                  day_3_close = place.regularOpeningHours.periods[i].close.hour * 100
+                } else if (place.regularOpeningHours.periods[i].open.day === 4) {
+                  day_4_open = place.regularOpeningHours.periods[i].open.hour * 100
+                  day_4_close = place.regularOpeningHours.periods[i].close.hour * 100
+                } else if (place.regularOpeningHours.periods[i].open.day === 5) {
+                  day_5_open = place.regularOpeningHours.periods[i].open.hour * 100
+                  day_5_close = place.regularOpeningHours.periods[i].close.hour * 100
+                } else if (place.regularOpeningHours.periods[i].open.day === 6) {
+                  day_6_open = place.regularOpeningHours.periods[i].open.hour * 100
+                  day_6_close = place.regularOpeningHours.periods[i].close.hour * 100
+                }
+                i++;
+              }
               for (let i = 0; i < place.regularOpeningHours.weekdayDescriptions.length; i++) {
-                weekday_text += `${place.regularOpeningHours.weekdayDescriptions[i]}`
+                if (i < place.regularOpeningHours.weekdayDescriptions.length - 1) {
+                  weekday_text += `${place.regularOpeningHours.weekdayDescriptions[i]}, `
+                } else if (i === place.regularOpeningHours.weekdayDescriptions.length - 1) {
+                  weekday_text += `${place.regularOpeningHours.weekdayDescriptions[i]}`
+                }
               }
             }
             const sqlQuery = `
@@ -179,15 +190,10 @@ router.get("/places", (req, res) => {
               ("restroom_id", "business_status", "weekday_text", "day_0_open", "day_0_close", "day_1_open", "day_1_close", "day_2_open", "day_2_close", "day_3_open", "day_3_close", "day_4_open", "day_4_close", "day_5_open", "day_5_close", "day_6_open", "day_6_close")
               VALUES
               ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16, $17)`;
-            let sqlValues
-            if (place.regularOpeningHours) {
-              sqlValues = [restroom_id, business_status, weekday_text, Number(day_0_open), Number(day_0_close), Number(day_1_open), Number(day_1_close), Number(day_2_open), Number(day_2_close), Number(day_3_open), Number(day_3_close), Number(day_4_open), Number(day_4_close), Number(day_5_open), Number(day_5_close), Number(day_6_open), Number(day_6_close)]
-            } else {
-              sqlValues = [restroom_id, business_status, weekday_text, day_0_open, day_0_close, day_1_open, day_1_close, day_2_open, day_2_close, day_3_open, day_3_close, day_4_open, day_4_close, day_5_open, day_5_close, day_6_open, day_6_close]
-            }
-            pool.query(sqlQuery, sqlValues)
-              .then(result => {
-                // then update statement for wheelchair accessability and open status on restrooms table
+            const sqlValues = [restroom_id, business_status, weekday_text, day_0_open, day_0_close, day_1_open, day_1_close, day_2_open, day_2_close, day_3_open, day_3_close, day_4_open, day_4_close, day_5_open, day_5_close, day_6_open, day_6_close]
+            await pool.query(sqlQuery, sqlValues)
+              .then(async result => {
+                // then update statement for wheelchair accessibility and open status on restrooms table
                 let sqlQuery
                 console.log('wheelchair:', wheelchair_accessible, 'status:', business_status);
                 if (wheelchair_accessible === true && business_status === 'OPERATIONAL') {
@@ -232,14 +238,7 @@ router.get("/places", (req, res) => {
                 `;
                 }
                 const sqlValues = [restroom_id];
-                pool.query(sqlQuery, sqlValues)
-                  .then(result => {
-                    //Now that both are done, send back success!
-                    res.sendStatus(201);
-                  }).catch(err => {
-                    console.log('error in update restrooms table', err);
-                    res.sendStatus(500)
-                  })
+                await pool.query(sqlQuery, sqlValues)
               }).catch(err => {
                 console.log('error in insert opening_hours table', err);
                 res.sendStatus(500)
