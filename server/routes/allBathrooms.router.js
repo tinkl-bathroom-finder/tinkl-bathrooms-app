@@ -5,6 +5,7 @@ const {
   rejectUnauthenticated,
 } = require("../modules/authentication-middleware");
 const axios = require('axios');
+const checkAdminAuth = require("../modules/checkAdminAuth");
 
 /**
  * GET route template
@@ -34,7 +35,7 @@ GROUP BY "restrooms"."id";`
 });
 
 // PUT route for admin to soft "delete" a bathroom AKA turn "is_removed" to true
-router.put("/:id", rejectUnauthenticated, (req, res) => {
+router.put("/:id", checkAdminAuth, (req, res) => {
   console.log("req.params.id from put route: ", req.params.id);
   const sqlQuery = `
   UPDATE "restrooms"
@@ -53,7 +54,7 @@ router.put("/:id", rejectUnauthenticated, (req, res) => {
 });
 
 // DELETE route for admin to permanently a bathroom from the database
-router.delete("/:id", rejectUnauthenticated, (req, res) => {
+router.delete("/:id", checkAdminAuth, (req, res) => {
   console.log("req.params.id from delete route: ", req.params.id);
   const sqlQuery = `
   DELETE from "restrooms"
@@ -74,7 +75,7 @@ router.delete("/:id", rejectUnauthenticated, (req, res) => {
 /**
  * POST route template
  */
-router.post("/", (req, res) => {
+router.post("/", rejectUnauthenticated, (req, res) => {
   const formattedQueryText = formatBathroomsQuery(req.body);
   console.log("formattedQueryText: ", formattedQueryText);
   // first query
@@ -127,6 +128,17 @@ router.post("/", (req, res) => {
       console.log("Error in /bathrooms POST", err);
       res.sendStatus(500);
     })
+})
+
+//This route was written in order to test the checkAdminAuth server side module
+router.get('/adminTestRoute', checkAdminAuth, async (req, res) => {
+  try {
+    res.send('Admin authorization checks out');
+    console.log('Admin Authorized');
+  } catch (error) {
+    res.sendStatus(403).send('Not authorized');
+    console.log('No I dont think so you are not the admin');
+  }
 })
 
 function formatCommmentsQuery(BA, restroomIdArray) {
