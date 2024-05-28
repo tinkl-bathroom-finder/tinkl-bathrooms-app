@@ -75,24 +75,25 @@ CREATE TABLE "restroom_votes" (
 	"updated_at" TIMESTAMP WITH TIME ZONE DEFAULT NOW()
 );
 
-CREATE TABLE "opening_hours" (
+  CREATE TABLE "opening_hours" (
 	"id" SERIAL PRIMARY KEY,
-	"place_id" INTEGER REFERENCES "restrooms" ON DELETE CASCADE,
+	"restroom_id" INTEGER REFERENCES "restrooms" ON DELETE CASCADE,
+	"business_status" text,
 	"weekday_text" VARCHAR,
-	"day_0_open" INTEGER,
-	"day_0_close" INTEGER,
-	"day_1_open" INTEGER,
-	"day_1_close" INTEGER,
-	"day_2_open" INTEGER,
-	"day_2_close" INTEGER,
-	"day_3_open" INTEGER,
-	"day_3_close" INTEGER,
-	"day_4_open" INTEGER,
-	"day_4_close" INTEGER,
-	"day_5_open" INTEGER,
-	"day_5_close" INTEGER,
-	"day_6_open" INTEGER,
-	"day_6_close" INTEGER,
+	"day_0_open" VARCHAR(4),
+	"day_0_close" VARCHAR(4),
+	"day_1_open" VARCHAR(4),
+	"day_1_close" VARCHAR(4),
+	"day_2_open" VARCHAR(4),
+	"day_2_close" VARCHAR(4),
+	"day_3_open" VARCHAR(4),
+	"day_3_close" VARCHAR(4),
+	"day_4_open" VARCHAR(4),
+	"day_4_close" VARCHAR(4),
+	"day_5_open" VARCHAR(4),
+	"day_5_close" VARCHAR(4),
+	"day_6_open" VARCHAR(4),
+	"day_6_close" VARCHAR(4),
 	"updated_at" TIMESTAMP WITH TIME ZONE DEFAULT NOW()
 );
 
