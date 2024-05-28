@@ -1,6 +1,8 @@
 const pool = require('./pool');
 
 
+//Used to ensure admin rights are only granted if the database matches the user request. 
+//This helps to secure the admin routes from breaches
 const checkAdminAuth = async (req, res, next) => {
     const queryString = `SELECT * FROM "user" WHERE "id" = $1`;
     console.log('auth', req.user);
