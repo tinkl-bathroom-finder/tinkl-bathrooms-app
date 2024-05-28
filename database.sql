@@ -2,8 +2,8 @@ DROP TABLE IF EXISTS "user";
 DROP TABLE IF EXISTS "restrooms";
 DROP TABLE IF EXISTS "comments";
 DROP TABLE IF EXISTS "comment_votes";
-DROP TABLE IF EXISTS "images";
 DROP TABLE IF EXISTS "restroom_votes";
+DROP TABLE IF EXISTS "opening_hours";
 
 DROP TRIGGER IF EXISTS "trigger_update_updated_at_restrooms" ON "restrooms";
 DROP TRIGGER IF EXISTS "trigger_update_updated_at_comments" ON "comments";
@@ -64,16 +64,6 @@ CREATE TABLE "comment_votes" (
 	"updated_at" TIMESTAMP WITH TIME ZONE DEFAULT NOW()
 );
 
-CREATE TABLE "images" (
-	"id" SERIAL PRIMARY KEY,
-	"source" VARCHAR,
-	"user_id" INTEGER REFERENCES "user" ON DELETE CASCADE,
-	"restroom_id" INTEGER REFERENCES "restrooms" ON DELETE CASCADE,
-	"is_removed" BOOLEAN DEFAULT FALSE,
-	"inserted_at" TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
-	"updated_at" TIMESTAMP WITH TIME ZONE DEFAULT NOW()
-);
-
 CREATE TABLE "restroom_votes" (
 	"id" SERIAL PRIMARY KEY,
 	"user_id" INTEGER REFERENCES "user" ON DELETE CASCADE,
@@ -81,6 +71,27 @@ CREATE TABLE "restroom_votes" (
 	"upvote" INTEGER,
 	"downvote" INTEGER,
 	"inserted_at" TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
+	"updated_at" TIMESTAMP WITH TIME ZONE DEFAULT NOW()
+);
+
+CREATE TABLE "opening_hours" (
+	"id" SERIAL PRIMARY KEY,
+	"place_id" INTEGER REFERENCES "restrooms" ON DELETE CASCADE,
+	"weekday_text" VARCHAR,
+	"day_0_open" INTEGER,
+	"day_0_close" INTEGER,
+	"day_1_open" INTEGER,
+	"day_1_close" INTEGER,
+	"day_2_open" INTEGER,
+	"day_2_close" INTEGER,
+	"day_3_open" INTEGER,
+	"day_3_close" INTEGER,
+	"day_4_open" INTEGER,
+	"day_4_close" INTEGER,
+	"day_5_open" INTEGER,
+	"day_5_close" INTEGER,
+	"day_6_open" INTEGER,
+	"day_6_close" INTEGER,
 	"updated_at" TIMESTAMP WITH TIME ZONE DEFAULT NOW()
 );
 

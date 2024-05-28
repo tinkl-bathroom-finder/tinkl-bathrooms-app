@@ -30,7 +30,7 @@ router.get("/", (req, res) => {
   const query = /*sql*/`
   SELECT *
   FROM "restrooms"
-  WHERE "restrooms".id = 2
+  WHERE "restrooms".place_id = NULL
   ORDER BY id;`
   pool.query(query)
     .then(async (dbRes) => {
@@ -77,10 +77,10 @@ router.get("/", (req, res) => {
               // add more variables to query to match DB
               const sqlQuery = `
               UPDATE "restrooms"
-                  SET "google_place_id"=$1
+                  SET "place_id"=$1, "formatted_address"=$3
                   WHERE "id"=$2
               `;
-              const sqlValues = [response.data.results[0].place_id, restroom_id];
+              const sqlValues = [response.data.results[0].place_id, restroom_id, response.data.results[0].formatted_address];
               pool.query(sqlQuery, sqlValues)
             }
             // not sure if we need this?
