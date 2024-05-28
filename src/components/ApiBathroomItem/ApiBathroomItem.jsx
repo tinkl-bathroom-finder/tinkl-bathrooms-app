@@ -43,6 +43,12 @@ function ApiBathroomItem({ bathroom, bathroomArray }) {
     });
   }
 
+  const placesApiRequest = () => {
+    dispatch({
+      type: "SAGA/FETCH_BATHROOMS_PLACES",
+    });
+  }
+
   return (
     // <tr>
     //   <td>
@@ -78,6 +84,9 @@ function ApiBathroomItem({ bathroom, bathroomArray }) {
     <>
       <h2>Geocoding API</h2>
       <button onClick={geocodeApiRequest}>click here to run the geocoding api</button>
+      <br />
+      <h2>Places API</h2>
+      <button onClick={placesApiRequest}>click here to run the places api</button>
     </>
   );
 }

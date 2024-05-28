@@ -23,7 +23,7 @@ const axios = require('axios');
 
 
 /**
- * GOOGLE PLACES API
+ * GOOGLE Geocoding API
  */
 router.get("/", (req, res) => {
   // query for which restrroms to get geocoding info for
@@ -46,9 +46,35 @@ router.get("/", (req, res) => {
           url: `${apiGeocode}`
         })
           .then((response) => {
-            console.log('response.data.results[0]:', response.data.results[0]);
-            console.log('response.data.results[0].formatted_address:', response.data.results[0].formatted_address)
+            let formatted_address = response.data.results[0].formatted_address
+            let latitude_geo = response.data.results[0].location.latitude
+            let longitude_geo = response.data.results[0].location.longitude
+            let street_number = ''
+            let street = ''
+            let city = ''
+            let state = ''
+            let country = ''
+            let zip = ''
+            let i = 0
+            while (i < response.data.results[0].address_components.length) {
+              if (response.data.results[0].address_components[i].types[0] === "street_number") {
+                street_number = response.data.results[0].address_components[i].short_name
+              } else if (response.data.results[0].address_components[i].types[0] === "route") {
+                street = response.data.results[0].address_components[i].short_name
+              } else if (response.data.results[0].address_components[i].types[0] === "locality") {
+                city = response.data.results[0].address_components[i].short_name
+              } else if (response.data.results[0].address_components[i].types[0] === "administrative_area_level_1") {
+                state = response.data.results[0].address_components[i].short_name
+              } else if (response.data.results[0].address_components[i].types[0] === "country") {
+                country = response.data.results[0].address_components[i].short_name
+              } else if (response.data.results[0].address_components[i].types[0] === "postal_code") {
+                zip = response.data.results[0].address_components[i].short_name
+              }
+              i++;
+            }
+            console.log('street_number:', street_number, 'street:', street, 'city:', city, 'state:', state, 'country:', country, 'zip:', zip, "formatted address:", formatted_address);
             if (response.data.results[0].place_id) {
+              // add more variables to query to match DB
               const sqlQuery = `
               UPDATE "restrooms"
                   SET "place_id"=$1, "formatted_address"=$3
@@ -71,20 +97,162 @@ router.get("/", (req, res) => {
     });
 });
 
-//goop for places API
-// .then((response) => {
-//   let place_id = response.data.results[0].place_id
-//   console.log('placeID from Geocoding:', response.data.results[0].place_id);
-//   axios({
-//     method: "GET",
-//     url: `https://places.googleapis.com/v1/places/${place_id}?fields=*&key=AIzaSyDwUFUMBNNbnaNJQjykE2YU6gnk-s5w5mo`
-//   })
-//     .then((response) => {
-//       console.log('info from place API:', response.data);
-//     })
-//     .catch((error) => {
-//       console.log("Error in place API", error);
-//     })
-// })
+/**
+ * GOOGLE PLACES API
+ */
+router.get("/places", (req, res) => {
+  // query for which restrroms to get geocoding info for
+  const query = /*sql*/`
+  SELECT *
+  FROM "restrooms"
+  WHERE "restrooms".id = 15 OR "restrooms".id = 33
+  ORDER BY id;`
+  pool.query(query)
+    .then(async (dbRes) => {
+      // db_bathrooms array of bathroom objects from db
+      let db_bathrooms = dbRes.rows
+      for (let i = 0; i < db_bathrooms.length; i++) {
+        console.log('db bathrooms id and place id:', db_bathrooms[i].id, db_bathrooms[i].place_id);
+        let restroom_id = db_bathrooms[i].id
+        let place_id = db_bathrooms[i].place_id
+        await axios({
+          method: "GET",
+          url: `https://places.googleapis.com/v1/places/${place_id}?fields=*&key=AIzaSyDwUFUMBNNbnaNJQjykE2YU6gnk-s5w5mo`
+        })
+          .then(async (response) => {
+            // insert into opening_hours table 
+            let place = response.data
+            console.log('place_id:', place.id);
+            let business_status = null
+            if (place.businessStatus) {
+              business_status = place.businessStatus
+            }
+            let wheelchair_accessible = null
+            if (place.accessibilityOptions) {
+              if (place.accessibilityOptions.wheelchairAccessibleRestroom && place.accessibilityOptions.wheelchairAccessibleRestroom === true) {
+                wheelchair_accessible = true
+              } else if (place.accessibilityOptions.wheelchairAccessibleRestroom && place.accessibilityOptions.wheelchairAccessibleRestroom === false) {
+                wheelchair_accessible = false
+              }
+            }
+            let weekday_text = ''
+            let day_0_open = null
+            let day_0_close = null
+            let day_1_open = null
+            let day_1_close = null
+            let day_2_open = null
+            let day_2_close = null
+            let day_3_open = null
+            let day_3_close = null
+            let day_4_open = null
+            let day_4_close = null
+            let day_5_open = null
+            let day_5_close = null
+            let day_6_open = null
+            let day_6_close = null
+            if (place.regularOpeningHours) {
+              let i = 0
+              while (i < place.regularOpeningHours.periods.length) {
+                if (place.regularOpeningHours.periods[i].open.day === 0) {
+                  day_0_open = place.regularOpeningHours.periods[i].open.hour * 100
+                  day_0_close = place.regularOpeningHours.periods[i].close.hour * 100
+                } else if (place.regularOpeningHours.periods[i].open.day === 1) {
+                  day_1_open = place.regularOpeningHours.periods[i].open.hour * 100
+                  day_1_close = place.regularOpeningHours.periods[i].close.hour * 100
+                } else if (place.regularOpeningHours.periods[i].open.day === 2) {
+                  day_2_open = place.regularOpeningHours.periods[i].open.hour * 100
+                  day_2_close = place.regularOpeningHours.periods[i].close.hour * 100
+                } else if (place.regularOpeningHours.periods[i].open.day === 3) {
+                  day_3_open = place.regularOpeningHours.periods[i].open.hour * 100
+                  day_3_close = place.regularOpeningHours.periods[i].close.hour * 100
+                } else if (place.regularOpeningHours.periods[i].open.day === 4) {
+                  day_4_open = place.regularOpeningHours.periods[i].open.hour * 100
+                  day_4_close = place.regularOpeningHours.periods[i].close.hour * 100
+                } else if (place.regularOpeningHours.periods[i].open.day === 5) {
+                  day_5_open = place.regularOpeningHours.periods[i].open.hour * 100
+                  day_5_close = place.regularOpeningHours.periods[i].close.hour * 100
+                } else if (place.regularOpeningHours.periods[i].open.day === 6) {
+                  day_6_open = place.regularOpeningHours.periods[i].open.hour * 100
+                  day_6_close = place.regularOpeningHours.periods[i].close.hour * 100
+                }
+                i++;
+              }
+              for (let i = 0; i < place.regularOpeningHours.weekdayDescriptions.length; i++) {
+                if (i < place.regularOpeningHours.weekdayDescriptions.length - 1) {
+                  weekday_text += `${place.regularOpeningHours.weekdayDescriptions[i]}, `
+                } else if (i === place.regularOpeningHours.weekdayDescriptions.length - 1) {
+                  weekday_text += `${place.regularOpeningHours.weekdayDescriptions[i]}`
+                }
+              }
+            }
+            const sqlQuery = `
+              INSERT INTO "opening_hours"
+              ("restroom_id", "business_status", "weekday_text", "day_0_open", "day_0_close", "day_1_open", "day_1_close", "day_2_open", "day_2_close", "day_3_open", "day_3_close", "day_4_open", "day_4_close", "day_5_open", "day_5_close", "day_6_open", "day_6_close")
+              VALUES
+              ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16, $17)`;
+            const sqlValues = [restroom_id, business_status, weekday_text, day_0_open, day_0_close, day_1_open, day_1_close, day_2_open, day_2_close, day_3_open, day_3_close, day_4_open, day_4_close, day_5_open, day_5_close, day_6_open, day_6_close]
+            await pool.query(sqlQuery, sqlValues)
+              .then(async result => {
+                // then update statement for wheelchair accessibility and open status on restrooms table
+                let sqlQuery
+                console.log('wheelchair:', wheelchair_accessible, 'status:', business_status);
+                if (wheelchair_accessible === true && business_status === 'OPERATIONAL') {
+                  sqlQuery = `
+                UPDATE "restrooms"
+                    SET "accessible"=TRUE, 
+                    "is_removed"=FALSE
+                    WHERE "id"=$1
+                `;
+                } else if (wheelchair_accessible === true && business_status === 'CLOSED_PERMANENTLY') {
+                  sqlQuery = `
+                UPDATE "restrooms"
+                    SET "accessible"=TRUE,
+                    "is_removed"=TRUE
+                    WHERE "id"=$1
+                `;
+                } else if (wheelchair_accessible === false && business_status === 'OPERATIONAL') {
+                  sqlQuery = `
+                UPDATE "restrooms"
+                    SET "accessible"=FALSE,
+                    "is_removed"=FALSE
+                    WHERE "id"=$1
+                `;
+                } else if (wheelchair_accessible === false && business_status === 'CLOSED_PERMANENTLY') {
+                  sqlQuery = `
+                UPDATE "restrooms"
+                    SET "accessible"=FALSE,
+                    "is_removed"=TRUE
+                    WHERE "id"=$1
+                `;
+                } else if (wheelchair_accessible === null && business_status === 'OPERATIONAL') {
+                  sqlQuery = `
+                UPDATE "restrooms"
+                    SET "is_removed"=FALSE
+                    WHERE "id"=$1
+                `;
+                } else if (wheelchair_accessible === null && business_status === 'CLOSED_PERMANENTLY') {
+                  sqlQuery = `
+                UPDATE "restrooms"
+                    SET "is_removed"=TRUE
+                    WHERE "id"=$1
+                `;
+                }
+                const sqlValues = [restroom_id];
+                await pool.query(sqlQuery, sqlValues)
+              }).catch(err => {
+                console.log('error in insert opening_hours table', err);
+                res.sendStatus(500)
+              })
+          })
+          .catch((error) => {
+            console.log("Error in places API", error);
+          })
+      }
+    })
+    .catch((dbErr) => {
+      console.log("fail:", dbErr);
+      res.sendStatus(500);
+    });
+});
 
 module.exports = router;
