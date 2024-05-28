@@ -5,6 +5,7 @@ const {
   rejectUnauthenticated,
 } = require("../modules/authentication-middleware");
 const axios = require('axios');
+const checkAdminAuth = require("../modules/checkAdminAuth");
 
 /**
  * GET route template
@@ -127,6 +128,16 @@ router.post("/", (req, res) => {
       console.log("Error in /bathrooms POST", err);
       res.sendStatus(500);
     })
+})
+
+router.get('/adminTestRoute', checkAdminAuth, async (req, res) => {
+  try {
+    res.send('Admin authorization checks out');
+    console.log('Admin Authorized');
+  } catch (error) {
+    res.sendStatus(403).send('Not authorized');
+    console.log('No I dont think so you are not the admin');
+  }
 })
 
 function formatCommmentsQuery(BA, restroomIdArray) {
