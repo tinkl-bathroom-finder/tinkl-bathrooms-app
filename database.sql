@@ -25,6 +25,7 @@ SET TIMEZONE = 'America/Chicago';
 CREATE TABLE "restrooms" (
 	"id" SERIAL PRIMARY KEY,
 	"api_id" VARCHAR,
+	"place_id" VARCHAR,
 	"name" VARCHAR,
 	"street" VARCHAR,
 	"city" VARCHAR,
