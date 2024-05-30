@@ -15,7 +15,7 @@ router.get('/', rejectUnauthenticated, (req, res) => {
   res.send(req.user);
 });
 
-router.get('/all', checkAdminAuth, (req, res) => {
+router.get('/all', rejectUnauthenticated, checkAdminAuth, (req, res) => {
   // GET all users route
   const query = /*sql*/`
   SELECT * FROM  "user";`

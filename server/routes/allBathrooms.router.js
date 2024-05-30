@@ -5,6 +5,7 @@ const {
   rejectUnauthenticated,
 } = require("../modules/authentication-middleware");
 const axios = require('axios');
+const checkAdminAuth = require("../modules/checkAdminAuth");
 
 /**
  * GET route template
@@ -34,7 +35,7 @@ GROUP BY "restrooms"."id";`
 });
 
 // PUT route for admin to soft "delete" a bathroom AKA turn "is_removed" to true
-router.put("/:id", rejectUnauthenticated, (req, res) => {
+router.put("/:id", rejectUnauthenticated, checkAdminAuth, (req, res) => {
   console.log("req.params.id from put route: ", req.params.id);
   const sqlQuery = `
   UPDATE "restrooms"
@@ -53,7 +54,7 @@ router.put("/:id", rejectUnauthenticated, (req, res) => {
 });
 
 // DELETE route for admin to permanently a bathroom from the database
-router.delete("/:id", rejectUnauthenticated, (req, res) => {
+router.delete("/:id", rejectUnauthenticated, checkAdminAuth, (req, res) => {
   console.log("req.params.id from delete route: ", req.params.id);
   const sqlQuery = `
   DELETE from "restrooms"
