@@ -3,6 +3,7 @@ const pool = require('../modules/pool');
 const router = express.Router();
 const axios = require('axios');
 const checkAdminAuth = require('../modules/checkAdminAuth');
+const { rejectUnauthenticated } = require('../modules/authentication-middleware');
 require('dotenv').config();
 
 
@@ -28,7 +29,7 @@ require('dotenv').config();
 /**
  * GOOGLE Geocoding API
  */
-router.get("/", checkAdminAuth, (req, res) => {
+router.get("/", rejectUnauthenticated, checkAdminAuth, (req, res) => {
   // query for which restrroms to get geocoding info for
   const query = /*sql*/`
   SELECT *
@@ -119,7 +120,7 @@ router.get("/", checkAdminAuth, (req, res) => {
 /**
  * GOOGLE PLACES API
  */
-router.get("/places", checkAdminAuth, (req, res) => {
+router.get("/places", rejectUnauthenticated, checkAdminAuth, (req, res) => {
   // query for which restrroms to get geocoding info for
   const query = /*sql*/`
   SELECT *
