@@ -74,7 +74,7 @@ router.delete("/:id", rejectUnauthenticated, (req, res) => {
 /**
  * POST route template
  */
-router.post("/", (req, res) => {
+router.post("/", rejectUnauthenticated, (req, res) => {
   const formattedQueryText = formatBathroomsQuery(req.body);
   console.log("formattedQueryText: ", formattedQueryText);
   // first query
