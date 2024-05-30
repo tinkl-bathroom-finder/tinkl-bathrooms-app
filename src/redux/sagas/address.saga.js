@@ -1,5 +1,6 @@
 import { put, take, takeLatest } from "redux-saga/effects";
 import axios from "axios";
+// require('dotenv').config();
 
 function* getAddressCoordinates(action) {
   console.log(
@@ -11,7 +12,7 @@ function* getAddressCoordinates(action) {
   try {
     const response = yield axios({
       method: "GET",
-      url: `https://maps.googleapis.com/maps/api/geocode/json?key=${process.env.GEOCODING_API_KEY}&address=${action.payload}`,
+      url: `https://maps.googleapis.com/maps/api/geocode/json?key=AIzaSyCXfizt8q0KOhephD9TP55AqYdnUFNp1H0&address=${action.payload}`,
     });
     yield put({
       // yells at SAGA to get bathrooms by distance based on coordinates
