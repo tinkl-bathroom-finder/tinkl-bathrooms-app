@@ -119,7 +119,7 @@ router.get("/", checkAdminAuth, (req, res) => {
 /**
  * GOOGLE PLACES API
  */
-router.get("/places", (req, res) => {
+router.get("/places", checkAdminAuth, (req, res) => {
   // query for which restrroms to get geocoding info for
   const query = /*sql*/`
   SELECT *
