@@ -23,9 +23,4 @@ router.get('/', (req, res) => {
 
 });
 
-router.get('/testSearch', (req, res) => {
-  console.log('Test Search', req.query.convertedAddress);
-  res.sendStatus(200);
-})
-
 module.exports = router;

@@ -10,7 +10,6 @@ function* getAddressCoordinates(action) {
 
   try {
     const response = yield axios.get('/search', { params: { convertedAddress: action.payload } });
-    yield console.log('Axios Response from /search', response.data.results);
 
     yield put({
       type: "SAGA/GET_BATHROOMS_BY_DISTANCE",
@@ -24,7 +23,7 @@ function* getAddressCoordinates(action) {
 
   } catch (error) {
     console.error('Sage function getAddressCoordinates failed', error);
-  }
+  } a
 }
 
 function* setCurrentLocation(action) {
