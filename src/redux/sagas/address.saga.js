@@ -22,8 +22,8 @@ function* getAddressCoordinates(action) {
     });
 
   } catch (error) {
-    console.error('Sage function getAddressCoordinates failed', error);
-  } a
+    console.error('Saga function getAddressCoordinates failed', error);
+  }
 }
 
 function* setCurrentLocation(action) {

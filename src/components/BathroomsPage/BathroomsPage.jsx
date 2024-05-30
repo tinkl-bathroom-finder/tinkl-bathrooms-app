@@ -76,7 +76,7 @@ function BathroomsPage() {
   }, []);
 
   // sends address types into Autocomplete box to server to get bathrooms list
-  const sendLocation = async () => {
+  const sendLocation = () => {
     // Ensures that sendLocation isn't triggered when search box is cleared
     if (searchBarAddress === null) {
       return;
@@ -88,17 +88,18 @@ function BathroomsPage() {
       const convertedAddress = searchBarAddress.value.description
         .split(" ")
         .join("%20");
-      try {
-        console.log('Converted Address', convertedAddress)
-        setOrigin(convertedAddress);
-        dispatch({
-          type: "SAGA/SEND_LOCATION",
-          payload: convertedAddress,
-        });
-      } catch (err) {
-        console.log("Error sending location: ", err);
-      }
+      // try {
+      //   console.log('Converted Address', convertedAddress)
+      setOrigin(convertedAddress);
+      dispatch({
+        type: "SAGA/SEND_LOCATION",
+        payload: convertedAddress,
+      });
+      // } catch (err) {
+      //   console.log("Error sending location: ", err);
+      // }
     }
+
     // else if (currentLat) {
     //   (dispatch({
     //     type: 'SAGA/FETCH_BATHROOMS',
