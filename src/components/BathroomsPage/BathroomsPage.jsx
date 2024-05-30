@@ -139,14 +139,11 @@ function BathroomsPage() {
     }
   };
 
-  // const apiKey=process.env.GOOGLE_MAPS_API_KEY
-
   return (
     <Box className="container" sx={{ mt: 6, width: 9 / 10 }}>
       <div class="btn-toolbar justify-content-between">
         {/* AutoComplete search box */}
         <GooglePlacesAutocomplete
-          apiKey="AIzaSyBEYEcOGj237bE2zG78LTaQpUplQITQxpE"
           selectProps={{
             className: "searchBar", // Provides the component with a class for styling
             isClearable: true, // Allows the textbox to be emptied with X

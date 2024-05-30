@@ -4,10 +4,10 @@ const router = express.Router();
 
 /* GET route to get bathrooms by proximity to current location */
 router.get('/', (req, res) => {
-    console.log('req.query.lat:', req.query.lat)
-    console.log('req.query.lng:', req.query.lng)
-    // This uses the Haversine formula to calculate distances between coordinates. $1 is current location latitude, $2 is current location longitude.
-    const query = /*sql*/`
+  console.log('req.query.lat:', req.query.lat)
+  console.log('req.query.lng:', req.query.lng)
+  // This uses the Haversine formula to calculate distances between coordinates. $1 is current location latitude, $2 is current location longitude.
+  const query = /*sql*/`
 	    select 
       id, 
       name, 
@@ -42,11 +42,11 @@ router.get('/', (req, res) => {
     distance ASC
   LIMIT 200;
     `
-    const lat = req.query.lat
-    const lng = req.query.lng
-    const values = [lat, lng]
+  const lat = req.query.lat
+  const lng = req.query.lng
+  const values = [lat, lng]
 
-    pool.query(query, values)
+  pool.query(query, values)
     .then((dbRes) => {
       let bathroomsByDistanceList = dbRes.rows
       // gets sent to bathroomsByDistance reducer ==> action.payload
@@ -56,6 +56,6 @@ router.get('/', (req, res) => {
       console.log('fail:', dbErr)
       res.sendStatus(500)
     })
-  })
+})
 
 module.exports = router;
