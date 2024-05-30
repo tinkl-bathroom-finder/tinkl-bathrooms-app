@@ -5,6 +5,7 @@ const {
 const encryptLib = require('../modules/encryption');
 const pool = require('../modules/pool');
 const userStrategy = require('../strategies/user.strategy');
+const checkAdminAuth = require('../modules/checkAdminAuth');
 
 const router = express.Router();
 
@@ -14,7 +15,7 @@ router.get('/', rejectUnauthenticated, (req, res) => {
   res.send(req.user);
 });
 
-router.get('/all', rejectUnauthenticated, (req, res) => {
+router.get('/all', checkAdminAuth, (req, res) => {
   // GET all users route
   const query = /*sql*/`
   SELECT * FROM  "user";`
