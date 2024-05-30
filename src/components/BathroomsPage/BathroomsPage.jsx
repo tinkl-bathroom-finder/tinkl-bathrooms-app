@@ -39,6 +39,9 @@ function BathroomsPage() {
 
   // captures value of address typed in search bar as local state
   const [searchBarAddress, setSearchBarAddress] = useState("");
+  const [activeSuggestionIndex, setActiveSuggestionIndex] = useState(0);
+  const [suggestions, setSuggestions] = useState([]);
+
   const mapView = useSelector((store) => store.mapView);
   // state to open or close FilterByModal
   const [modalShow, setModalShow] = useState(false);
@@ -139,6 +142,24 @@ function BathroomsPage() {
     }
   };
 
+  const handleKeyDown = (event) => {
+    if (event.key === 'ArrowDown') {
+      setActiveSuggestionIndex((prevIndex) => Math.min(prevIndex + 1, suggestions.length - 1));
+    } else if (event.key === 'ArrowUp') {
+      setActiveSuggestionIndex((prevIndex) => Math.max(prevIndex - 1, 0));
+    } else if (event.key === 'Enter') {
+      event.preventDefault();
+      if (suggestions.length > 0 && activeSuggestionIndex >= 0) {
+        handleChange(suggestions[activeSuggestionIndex].description);
+      }
+    }
+  }
+
+  const handleChange = (address) => {
+    setSearchBarAddress(address);
+  }
+
+
   return (
     <Box className="container" sx={{ mt: 6, width: 9 / 10 }}>
       <div class="btn-toolbar justify-content-between">
@@ -150,7 +171,7 @@ function BathroomsPage() {
             onBlur: () => menuClosed(), // Triggers menuClosed() when clicking off of the textbox
             onMenuOpen: () => menuOpened(), // Triggers textbox to clear when clicking on it
             value: searchBarAddress,
-            onChange: setSearchBarAddress,
+            onChange: handleChange,
             placeholder: "Enter an address", // Sets the placeholder for textbox
             styles: {
               input: (provided) => ({
