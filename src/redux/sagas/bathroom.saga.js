@@ -27,9 +27,21 @@ function* fetchBathrooms() {
     }
   }
 
+function* fetchBathroomsPlaces() {
+  try {
+    const response = yield axios({
+      method: 'GET',
+      url: '/api/places'
+    })
+  } catch (error) {
+    console.log('Saga function fetchBathroomsPlaces failed: ', error)
+  }
+}
+
 function* bathroomSaga() {
     yield takeLatest('SAGA/FETCH_BATHROOMS', fetchBathrooms);
     yield takeLatest('SAGA/FETCH_BATHROOMS_GEOCODING', fetchBathroomsGeocoding);
+    yield takeLatest('SAGA/FETCH_BATHROOMS_PLACES', fetchBathroomsPlaces);
 }
   
 export default bathroomSaga;

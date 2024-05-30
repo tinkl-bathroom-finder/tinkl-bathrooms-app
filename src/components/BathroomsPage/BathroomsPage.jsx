@@ -39,6 +39,7 @@ function BathroomsPage() {
 
   // captures value of address typed in search bar as local state
   const [searchBarAddress, setSearchBarAddress] = useState("");
+
   const mapView = useSelector((store) => store.mapView);
   // state to open or close FilterByModal
   const [modalShow, setModalShow] = useState(false);
@@ -139,21 +140,22 @@ function BathroomsPage() {
     }
   };
 
-  // const apiKey=process.env.GOOGLE_MAPS_API_KEY
+  const handleChange = (address) => {
+    setSearchBarAddress(address);
+  }
 
   return (
     <Box className="container" sx={{ mt: 6, width: 9 / 10 }}>
       <div class="btn-toolbar justify-content-between">
         {/* AutoComplete search box */}
         <GooglePlacesAutocomplete
-          apiKey={process.env.GOOGLE_MAPS_API_KEY}
           selectProps={{
             className: "searchBar", // Provides the component with a class for styling
             isClearable: true, // Allows the textbox to be emptied with X
             onBlur: () => menuClosed(), // Triggers menuClosed() when clicking off of the textbox
             onMenuOpen: () => menuOpened(), // Triggers textbox to clear when clicking on it
             value: searchBarAddress,
-            onChange: setSearchBarAddress,
+            onChange: handleChange,
             placeholder: "Enter an address", // Sets the placeholder for textbox
             styles: {
               input: (provided) => ({
