@@ -2,7 +2,6 @@ const express = require('express');
 const pool = require('../modules/pool');
 const router = express.Router();
 const axios = require('axios');
-const env = require('dotenv');
 
 //Essie's old api route
 
@@ -40,9 +39,7 @@ router.get("/", (req, res) => {
       console.log('db bathrooms:', db_bathrooms);
       for (let i = 0; i < db_bathrooms.length; i++) {
         let restroom_id = db_bathrooms[i].id
-        const key = process.env.GOOGLE_API_KEY;
-        console.log(key);
-        let apiGeocode = `https://maps.googleapis.com/maps/api/geocode/json?key=${key}&address=${db_bathrooms[i].name.split(" ").join("%20")}%20${db_bathrooms[i].street.split(" ").join("%20")}%20${db_bathrooms[i].city.split(" ").join("%20")}%20${db_bathrooms[i].state.split(" ").join("%20")}`
+        let apiGeocode = `https://maps.googleapis.com/maps/api/geocode/json?key=AIzaSyCXfizt8q0KOhephD9TP55AqYdnUFNp1H0&address=${db_bathrooms[i].name.split(" ").join("%20")}%20${db_bathrooms[i].street.split(" ").join("%20")}%20${db_bathrooms[i].city.split(" ").join("%20")}%20${db_bathrooms[i].state.split(" ").join("%20")}`
         console.log('search string:', apiGeocode);
         await axios({
           method: "GET",
