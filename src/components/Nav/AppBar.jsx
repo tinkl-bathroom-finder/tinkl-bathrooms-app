@@ -325,7 +325,7 @@ function AppBarNav() {
             component="div"
             fontWeight="bold"
             textAlign={"center"}
-            sx={{ flexGrow: 1, fontSize: 50 }}
+            sx={{ flexGrow: 1, fontSize: 50, cursor: 'pointer' }}
             onClick={goToBathrooms}>
             tinkl
           </Typography>
