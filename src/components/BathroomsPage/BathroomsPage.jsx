@@ -19,7 +19,7 @@ import {
 import { useDispatch, useSelector } from "react-redux";
 import BathroomItemList from "../BathroomItem/BathroomItemList";
 import BathroomItemMap from "../BathroomItem/BathroomItemMap";
-// const dotenv = require('dotenv').config();
+// require('dotenv').config();
 
 import Modal from "react-bootstrap/Modal";
 import Form from "react-bootstrap/Form";
@@ -146,7 +146,7 @@ function BathroomsPage() {
       <div class="btn-toolbar justify-content-between">
         {/* AutoComplete search box */}
         <GooglePlacesAutocomplete
-          apiKey="AIzaSyBEYEcOGj237bE2zG78LTaQpUplQITQxpE"
+          apiKey={process.env.GOOGLE_MAPS_API_KEY}
           selectProps={{
             className: "searchBar", // Provides the component with a class for styling
             isClearable: true, // Allows the textbox to be emptied with X
