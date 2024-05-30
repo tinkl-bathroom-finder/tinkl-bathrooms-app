@@ -8,29 +8,22 @@ function* getAddressCoordinates(action) {
     action.payload
   );
 
-  //TODO Move API call to server route and remove API Key
   try {
-    const response = yield axios({
-      method: "GET",
-      url: `https://maps.googleapis.com/maps/api/geocode/json?key=AIzaSyCXfizt8q0KOhephD9TP55AqYdnUFNp1H0&address=${action.payload}`,
-    });
+    const response = yield axios.get('/search', { params: { convertedAddress: action.payload } });
+    yield console.log('Axios Response from /search', response.data.results);
+
     yield put({
-      // yells at SAGA to get bathrooms by distance based on coordinates
       type: "SAGA/GET_BATHROOMS_BY_DISTANCE",
-      payload: response.data.results[0].geometry.location,
+      payload: response.data.results[0].geometry.location
     });
-    // sends address coordinates to addressCoordinates reducer
+
     yield put({
       type: "SET_ADDRESS_COORDINATES",
-      // location should be object with lat and lng coordinates
-      payload: response.data.results[0].geometry.location,
+      payload: response.data.results[0].geometry.location
     });
-    console.log(
-      "response.data...location (should be object with address info including coordinates):",
-      response.data.results[0].geometry.location
-    );
+
   } catch (error) {
-    console.log("Saga function getAddressCoordinates failed: ", error);
+    console.error('Sage function getAddressCoordinates failed', error);
   }
 }
 

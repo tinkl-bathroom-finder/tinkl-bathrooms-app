@@ -76,7 +76,7 @@ function BathroomsPage() {
   }, []);
 
   // sends address types into Autocomplete box to server to get bathrooms list
-  const sendLocation = () => {
+  const sendLocation = async () => {
     // Ensures that sendLocation isn't triggered when search box is cleared
     if (searchBarAddress === null) {
       return;
@@ -89,6 +89,7 @@ function BathroomsPage() {
         .split(" ")
         .join("%20");
       try {
+        console.log('Converted Address', convertedAddress)
         setOrigin(convertedAddress);
         dispatch({
           type: "SAGA/SEND_LOCATION",
