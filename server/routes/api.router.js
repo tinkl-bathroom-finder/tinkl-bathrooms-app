@@ -2,7 +2,10 @@ const express = require('express');
 const pool = require('../modules/pool');
 const router = express.Router();
 const axios = require('axios');
+const checkAdminAuth = require('../modules/checkAdminAuth');
+const { rejectUnauthenticated } = require('../modules/authentication-middleware');
 require('dotenv').config();
+
 
 //Essie's old api route
 
@@ -26,7 +29,7 @@ require('dotenv').config();
 /**
  * GOOGLE Geocoding API
  */
-router.get("/", (req, res) => {
+router.get("/", rejectUnauthenticated, checkAdminAuth, (req, res) => {
   // query for which restrroms to get geocoding info for
   const query = /*sql*/`
   SELECT *
@@ -117,7 +120,7 @@ router.get("/", (req, res) => {
 /**
  * GOOGLE PLACES API
  */
-router.get("/places", (req, res) => {
+router.get("/places", rejectUnauthenticated, checkAdminAuth, (req, res) => {
   // query for which restrroms to get geocoding info for
   const query = /*sql*/`
   SELECT *
@@ -134,7 +137,7 @@ router.get("/places", (req, res) => {
         let place_id = db_bathrooms[i].place_id
         await axios({
           method: "GET",
-          url: `https://places.googleapis.com/v1/places/${place_id}?fields=*&key=AIzaSyDwUFUMBNNbnaNJQjykE2YU6gnk-s5w5mo`
+          url: `https://places.googleapis.com/v1/places/${place_id}?fields=*&key=${process.env.GOOGLE_PLACES_API_KEY}`
         })
           .then(async (response) => {
             // insert into opening_hours table 

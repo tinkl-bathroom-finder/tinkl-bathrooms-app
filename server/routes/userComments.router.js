@@ -1,5 +1,6 @@
 const express = require("express");
 const pool = require("../modules/pool");
+const { rejectUnauthenticated } = require("../modules/authentication-middleware");
 const router = express.Router();
 
 /* GET route for user comments */
@@ -14,19 +15,19 @@ router.get("/:id", (req, res) => {
     console.log("req.params from fetchUserComments router", req.params);
     const values = [req.params.id];
     pool
-    .query(query, values)
-    .then((dbRes) => {
-        let commentsArray = dbRes.rows
-        // gets sent to userComments.saga.js
-        res.send(commentsArray);
-    })
-    .catch((dbErr) => {
-        res.sendStatus(500);
-    })
+        .query(query, values)
+        .then((dbRes) => {
+            let commentsArray = dbRes.rows
+            // gets sent to userComments.saga.js
+            res.send(commentsArray);
+        })
+        .catch((dbErr) => {
+            res.sendStatus(500);
+        })
 })
 
 // PUT route for user to "delete" their comment AKA turn "is_removed" to true
-router.put("/:id", (req, res) => {
+router.put("/:id", rejectUnauthenticated, (req, res) => {
     console.log('req.params.id from put route: ', req.params.id)
     const sqlQuery = `
     UPDATE "comments"
@@ -43,10 +44,11 @@ router.put("/:id", (req, res) => {
             console.log('dbRes.rows: ', dbRes.rows)
             console.log('user_id: ', userId)
             res.send(userId);
-          })
-        .catch((error) => { 
+        })
+        .catch((error) => {
             console.log('Error removing comment:', error);
-            res.sendStatus(500) });
+            res.sendStatus(500)
+        });
 })
 
 module.exports = router;
