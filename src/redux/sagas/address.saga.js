@@ -7,6 +7,8 @@ function* getAddressCoordinates(action) {
     "action.payload in getAddressCoordinates Saga function:",
     action.payload
   );
+
+  //TODO Move API call to server route and remove API Key
   try {
     const response = yield axios({
       method: "GET",
