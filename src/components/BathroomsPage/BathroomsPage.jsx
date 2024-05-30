@@ -19,7 +19,7 @@ import {
 import { useDispatch, useSelector } from "react-redux";
 import BathroomItemList from "../BathroomItem/BathroomItemList";
 import BathroomItemMap from "../BathroomItem/BathroomItemMap";
-// const dotenv = require('dotenv').config();
+// require('dotenv').config();
 
 import Modal from "react-bootstrap/Modal";
 import Form from "react-bootstrap/Form";
