@@ -2,6 +2,7 @@ const express = require('express');
 const pool = require('../modules/pool');
 const router = express.Router();
 const axios = require('axios');
+require('dotenv').config();
 
 //Essie's old api route
 
@@ -39,7 +40,7 @@ router.get("/", (req, res) => {
       console.log('db bathrooms:', db_bathrooms);
       for (let i = 0; i < db_bathrooms.length; i++) {
         let restroom_id = db_bathrooms[i].id
-        let apiGeocode = `https://maps.googleapis.com/maps/api/geocode/json?key=AIzaSyCXfizt8q0KOhephD9TP55AqYdnUFNp1H0&address=${db_bathrooms[i].name.split(" ").join("%20")}%20${db_bathrooms[i].street.split(" ").join("%20")}%20${db_bathrooms[i].city.split(" ").join("%20")}%20${db_bathrooms[i].state.split(" ").join("%20")}`
+        let apiGeocode = `https://maps.googleapis.com/maps/api/geocode/json?key=${process.env.GEOCODING_API_KEY}&address=${db_bathrooms[i].name.split(" ").join("%20")}%20${db_bathrooms[i].street.split(" ").join("%20")}%20${db_bathrooms[i].city.split(" ").join("%20")}%20${db_bathrooms[i].state.split(" ").join("%20")}`
         console.log('search string:', apiGeocode);
         await axios({
           method: "GET",
@@ -96,6 +97,22 @@ router.get("/", (req, res) => {
       res.sendStatus(500);
     });
 });
+
+//goop for places API
+// .then((response) => {
+//   let place_id = response.data.results[0].place_id
+//   console.log('placeID from Geocoding:', response.data.results[0].place_id);
+//   axios({
+//     method: "GET",
+//     url: `https://places.googleapis.com/v1/places/${place_id}?fields=*&key=${process.env.Google_Places_API_Key}`
+//   })
+//     .then((response) => {
+//       console.log('info from place API:', response.data);
+//     })
+//     .catch((error) => {
+//       console.log("Error in place API", error);
+//     })
+// })
 
 /**
  * GOOGLE PLACES API
