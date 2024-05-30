@@ -88,16 +88,18 @@ function BathroomsPage() {
       const convertedAddress = searchBarAddress.value.description
         .split(" ")
         .join("%20");
-      try {
-        setOrigin(convertedAddress);
-        dispatch({
-          type: "SAGA/SEND_LOCATION",
-          payload: convertedAddress,
-        });
-      } catch (err) {
-        console.log("Error sending location: ", err);
-      }
+      // try {
+      //   console.log('Converted Address', convertedAddress)
+      setOrigin(convertedAddress);
+      dispatch({
+        type: "SAGA/SEND_LOCATION",
+        payload: convertedAddress,
+      });
+      // } catch (err) {
+      //   console.log("Error sending location: ", err);
+      // }
     }
+
     // else if (currentLat) {
     //   (dispatch({
     //     type: 'SAGA/FETCH_BATHROOMS',
