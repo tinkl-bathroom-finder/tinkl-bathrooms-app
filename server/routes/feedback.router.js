@@ -3,9 +3,10 @@ const pool = require('../modules/pool');
 // require('dotenv').config();
 const router = express.Router();
 const axios = require('axios');
+const { rejectUnauthenticated } = require('../modules/authentication-middleware');
 
 // POST /feedback/comments
-router.post('/', (req, res) => {
+router.post('/', rejectUnauthenticated, (req, res) => {
     console.log('req.body:', req.body);
     const voteQuery = `
     INSERT INTO "restroom_votes"
