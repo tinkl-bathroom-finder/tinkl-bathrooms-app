@@ -282,6 +282,8 @@ function BathroomDetails() {
               )}
             </Typography>
 
+            {/* <Typography>{theBathroomDetails.weekday_text}</Typography> */}
+
             {/* distance from current/searched location */}
             <Typography
               align="left"
