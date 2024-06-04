@@ -9,14 +9,15 @@ import { GoogleMap, useJsApiLoader, MarkerF, InfoWindowF } from "@react-google-m
 
 import Marker from "../Marker/Marker";
 import { Box } from "@mui/material";
+import { version } from "react-dom/server";
 
 function MyMap() {
-    const { isLoaded } = useJsApiLoader({ googleMapsApiKey: process.env.GOOGLE_MAPS_API_KEY })
-  if (!isLoaded) { return <div><DotSensor/></div>}
-
-  return       <Map />
-  
-}
+    const { isLoaded } = useJsApiLoader({})
+  if (!isLoaded) 
+    { return <div><DotSensor/></div>
+} else { 
+  return <Map />
+}}
 
 function Map(selectedLocation) {
   const bathrooms = useSelector((store) => store.bathrooms)
