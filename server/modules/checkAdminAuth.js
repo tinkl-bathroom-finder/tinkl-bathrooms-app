@@ -7,7 +7,7 @@ const checkAdminAuth = async (req, res, next) => {
     if (req.user.is_admin) {
         return next();
     } else if (!req.user.is_admin) {
-        res.SendStatus(403).send().json({ message: "User not authorized" })
+        res.SendStatus(403);
     }
 };
 
