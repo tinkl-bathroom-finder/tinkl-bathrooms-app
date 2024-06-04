@@ -107,7 +107,7 @@ function ApiBathroomItem({ bathroom, bathroomArray }) {
       <br />
       <h2>Places API</h2>
       <input placeholder="Enter minimum restroom_id number" onChange={(e) => minimumId(e)}/>
-      <input placeholder="Enter maximum restroom_id number"
+      <input placeholder="Enter maximum restroom_id number" 
       onChange={(e) => maximumId(e)}/>
       <button type="submit" onClick={placesApiRequest}>click here to run the places api</button>
     </>
