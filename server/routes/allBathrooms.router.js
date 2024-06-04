@@ -4,7 +4,7 @@ const router = express.Router();
 const {
   rejectUnauthenticated,
 } = require("../modules/authentication-middleware");
-const axios = require('axios');
+const axios = require("axios");
 const checkAdminAuth = require("../modules/checkAdminAuth");
 
 /**
@@ -12,15 +12,45 @@ const checkAdminAuth = require("../modules/checkAdminAuth");
  */
 router.get("/", (req, res) => {
   // GET all bathrooms route
-  const query = /*sql*/`
+  const query = /*sql*/ `
   SELECT 
-  "restrooms".*, 
-  SUM("restroom_votes"."upvote") AS "upvotes", 
-  SUM ("restroom_votes"."downvote") AS "downvotes"
+  "restrooms".*,
+   "opening_hours".weekday_text,
+   "opening_hours".day_0_open,
+   "opening_hours".day_0_close,
+   "opening_hours".day_1_open,
+   "opening_hours".day_1_close,
+   "opening_hours".day_2_open,
+   "opening_hours".day_2_close,
+   "opening_hours".day_3_open,
+   "opening_hours".day_3_close,
+   "opening_hours".day_4_open,
+   "opening_hours".day_4_close,
+   "opening_hours".day_5_open,
+   "opening_hours".day_5_close,
+   "opening_hours".day_6_open,
+   "opening_hours".day_6_close,
+  SUM("restroom_votes".upvote) AS "upvotes", 
+  SUM ("restroom_votes".downvote) AS "downvotes"
 FROM "restrooms"
-LEFT JOIN "restroom_votes" ON "restrooms"."id"="restroom_votes"."restroom_id"
+LEFT JOIN "restroom_votes" ON "restrooms".id="restroom_votes".restroom_id
+LEFT JOIN "opening_hours" ON "restrooms".id="opening_hours".restroom_id
 WHERE "restrooms".is_removed = FALSE
-GROUP BY "restrooms"."id";`
+GROUP BY "restrooms".id, "opening_hours".weekday_text,
+   "opening_hours".day_0_open,
+   "opening_hours".day_0_close,
+   "opening_hours".day_1_open,
+   "opening_hours".day_1_close,
+   "opening_hours".day_2_open,
+   "opening_hours".day_2_close,
+   "opening_hours".day_3_open,
+   "opening_hours".day_3_close,
+   "opening_hours".day_4_open,
+   "opening_hours".day_4_close,
+   "opening_hours".day_5_open,
+   "opening_hours".day_5_close,
+   "opening_hours".day_6_open,
+   "opening_hours".day_6_close;`;
 
   pool
     .query(query)
@@ -91,14 +121,15 @@ router.post("/", rejectUnauthenticated, (req, res) => {
           const actualCommentQuery = formatActualCommmentsQuery(
             req.body,
             restroom_id_array
-          )
+          );
           // third query
           pool
             .query(actualCommentQuery)
             .then((result) => {
-
               const formattedVotesQuery = formatVotesQuery(
-                req.body, restroom_id_array)
+                req.body,
+                restroom_id_array
+              );
               // fourth query
               pool
                 .query(formattedVotesQuery)
@@ -109,13 +140,13 @@ router.post("/", rejectUnauthenticated, (req, res) => {
                 .catch((err) => {
                   console.log("Error with votes post: ", err);
                   res.sendStatus(500);
-                })
+                });
             })
             // catch for third query
             .catch((err) => {
               console.log("Error with comments post: ", err);
               res.sendStatus(500);
-            })
+            });
         })
         // catch for the second (directions) query
         .catch((err) => {
@@ -127,11 +158,10 @@ router.post("/", rejectUnauthenticated, (req, res) => {
     .catch((err) => {
       console.log("Error in /bathrooms POST", err);
       res.sendStatus(500);
-    })
-})
+    });
+});
 
 function formatCommmentsQuery(BA, restroomIdArray) {
-
   let commentsQuery = `
 INSERT INTO "comments"
 ("content", "restroom_id", "inserted_at")
@@ -150,14 +180,12 @@ VALUES
       '${BA[i].created_at}'); 
   `;
     }
-
-  } let finalCommentsQuery = commentsQuery.slice(0, -2)
-  finalCommentsQuery += `;`
+  }
+  let finalCommentsQuery = commentsQuery.slice(0, -2);
+  finalCommentsQuery += `;`;
   console.log("commentsQuery:", commentsQuery);
   return finalCommentsQuery;
 }
-
-
 
 // function to insert comment into comments table
 function formatActualCommmentsQuery(BA, restroomIdArray) {
@@ -181,9 +209,9 @@ VALUES
       '${BA[i].created_at}'); 
   `;
     }
-
-  } let finalCommentsQuery = actualCommentsQuery.slice(0, -2)
-  finalCommentsQuery += `;`
+  }
+  let finalCommentsQuery = actualCommentsQuery.slice(0, -2);
+  finalCommentsQuery += `;`;
   console.log("finalCommentsQuery:", finalCommentsQuery);
   return finalCommentsQuery;
 }
@@ -197,25 +225,29 @@ VALUES
   for (let i = 0; i < BA.length; i++) {
     if (i < BA.length - 1) {
       bathroomQuery += `
-  (${BA[i].id}, '${BA[i].name.replace(/'/g, "''") || ""}', '${BA[i].street.replace(/'/g, "''") || ""
-        }', '${BA[i].city}', '${BA[i].state}', ${BA[i].accessible}, ${BA[i].unisex
-        }, ${BA[i].latitude}, ${BA[i].longitude}, '${BA[i].created_at}', '${BA[i].updated_at
-        }', '${BA[i].country}', ${BA[i].changing_table}),
+  (${BA[i].id}, '${BA[i].name.replace(/'/g, "''") || ""}', '${
+        BA[i].street.replace(/'/g, "''") || ""
+      }', '${BA[i].city}', '${BA[i].state}', ${BA[i].accessible}, ${
+        BA[i].unisex
+      }, ${BA[i].latitude}, ${BA[i].longitude}, '${BA[i].created_at}', '${
+        BA[i].updated_at
+      }', '${BA[i].country}', ${BA[i].changing_table}),
   `;
     } else if (i < BA.length) {
-      bathroomQuery += `  (${BA[i].id}, '${BA[i].name.replace(/'/g, "''") || ""
-        }', '${BA[i].street.replace(/'/g, "''") || ""}', '${BA[i].city}', '${BA[i].state
-        }', ${BA[i].accessible}, ${BA[i].unisex}, ${BA[i].latitude}, ${BA[i].longitude
-        }, '${BA[i].created_at}', '${BA[i].updated_at}', '${BA[i].country}', ${BA[i].changing_table
-        })
+      bathroomQuery += `  (${BA[i].id}, '${
+        BA[i].name.replace(/'/g, "''") || ""
+      }', '${BA[i].street.replace(/'/g, "''") || ""}', '${BA[i].city}', '${
+        BA[i].state
+      }', ${BA[i].accessible}, ${BA[i].unisex}, ${BA[i].latitude}, ${
+        BA[i].longitude
+      }, '${BA[i].created_at}', '${BA[i].updated_at}', '${BA[i].country}', ${
+        BA[i].changing_table
+      })
   RETURNING "id";`;
     }
   }
   return bathroomQuery;
 }
-
-
-
 
 const formatVotesQuery = (array, restroom_id_array) => {
   let votesQuery = `
@@ -226,35 +258,36 @@ const formatVotesQuery = (array, restroom_id_array) => {
   for (let i = 0; i < array.length; i++) {
     if (array[i].upvote && i < array.length - 1) {
       votesQuery += `
-      (${restroom_id_array[i].id}, ${array[i].upvote}, ${array[i].downvote}, '${array[i].created_at}'), `
+      (${restroom_id_array[i].id}, ${array[i].upvote}, ${array[i].downvote}, '${array[i].created_at}'), `;
     } else if (array[i].downvote && i < array.length - 1) {
       votesQuery += `
       (${restroom_id_array[i].id}, ${array[i].upvote}, ${array[i].downvote}, '${array[i].created_at}'),  
-      `
+      `;
     }
-  } let finalVotesQuery = votesQuery.slice(0, -2)
-  finalVotesQuery += `;`
-  console.log('finalVotesQuery: ', finalVotesQuery)
-  return finalVotesQuery
-}
+  }
+  let finalVotesQuery = votesQuery.slice(0, -2);
+  finalVotesQuery += `;`;
+  console.log("finalVotesQuery: ", finalVotesQuery);
+  return finalVotesQuery;
+};
 
 // const formatUpVotesQuery = (array, restroomIdArray) => {
 //   let votesQuery = `
 //   INSERT INTO "restroom_votes"
 //   ("restroom_id", "upvote", "inserted_at")
-//   VALUES 
+//   VALUES
 //   `;
 //   for (let i=0; i<array.length; i++){
 //     if (array[i].upvote && i < array.length - 1) {
 //       votesQuery += `
-//       (${restroomIdArray[i].id}, ${array[i].upvote}, '${array[i].created_at}'), 
+//       (${restroomIdArray[i].id}, ${array[i].upvote}, '${array[i].created_at}'),
 //       `
 //     } else if (array[i].upvote && i < array.length){
 //       votesQuery += `
-//       (${restroomIdArray[i].id}, ${array[i].upvote}, '${array[i].created_at}'); 
+//       (${restroomIdArray[i].id}, ${array[i].upvote}, '${array[i].created_at}');
 //       `
 //     }
-// } 
+// }
 // return votesQuery
 // }
 
@@ -262,23 +295,19 @@ const formatVotesQuery = (array, restroom_id_array) => {
 //   let votesQuery = `
 //   INSERT INTO "restroom_votes"
 //   ("restroom_id", "downvote", "inserted_at")
-//   VALUES 
+//   VALUES
 //   `;
 //   for (let i=0; i<array.length; i++){
 //     if (array[i].downvote && i < array.length - 1) {
 //       votesQuery += `
-//       (${restroomIdArray[i].id}, ${array[i].downvote}, '${array[i].created_at}'), 
+//       (${restroomIdArray[i].id}, ${array[i].downvote}, '${array[i].created_at}'),
 //       `
 //     } else if (array[i].downvote && i < array.length){
 //       votesQuery += `
-//       (${restroomIdArray[i].id}, ${array[i].downvote}, '${array[i].created_at}'); 
+//       (${restroomIdArray[i].id}, ${array[i].downvote}, '${array[i].created_at}');
 //       `
 //     }
 // } return votesQuery
 // }
-
-
-
-
 
 module.exports = router;
