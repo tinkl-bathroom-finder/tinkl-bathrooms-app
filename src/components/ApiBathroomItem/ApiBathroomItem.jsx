@@ -6,6 +6,9 @@ import Button from "react-bootstrap/Button";
 function ApiBathroomItem({ bathroom, bathroomArray }) {
   const history = useHistory();
   const dispatch = useDispatch();
+  const [minIdNumber, setMinIdNumber] = useState(0);
+  const [maxIdNumber, setMaxIdNumber] = useState(0);
+
 
   const goToDetails = () => {
     // maybe add a function to set the details before navigating
@@ -37,6 +40,21 @@ function ApiBathroomItem({ bathroom, bathroomArray }) {
     });
   };
 
+  const idRange = {
+    minId: minIdNumber,
+    maxId: maxIdNumber
+  }
+
+  // sets minimum restroom_id number for places API get request
+  const minimumId = (e) => {
+    setMinIdNumber(e.target.value);
+  }
+
+  // sets maximum restroom_id number for places API get request
+  const maximumId = (e) => {
+    setMaxIdNumber(e.target.value);
+  }
+
   const geocodeApiRequest = () => {
     dispatch({
       type: "SAGA/FETCH_BATHROOMS_GEOCODING",
@@ -44,8 +62,10 @@ function ApiBathroomItem({ bathroom, bathroomArray }) {
   }
 
   const placesApiRequest = () => {
+    console.log('idRange: ', idRange)
     dispatch({
       type: "SAGA/FETCH_BATHROOMS_PLACES",
+      payload: idRange
     });
   }
 
@@ -83,10 +103,13 @@ function ApiBathroomItem({ bathroom, bathroomArray }) {
     // </tr>
     <>
       <h2>Geocoding API</h2>
-      <button onClick={geocodeApiRequest}>click here to run the geocoding api</button>
+      <button type="submit" onClick={geocodeApiRequest}>click here to run the geocoding api</button>
       <br />
       <h2>Places API</h2>
-      <button onClick={placesApiRequest}>click here to run the places api</button>
+      <input placeholder="Enter minimum restroom_id number" onChange={(e) => minimumId(e)}/>
+      <input placeholder="Enter maximum restroom_id number"
+      onChange={(e) => maximumId(e)}/>
+      <button type="submit" onClick={placesApiRequest}>click here to run the places api</button>
     </>
   );
 }
