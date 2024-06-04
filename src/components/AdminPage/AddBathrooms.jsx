@@ -51,11 +51,11 @@ function AddBathrooms() {
       <input
         placeholder="Bathrooms per page"
         onChange={(e) => bathroomsPerPage(e)}
-      ></input>
+      />
       <input
         placeholder="Page number"
         onChange={(e) => pageNumberFunction(e)}
-      ></input>
+      />
       <Button 
       type="submit" 
       variant="contained"
