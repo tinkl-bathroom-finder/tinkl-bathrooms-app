@@ -6,26 +6,6 @@ const checkAdminAuth = require('../modules/checkAdminAuth');
 const { rejectUnauthenticated } = require('../modules/authentication-middleware');
 require('dotenv').config();
 
-
-//Essie's old api route
-
-// router.get('/', (req,res) => {
-//     console.log('req.query.perPage: ', req.query.perPage)
-//     console.log('req.query.perPage: ', req.query.pageNumber)
-//     // axios get request to Refuge API to get bathrooms in Minneapolis? Do I even need this if I'm directly making the http get request from my saga?
-//     axios({
-//         method: "GET",
-//         url: `https://refugerestrooms.org/api/v1/restrooms/by_location?lat=44.977753&lng=-93.2650108&search=Minneapolis%2C+Minnesota%2C&per_page=${req.query.perPage}&page=${req.query.pageNumber}`
-//       })
-//       .then ((response)=>{
-//         res.send(response.data);
-//       })
-//       .catch((error)=>{
-//         console.log("Error in get SEARCH", error);
-//       })
-// })
-
-
 /**
  * GOOGLE Geocoding API
  */
@@ -125,6 +105,7 @@ router.get("/places", rejectUnauthenticated, checkAdminAuth, (req, res) => {
   const query = /*sql*/`
   SELECT *
   FROM "restrooms"
+  WHERE "restrooms".id >= ${req.query.minId} AND "restrooms".id <=  ${req.query.maxId} 
   ORDER BY id;`
   pool.query(query)
     .then(async (dbRes) => {
