@@ -11,7 +11,22 @@ const router = express.Router();
 router.get("/:id", (req, res) => {
   const query = /*sql*/`
   SELECT 
-    "restrooms".*, 
+    "restrooms".*,
+   "opening_hours".weekday_text,
+   "opening_hours".day_0_open,
+   "opening_hours".day_0_close,
+   "opening_hours".day_1_open,
+   "opening_hours".day_1_close,
+   "opening_hours".day_2_open,
+   "opening_hours".day_2_close,
+   "opening_hours".day_3_open,
+   "opening_hours".day_3_close,
+   "opening_hours".day_4_open,
+   "opening_hours".day_4_close,
+   "opening_hours".day_5_open,
+   "opening_hours".day_5_close,
+   "opening_hours".day_6_open,
+   "opening_hours".day_6_close, 
     COALESCE("votes_query"."upvotes", 0) AS "upvotes", 
     COALESCE("votes_query"."downvotes", 0) AS "downvotes",
     COALESCE("comments_query"."comments", '[]'::json) AS "comments"
@@ -46,6 +61,7 @@ router.get("/:id", (req, res) => {
                 ) 
                 AS "comments_query" ON "restrooms"."id" = "comments_query"."restroom_id"
                 
+      LEFT JOIN "opening_hours" ON "restrooms".id="opening_hours".restroom_id
                 WHERE "restrooms"."id" = $1;
     `;
   const values = [req.params.id];
@@ -79,6 +95,8 @@ function formatBathroomObject(bathroomRows) {
   bathroom.is_single_stall = bathroomRows[0].is_single_stall;
   bathroom.changing_table = bathroomRows[0].changing_table;
   bathroom.comments = bathroomRows[0].comments;
+  bathroom.weekday_text = bathroomRows[0].weekday_text;
+  bathroom.opening_hours = bathroomRows[0].day_0_open;
 
   return bathroom;
 }
