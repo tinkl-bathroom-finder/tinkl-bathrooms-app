@@ -8,7 +8,7 @@ function ApiBathroomItem({ bathroom, bathroomArray }) {
   const dispatch = useDispatch();
   const [minIdNumber, setMinIdNumber] = useState(0);
   const [maxIdNumber, setMaxIdNumber] = useState(0);
-
+  const user = useSelector((store) => store.user);
 
   const goToDetails = () => {
     // maybe add a function to set the details before navigating
@@ -102,15 +102,23 @@ function ApiBathroomItem({ bathroom, bathroomArray }) {
     //   <td>{bathroom.country || ""}</td>
     // </tr>
     <>
-      <h2>Geocoding API</h2>
-      <button type="submit" onClick={geocodeApiRequest}>click here to run the geocoding api</button>
-      <br />
-      <h2>Places API</h2>
-      <input placeholder="Enter minimum restroom_id number" onChange={(e) => minimumId(e)}/>
-      <input placeholder="Enter maximum restroom_id number"
-      onChange={(e) => maximumId(e)}/>
-      <button type="submit" onClick={placesApiRequest}>click here to run the places api</button>
-    </>
+    { user.is_admin &&
+        <>
+          <h2>Geocoding API</h2>
+          <button type="submit" onClick={geocodeApiRequest}>click here to run the geocoding api</button>
+          <br />
+          <h2>Places API</h2>
+          <input placeholder="Enter minimum restroom_id number" onChange={(e) => minimumId(e)} />
+          <input placeholder="Enter maximum restroom_id number"
+            onChange={(e) => maximumId(e)} />
+          <button type="submit" onClick={placesApiRequest}>click here to run the places api</button>
+        </>
+    }
+
+    {!user.is_admin &&
+      <h2 style={{ margin: '10px'}}>User not authorized. Please contact administrator</h2>
+  }
+  </>
   );
 }
 
