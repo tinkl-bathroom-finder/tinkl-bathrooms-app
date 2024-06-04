@@ -125,7 +125,6 @@ router.get("/places", rejectUnauthenticated, checkAdminAuth, (req, res) => {
   const query = /*sql*/`
   SELECT *
   FROM "restrooms"
-  WHERE "restrooms".id = 15 OR "restrooms".id = 33
   ORDER BY id;`
   pool.query(query)
     .then(async (dbRes) => {
@@ -142,19 +141,24 @@ router.get("/places", rejectUnauthenticated, checkAdminAuth, (req, res) => {
           .then(async (response) => {
             // insert into opening_hours table 
             let place = response.data
+            let sqlQuery;
+            let sqlValues;
             console.log('place_id:', place.id);
             let business_status = null
             if (place.businessStatus) {
               business_status = place.businessStatus
-            }
-            let wheelchair_accessible = null
-            if (place.accessibilityOptions) {
-              if (place.accessibilityOptions.wheelchairAccessibleRestroom && place.accessibilityOptions.wheelchairAccessibleRestroom === true) {
-                wheelchair_accessible = true
-              } else if (place.accessibilityOptions.wheelchairAccessibleRestroom && place.accessibilityOptions.wheelchairAccessibleRestroom === false) {
-                wheelchair_accessible = false
-              }
-            }
+              //  if a business is permanently closed, the SQL query will just be to "remove" the restroom from the table
+              if (business_status === "CLOSED_PERMANENTLY") {
+                console.log(`restroom with id ${restroom_id} will be removed from the database.`)
+                sqlQuery = `
+                UPDATE "restrooms"
+                SET "is_removed"=TRUE
+                WHERE "id"=$1
+                `
+                sqlValues = restroom_id
+              } 
+              // otherwise, if a business isn't permanently closed and does have its opening hours listed, the SQL query will insert them into the opening_hours table
+              else if (place.regularOpeningHours){
             let weekday_text = ''
             let day_0_open = null
             let day_0_close = null
@@ -170,8 +174,8 @@ router.get("/places", rejectUnauthenticated, checkAdminAuth, (req, res) => {
             let day_5_close = null
             let day_6_open = null
             let day_6_close = null
-            if (place.regularOpeningHours) {
-              let i = 0
+
+            let i = 0
               while (i < place.regularOpeningHours.periods.length) {
                 if (place.regularOpeningHours.periods[i].open.day === 0) {
                   day_0_open = place.regularOpeningHours.periods[i].open.hour * 100
@@ -204,65 +208,79 @@ router.get("/places", rejectUnauthenticated, checkAdminAuth, (req, res) => {
                   weekday_text += `${place.regularOpeningHours.weekdayDescriptions[i]}`
                 }
               }
-            }
-            const sqlQuery = `
+            
+            // SQL query to insert opening hours into opening_hours table
+             sqlQuery = `
               INSERT INTO "opening_hours"
               ("restroom_id", "business_status", "weekday_text", "day_0_open", "day_0_close", "day_1_open", "day_1_close", "day_2_open", "day_2_close", "day_3_open", "day_3_close", "day_4_open", "day_4_close", "day_5_open", "day_5_close", "day_6_open", "day_6_close")
               VALUES
               ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16, $17)`;
-            const sqlValues = [restroom_id, business_status, weekday_text, day_0_open, day_0_close, day_1_open, day_1_close, day_2_open, day_2_close, day_3_open, day_3_close, day_4_open, day_4_close, day_5_open, day_5_close, day_6_open, day_6_close]
+             sqlValues = [restroom_id, business_status, weekday_text, day_0_open, day_0_close, day_1_open, day_1_close, day_2_open, day_2_close, day_3_open, day_3_close, day_4_open, day_4_close, day_5_open, day_5_close, day_6_open, day_6_close]
+              }
+// 👉 Query will either a) change "is_removed" to true in restrooms table, if business_status is "CLOSED_PERMANENTLY", or:
+// b) if 
             await pool.query(sqlQuery, sqlValues)
-              .then(async result => {
-                // then update statement for wheelchair accessibility and open status on restrooms table
-                let sqlQuery
-                console.log('wheelchair:', wheelchair_accessible, 'status:', business_status);
-                if (wheelchair_accessible === true && business_status === 'OPERATIONAL') {
-                  sqlQuery = `
-                UPDATE "restrooms"
-                    SET "accessible"=TRUE, 
-                    "is_removed"=FALSE
-                    WHERE "id"=$1
-                `;
-                } else if (wheelchair_accessible === true && business_status === 'CLOSED_PERMANENTLY') {
-                  sqlQuery = `
-                UPDATE "restrooms"
-                    SET "accessible"=TRUE,
-                    "is_removed"=TRUE
-                    WHERE "id"=$1
-                `;
-                } else if (wheelchair_accessible === false && business_status === 'OPERATIONAL') {
-                  sqlQuery = `
-                UPDATE "restrooms"
-                    SET "accessible"=FALSE,
-                    "is_removed"=FALSE
-                    WHERE "id"=$1
-                `;
-                } else if (wheelchair_accessible === false && business_status === 'CLOSED_PERMANENTLY') {
-                  sqlQuery = `
-                UPDATE "restrooms"
-                    SET "accessible"=FALSE,
-                    "is_removed"=TRUE
-                    WHERE "id"=$1
-                `;
-                } else if (wheelchair_accessible === null && business_status === 'OPERATIONAL') {
-                  sqlQuery = `
-                UPDATE "restrooms"
-                    SET "is_removed"=FALSE
-                    WHERE "id"=$1
-                `;
-                } else if (wheelchair_accessible === null && business_status === 'CLOSED_PERMANENTLY') {
-                  sqlQuery = `
-                UPDATE "restrooms"
-                    SET "is_removed"=TRUE
-                    WHERE "id"=$1
-                `;
-                }
-                const sqlValues = [restroom_id];
-                await pool.query(sqlQuery, sqlValues)
-              }).catch(err => {
-                console.log('error in insert opening_hours table', err);
-                res.sendStatus(500)
-              })
+            }
+            // let wheelchair_accessible = null
+            // if (place.accessibilityOptions) {
+            //   if (place.accessibilityOptions.wheelchairAccessibleRestroom && place.accessibilityOptions.wheelchairAccessibleRestroom === true) {
+            //     wheelchair_accessible = true
+            //   } else if (place.accessibilityOptions.wheelchairAccessibleRestroom && place.accessibilityOptions.wheelchairAccessibleRestroom === false) {
+            //     wheelchair_accessible = false
+            //   }
+            // }
+              // .then(async result => {
+              //   // then update statement for wheelchair accessibility and open status on restrooms table
+              //   let secondSqlQuery;
+              //   console.log('status:', business_status);
+              //   // if (wheelchair_accessible === true && business_status === 'OPERATIONAL') {
+              //   //   sqlQuery = `
+              //   // UPDATE "restrooms"
+              //   //     SET "accessible"=TRUE, 
+              //   //     "is_removed"=FALSE
+              //   //     WHERE "id"=$1
+              //   // `;
+              //   // } else if (wheelchair_accessible === true && business_status === 'CLOSED_PERMANENTLY') {
+              //   //   sqlQuery = `
+              //   // UPDATE "restrooms"
+              //   //     SET "accessible"=TRUE,
+              //   //     "is_removed"=TRUE
+              //   //     WHERE "id"=$1
+              //   // `;
+              //   // } else if (wheelchair_accessible === false && business_status === 'OPERATIONAL') {
+              //   //   sqlQuery = `
+              //   // UPDATE "restrooms"
+              //   //     SET "accessible"=FALSE,
+              //   //     "is_removed"=FALSE
+              //   //     WHERE "id"=$1
+              //   // `;
+              //   // } else if (wheelchair_accessible === false && business_status === 'CLOSED_PERMANENTLY') {
+              //   //   sqlQuery = `
+              //   // UPDATE "restrooms"
+              //   //     SET "accessible"=FALSE,
+              //   //     "is_removed"=TRUE
+              //   //     WHERE "id"=$1
+              //   // `;
+              //   // } else if (wheelchair_accessible === null && business_status === 'OPERATIONAL') {
+              //   //   sqlQuery = `
+              //   // UPDATE "restrooms"
+              //   //     SET "is_removed"=FALSE
+              //   //     WHERE "id"=$1
+              //   // `;
+              //   // } else
+              //   //  if (business_status === 'CLOSED_PERMANENTLY') {
+              //   //   secondSqlQuery = `
+              //   // UPDATE "restrooms"
+              //   //     SET "is_removed"=TRUE
+              //   //     WHERE "id"=$1
+              //   // `;
+              //   // }
+              //   // const secondSqlValues = [restroom_id];
+              //   // await pool.query(secondSqlQuery, secondSqlValues)
+              // }).catch(err => {
+              //   console.log('error in insert opening_hours table', err);
+              //   res.sendStatus(500)
+              // })
           })
           .catch((error) => {
             console.log("Error in places API", error);
