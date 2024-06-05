@@ -1,5 +1,6 @@
 import React, { useMemo, useRef, useCallback, useState, useEffect } from "react";
-import { useSelector, useDispatch } from "react-redux";
+import axios from "axios";
+import { useSelector } from "react-redux";
 import { Button } from "@mui/material";
 import MyLocationIcon from '@mui/icons-material/MyLocation';
 import DotSensor from "../DotLoader/DotLoader";
@@ -11,13 +12,26 @@ import { GoogleMap, useJsApiLoader, MarkerF, InfoWindowF } from "@react-google-m
 import Marker from "../Marker/Marker";
 
 function MyMap() {
-  const { isLoaded } = useJsApiLoader({})
+  const { isLoaded } = useJsApiLoader({
+    googleMapsApiKey: process.env.GOOGLE_MAPS_API_KEY,
+  })
   if (!isLoaded) {
     return <div><DotSensor /></div>
   } else {
     return <Map />
   }
 }
+
+// const myMap = () => {
+//   const fetchMapScript = async () => {
+//     try {
+//       const response = await axios.get('/api/mapRequest');
+//       const script = await response.text();
+//       eval(script);
+
+//     }
+//   }
+// }
 
 function Map(selectedLocation) {
   const bathrooms = useSelector((store) => store.bathrooms);
@@ -31,6 +45,16 @@ function Map(selectedLocation) {
     setHeight(window.innerHeight);
     setWidth(window.innerWidth);
   }, [window.innerHeight, window.innerWidth])
+
+  // useEffect(() => {
+  //   const loader = useJsApiLoader({
+  //     googleMapsApiKey: process.env.GOOGLE_MAPS_API_KEY
+  //   });
+
+  //   if (loader) setIsLoaded(true);
+  //   loader();
+  // }, []);
+
 
   // origin is the searched address from the search bar, converted into 
   const [origin, setOrigin] = useState('')
@@ -91,6 +115,7 @@ function Map(selectedLocation) {
   return (
     <div style={containerStyle}>
       <GoogleMap
+        id="map"
         mapContainerStyle={{ width: '100%', height: (height * 0.65) }}
         zoom={15}
         center={center}

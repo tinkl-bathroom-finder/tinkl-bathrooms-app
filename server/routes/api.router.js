@@ -6,6 +6,21 @@ const checkAdminAuth = require('../modules/checkAdminAuth');
 const { rejectUnauthenticated } = require('../modules/authentication-middleware');
 require('dotenv').config();
 
+router.get('/mapRequest', async (req, res) => {
+  try {
+    const response = await axios.get('https://maps.googleapis.com/maps/api/js', {
+      params: {
+        key: process.env.GOOGLE_MAPS_API_KEY,
+        libraries: 'places',
+      },
+    });
+    res.send(response.data);
+  } catch (error) {
+    res.sendStatus(500).send('Error fetching Google Maps API');
+  }
+});
+
+
 /**
  * GOOGLE Geocoding API
  */
@@ -137,70 +152,70 @@ router.get("/places", rejectUnauthenticated, checkAdminAuth, (req, res) => {
                 WHERE "id"=$1
                 `
                 sqlValues = restroom_id
-              } 
+              }
               // otherwise, if a business isn't permanently closed and does have its opening hours listed, the SQL query will insert them into the opening_hours table
-              else if (place.regularOpeningHours){
-            let weekday_text = ''
-            let day_0_open = null
-            let day_0_close = null
-            let day_1_open = null
-            let day_1_close = null
-            let day_2_open = null
-            let day_2_close = null
-            let day_3_open = null
-            let day_3_close = null
-            let day_4_open = null
-            let day_4_close = null
-            let day_5_open = null
-            let day_5_close = null
-            let day_6_open = null
-            let day_6_close = null
+              else if (place.regularOpeningHours) {
+                let weekday_text = ''
+                let day_0_open = null
+                let day_0_close = null
+                let day_1_open = null
+                let day_1_close = null
+                let day_2_open = null
+                let day_2_close = null
+                let day_3_open = null
+                let day_3_close = null
+                let day_4_open = null
+                let day_4_close = null
+                let day_5_open = null
+                let day_5_close = null
+                let day_6_open = null
+                let day_6_close = null
 
-            let i = 0
-              while (i < place.regularOpeningHours.periods.length) {
-                if (place.regularOpeningHours.periods[i].open.day === 0) {
-                  day_0_open = place.regularOpeningHours.periods[i].open.hour * 100
-                  day_0_close = place.regularOpeningHours.periods[i].close.hour * 100
-                } else if (place.regularOpeningHours.periods[i].open.day === 1) {
-                  day_1_open = place.regularOpeningHours.periods[i].open.hour * 100
-                  day_1_close = place.regularOpeningHours.periods[i].close.hour * 100
-                } else if (place.regularOpeningHours.periods[i].open.day === 2) {
-                  day_2_open = place.regularOpeningHours.periods[i].open.hour * 100
-                  day_2_close = place.regularOpeningHours.periods[i].close.hour * 100
-                } else if (place.regularOpeningHours.periods[i].open.day === 3) {
-                  day_3_open = place.regularOpeningHours.periods[i].open.hour * 100
-                  day_3_close = place.regularOpeningHours.periods[i].close.hour * 100
-                } else if (place.regularOpeningHours.periods[i].open.day === 4) {
-                  day_4_open = place.regularOpeningHours.periods[i].open.hour * 100
-                  day_4_close = place.regularOpeningHours.periods[i].close.hour * 100
-                } else if (place.regularOpeningHours.periods[i].open.day === 5) {
-                  day_5_open = place.regularOpeningHours.periods[i].open.hour * 100
-                  day_5_close = place.regularOpeningHours.periods[i].close.hour * 100
-                } else if (place.regularOpeningHours.periods[i].open.day === 6) {
-                  day_6_open = place.regularOpeningHours.periods[i].open.hour * 100
-                  day_6_close = place.regularOpeningHours.periods[i].close.hour * 100
+                let i = 0
+                while (i < place.regularOpeningHours.periods.length) {
+                  if (place.regularOpeningHours.periods[i].open.day === 0) {
+                    day_0_open = place.regularOpeningHours.periods[i].open.hour * 100
+                    day_0_close = place.regularOpeningHours.periods[i].close.hour * 100
+                  } else if (place.regularOpeningHours.periods[i].open.day === 1) {
+                    day_1_open = place.regularOpeningHours.periods[i].open.hour * 100
+                    day_1_close = place.regularOpeningHours.periods[i].close.hour * 100
+                  } else if (place.regularOpeningHours.periods[i].open.day === 2) {
+                    day_2_open = place.regularOpeningHours.periods[i].open.hour * 100
+                    day_2_close = place.regularOpeningHours.periods[i].close.hour * 100
+                  } else if (place.regularOpeningHours.periods[i].open.day === 3) {
+                    day_3_open = place.regularOpeningHours.periods[i].open.hour * 100
+                    day_3_close = place.regularOpeningHours.periods[i].close.hour * 100
+                  } else if (place.regularOpeningHours.periods[i].open.day === 4) {
+                    day_4_open = place.regularOpeningHours.periods[i].open.hour * 100
+                    day_4_close = place.regularOpeningHours.periods[i].close.hour * 100
+                  } else if (place.regularOpeningHours.periods[i].open.day === 5) {
+                    day_5_open = place.regularOpeningHours.periods[i].open.hour * 100
+                    day_5_close = place.regularOpeningHours.periods[i].close.hour * 100
+                  } else if (place.regularOpeningHours.periods[i].open.day === 6) {
+                    day_6_open = place.regularOpeningHours.periods[i].open.hour * 100
+                    day_6_close = place.regularOpeningHours.periods[i].close.hour * 100
+                  }
+                  i++;
                 }
-                i++;
-              }
-              for (let i = 0; i < place.regularOpeningHours.weekdayDescriptions.length; i++) {
-                if (i < place.regularOpeningHours.weekdayDescriptions.length - 1) {
-                  weekday_text += `${place.regularOpeningHours.weekdayDescriptions[i]}, `
-                } else if (i === place.regularOpeningHours.weekdayDescriptions.length - 1) {
-                  weekday_text += `${place.regularOpeningHours.weekdayDescriptions[i]}`
+                for (let i = 0; i < place.regularOpeningHours.weekdayDescriptions.length; i++) {
+                  if (i < place.regularOpeningHours.weekdayDescriptions.length - 1) {
+                    weekday_text += `${place.regularOpeningHours.weekdayDescriptions[i]}, `
+                  } else if (i === place.regularOpeningHours.weekdayDescriptions.length - 1) {
+                    weekday_text += `${place.regularOpeningHours.weekdayDescriptions[i]}`
+                  }
                 }
-              }
-            
-            // SQL query to insert opening hours into opening_hours table
-             sqlQuery = `
+
+                // SQL query to insert opening hours into opening_hours table
+                sqlQuery = `
               INSERT INTO "opening_hours"
               ("restroom_id", "business_status", "weekday_text", "day_0_open", "day_0_close", "day_1_open", "day_1_close", "day_2_open", "day_2_close", "day_3_open", "day_3_close", "day_4_open", "day_4_close", "day_5_open", "day_5_close", "day_6_open", "day_6_close")
               VALUES
               ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16, $17)`;
-             sqlValues = [restroom_id, business_status, weekday_text, day_0_open, day_0_close, day_1_open, day_1_close, day_2_open, day_2_close, day_3_open, day_3_close, day_4_open, day_4_close, day_5_open, day_5_close, day_6_open, day_6_close]
+                sqlValues = [restroom_id, business_status, weekday_text, day_0_open, day_0_close, day_1_open, day_1_close, day_2_open, day_2_close, day_3_open, day_3_close, day_4_open, day_4_close, day_5_open, day_5_close, day_6_open, day_6_close]
               }
-// 👉 Query will either a) change "is_removed" to true in restrooms table, if business_status is "CLOSED_PERMANENTLY", or:
-// b) if 
-            await pool.query(sqlQuery, sqlValues)
+              // 👉 Query will either a) change "is_removed" to true in restrooms table, if business_status is "CLOSED_PERMANENTLY", or:
+              // b) if 
+              await pool.query(sqlQuery, sqlValues)
             }
             // let wheelchair_accessible = null
             // if (place.accessibilityOptions) {
@@ -210,58 +225,58 @@ router.get("/places", rejectUnauthenticated, checkAdminAuth, (req, res) => {
             //     wheelchair_accessible = false
             //   }
             // }
-              // .then(async result => {
-              //   // then update statement for wheelchair accessibility and open status on restrooms table
-              //   let secondSqlQuery;
-              //   console.log('status:', business_status);
-              //   // if (wheelchair_accessible === true && business_status === 'OPERATIONAL') {
-              //   //   sqlQuery = `
-              //   // UPDATE "restrooms"
-              //   //     SET "accessible"=TRUE, 
-              //   //     "is_removed"=FALSE
-              //   //     WHERE "id"=$1
-              //   // `;
-              //   // } else if (wheelchair_accessible === true && business_status === 'CLOSED_PERMANENTLY') {
-              //   //   sqlQuery = `
-              //   // UPDATE "restrooms"
-              //   //     SET "accessible"=TRUE,
-              //   //     "is_removed"=TRUE
-              //   //     WHERE "id"=$1
-              //   // `;
-              //   // } else if (wheelchair_accessible === false && business_status === 'OPERATIONAL') {
-              //   //   sqlQuery = `
-              //   // UPDATE "restrooms"
-              //   //     SET "accessible"=FALSE,
-              //   //     "is_removed"=FALSE
-              //   //     WHERE "id"=$1
-              //   // `;
-              //   // } else if (wheelchair_accessible === false && business_status === 'CLOSED_PERMANENTLY') {
-              //   //   sqlQuery = `
-              //   // UPDATE "restrooms"
-              //   //     SET "accessible"=FALSE,
-              //   //     "is_removed"=TRUE
-              //   //     WHERE "id"=$1
-              //   // `;
-              //   // } else if (wheelchair_accessible === null && business_status === 'OPERATIONAL') {
-              //   //   sqlQuery = `
-              //   // UPDATE "restrooms"
-              //   //     SET "is_removed"=FALSE
-              //   //     WHERE "id"=$1
-              //   // `;
-              //   // } else
-              //   //  if (business_status === 'CLOSED_PERMANENTLY') {
-              //   //   secondSqlQuery = `
-              //   // UPDATE "restrooms"
-              //   //     SET "is_removed"=TRUE
-              //   //     WHERE "id"=$1
-              //   // `;
-              //   // }
-              //   // const secondSqlValues = [restroom_id];
-              //   // await pool.query(secondSqlQuery, secondSqlValues)
-              // }).catch(err => {
-              //   console.log('error in insert opening_hours table', err);
-              //   res.sendStatus(500)
-              // })
+            // .then(async result => {
+            //   // then update statement for wheelchair accessibility and open status on restrooms table
+            //   let secondSqlQuery;
+            //   console.log('status:', business_status);
+            //   // if (wheelchair_accessible === true && business_status === 'OPERATIONAL') {
+            //   //   sqlQuery = `
+            //   // UPDATE "restrooms"
+            //   //     SET "accessible"=TRUE, 
+            //   //     "is_removed"=FALSE
+            //   //     WHERE "id"=$1
+            //   // `;
+            //   // } else if (wheelchair_accessible === true && business_status === 'CLOSED_PERMANENTLY') {
+            //   //   sqlQuery = `
+            //   // UPDATE "restrooms"
+            //   //     SET "accessible"=TRUE,
+            //   //     "is_removed"=TRUE
+            //   //     WHERE "id"=$1
+            //   // `;
+            //   // } else if (wheelchair_accessible === false && business_status === 'OPERATIONAL') {
+            //   //   sqlQuery = `
+            //   // UPDATE "restrooms"
+            //   //     SET "accessible"=FALSE,
+            //   //     "is_removed"=FALSE
+            //   //     WHERE "id"=$1
+            //   // `;
+            //   // } else if (wheelchair_accessible === false && business_status === 'CLOSED_PERMANENTLY') {
+            //   //   sqlQuery = `
+            //   // UPDATE "restrooms"
+            //   //     SET "accessible"=FALSE,
+            //   //     "is_removed"=TRUE
+            //   //     WHERE "id"=$1
+            //   // `;
+            //   // } else if (wheelchair_accessible === null && business_status === 'OPERATIONAL') {
+            //   //   sqlQuery = `
+            //   // UPDATE "restrooms"
+            //   //     SET "is_removed"=FALSE
+            //   //     WHERE "id"=$1
+            //   // `;
+            //   // } else
+            //   //  if (business_status === 'CLOSED_PERMANENTLY') {
+            //   //   secondSqlQuery = `
+            //   // UPDATE "restrooms"
+            //   //     SET "is_removed"=TRUE
+            //   //     WHERE "id"=$1
+            //   // `;
+            //   // }
+            //   // const secondSqlValues = [restroom_id];
+            //   // await pool.query(secondSqlQuery, secondSqlValues)
+            // }).catch(err => {
+            //   console.log('error in insert opening_hours table', err);
+            //   res.sendStatus(500)
+            // })
           })
           .catch((error) => {
             console.log("Error in places API", error);
