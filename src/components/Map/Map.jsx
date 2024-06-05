@@ -8,8 +8,6 @@ import DotSensor from "../DotLoader/DotLoader";
 import { GoogleMap, useJsApiLoader, MarkerF, InfoWindowF } from "@react-google-maps/api"
 
 import Marker from "../Marker/Marker";
-import { Box } from "@mui/material";
-import { version } from "react-dom/server";
 
 function MyMap() {
   const { isLoaded } = useJsApiLoader({})
@@ -71,15 +69,15 @@ function Map(selectedLocation) {
         center={center}
         options={options}
         onLoad={onLoad}>
+        {/* Creates blue location dot */}
         <MarkerF
           position={({ lat: addressCoordinates.lat, lng: addressCoordinates.lng })}
           icon={blueDot}
         />
+        {/* Maps bathroom locations from database onto map locations */}
         {bathrooms.map((bathroom, i) => (
           <Marker key={i} bathroom={bathroom} MarkerF={MarkerF} InfoWindowF={InfoWindowF} />
         ))}
-
-
       </GoogleMap>
 
     </div>
