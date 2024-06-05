@@ -1,7 +1,7 @@
 import React, { useMemo, useRef, useCallback, useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { Button } from "@mui/material";
-import MyLocationOutlinedIcon from '@mui/icons-material/MyLocationOutlined';
+import MyLocationIcon from '@mui/icons-material/MyLocation';
 import DotSensor from "../DotLoader/DotLoader";
 // check this out!
 
@@ -25,9 +25,11 @@ function Map(selectedLocation) {
   const mapRef = useRef();
   const onLoad = useCallback(map => (mapRef.current = map), []);
   const [height, setHeight] = useState();
+  const [width, setWidth] = useState();
 
   useEffect(() => {
     setHeight(window.innerHeight);
+    setWidth(window.innerWidth);
   }, [window.innerHeight, window.innerWidth])
 
   // origin is the searched address from the search bar, converted into 
@@ -65,6 +67,26 @@ function Map(selectedLocation) {
     rightMargin: '0px',
   }
 
+  const mapStyles = {
+    position: 'relative',
+  }
+
+  const locButtonStyles = {
+    position: 'absolute',
+    bottom: '5px',
+    right: '-5px',
+    zIndex: '999'
+  }
+
+  const fadeStyles = {
+    backgroundColor: 'rgba(255, 192, 217, 0.6)',
+    // backgroundColor: 'rgba(0, 0, 0, 0.2)',
+    borderRadius: '50%',
+    alignItems: 'center',
+    justifyContent: 'center',
+    padding: '2px',
+    zIndex: '998'
+  }
 
   return (
     <div style={containerStyle}>
@@ -84,11 +106,13 @@ function Map(selectedLocation) {
           <Marker key={i} bathroom={bathroom} MarkerF={MarkerF} InfoWindowF={InfoWindowF} />
         ))}
       </GoogleMap>
-      <Button onClick={recenterMap}>
-        <MyLocationOutlinedIcon />
-      </Button>
-
-
+      <div className="map-controls" style={mapStyles}>
+        <Button onClick={recenterMap} style={locButtonStyles}>
+          <div className="map-controls-fade" style={fadeStyles}>
+            <MyLocationIcon />
+          </div>
+        </Button>
+      </div>
     </div>
   )
 }
