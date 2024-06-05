@@ -1,6 +1,7 @@
 import React, { useMemo, useRef, useCallback, useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
-
+import { Button } from "@mui/material";
+import MyLocationOutlinedIcon from '@mui/icons-material/MyLocationOutlined';
 import DotSensor from "../DotLoader/DotLoader";
 // check this out!
 
@@ -44,6 +45,10 @@ function Map(selectedLocation) {
   const selectedLocationObject = useMemo(() => ({ lat: selectedLocation.lat, lng: selectedLocation.lng }), [selectedLocation.lat, selectedLocation.lng]);
 
 
+  const recenterMap = () => {
+    mapRef.current.panTo(center);
+  }
+
   // customization 
   const options = useMemo(
     () => ({
@@ -79,6 +84,10 @@ function Map(selectedLocation) {
           <Marker key={i} bathroom={bathroom} MarkerF={MarkerF} InfoWindowF={InfoWindowF} />
         ))}
       </GoogleMap>
+      <Button onClick={recenterMap}>
+        <MyLocationOutlinedIcon />
+      </Button>
+
 
     </div>
   )
