@@ -1,13 +1,23 @@
 import * as React from 'react';
 
 import { useState } from "react";
+import { useDispatch, useSelector } from 'react-redux';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import { Form, Modal, ToggleButton, ToggleButtonGroup } from "react-bootstrap";
 
 function MarkAsFlaggedModal(props){
+  const dispatch = useDispatch();
+
     let [isClosed, setIsClosed] = useState(false);
+    let [name, setName] = useState(props.details.name);
+    let address;
+    let isAccessible;
+    let isSingleStall;
+    let isUnisex;
+    let hasChangingTable;
+    let otherComments;
 
     const style = {
         position: 'absolute',
@@ -22,7 +32,23 @@ function MarkAsFlaggedModal(props){
         borderRadius: 2
           }
 
+    const setAsFlagged = (event) => {
+      event.preventDefault();
 
+      dispatch({
+        type: 'SAGA/FLAG_BATHROOM',
+        payload: {
+          name: name,
+          address: address,
+          isAccessible: isAccessible,
+          isSingleStall: isSingleStall,
+          isUnisex: isUnisex,
+          hasChangingTable: hasChangingTable,
+          isClosed: isClosed,
+          otherComments: otherComments
+        }
+      })
+    }
 
   return (
       <Modal
@@ -94,7 +120,7 @@ function MarkAsFlaggedModal(props){
             </Form>
           </Modal.Body>
           <Modal.Footer>
-          <Button variant="outlined" sx={{mr: 2}} data-bs-dismiss="modal">Cancel</Button> 
+          <Button variant="outlined" sx={{mr: 2}} data-bs-dismiss="modal" onClick={() => props.setModal2Show(false)}>Cancel</Button> 
                 <Button variant="contained">Submit changes</Button> 
           </Modal.Footer>
         </Box>
