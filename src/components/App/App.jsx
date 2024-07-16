@@ -54,7 +54,7 @@ function App() {
 
         default: '#FBECB2',
         // light pink
-        paper: '#ffe6e8',
+        // paper: '#ffe6e8',
       },
       text: {
         // black

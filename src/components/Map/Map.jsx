@@ -52,9 +52,9 @@ function Map(selectedLocation) {
 
   const containerStyle = {
       width: '100%',
-      height: '70vh',
-      leftMargin: '20px',
-      rightMargin: '20px'
+      height: '100vh',
+      // leftMargin: '20px',
+      // rightMargin: '20px'
   }
 
   return (
@@ -84,7 +84,7 @@ function Map(selectedLocation) {
       ) : (
       // otherwise, if you haven't entered a search query, renders map centered on your current location or default Minneapolis location
       <GoogleMap
-      mapContainerStyle={{ width: '100%', height: '70vh' }}
+      mapContainerStyle={{ width: '100%', height: '100vh' }}
       center={center}
       zoom={14}
     >

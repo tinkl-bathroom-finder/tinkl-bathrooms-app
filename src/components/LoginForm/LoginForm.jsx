@@ -34,6 +34,9 @@ function LoginForm() {
     align="center"
     justifyContent="center"
     className="form-box"
+    sx={{
+      backgroundColor: 'transparent'
+    }}
     >
     <Form display='flex' className="formPanel" onSubmit={login}>
       <Typography 
@@ -42,7 +45,7 @@ function LoginForm() {
       fontWeight='500'
       align='center'
       sx={{
-        mb: 2
+        mb: 2,
       }} >
         Login
         </Typography>
@@ -53,24 +56,24 @@ function LoginForm() {
       )}
       <div>
         <label htmlFor="username">
-          Username:
           <input
             type="text"
             name="username"
             required
             value={username}
+            placeholder=' Username'
             onChange={(event) => setUsername(event.target.value)}
           />
         </label>
       </div>
       <div>
         <label htmlFor="password">
-          Password:
           <input
             type="password"
             name="password"
             required
             value={password}
+            placeholder=' Password'
             onChange={(event) => setPassword(event.target.value)}
           />
         </label>
