@@ -1,7 +1,8 @@
 html,
 body,
 #react-root {
-  background-color: #FFC0D9;
+  background: rgb(129,194,254);
+background: linear-gradient(135deg, rgba(129,194,254,1) 0%, rgba(218,121,194,1) 100%);
   /* --bg-image: url('http://www.zingerbugimages.com/backgrounds/gold_lights_seamless_texture.jpg'); */
 }
 
