@@ -1,9 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 
-//Types
-import { UserType } from "../../types/userType";
-
-const initialState: UserType = {
+const initialState = {
     username: '',
     is_admin: false,
     is_removed: false,

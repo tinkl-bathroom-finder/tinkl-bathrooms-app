@@ -14,7 +14,6 @@
     "@mui/material": "^5.15.4",
     "@react-google-maps/api": "^2.19.2",
     "@reduxjs/toolkit": "^2.2.6",
-    "@types/googlemaps": "^3.43.3",
     "@vis.gl/react-google-maps": "^0.4.2",
     "axios": "^0.21.1",
     "bcryptjs": "^2.4.3",
@@ -50,11 +49,8 @@
   },
   "devDependencies": {
     "@babel/plugin-proposal-private-property-in-object": "^7.21.11",
-    "@types/react": "^18.3.3",
-    "@types/react-dom": "^18.3.0",
     "nodemon": "^2.0.4",
     "sass": "^1.69.7",
-    "typescript": "^5.5.3",
     "webpack-node-externals": "^3.0.0"
   },
   "browserslist": {

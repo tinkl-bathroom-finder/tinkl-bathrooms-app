@@ -21,7 +21,7 @@ import AdminUsers from "../AdminPage/AdminUsers";
 import ApiBathroomItem from "../ApiBathroomItem/ApiBathroomItem";
 
 //Actions
-import primaryUser, { setUser, setUserLocation } from "../../redux/reducers/primaryUser";
+import { setUser, setUserLocation } from "../../redux/reducers/primaryUser";
 import { setAllBathroomsData } from "../../redux/reducers/bathroomData";
 
 //Styles
