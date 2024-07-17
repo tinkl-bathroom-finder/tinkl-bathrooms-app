@@ -4,7 +4,7 @@
   "private": true,
   "proxy": "http://localhost:5001",
   "engines": {
-    "node": "18.x"
+    "node": ">=18.x <=22.x"
   },
   "dependencies": {
     "@emotion/react": "^11.11.3",
@@ -13,6 +13,7 @@
     "@mui/icons-material": "^5.15.4",
     "@mui/material": "^5.15.4",
     "@react-google-maps/api": "^2.19.2",
+    "@reduxjs/toolkit": "^2.2.6",
     "@types/googlemaps": "^3.43.3",
     "@vis.gl/react-google-maps": "^0.4.2",
     "axios": "^0.21.1",

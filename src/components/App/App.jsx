@@ -1,10 +1,5 @@
 import React, { useEffect } from "react";
-import {
-  HashRouter as Router,
-  Redirect,
-  Route,
-  Switch,
-} from "react-router-dom";
+import axios from "axios";
 
 import { useDispatch, useSelector } from "react-redux";
 
@@ -41,8 +36,16 @@ function App() {
   const user = useSelector((store) => store.user);
 
   useEffect(() => {
-    dispatch({ type: "FETCH_USER" });
-  }, [dispatch]);
+    //Checks for logged in user
+    if (!user.username) {
+      axios.get('/api/user').then((response) => {
+        dispatch({ type: 'SET_USER', payload: response.data })
+      }).catch((error) => {
+        console.log('Error Fetching user from server', error);
+      });
+    }
+
+  }, [user.username]);
 
   return (
     <ThemeProvider theme={tinklTheme}>
@@ -53,6 +56,7 @@ function App() {
       <BathroomsPage />
       {/* <ApiBathroomItem /> //ToDo: Runs the Gocoding API */}
       {/* <UserProfile />  //Shows users own comments */}
+      {/* <LoginPage /> */}
 
       {/* <AboutPage />
       <BathroomsPage />
