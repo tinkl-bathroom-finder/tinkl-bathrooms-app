@@ -12,8 +12,8 @@ const sagaMiddleware = createSagaMiddleware();
 // logger will only be added to your project if your in development mode
 const middlewareList = process.env.NODE_ENV === 'development' ?
   //To reactivate redux logger uncomment line 15 and comment out line 16
-  // [sagaMiddleware, logger] :
-  [sagaMiddleware] :
+  [sagaMiddleware, logger] :
+  // [sagaMiddleware] :
   [sagaMiddleware];
 
 const store = createStore(

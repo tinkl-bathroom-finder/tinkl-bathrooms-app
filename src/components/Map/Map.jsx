@@ -21,8 +21,8 @@ function MyMap() {
 }
 
 function Map(selectedLocation) {
-  const bathrooms = useSelector((store) => store.bathrooms)
-  const addressCoordinates = useSelector((store) => store.primaryUser.location);
+  const bathrooms = useSelector((state) => state.bathroomsData)
+  const addressCoordinates = useSelector((state) => state.primaryUser.location);
   const mapRef = useRef();
   const onLoad = useCallback(map => (mapRef.current = map), []);
   const dispatch = useDispatch();

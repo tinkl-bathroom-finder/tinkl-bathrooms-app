@@ -3,7 +3,6 @@ import errors from './errors.reducer';
 import user from './user.reducer';
 // imports whatever the file at that address is exporting
 import bathrooms from './bathrooms.reducer';
-import bathroomDetails from './bathroomDetails.reducer';
 import bathroomsByDistance from './bathroomsByDistance.reducer';
 import addressCoordinates from './addressCoordinates.reducer';
 import apiBathrooms from './apiBathrooms.reducer';

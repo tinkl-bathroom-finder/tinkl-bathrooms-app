@@ -35,9 +35,9 @@ function BathroomsPage() {
   const dispatch = useDispatch();
 
   // const store = useSelector((store) => store);
-  const bathrooms = useSelector((store) => store.bathroomData);
+  const bathrooms = useSelector((state) => state.bathroomData);
   const bathroomsByDistance = useSelector((store) => store.bathroomData);
-  const user = useSelector((store) => store.primaryUser);
+  const user = useSelector((state) => state.primaryUser);
 
   // captures value of address typed in search bar as local state
   const [searchBarAddress, setSearchBarAddress] = useState("");

@@ -34,8 +34,8 @@ function App() {
 
   const dispatch = useDispatch();
 
-  const user = useSelector((store) => store.primaryUser);
-  const bathroomData = useSelector((store) => store.bathroomData);
+  const user = useSelector((state) => state.primaryUser);
+  const bathroomData = useSelector((state) => state.bathroomData);
 
   //Checks for logged in user
   useEffect(() => {
@@ -48,7 +48,7 @@ function App() {
     }
   }, [user.username]);
 
-  //Gets lat and lng coordinates from user
+  //Gets lat and lng coordinates from user and places it in redux state
   useEffect(() => {
     if (navigator.geolocation) {
       const watcher = navigator.geolocation.watchPosition(
@@ -69,6 +69,7 @@ function App() {
     }
   }, []);
 
+  //Fetches bathroom data from the server and places it in redux state
   useEffect(() => {
     if (user.location) {
       axios.get('/bathrooms')
