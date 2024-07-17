@@ -35,8 +35,8 @@ function BathroomsPage() {
   const dispatch = useDispatch();
 
   // const store = useSelector((store) => store);
-  const bathrooms = useSelector((store) => store.bathrooms);
-  const bathroomsByDistance = useSelector((store) => store.bathroomsByDistance);
+  const bathrooms = useSelector((store) => store.bathroomData);
+  const bathroomsByDistance = useSelector((store) => store.bathroomData);
   const user = useSelector((store) => store.primaryUser);
 
   // captures value of address typed in search bar as local state
@@ -131,6 +131,10 @@ function BathroomsPage() {
   const handleChange = (address) => {
     setSearchBarAddress(address);
   }
+
+  useEffect(() => {
+    console.log(bathroomsByDistance);
+  }, []);
 
   return (
     <Box className="container" sx={{ mt: 6, width: 9 / 10 }}>

@@ -35,6 +35,7 @@ function App() {
   const dispatch = useDispatch();
 
   const user = useSelector((store) => store.primaryUser);
+  const bathroomData = useSelector((store) => store.bathroomData);
 
   //Checks for logged in user
   useEffect(() => {
@@ -66,6 +67,21 @@ function App() {
     } else {
       console.error('Golocation is not supported by this browser');
     }
+  }, []);
+
+  useEffect(() => {
+    if (user.location) {
+      axios.get('/bathrooms')
+        .then((response) => {
+          dispatch(setAllBathroomsData(response.data));
+        }).catch((error) => {
+          console.error('Error fetching bathroom data', error);
+        })
+    }
+  }, []);
+
+  useEffect(() => {
+    console.log('App data', bathroomData)
   }, []);
 
 
