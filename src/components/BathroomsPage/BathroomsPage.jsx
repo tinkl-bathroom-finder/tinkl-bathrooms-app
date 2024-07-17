@@ -29,6 +29,7 @@ import ToggleButtonGroup from "react-bootstrap/ToggleButtonGroup";
 import MyMap from "../Map/Map";
 import { Button, Box } from "@mui/material";
 import FilterByModal from "./FilterByModal";
+import primaryUser from "../../redux/reducers/primaryUser";
 
 function BathroomsPage() {
   const dispatch = useDispatch();
@@ -36,6 +37,7 @@ function BathroomsPage() {
   // const store = useSelector((store) => store);
   const bathrooms = useSelector((store) => store.bathrooms);
   const bathroomsByDistance = useSelector((store) => store.bathroomsByDistance);
+  const user = useSelector((store) => store.primaryUser);
 
   // captures value of address typed in search bar as local state
   const [searchBarAddress, setSearchBarAddress] = useState("");
@@ -52,28 +54,12 @@ function BathroomsPage() {
 
   // origin is the searched address from the search bar, converted into
   const [origin, setOrigin] = useState("");
-  const [currentLat, setCurrentLat] = useState(44.979225);
-  const [currentLng, setCurrentLng] = useState(-93.266945);
+  // const [currentLat, setCurrentLat] = useState(44.979225);
+  // const [currentLng, setCurrentLng] = useState(-93.266945);
 
   const onLoad = useCallback((map) => (mapRef.current = map), []);
   const mapRef = useRef();
 
-  useEffect(() => {
-    // gets user's current location and sets coordinates in React state for directions
-    navigator.geolocation.getCurrentPosition((position) => {
-      dispatch({
-        type: "SAGA/SET_CURRENT_LOCATION",
-        payload: {
-          lat: position.coords.latitude,
-          lng: position.coords.longitude,
-        },
-      });
-    });
-    // fetches the big list of bathrooms
-    dispatch({
-      type: "SAGA/FETCH_BATHROOMS",
-    });
-  }, []);
 
   // sends address types into Autocomplete box to server to get bathrooms list
   const sendLocation = () => {
@@ -253,9 +239,7 @@ function BathroomsPage() {
                 key={bathroom.id}
                 bathroom={bathroom}
                 origin={
-                  currentLat !== 0
-                    ? `${currentLat},${currentLng}`
-                    : "44.97997, -93.26384"
+                  primaryUser.location
                 }
               />
             ))}

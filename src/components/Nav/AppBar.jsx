@@ -53,7 +53,7 @@ function AppBarNav() {
   const [auth, setAuth] = useState(true);
   const [anchorEl, setAnchorEl] = useState(null);
   const [isDrawerOpen, setDrawerOpen] = useState(false);
-  const user = useSelector((store) => store.user);
+  const user = useSelector((store) => store.primaryUser);
   const [open, setOpen] = useState(false);
   const userInfo = useSelector((store) => store.user);
 

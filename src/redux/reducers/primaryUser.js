@@ -20,13 +20,18 @@ const primaryUser = createSlice({
         setUser: (state, action) => {
             console.log('setUser action', action.payload);
             state = action.payload;
-        }
+        },
+        setUserLocation: (state, action) => {
+            console.log('Location Reducer action', action.payload);
+            state.location = action.payload;
+        },
     }
 });
 
 export const {
     setUserNull,
     setUser,
+    setUserLocation,
 } = primaryUser.actions;
 
 export default primaryUser.reducer;

@@ -21,7 +21,7 @@ import AdminUsers from "../AdminPage/AdminUsers";
 import ApiBathroomItem from "../ApiBathroomItem/ApiBathroomItem";
 
 //Actions
-import { setUser } from "../../redux/reducers/primaryUser";
+import primaryUser, { setUser, setUserLocation } from "../../redux/reducers/primaryUser";
 import { setAllBathroomsData } from "../../redux/reducers/bathroomData";
 
 //Styles
@@ -36,8 +36,8 @@ function App() {
 
   const user = useSelector((store) => store.primaryUser);
 
+  //Checks for logged in user
   useEffect(() => {
-    //Checks for logged in user
     if (!user.username) {
       axios.get('/api/user').then((response) => {
         dispatch(setUser(response.data));
@@ -46,6 +46,29 @@ function App() {
       });
     }
   }, [user.username]);
+
+  //Gets lat and lng coordinates from user
+  useEffect(() => {
+    if (navigator.geolocation) {
+      const watcher = navigator.geolocation.watchPosition(
+        (position) => {
+          dispatch(setUserLocation({ lat: position.coords.latitude, lng: position.coords.longitude }));
+        },
+        (error) => {
+          console.error('Error watching position:', error);
+        }
+      );
+
+      //Return cleans up the watcher on component unmount
+      return () => {
+        navigator.geolocation.clearWatch(watcher);
+      }
+    } else {
+      console.error('Golocation is not supported by this browser');
+    }
+  }, []);
+
+
 
   return (
     <ThemeProvider theme={tinklTheme}>
