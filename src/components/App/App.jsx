@@ -1,8 +1,8 @@
 import React, { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import axios from "axios";
 
-import { useDispatch, useSelector } from "react-redux";
-
+//Components
 import Footer from "../Footer/Footer";
 import ProtectedRoute from "../ProtectedRoute/ProtectedRoute";
 import AboutPage from "../AboutPage/AboutPage";
@@ -18,38 +18,37 @@ import AddBathrooms from "../AdminPage/AddBathrooms";
 import DeleteBathrooms from "../AdminPage/DeleteBathrooms";
 import AdminComments from "../AdminPage/AdminComments";
 import AdminUsers from "../AdminPage/AdminUsers";
-
-import Container from "react-bootstrap/Container";
-// import GoogleMapsWrapper from '../Wrapper';
-
-import { ThemeProvider } from '@mui/material';
-import "./SignikaNegative-VariableFont_wght.ttf";
-
-import "./App.css";
 import ApiBathroomItem from "../ApiBathroomItem/ApiBathroomItem";
+
+//Actions
+import { setUser } from "../../redux/reducers/primaryUser";
+import { setAllBathroomsData } from "../../redux/reducers/bathroomData";
+
+//Styles
+import { ThemeProvider } from '@mui/material';
+import "./App.css";
+import "./SignikaNegative-VariableFont_wght.ttf";
 import { tinklTheme } from "./theme";
 
 function App() {
 
   const dispatch = useDispatch();
 
-  const user = useSelector((store) => store.user);
+  const user = useSelector((store) => store.primaryUser);
 
   useEffect(() => {
     //Checks for logged in user
     if (!user.username) {
       axios.get('/api/user').then((response) => {
-        dispatch({ type: 'SET_USER', payload: response.data })
+        dispatch(setUser(response.data));
       }).catch((error) => {
         console.log('Error Fetching user from server', error);
       });
     }
-
   }, [user.username]);
 
   return (
     <ThemeProvider theme={tinklTheme}>
-
       <AppBarNav />
       {/* <BathroomDetails /> */}
       {/* <AboutPage /> */}
