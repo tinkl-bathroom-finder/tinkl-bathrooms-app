@@ -54,7 +54,7 @@ function App() {
 
         default: '#FBECB2',
         // light pink
-        // paper: '#ffe6e8',
+        paper: '#ffe6e8',
       },
       text: {
         // black
@@ -108,6 +108,7 @@ function App() {
     <Router>
       <div>
         <AppBarNav />
+        
         <Switch>
           {/* Visiting localhost:3000 will redirect to localhost:3000/home */}
           <Redirect exact from="/" to="/bathrooms" />

@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import {useSelector} from 'react-redux';
+import { Link } from "react-router-dom";
 
 import { Button, Box, Typography } from '@mui/material';
 import Form from 'react-bootstrap/Form';
@@ -10,6 +11,11 @@ function LoginForm() {
   const [password, setPassword] = useState('');
   const errors = useSelector(store => store.errors);
   const dispatch = useDispatch();
+
+
+  const goToRegister = () => {
+    history.push('/registration')
+  }
 
   const login = (event) => {
     event.preventDefault();
@@ -34,9 +40,6 @@ function LoginForm() {
     align="center"
     justifyContent="center"
     className="form-box"
-    sx={{
-      backgroundColor: 'transparent'
-    }}
     >
     <Form display='flex' className="formPanel" onSubmit={login}>
       <Typography 
@@ -78,13 +81,16 @@ function LoginForm() {
           />
         </label>
       </div>
-      <Box textAlign='center'>
         <Button className="btn"
          type="submit" 
          name="submit" 
          value="Log In"
-         variant="contained">Log in</Button>
-      </Box>
+         variant="contained"
+         >Log in</Button>
+      <Typography>
+        Don't have an account yet?
+      </Typography>
+      <Link to="/registration">Register</Link>
     </Form>
     </Box>
   );

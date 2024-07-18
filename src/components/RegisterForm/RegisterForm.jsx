@@ -1,12 +1,13 @@
-import React, { useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { Form } from 'react-bootstrap';
+import React, { useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { Form } from "react-bootstrap";
+import { Link } from "react-router-dom";
 
-import { Box, Button, Card, TextField, Typography } from '@mui/material';
+import { Box, Button, Card, TextField, Typography } from "@mui/material";
 
 function RegisterForm() {
-  const [username, setUsername] = useState('');
-  const [password, setPassword] = useState('');
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
   const errors = useSelector((store) => store.errors);
   const dispatch = useDispatch();
 
@@ -14,7 +15,7 @@ function RegisterForm() {
     event.preventDefault();
 
     dispatch({
-      type: 'REGISTER',
+      type: "REGISTER",
       payload: {
         username: username,
         password: password,
@@ -23,22 +24,24 @@ function RegisterForm() {
   }; // end registerUser
 
   return (
-    // <Box 
+    // <Box
     // display="flex"
     // flexDirection="column"
     // align="center"
     // className="form-box"
     // >
-    <Form className="formPanel" onSubmit={registerUser} display='flex'>
-      <Typography 
-      variant="h4" 
-      component="h4"
-      fontWeight='500'
-      align='center'
-      sx={{
-        mb: 2
-      }}
-      >Register User</Typography>
+    <Form className="formPanel" onSubmit={registerUser} display="flex">
+      <Typography
+        variant="h4"
+        component="h4"
+        fontWeight="500"
+        align="center"
+        sx={{
+          mb: 2,
+        }}
+      >
+        Register
+      </Typography>
       {errors.registrationMessage && (
         <h3 className="alert" role="alert">
           {errors.registrationMessage}
@@ -46,11 +49,11 @@ function RegisterForm() {
       )}
       <div>
         <label htmlFor="username">
-          Username:
           <input
             type="text"
             name="username"
             value={username}
+            placeholder=" Username"
             required
             onChange={(event) => setUsername(event.target.value)}
           />
@@ -58,22 +61,29 @@ function RegisterForm() {
       </div>
       <div>
         <label htmlFor="password">
-          Password:
           <input
             type="password"
             name="password"
             value={password}
+            placeholder=" Password"
             required
             onChange={(event) => setPassword(event.target.value)}
           />
         </label>
       </div>
-      <Box 
-  display="flex"
-  flexDirection="column"
-  alignItems="center"
-  >
-        <Button className="btn" type="submit" name="submit" value="Register" align='center' variant='contained'>Register</Button>
+      <Box display="flex" flexDirection="column" alignItems="center">
+        <Button
+          className="btn"
+          type="submit"
+          name="submit"
+          value="Register"
+          align="center"
+          variant="contained"
+        >
+          Register
+        </Button>
+        <Typography>Already have an account?</Typography>
+        <Link to="/login">Log in</Link>
       </Box>
     </Form>
     // </Box>

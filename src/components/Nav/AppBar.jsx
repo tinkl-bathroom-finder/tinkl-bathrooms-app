@@ -81,7 +81,6 @@ function AppBarNav() {
 
   const goToLogin = () => {
     history.push('/login')
-    setShowRegister(true)
 
   };
 
@@ -91,7 +90,6 @@ function AppBarNav() {
 
   const goToRegister = () => {
     history.push('/registration')
-    setShowRegister(false)
   }
 
   const logOut = () => {
@@ -102,8 +100,6 @@ function AppBarNav() {
   const [state, setState] = useState({
     left: false,
   });
-
-  const [showRegister, setShowRegister] = useState(false)
 
   const toggleDrawer = (anchor, open) => (event) => {
     if (
@@ -157,8 +153,6 @@ function AppBarNav() {
           </Link>
         </ListItem>
 
-
-        {/* "info" aka about app page which is /info... */}
         <ListItem key="add" disablePadding>
           <Link
             to="/addbathroom"
@@ -333,16 +327,6 @@ function AppBarNav() {
           {/* If a user clicks on the account circle icon, a menu will pop up with the choices of "My profile" or "Log out" */}
           {user.id ? (
             <div>
-              {/* <IconButton
-                size="large"
-                aria-label="account of current user"
-                aria-controls="menu-appbar"
-                aria-haspopup="true"
-                onClick={handleMenu}
-                color="inherit"
-              >
-                <AccountCircle />
-              </IconButton> */}
               <Avatar
                 sx={{ color: 'darkslategrey', bgcolor: "#ffe6e8", border: 1, borderColor: '#FFF6F6', fontWeight: 'bold' }}
                 aria-label="account of current user"
@@ -373,10 +357,41 @@ function AppBarNav() {
                 <MenuItem onClick={goToProfile} sx={{ color: 'darkslategray' }}>My profile</MenuItem>
                 <MenuItem onClick={logOut} sx={{ color: 'darkslategray' }}>Log out</MenuItem>
               </Menu>
-              {/* If a user is not logged in, a Log In button will appear on the right in the top NavBar */}
-              {/* Once you click Log In and are navigated to the Log In page, the same button will now say Register and will be a link to the registration page */}
-            </div>) : (showRegister ? <Button variant="contained" onClick={goToRegister}>Register</Button> :
-              <Button variant="contained" onClick={goToLogin}>Log in</Button>)
+          {/* If a user is not logged in, an account circle icon will appear in the upper right in the top NavBar */}
+          {/* If a user clicks on the account circle icon, a menu will pop up with the choice of "Log in" */}
+            </div>) :
+            <div>
+                <IconButton
+                size="large"
+                aria-label="account of current user"
+                aria-controls="menu-appbar"
+                aria-haspopup="true"
+                onClick={handleMenu}
+                color="inherit"
+              >
+                <AccountCircle />
+              </IconButton>
+              <Menu
+                id="menu-appbar"
+                anchorEl={anchorEl}
+                anchorOrigin={{
+                  vertical: "top",
+                  horizontal: "right",
+                }}
+                keepMounted
+                transformOrigin={{
+                  vertical: "top",
+                  horizontal: "right",
+                }}
+                open={Boolean(anchorEl)}
+                onClose={handleClose}
+                sx={{
+                  borderRadius: '20px'
+                }}
+              >
+                <MenuItem onClick={goToLogin} sx={{ color: 'darkslategray' }}>Log in</MenuItem>
+              </Menu>
+              </div>
           }
         </Toolbar>
       </AppBar>
