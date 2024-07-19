@@ -17,6 +17,7 @@ import { ThemeProvider } from '@mui/material';
 import "./App.css";
 import "./SignikaNegative-VariableFont_wght.ttf";
 import { tinklTheme } from "./theme";
+import { AutoCompleteBar } from "../Refactored/AutoComplete";
 
 function App() {
 
@@ -90,8 +91,8 @@ function App() {
           border: '2px solid black'
         }}>
           <MapView />
-          {/* <BathroomsPage /> */}
         </div>
+        <AutoCompleteBar />
       </div>
       {/* <BathroomDetails /> */}
       {/* <AboutPage /> */}
