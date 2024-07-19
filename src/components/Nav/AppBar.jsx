@@ -80,6 +80,7 @@ function AppBarNav() {
   };
 
   const goToLogin = () => {
+    setAnchorEl(null);
     history.push('/login')
 
   };
@@ -371,6 +372,7 @@ function AppBarNav() {
               >
                 <AccountCircle />
               </IconButton>
+
               <Menu
                 id="menu-appbar"
                 anchorEl={anchorEl}
