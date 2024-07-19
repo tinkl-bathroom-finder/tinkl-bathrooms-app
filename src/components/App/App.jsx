@@ -4,9 +4,9 @@ import axios from "axios";
 
 //Components
 import Footer from "../Footer/Footer";
-import BathroomsPage from "../BathroomsPage/BathroomsPage";
 import { MapView } from "../Refactored/MapView";
 import AppBarNav from "../Nav/AppBar";
+import { AutoCompleteBar } from "../Refactored/AutoComplete";
 
 //Actions
 import { setUser, setUserLocation } from "../../redux/reducers/primaryUser";
@@ -17,7 +17,7 @@ import { ThemeProvider } from '@mui/material';
 import "./App.css";
 import "./SignikaNegative-VariableFont_wght.ttf";
 import { tinklTheme } from "./theme";
-import { AutoCompleteBar } from "../Refactored/AutoComplete";
+import { LeafletMap } from "../Refactored/LeafletMap";
 
 function App() {
 
@@ -70,12 +70,6 @@ function App() {
     }
   }, []);
 
-  useEffect(() => {
-    console.log('App data', bathroomData)
-  }, []);
-
-
-
   return (
     <ThemeProvider theme={tinklTheme}>
       <AppBarNav />
@@ -91,38 +85,16 @@ function App() {
           height: 600,
           border: '2px solid black'
         }}>
-          <MapView />
+          {/* This uses the Leaflet Map library and open street map */}
+          <LeafletMap />
+          {/* This uses the google react library thingy and uses google maps */}
+          {/* <MapView /> */}
         </div>
         <div>
 
           <AutoCompleteBar />
         </div>
       </div>
-      {/* <BathroomDetails /> */}
-      {/* <AboutPage /> */}
-      {/* <ApiBathroomItem /> //ToDo: Runs the Gocoding API */}
-      {/* <UserProfile />  //Shows users own comments */}
-      {/* <LoginPage /> */}
-
-      {/* <AboutPage />
-      <BathroomsPage />
-      <BathroomDetails />
-      <ApiBathroomItem />
-      <UserProfile />
-
-      <AdminPage />
-
-      <AddBathrooms />
-
-      <DeleteBathrooms />
-
-      <AdminComments />
-
-      <AdminUsers />
-
-      <LoginPage />
-
-      <RegisterPage /> */}
       <Footer />
     </ThemeProvider>
   );
