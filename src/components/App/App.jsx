@@ -4,21 +4,9 @@ import axios from "axios";
 
 //Components
 import Footer from "../Footer/Footer";
-import ProtectedRoute from "../ProtectedRoute/ProtectedRoute";
-import AboutPage from "../AboutPage/AboutPage";
-import AppBarNav from "../Nav/AppBar";
-import UserProfile from "../UserProfile/UserProfile";
-import LoginPage from "../LoginPage/LoginPage";
-import RegisterPage from "../RegisterPage/RegisterPage";
 import BathroomsPage from "../BathroomsPage/BathroomsPage";
-import BathroomDetails from "../BathroomDetails/BathroomDetails";
-import MyMap from "../Map/Map";
-import AdminPage from "../AdminPage/AdminPage";
-import AddBathrooms from "../AdminPage/AddBathrooms";
-import DeleteBathrooms from "../AdminPage/DeleteBathrooms";
-import AdminComments from "../AdminPage/AdminComments";
-import AdminUsers from "../AdminPage/AdminUsers";
-import ApiBathroomItem from "../ApiBathroomItem/ApiBathroomItem";
+import { MapView } from "../Refactored/MapView";
+import AppBarNav from "../Nav/AppBar";
 
 //Actions
 import { setUser, setUserLocation } from "../../redux/reducers/primaryUser";
@@ -90,9 +78,23 @@ function App() {
   return (
     <ThemeProvider theme={tinklTheme}>
       <AppBarNav />
+      <div style={{
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        marginTop: 50
+      }}>
+        <div style={{
+          width: 360,
+          height: 600,
+          border: '2px solid black'
+        }}>
+          <MapView />
+          {/* <BathroomsPage /> */}
+        </div>
+      </div>
       {/* <BathroomDetails /> */}
       {/* <AboutPage /> */}
-      <BathroomsPage />
       {/* <ApiBathroomItem /> //ToDo: Runs the Gocoding API */}
       {/* <UserProfile />  //Shows users own comments */}
       {/* <LoginPage /> */}
