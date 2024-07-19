@@ -45,6 +45,7 @@ export const LeafletMap = () => {
                     const position = [item.latitude, item.longitude];
                     return (
                         <Marker
+                            key={index}
                             position={position}
                             icon={toiletIcon}
                             alt={item.name}
