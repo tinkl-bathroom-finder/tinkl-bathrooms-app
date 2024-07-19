@@ -83,7 +83,8 @@ function App() {
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'center',
-        marginTop: 50
+        marginTop: 50,
+        flexDirection: 'column'
       }}>
         <div style={{
           width: 360,
@@ -92,7 +93,10 @@ function App() {
         }}>
           <MapView />
         </div>
-        <AutoCompleteBar />
+        <div>
+
+          <AutoCompleteBar />
+        </div>
       </div>
       {/* <BathroomDetails /> */}
       {/* <AboutPage /> */}

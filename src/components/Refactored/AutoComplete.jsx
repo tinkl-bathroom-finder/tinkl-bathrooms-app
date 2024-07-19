@@ -3,6 +3,63 @@ import GooglePlacesAutocomplete from "react-google-places-autocomplete";
 
 
 export const AutoCompleteBar = () => {
+
+    // captures value of address typed in search bar as local state
+    const [searchBarAddress, setSearchBarAddress] = useState("");
+
+    // sends address types into Autocomplete box to server to get bathrooms list
+    const sendLocation = () => {
+        // Ensures that sendLocation isn't triggered when search box is cleared
+        if (searchBarAddress === null) {
+            return;
+        }
+        // biome-ignore lint/style/noUselessElse: <explanation>
+        else if (searchBarAddress !== "") {
+            console.log("searchBarAddress: ", searchBarAddress);
+            // converts address to url-friendly string
+            const convertedAddress = searchBarAddress.value.description
+                .split(" ")
+                .join("%20");
+            // try {
+            //   console.log('Converted Address', convertedAddress)
+            setOrigin(convertedAddress);
+            dispatch({
+                type: "SAGA/SEND_LOCATION",
+                payload: convertedAddress,
+            });
+            // } catch (err) {
+            //   console.log("Error sending location: ", err);
+            // }
+        }
+    }
+
+    // Runs when search menu is closed, allowing whatever has been selected to be sent to sendLocation()
+    const menuClosed = () => {
+        if (searchBarAddress === "") {
+            console.log("Search bar is empty");
+        } else {
+            sendLocation();
+        }
+    };
+
+    // Ensures searchBarAddress is set in state before executing sendLocation()
+    useEffect(() => {
+        //if (searchBarAddress !== '') {
+        menuClosed();
+    }, [searchBarAddress]);
+
+    // Runs when search menu is opened, emptying the menu of text
+    const menuOpened = () => {
+        if (searchBarAddress !== "") {
+            setSearchBarAddress("");
+        }
+    };
+
+    const handleChange = (address) => {
+        setSearchBarAddress(address);
+    }
+
+
     return (
         <GooglePlacesAutocomplete
             selectProps={{
@@ -63,4 +120,3 @@ export const AutoCompleteBar = () => {
         />
     )
 }
-
