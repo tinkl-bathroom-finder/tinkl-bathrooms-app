@@ -3,14 +3,15 @@ import { Modal, Box, Fade, Backdrop } from '@mui/material';
 import { styled } from '@mui/system';
 
 const StyledModal = styled(Box)(({ theme }) => ({
-    width: '45%',
-    height: '100%',
+    width: '40%',
+    height: '64.5%',
     position: 'absolute',
-    top: 0,
-    left: 0,
+    top: '13%',
+    left: '8%',
     backgroundColor: 'rgba(255, 255, 255, 0.8)',
     backdropFilter: 'blur(10px)',
     outline: 'none',
+    overflow: 'clip',
     boxShadow: theme.shadows[5],
     padding: theme.spacing(2, 4, 3),
     transition: 'transform 0.3s ease-out',

@@ -84,6 +84,7 @@ export const MapView = () => {
                             onClick={() => handleInfoWindow(item)} />
                     )
                     )}
+
                     <BathroomModal open={showDetail} handleClose={handleInfoWindowClose}>
                         <p>{detailData?.name}</p>
                         <p>Last Update: {detailData?.updated_at}</p>
