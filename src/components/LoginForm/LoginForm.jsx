@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import {useSelector} from 'react-redux';
-import { Link } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
+import image1 from "./logo2.png"
 
 import { Button, Box, Typography } from '@mui/material';
 import Form from 'react-bootstrap/Form';
@@ -11,10 +12,14 @@ function LoginForm() {
   const [password, setPassword] = useState('');
   const errors = useSelector(store => store.errors);
   const dispatch = useDispatch();
-
+  const history = useHistory();
 
   const goToRegister = () => {
     history.push('/registration')
+  }
+
+  const goToBathrooms = () => {
+    history.push('/bathrooms')
   }
 
   const login = (event) => {
@@ -42,15 +47,18 @@ function LoginForm() {
     className="form-box"
     >
     <Form display='flex' className="formPanel" onSubmit={login}>
+      <img src={image1} width="100px" 
+      onClick={() => goToBathrooms()}></img>
       <Typography 
-      variant="h4" 
+      variant="h2" 
       component="h4"
-      fontWeight='500'
+      fontWeight='bold'
       align='center'
       sx={{
         mb: 2,
-      }} >
-        Login
+      }} 
+      onClick={() => goToBathrooms()}>
+        tinkl
         </Typography>
       {errors.loginMessage && (
         <h3 className="alert" role="alert">
