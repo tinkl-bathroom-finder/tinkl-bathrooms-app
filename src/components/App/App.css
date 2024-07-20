@@ -21,7 +21,7 @@ Container
 -------------------------------------------------------------------------------- */
 
 .container {
-  /* padding: 20px; */
+  padding: 20px;
 }
 
 /* --------------------------------------------------------------------------------
@@ -127,7 +127,7 @@ Table
   overflow-y: scroll;
 }
 table, th, td {
-  border: 1px solid black ;
+  /* border: 1px solid black ; */
   border-collapse: collapse;
   height: 2.15em;
 }
@@ -137,10 +137,10 @@ th, td {
   width: auto;
 }
 thead {
-  background: rgb(166, 137, 244);
-  color: #fcfcfc;
+  /* background: rgb(166, 137, 244); */
+  color: darkslategray;
 }
-tbody tr:nth-child(3n+0) {
+/* tbody tr:nth-child(3n+0) {
   background: rgb(165, 227, 252);
 }
 tbody tr:nth-child(even) {
@@ -149,7 +149,7 @@ tbody tr:nth-child(even) {
 
 tbody tr:nth-child(odd) {
   background: rgb(255, 224, 244);
-}
+} */
 
 .react-bootstrap-table {
   table-layout: auto;
@@ -162,7 +162,7 @@ tbody tr:nth-child(odd) {
 }
 
 .react-bootstrap-table tab {
-  color: white;
+  color: darkslategray;
 }
 
 .user-profile {
@@ -213,7 +213,6 @@ tbody tr:nth-child(odd) {
 
 h1, h3, h5 {
   text-align: center;
-  margin-bottom: 50px;
 }
 
 .linkInDrawer:link {
@@ -236,4 +235,50 @@ Search Bar
   display: flex;
   flex-grow: 1;
   margin: 5px;
+}
+
+/* --------------------------------------------------------------------------------
+Avatar circle
+-------------------------------------------------------------------------------- */
+
+.circle {
+  width: 150px;
+  height: 150px;
+  line-height: 130px;
+  border-radius: 50%;
+  font-size: 100px;
+  color: #FFF6F6;
+  text-align: center;
+  background: deeppink;
+  margin: 20px auto 5px;
+}
+
+.join-date {
+  font-size: medium;
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.comments {
+  margin-left: 20px;
+  text-align: left;
+}
+
+.comment-name {
+  margin-left: 30px;
+  margin-top: 20px;
+  font-size: 1.2rem;
+  text-decoration: underline;
+  text-align: left;
+}
+
+#delete-comment {
+  display: block;
+  margin-left: auto;
+  margin-right: 20px;
+}
+
+#comment-content {
+  margin-left: 60px;
+  /* display: inline; */
 }
