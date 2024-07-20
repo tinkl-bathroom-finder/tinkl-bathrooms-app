@@ -6,7 +6,7 @@ import { useHistory } from 'react-router-dom';
 import { Button, Card, CardHeader, CardActions, CardContent, IconButton, Table, TableContainer, TableHead, TableBody, TableCell, TableRow, Typography } from "@mui/material";
 import EditIcon from '@mui/icons-material/Edit';
 // import editIcon from '../../public/edit_icon_transparent.png';
-
+import image1 from './../LoginForm/logo2.png'
 
 import Avatar from '@mui/material/Avatar';
 import { deepPurple } from '@mui/material/colors'
@@ -63,46 +63,69 @@ function UserProfile() {
   
 
   return (
-    <Card className="container" sx={{borderRadius: 0, height: '100vh'}}>
-      <CardHeader 
-        avatar={
-      <Avatar sx={{ bgcolor: deepPurple[400] }}>{userInfo.username.charAt(0)}</Avatar>
-        }
-        action={
-          <CardActions>
-          <IconButton aria-label="edit">
-            <EditIcon/>
-          </IconButton>
-          </CardActions>
-        }
-        title={userInfo.username}
-        subheader={`Joined ${stringifyDate(userInfo.inserted_at)}`}
-      />
-      <TableContainer>
-        <Table responsive="m" overflow="fit">
-          <TableHead >
-            <TableRow>
-              <TableCell colSpan={3} sx={{borderBottom: '1px solid black', color: "white", textAlign: 'center'}}>My comments:</TableCell>
-            </TableRow>
-          </TableHead>
-        <TableBody>
-          {userComments?.map((comment) => (
-            <TableRow>
-                <TableCell onClick={() => goToDetails(comment.restroom_id)} className="link" sx={{borderBottom: '1px solid darkgray'}}>{comment.name}</TableCell>
+    <Card sx={{ width: '90%', margin: 'auto', borderRadius: '15px' }}>
+<div class="circle">{userInfo.username.charAt(0)}</div>
+<h1>{userInfo.username}</h1>
+<h2 class="join-date">{`Joined ${stringifyDate(userInfo.inserted_at)}`}</h2>
+<h6 class="comments">My comments:</h6>
 
-              <TableCell sx={{p: 1, borderBottom: '1px solid darkgray'}}>{comment.content}</TableCell>
-              <TableCell sx={{borderBottom: '1px solid darkgray'}}>
-                <Button color="warning" variant="contained" size="small" onClick={() => deleteComment(comment.comment_id)}>
-                  Delete
-                </Button>
-              </TableCell>
-            </TableRow>
-          ))}
-        </TableBody>
-      </Table>
-
-      </TableContainer>
+         {userComments?.map((comment) => (
+           <div>
+            <h3 onClick={() => goToDetails(comment.restroom_id)} class="comments, comment-name">
+            <img src={image1} width="30px"></img>
+            {comment.name}
+            </h3>
+            <p class="comments" id="comment-content">{comment.content}</p>
+            <Button id="delete-comment" color="warning" variant="contained" size="small" onClick={() => deleteComment(comment.comment_id)}>
+                 Delete
+               </Button>
+           </div>
+         ))}
     </Card>
+
+
+    // <Card className="container" sx={{borderRadius: 0, height: '100vh', 
+    // backgroundColor: "transparent"}}>
+    //   <CardHeader 
+    //     avatar={
+    //   <Avatar sx={{ bgcolor: deepPurple[400] }}>{userInfo.username.charAt(0)}</Avatar>
+    //     }
+    //     action={
+    //       <CardActions>
+    //       <IconButton aria-label="edit">
+    //         <EditIcon/>
+    //       </IconButton>
+    //       </CardActions>
+    //     }
+    //     title={userInfo.username}
+    //     subheader={`Joined ${stringifyDate(userInfo.inserted_at)}`}
+    //   />
+    //   <Typography gutterBottom variant="h6" component="div">{userInfo.username}</Typography>
+    //   <TableContainer>
+    //     <Table responsive="m" overflow="fit">
+    //       <TableHead >
+    //         <TableRow>
+    //           <TableCell colSpan={3} sx={{borderBottom: '1px solid black', color: "white", textAlign: 'center'}}>My comments:</TableCell>
+    //         </TableRow>
+    //       </TableHead>
+    //     <TableBody>
+    //       {userComments?.map((comment) => (
+    //         <TableRow>
+    //             <TableCell onClick={() => goToDetails(comment.restroom_id)} className="link" sx={{borderBottom: '1px solid darkgray'}}>{comment.name}</TableCell>
+
+    //           <TableCell sx={{p: 1, borderBottom: '1px solid darkgray'}}>{comment.content}</TableCell>
+    //           <TableCell sx={{borderBottom: '1px solid darkgray'}}>
+    //             <Button color="warning" variant="contained" size="small" onClick={() => deleteComment(comment.comment_id)}>
+    //               Delete
+    //             </Button>
+    //           </TableCell>
+    //         </TableRow>
+    //       ))}
+    //     </TableBody>
+    //   </Table>
+
+    //   </TableContainer>
+    // </Card>
   );
 }
 
