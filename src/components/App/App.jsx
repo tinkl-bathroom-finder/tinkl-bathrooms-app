@@ -107,7 +107,6 @@ function App() {
     <ThemeProvider theme={theme}>
     <Router>
       <div>
-        <AppBarNav />
         
         <Switch>
           {/* Visiting localhost:3000 will redirect to localhost:3000/home */}
@@ -119,6 +118,7 @@ function App() {
             exact
             path="/about"
           >
+            <AppBarNav />
             <AboutPage />
           </Route>
 
@@ -127,6 +127,7 @@ function App() {
             exact
             path="/bathrooms"
           >
+            <AppBarNav />
             {/* homepage: shows map by default, or list view. Don't need to be logged in to see*/}
             <BathroomsPage />
             {/* <MyMap /> */}
@@ -134,11 +135,13 @@ function App() {
 
 {/* for a specific bathroom with id :id */}
           <Route exact path="/bathrooms/:id">
+            <AppBarNav />
             <BathroomDetails />
           </Route>
 
           {/* for api calls to google*/}
           <Route exact path="/api">
+            <AppBarNav />
             <ApiBathroomItem />
           </Route>
 
@@ -152,6 +155,7 @@ function App() {
             exact
             path="/user"
           >
+          <AppBarNav />
             <UserProfile />
           </ProtectedRoute>
 
@@ -161,33 +165,48 @@ function App() {
             path="/admin"
           >
             {/* admin page, where you access the add bathrooms/delete bathrooms/etc pages */}
-            {user.is_admin ? 
-            <AdminPage />
+            {user.is_admin ?
+          <>
+            <AppBarNav /> 
+            <AdminPage/>
+            </>
             : <Redirect to="/user" />}
           </ProtectedRoute>
 
 
           <ProtectedRoute exact path="/admin/addbathrooms">
           {user.is_admin ? 
+          <>
+            <AppBarNav />
             <AddBathrooms />
+            </>
             : <Redirect to="/user" />}
           </ProtectedRoute>
 
           <ProtectedRoute exact path="/admin/editbathrooms">
           {user.is_admin ? 
+          <>
+            <AppBarNav />
             <DeleteBathrooms />
+          </>
             : <Redirect to="/user" />}
           </ProtectedRoute>
 
           <ProtectedRoute exact path="/admin/comments">
           {user.is_admin ? 
+          <>
+            <AppBarNav />
             <AdminComments />
+            </>
             : <Redirect to="/user" />}
           </ProtectedRoute>
 
           <ProtectedRoute exact path="/admin/users">
           {user.is_admin ? 
+          <>
+            <AppBarNav />
             <AdminUsers />
+            </>
             : <Redirect to="/user" />}
           </ProtectedRoute>
 
@@ -227,6 +246,7 @@ function App() {
 
           {/* If none of the other routes matched, we will show a 404. */}
           <Route>
+            <AppBarNav />
             <h1>404</h1>
           </Route>
         </Switch>
