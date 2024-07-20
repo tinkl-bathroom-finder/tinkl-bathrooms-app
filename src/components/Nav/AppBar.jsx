@@ -3,7 +3,6 @@ import * as React from "react";
 import { useState } from "react";
 import { useHistory, Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-// import SidebarNav from "./SidebarNav";
 
 // MUI material imports
 import {
@@ -70,6 +69,7 @@ function AppBarNav() {
     setAnchorEl(event.currentTarget);
   };
 
+  // closes menu
   const handleClose = () => {
     setAnchorEl(null);
   };
@@ -283,6 +283,7 @@ function AppBarNav() {
   );
 
   return (
+
     <Box sx={{ flexGrow: 1, mb: 15 }}>
       {/* Top NavBar with hamburger menu, tinkl, and user profile or login button */}
       <AppBar className="app-bar">
@@ -311,9 +312,6 @@ function AppBarNav() {
               </React.Fragment>
             ))}
           </div>
-
-
-          {/* <SidebarNav /> */}
 
           <Typography
             variant="h4"
@@ -392,6 +390,7 @@ function AppBarNav() {
                 }}
               >
                 <MenuItem onClick={goToLogin} sx={{ color: 'darkslategray' }}>Log in</MenuItem>
+                <MenuItem onClick={goToRegister} sx={{ color: 'darkslategray' }}>Register</MenuItem>
               </Menu>
               </div>
           }
