@@ -251,6 +251,7 @@ Avatar circle
   text-align: center;
   background: deeppink;
   margin: 20px auto 5px;
+  text-shadow: 2px 2px 5px darkmagenta;
 }
 
 .join-date {
@@ -275,7 +276,7 @@ Avatar circle
 #delete-comment {
   display: block;
   margin-left: auto;
-  margin-right: 20px;
+  margin-right: 40px;
 }
 
 #comment-content {
