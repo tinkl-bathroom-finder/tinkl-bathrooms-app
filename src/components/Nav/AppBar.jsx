@@ -365,7 +365,7 @@ function AppBarNav() {
             <div>
                 <IconButton
                 size="large"
-                aria-label="account of current user"
+                aria-label="guest user"
                 aria-controls="menu-appbar"
                 aria-haspopup="true"
                 onClick={handleMenu}
