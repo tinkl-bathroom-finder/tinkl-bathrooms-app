@@ -80,8 +80,8 @@ function AppBarNav() {
   };
 
   const goToLogin = () => {
-    setAnchorEl(null);
     history.push('/login')
+    setAnchorEl(null);
 
   };
 
@@ -101,6 +101,8 @@ function AppBarNav() {
   const [state, setState] = useState({
     left: false,
   });
+
+  
 
   const toggleDrawer = (anchor, open) => (event) => {
     if (
@@ -188,6 +190,7 @@ function AppBarNav() {
                   <ListItemText primary="Admin" />
                   {open ? <ExpandLess /> : <ExpandMore />}
                 </ListItemButton>
+                
                 {/* nested list of admin panel pages */}
                 <Collapse in={open} timeout="auto" unmountOnExit>
                   <List component="div" disablePadding>
