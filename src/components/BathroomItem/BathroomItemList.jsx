@@ -30,6 +30,8 @@ import { ConstructionOutlined, More } from "@mui/icons-material";
 import { styled } from "@mui/material/styles";
 import Grid2 from "@mui/material/Unstable_Grid2/Grid2";
 
+import BusinessHours from "./BusinessHours";
+
 // animation for 'expand comments' chevron
 const ExpandMore = styled((props) => {
   const { expand, ...other } = props;
@@ -153,6 +155,8 @@ function BathroomItemList({ bathroom, origin }) {
                   aria-label="show more"
                   sx={{ m: 0, p: 0 }}
                 />
+
+                <BusinessHours bathroom={bathroom}/>
 
                 {/* bathroom upvotes and downvotes */}
                 <Typography align="left" sx={{ mr: 2 }}>
