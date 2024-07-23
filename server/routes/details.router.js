@@ -96,7 +96,20 @@ function formatBathroomObject(bathroomRows) {
   bathroom.changing_table = bathroomRows[0].changing_table;
   bathroom.comments = bathroomRows[0].comments;
   bathroom.weekday_text = bathroomRows[0].weekday_text;
-  bathroom.opening_hours = bathroomRows[0].day_0_open;
+  bathroom.day_0_open = bathroomRows[0].day_0_open;
+  bathroom.day_0_close = bathroomRows[0].day_0_close;
+  bathroom.day_1_open = bathroomRows[0].day_1_open;
+  bathroom.day_1_close = bathroomRows[0].day_1_close;
+  bathroom.day_2_open = bathroomRows[0].day_2_open;
+  bathroom.day_2_close = bathroomRows[0].day_2_close;
+  bathroom.day_3_open = bathroomRows[0].day_3_open;
+  bathroom.day_3_close = bathroomRows[0].day_3_close;
+  bathroom.day_4_open = bathroomRows[0].day_4_open;
+  bathroom.day_4_close = bathroomRows[0].day_4_close;
+  bathroom.day_5_open = bathroomRows[0].day_5_open;
+  bathroom.day_5_close = bathroomRows[0].day_5_close;
+  bathroom.day_6_open = bathroomRows[0].day_6_open;
+  bathroom.day_6_close = bathroomRows[0].day_6_close;
 
   return bathroom;
 }

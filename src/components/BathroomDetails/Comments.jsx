@@ -24,7 +24,7 @@ function CommentList() {
     };
 
   return (
-      <Accordion defaultExpanded sx={{maxHeight: '38vh', overflowY: 'scroll'}}>
+      <Accordion defaultExpanded sx={{maxHeight: '38vh'}}>
         <AccordionSummary 
         expandIcon={<ExpandMore />}
           aria-controls="panel1-content"
