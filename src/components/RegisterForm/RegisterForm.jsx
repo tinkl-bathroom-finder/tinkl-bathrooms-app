@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Form } from "react-bootstrap";
-import { Link } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 import image1 from "./../LoginForm/logo2.png"
 
 import { Box, Button, Card, TextField, Typography } from "@mui/material";
@@ -11,9 +11,16 @@ function RegisterForm() {
   const [password, setPassword] = useState("");
   const errors = useSelector((store) => store.errors);
   const dispatch = useDispatch();
+  const history = useHistory();
+  
+  const goToBathrooms = () => {
+      history.push('/bathrooms')
+    }
 
   const registerUser = (event) => {
     event.preventDefault();
+
+
 
     dispatch({
       type: "REGISTER",
@@ -32,7 +39,8 @@ function RegisterForm() {
     // className="form-box"
     // >
     <Form className="formPanel" onSubmit={registerUser} display="flex">
-          <img src={image1} width="100px"></img>
+          <img src={image1} width="100px" onClick={() => goToBathrooms()}>
+          </img>
       <Typography 
       variant="h2" 
       component="h4"
@@ -40,7 +48,8 @@ function RegisterForm() {
       align='center'
       sx={{
         mb: 2,
-      }} >
+      }} 
+      onClick={() => goToBathrooms()}>
         tinkl
         </Typography>
       {errors.registrationMessage && (
