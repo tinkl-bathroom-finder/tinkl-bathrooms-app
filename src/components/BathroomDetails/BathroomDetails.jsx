@@ -5,7 +5,7 @@ import Modal from "react-bootstrap/Modal";
 import Form from "react-bootstrap/Form";
 import ToggleButton from "react-bootstrap/ToggleButton";
 import ToggleButtonGroup from "react-bootstrap/ToggleButtonGroup";
-import { Close } from "@mui/icons-material";
+import { Business, Close } from "@mui/icons-material";
 import CommentList from "./Comments";
 import IPeedHereModal from "./IPeedHereModal";
 import MarkAsFlaggedModal from "./MarkAsFlaggedModal";
@@ -23,6 +23,8 @@ import {
   Grid,
 } from "@mui/material";
 import Collapse from "@mui/material/Collapse";
+
+import BusinessHours from "../BathroomItem/BusinessHours";
 
 // import Grid from '@mui/material/Unstable_Grid2';
 import {
@@ -52,6 +54,7 @@ function BathroomDetails() {
   const theBathroomDetails = useSelector((store) => store.bathroomDetails);
   const commentArray = useSelector((store) => store.bathroomDetails.comments);
   const [expanded, setExpanded] = useState(false);
+  const bathroom = theBathroomDetails;
 
   // React state for IPeedHereModal
   const [modalShow, setModalShow] = useState(false);
@@ -226,6 +229,9 @@ function BathroomDetails() {
               {theBathroomDetails.downvotes || 0}
               <ThumbDownOutlined sx={{ pr: 1 }} />
             </Typography>{" "}
+
+            <BusinessHours bathroom={bathroom}/>
+
             <CardActions></CardActions>
             {/* icons to show if the selected bathroom is all-gender, etc. */}
             <Typography variant="h5" gutterBottom sx={{ display: "inline" }}>

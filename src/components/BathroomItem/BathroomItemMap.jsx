@@ -30,6 +30,8 @@ import { ConstructionOutlined, More } from "@mui/icons-material";
 import { styled } from "@mui/material/styles";
 import Grid2 from "@mui/material/Unstable_Grid2/Grid2";
 
+import BusinessHours from "./BusinessHours";
+
 // animation for 'expand comments' chevron
 const ExpandMore = styled((props) => {
   const { expand, ...other } = props;
@@ -95,6 +97,7 @@ function BathroomItemMap({ bathroom, origin }) {
             subheader={bathroom.street}
             action={
               <>
+
                 {/* icons to show if bathrooms is all-gender, has changing table, is wheelchair accessible */}
                 <Typography variant="h6" align="right" sx={{ mr: 1, mt: 0.5 }}>
                   {bathroom.unisex ? <TransgenderOutlinedIcon /> : ""}
@@ -127,6 +130,9 @@ function BathroomItemMap({ bathroom, origin }) {
             }
           />
           <CardContent sx={{ p: 0 }}>
+
+          <BusinessHours bathroom={bathroom}/>
+
             {/* distance from current/searched location */}
             <Typography
               align="right"
