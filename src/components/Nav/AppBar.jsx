@@ -177,12 +177,12 @@ function AppBarNav() {
           <>
             <ListItem key="admin" disablePadding>
 
-              <Link
+              {/* <Link
                 to="/admin/editbathrooms"
                 className="linkInDrawer"
                 // onClick={() => setDrawerOpen(false)}
                 underline="none"
-              >
+              > */}
                 <ListItemButton onClick={handleClick}>
                   <ListItemIcon>
                     <AdminPanelSettingsIcon />
@@ -190,7 +190,6 @@ function AppBarNav() {
                   <ListItemText primary="Admin" />
                   {open ? <ExpandLess /> : <ExpandMore />}
                 </ListItemButton>
-                
                 {/* nested list of admin panel pages */}
                 <Collapse in={open} timeout="auto" unmountOnExit>
                   <List component="div" disablePadding>
@@ -236,13 +235,13 @@ function AppBarNav() {
                       </ListItem>
                     </Link>
 
+                      {/* Comments page */}
                     <Link
                       to="/admin/comments"
                       className="linkInDrawer"
                       onClick={() => setDrawerOpen(false)}
                       underline="none"
                     >
-                      {/* Comments page */}
                       <ListItem key="admin-comments" disablePadding>
                         <ListItemButton
                           sx={{ pl: 4 }}
@@ -277,10 +276,11 @@ function AppBarNav() {
                     </Link>
                   </List>
                 </Collapse>
-              </Link>
+              {/* </Link> */}
             </ListItem>
           </>
         )}
+
       </List>
     </Box>
   );
