@@ -3,7 +3,6 @@ import * as React from "react";
 import { useState } from "react";
 import { useHistory, Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-// import SidebarNav from "./SidebarNav";
 
 // MUI material imports
 import {
@@ -70,6 +69,7 @@ function AppBarNav() {
     setAnchorEl(event.currentTarget);
   };
 
+  // closes menu
   const handleClose = () => {
     setAnchorEl(null);
   };
@@ -81,7 +81,7 @@ function AppBarNav() {
 
   const goToLogin = () => {
     history.push('/login')
-    setShowRegister(true)
+    setAnchorEl(null);
 
   };
 
@@ -91,7 +91,6 @@ function AppBarNav() {
 
   const goToRegister = () => {
     history.push('/registration')
-    setShowRegister(false)
   }
 
   const logOut = () => {
@@ -103,7 +102,7 @@ function AppBarNav() {
     left: false,
   });
 
-  const [showRegister, setShowRegister] = useState(false)
+  
 
   const toggleDrawer = (anchor, open) => (event) => {
     if (
@@ -157,8 +156,6 @@ function AppBarNav() {
           </Link>
         </ListItem>
 
-
-        {/* "info" aka about app page which is /info... */}
         <ListItem key="add" disablePadding>
           <Link
             to="/addbathroom"
@@ -180,12 +177,12 @@ function AppBarNav() {
           <>
             <ListItem key="admin" disablePadding>
 
-              <Link
+              {/* <Link
                 to="/admin/editbathrooms"
                 className="linkInDrawer"
                 // onClick={() => setDrawerOpen(false)}
                 underline="none"
-              >
+              > */}
                 <ListItemButton onClick={handleClick}>
                   <ListItemIcon>
                     <AdminPanelSettingsIcon />
@@ -238,13 +235,13 @@ function AppBarNav() {
                       </ListItem>
                     </Link>
 
+                      {/* Comments page */}
                     <Link
                       to="/admin/comments"
                       className="linkInDrawer"
                       onClick={() => setDrawerOpen(false)}
                       underline="none"
                     >
-                      {/* Comments page */}
                       <ListItem key="admin-comments" disablePadding>
                         <ListItemButton
                           sx={{ pl: 4 }}
@@ -279,15 +276,17 @@ function AppBarNav() {
                     </Link>
                   </List>
                 </Collapse>
-              </Link>
+              {/* </Link> */}
             </ListItem>
           </>
         )}
+
       </List>
     </Box>
   );
 
   return (
+
     <Box sx={{ flexGrow: 1, mb: 15 }}>
       {/* Top NavBar with hamburger menu, tinkl, and user profile or login button */}
       <AppBar className="app-bar">
@@ -317,9 +316,6 @@ function AppBarNav() {
             ))}
           </div>
 
-
-          {/* <SidebarNav /> */}
-
           <Typography
             variant="h4"
             component="div"
@@ -333,16 +329,6 @@ function AppBarNav() {
           {/* If a user clicks on the account circle icon, a menu will pop up with the choices of "My profile" or "Log out" */}
           {user.id ? (
             <div>
-              {/* <IconButton
-                size="large"
-                aria-label="account of current user"
-                aria-controls="menu-appbar"
-                aria-haspopup="true"
-                onClick={handleMenu}
-                color="inherit"
-              >
-                <AccountCircle />
-              </IconButton> */}
               <Avatar
                 sx={{ color: 'darkslategrey', bgcolor: "#ffe6e8", border: 1, borderColor: '#FFF6F6', fontWeight: 'bold' }}
                 aria-label="account of current user"
@@ -373,10 +359,43 @@ function AppBarNav() {
                 <MenuItem onClick={goToProfile} sx={{ color: 'darkslategray' }}>My profile</MenuItem>
                 <MenuItem onClick={logOut} sx={{ color: 'darkslategray' }}>Log out</MenuItem>
               </Menu>
-              {/* If a user is not logged in, a Log In button will appear on the right in the top NavBar */}
-              {/* Once you click Log In and are navigated to the Log In page, the same button will now say Register and will be a link to the registration page */}
-            </div>) : (showRegister ? <Button variant="contained" onClick={goToRegister}>Register</Button> :
-              <Button variant="contained" onClick={goToLogin}>Log in</Button>)
+          {/* If a user is not logged in, an account circle icon will appear in the upper right in the top NavBar */}
+          {/* If a user clicks on the account circle icon, a menu will pop up with the choice of "Log in" */}
+            </div>) :
+            <div>
+                <IconButton
+                size="large"
+                aria-label="guest user"
+                aria-controls="menu-appbar"
+                aria-haspopup="true"
+                onClick={handleMenu}
+                color="inherit"
+              >
+                <AccountCircle />
+              </IconButton>
+
+              <Menu
+                id="menu-appbar"
+                anchorEl={anchorEl}
+                anchorOrigin={{
+                  vertical: "top",
+                  horizontal: "right",
+                }}
+                keepMounted
+                transformOrigin={{
+                  vertical: "top",
+                  horizontal: "right",
+                }}
+                open={Boolean(anchorEl)}
+                onClose={handleClose}
+                sx={{
+                  borderRadius: '20px'
+                }}
+              >
+                <MenuItem onClick={goToLogin} sx={{ color: 'darkslategray' }}>Log in</MenuItem>
+                <MenuItem onClick={goToRegister} sx={{ color: 'darkslategray' }}>Register</MenuItem>
+              </Menu>
+              </div>
           }
         </Toolbar>
       </AppBar>

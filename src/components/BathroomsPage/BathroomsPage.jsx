@@ -204,8 +204,8 @@ function BathroomsPage() {
               }),
             },
           }}
-          // biases autocomplete search results to locations near IP address
-          ipbias
+          // 👇 biases autocomplete search results to locations near IP address
+          // ipbias
         />
 
         {/* Button to change to Map View or List View */}

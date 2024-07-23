@@ -4,10 +4,10 @@ body,
   background: linear-gradient(90deg, rgba(129,194,254,1) 0%, rgba(218,121,194,1) 100%);
 }
 
-body {
+/* body {
   margin: 0px;
   background-image: var(--bg-image);
-}
+} */
 
 img {
   display: inline-block;
@@ -36,7 +36,7 @@ Button
   outline: 0;
   cursor: pointer;
   /* hacky way of centering login button */
-  margin-left: 100px;
+  /* margin-left: 100px; */
 }
 
 .btn_sizeMin {
@@ -94,21 +94,22 @@ Form Treatment
   max-width: 90%;
   padding: 25px;
   margin: auto;
-  background-color: #F8BDEB;
+  background-color: 'transparent';
   border-radius: 3px;
-  box-shadow: 0 1px 2px #f797e3;
   display: flex;
   flex-direction: column;
   flex-wrap: wrap;
   justify-content: center;
   align-items: center;
-  margin-top: 20%;
+  /* margin-top: 20%; */
 
 }
 
 input {
   margin: 5px;
   margin-bottom: 10px;
+  border: 1px solid black;
+  border-radius: 5px;
 }
 
 /* --------------------------------------------------------------------------------
@@ -124,7 +125,7 @@ Table
   overflow-y: scroll;
 }
 table, th, td {
-  border: 1px solid black ;
+  /* border: 1px solid black ; */
   border-collapse: collapse;
   height: 2.15em;
 }
@@ -134,10 +135,10 @@ th, td {
   width: auto;
 }
 thead {
-  background: rgb(166, 137, 244);
-  color: #fcfcfc;
+  /* background: rgb(166, 137, 244); */
+  color: darkslategray;
 }
-tbody tr:nth-child(3n+0) {
+/* tbody tr:nth-child(3n+0) {
   background: rgb(165, 227, 252);
 }
 tbody tr:nth-child(even) {
@@ -146,7 +147,7 @@ tbody tr:nth-child(even) {
 
 tbody tr:nth-child(odd) {
   background: rgb(255, 224, 244);
-}
+} */
 
 .react-bootstrap-table {
   table-layout: auto;
@@ -159,7 +160,7 @@ tbody tr:nth-child(odd) {
 }
 
 .react-bootstrap-table tab {
-  color: white;
+  color: darkslategray;
 }
 
 .user-profile {
@@ -210,7 +211,6 @@ tbody tr:nth-child(odd) {
 
 h1, h3, h5 {
   text-align: center;
-  margin-bottom: 50px;
 }
 
 .linkInDrawer:link {
@@ -233,4 +233,51 @@ Search Bar
   display: flex;
   flex-grow: 1;
   margin: 5px;
+}
+
+/* --------------------------------------------------------------------------------
+Avatar circle
+-------------------------------------------------------------------------------- */
+
+.circle {
+  width: 150px;
+  height: 150px;
+  line-height: 130px;
+  border-radius: 50%;
+  font-size: 100px;
+  color: #FFF6F6;
+  text-align: center;
+  background: deeppink;
+  margin: 20px auto 5px;
+  text-shadow: 2px 2px 5px darkmagenta;
+}
+
+.join-date {
+  font-size: medium;
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.comments {
+  margin-left: 20px;
+  text-align: left;
+}
+
+.comment-name {
+  margin-left: 30px;
+  margin-top: 20px;
+  font-size: 1.2rem;
+  text-decoration: underline;
+  text-align: left;
+}
+
+#delete-comment {
+  display: block;
+  margin-left: auto;
+  margin-right: 40px;
+}
+
+#comment-content {
+  margin-left: 60px;
+  /* display: inline; */
 }

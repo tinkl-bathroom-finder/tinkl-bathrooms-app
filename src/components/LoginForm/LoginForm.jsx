@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import {useSelector} from 'react-redux';
+import { Link, useHistory } from "react-router-dom";
+import image1 from "./logo2.png"
 
 import { Button, Box, Typography } from '@mui/material';
 import Form from 'react-bootstrap/Form';
@@ -10,6 +12,15 @@ function LoginForm() {
   const [password, setPassword] = useState('');
   const errors = useSelector(store => store.errors);
   const dispatch = useDispatch();
+  const history = useHistory();
+
+  const goToRegister = () => {
+    history.push('/registration')
+  }
+
+  const goToBathrooms = () => {
+    history.push('/bathrooms')
+  }
 
   const login = (event) => {
     event.preventDefault();
@@ -36,15 +47,19 @@ function LoginForm() {
     className="form-box"
     >
     <Form display='flex' className="formPanel" onSubmit={login}>
+      <img src={image1} width="100px" 
+      onClick={() => goToBathrooms()}></img>
       <Typography 
-      variant="h4" 
+      variant="h2" 
       component="h4"
-      fontWeight='500'
+      fontWeight='bold'
       align='center'
       sx={{
-        mb: 2
-      }} >
-        Login
+        mb: 2,
+        cursor: 'pointer'
+      }} 
+      onClick={() => goToBathrooms()}>
+        tinkl
         </Typography>
       {errors.loginMessage && (
         <h3 className="alert" role="alert">
@@ -53,35 +68,38 @@ function LoginForm() {
       )}
       <div>
         <label htmlFor="username">
-          Username:
           <input
             type="text"
             name="username"
             required
             value={username}
+            placeholder=' Username'
             onChange={(event) => setUsername(event.target.value)}
           />
         </label>
       </div>
       <div>
         <label htmlFor="password">
-          Password:
           <input
             type="password"
             name="password"
             required
             value={password}
+            placeholder=' Password'
             onChange={(event) => setPassword(event.target.value)}
           />
         </label>
       </div>
-      <Box textAlign='center'>
         <Button className="btn"
          type="submit" 
          name="submit" 
          value="Log In"
-         variant="contained">Log in</Button>
-      </Box>
+         variant="contained"
+         >Log in</Button>
+      <Typography>
+        Don't have an account yet?
+      </Typography>
+      <Link to="/registration">Register</Link>
     </Form>
     </Box>
   );
