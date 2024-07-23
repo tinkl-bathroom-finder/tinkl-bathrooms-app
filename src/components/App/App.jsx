@@ -24,6 +24,7 @@ import AddBathrooms from "../AdminPage/AddBathrooms";
 import DeleteBathrooms from "../AdminPage/DeleteBathrooms";
 import AdminComments from "../AdminPage/AdminComments";
 import AdminUsers from "../AdminPage/AdminUsers";
+import AddBathroom from "../Nav/AddBathroom";
 
 import Container from "react-bootstrap/Container";
 // import GoogleMapsWrapper from '../Wrapper';
@@ -131,6 +132,13 @@ function App() {
             {/* homepage: shows map by default, or list view. Don't need to be logged in to see*/}
             <BathroomsPage />
             {/* <MyMap /> */}
+          </Route>
+
+          <Route 
+          exact 
+          path="/addbathroom">
+          <AppBarNav />
+          <AddBathroom />
           </Route>
 
 {/* for a specific bathroom with id :id */}

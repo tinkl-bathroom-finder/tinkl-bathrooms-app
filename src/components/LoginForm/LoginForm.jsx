@@ -56,6 +56,7 @@ function LoginForm() {
       align='center'
       sx={{
         mb: 2,
+        cursor: 'pointer'
       }} 
       onClick={() => goToBathrooms()}>
         tinkl
