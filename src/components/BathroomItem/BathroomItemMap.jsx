@@ -131,7 +131,6 @@ function BathroomItemMap({ bathroom, origin }) {
           />
           <CardContent sx={{ p: 0 }}>
 
-          <BusinessHours bathroom={bathroom}/>
 
             {/* distance from current/searched location */}
             <Typography
@@ -144,7 +143,9 @@ function BathroomItemMap({ bathroom, origin }) {
               {bathroom.distance ? `${bathroom.distance.toFixed(2)} mi` : ""}
             </Typography>
             <Collapse in={expanded} timeout="auto" unmountOnExit>
-              {/* when bathroom info was last updated */}
+              
+          <BusinessHours bathroom={bathroom}/>
+          {/* when bathroom info was last updated */}
               <Typography
                 sx={{ fontSize: 14, mr: 2, ml: 2 }}
                 color="text.secondary"
