@@ -70,7 +70,8 @@ function BathroomItemMap({ bathroom, origin }) {
     const stringifiedDate = date.toLocaleDateString("en-us", options);
     return stringifiedDate;
   };
-
+const date = new Date();
+  console.log('time', date.getHours, bathroom.updated_at)
   // console.log('bathroom: ', bathroom)
 
   return (
