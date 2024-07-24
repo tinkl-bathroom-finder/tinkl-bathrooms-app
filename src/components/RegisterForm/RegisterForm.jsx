@@ -47,7 +47,7 @@ function RegisterForm() {
       fontWeight='bold'
       align='center'
       sx={{
-        mb: 2,
+        // mb: 2,
       }} 
       onClick={() => goToBathrooms()}>
         tinkl
