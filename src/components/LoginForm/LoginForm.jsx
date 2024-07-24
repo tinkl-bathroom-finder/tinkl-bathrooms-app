@@ -55,11 +55,18 @@ function LoginForm() {
       fontWeight='bold'
       align='center'
       sx={{
-        mb: 2,
+        // mb: 2,
         cursor: 'pointer'
       }} 
       onClick={() => goToBathrooms()}>
         tinkl
+        </Typography>
+        <Typography
+      variant="p" 
+      component="h4"
+      align='center'
+      sx={{mb: '20px'}}>
+        Pee in peace.
         </Typography>
       {errors.loginMessage && (
         <h3 className="alert" role="alert">
@@ -95,6 +102,7 @@ function LoginForm() {
          name="submit" 
          value="Log In"
          variant="contained"
+         sx={{mt: '20px'}}
          >Log in</Button>
       <Typography>
         Don't have an account yet?

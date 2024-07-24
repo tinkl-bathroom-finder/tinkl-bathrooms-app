@@ -52,6 +52,13 @@ function RegisterForm() {
       onClick={() => goToBathrooms()}>
         tinkl
         </Typography>
+        <Typography
+      variant="p" 
+      component="h4"
+      align='center'
+      sx={{mb: '20px'}}>
+        Pee in peace.
+        </Typography>
       {errors.registrationMessage && (
         <h3 className="alert" role="alert">
           {errors.registrationMessage}
@@ -89,6 +96,7 @@ function RegisterForm() {
           value="Register"
           align="center"
           variant="contained"
+          sx={{mt: '20px'}}
         >
           Register
         </Button>
