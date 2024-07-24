@@ -227,6 +227,8 @@ h1, h3, h5 {
   font-weight: bold;
 }
 
+/* Shoutout to user Woodrow Barlow on Stack exchange for the wiggle animation
+https://stackoverflow.com/questions/38132700/css-wiggle-shake-effect */
 @keyframes wiggle {
   0% { transform: rotate(0deg); }
  20% { transform: rotate(0deg); }
