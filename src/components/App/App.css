@@ -101,7 +101,7 @@ Form Treatment
   flex-wrap: wrap;
   justify-content: center;
   align-items: center;
-  /* margin-top: 20%; */
+  margin-top: 20%;
 
 }
 
@@ -196,8 +196,7 @@ tbody tr:nth-child(odd) {
 
 #need-to-pee {
   width: 125px;
-  height: 200px;
-  margin: auto;
+  margin: 50px auto 50px;
 }
 
 .text {
@@ -224,6 +223,24 @@ h1, h3, h5 {
 
 #about-header {
   margin-top: 100px;
+  margin-bottom: 25px;
+  font-weight: bold;
+}
+
+@keyframes wiggle {
+  0% { transform: rotate(0deg); }
+ 20% { transform: rotate(0deg); }
+ 25% { transform: rotate(5deg); }
+ 35% { transform: rotate(-5deg); }
+50% { transform: rotate(0deg); }
+}
+
+h1.wiggle {
+animation: wiggle 2.5s 1;
+}
+
+h1.wiggle:hover {
+  animation: none;
 }
 
 /* --------------------------------------------------------------------------------
