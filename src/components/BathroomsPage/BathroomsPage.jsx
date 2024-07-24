@@ -165,7 +165,7 @@ function BathroomsPage() {
   }
 
   return (
-    <Box className="container" sx={{ mt: 6, width: 9 / 10 }}>
+    <Box className="container" sx={{ mt: 6, width: 9 / 10, p: 0 }}>
       <div class="btn-toolbar justify-content-between">
         {/* AutoComplete search box */}
         <GooglePlacesAutocomplete

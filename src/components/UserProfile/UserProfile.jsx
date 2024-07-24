@@ -63,7 +63,7 @@ function UserProfile() {
   
 
   return (
-    <Card sx={{ width: '90%', margin: 'auto', borderRadius: '15px' }}>
+    <Card sx={{ width: '90%', height: 'auto', maxHeight: '80vh', margin: 'auto', borderRadius: '15px', overflowY: 'scroll' }}>
 <div class="circle">{userInfo.username.charAt(0)}</div>
 <h1>{userInfo.username}</h1>
 <h2 class="join-date">{`Joined ${stringifyDate(userInfo.inserted_at)}`}</h2>
@@ -81,6 +81,7 @@ function UserProfile() {
                </Button>
            </div>
          ))}
+         <br/>
     </Card>
 
 
