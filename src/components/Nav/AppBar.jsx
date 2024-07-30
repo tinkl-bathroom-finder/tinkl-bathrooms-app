@@ -46,6 +46,8 @@ import MenuIcon from "@mui/icons-material/Menu";
 import { deepPurple } from '@mui/material/colors';
 import AdminPanelSettingsIcon from '@mui/icons-material/AdminPanelSettings';
 import InfoIcon from '@mui/icons-material/Info';
+import OutlinedFlagIcon from '@mui/icons-material/OutlinedFlag';
+import ApiOutlinedIcon from '@mui/icons-material/ApiOutlined';
 
 function AppBarNav() {
   const dispatch = useDispatch();
@@ -105,6 +107,7 @@ function AppBarNav() {
 
   const [showRegister, setShowRegister] = useState(false)
 
+  // closes sidebar nav
   const toggleDrawer = (anchor, open) => (event) => {
     if (
       event.type === "keydown" &&
@@ -181,12 +184,15 @@ function AppBarNav() {
             <ListItem key="admin" disablePadding>
 
               <Link
-                to="/admin/editbathrooms"
+                to="/admin"
                 className="linkInDrawer"
                 // onClick={() => setDrawerOpen(false)}
                 underline="none"
               >
-                <ListItemButton onClick={handleClick}>
+                <ListItemButton 
+                // onClick={toggleDrawer(anchor, false)} // => closes side nav bar
+                onClick={handleClick}
+                >
                   <ListItemIcon>
                     <AdminPanelSettingsIcon />
                   </ListItemIcon>
@@ -212,7 +218,7 @@ function AppBarNav() {
                           <ListItemIcon>
                             <AddCircleOutlineOutlined />
                           </ListItemIcon>
-                          <ListItemText primary="Add bathrooms" />
+                          <ListItemText primary="Pending bathrooms" />
                         </ListItemButton>
                       </ListItem>
                     </Link>
@@ -231,20 +237,20 @@ function AppBarNav() {
                           onClick={toggleDrawer(anchor, false)}
                         >
                           <ListItemIcon>
-                            <EditNoteOutlined />
+                            <OutlinedFlagIcon />
                           </ListItemIcon>
-                          <ListItemText primary="Edit/delete bathrooms" />
+                          <ListItemText primary="Flagged bathrooms" />
                         </ListItemButton>
                       </ListItem>
                     </Link>
 
+                      {/* Comments page */}
                     <Link
                       to="/admin/comments"
                       className="linkInDrawer"
                       onClick={() => setDrawerOpen(false)}
                       underline="none"
                     >
-                      {/* Comments page */}
                       <ListItem key="admin-comments" disablePadding>
                         <ListItemButton
                           sx={{ pl: 4 }}
@@ -277,6 +283,27 @@ function AppBarNav() {
                         </ListItemButton>
                       </ListItem>
                     </Link>
+
+                  {/* API calls page */}
+                    <Link
+                      to="/api"
+                      className="linkInDrawer"
+                      onClick={() => setDrawerOpen(false)}
+                      underline="none"
+                    >
+                      <ListItem key="api-calls" disablePadding>
+                        <ListItemButton
+                          sx={{ pl: 4 }}
+                          onClick={toggleDrawer(anchor, false)}
+                        >
+                          <ListItemIcon>
+                            <ApiOutlinedIcon />
+                          </ListItemIcon>
+                          <ListItemText primary="API calls" />
+                        </ListItemButton>
+                      </ListItem>
+                    </Link>
+
                   </List>
                 </Collapse>
               </Link>
