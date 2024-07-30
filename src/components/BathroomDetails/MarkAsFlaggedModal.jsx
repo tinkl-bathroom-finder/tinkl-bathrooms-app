@@ -15,12 +15,23 @@ function MarkAsFlaggedModal(props){
     let [isClosed, setIsClosed] = useState(false);
     let [name, setName] = useState(props.details.name);
     let [address, setAddress] = useState(props.details.street);
-    let [isAccessible, setIsAccessible] = useState(props.details.accessible);
-    let [isSingleStall, setIsSingleStall] = useState(props.details.isSingleStall);
-    let [isUnisex, setIsUnisex] = useState(props.details.unisex);
-    let [hasChangingTable, setHasChangingTable] = useState(props.details.changing_table);
     let [otherComments, setOtherComments] = useState("");
     let userId = useSelector((store) => store.user.id);
+
+    const [state, setState] = useState({
+      isAccessible: props.details.accessible,
+      isSingleStall: props.details.isSingleStall,
+      isUnisex: props.details.isUnisex,
+      hasChangingTable: props.details.changing_table,
+    })
+
+    const handleChange = (e) => {
+      e.preventDefault();
+      setState({
+        ...state,
+        [e.target.amenity]: e.target.checked,
+      });
+    }
 
     const style = {
         position: 'absolute',
@@ -34,11 +45,6 @@ function MarkAsFlaggedModal(props){
         p: 4,
         borderRadius: 2
           }
-
-const handleInputChange = (e, setField) => {
-  e.preventDefault();
-  setField(e.target.value)
-}
 
 // 🔥🔥🔥 not sure how checkbox values are captured, need to check on this
 const handleCheckboxChange = (value, setAmenity) => {
@@ -58,9 +64,9 @@ const handleCheckboxChange = (value, setAmenity) => {
           bathroomId: params.id,
           address: address,
           isAccessible: isAccessible,
-          isSingleStall: isSingleStall,
-          isUnisex: isUnisex,
           hasChangingTable: hasChangingTable,
+          isUnisex: isUnisex,
+          isSingleStall: isSingleStall,
           isClosed: isClosed,
           otherComments: otherComments
         }
@@ -88,7 +94,11 @@ const handleCheckboxChange = (value, setAmenity) => {
 
                 <Form.Group>
                     <Form.Label>Name</Form.Label>
-                    <Form.Control type="text" defaultValue={props.details.name} disabled={isClosed}/>
+                    <Form.Control 
+                      type="text" 
+                      defaultValue={props.details.name} 
+                      disabled={isClosed}
+                      onChange={(e) => handleInputChange(e, setName)}/>
                 </Form.Group>
 
                 <Form.Group>
@@ -101,7 +111,7 @@ const handleCheckboxChange = (value, setAmenity) => {
                 defaultChecked={props.details.accessible}
                 label="Wheelchair accessible"
                 disabled={isClosed}
-
+                onChange={(e) => handleInputChange(e, setIsAccessible)}
                 />
 
                 <Form.Check 
