@@ -212,6 +212,10 @@ h1, h3, h5 {
   text-align: center;
 }
 
+h5.about {
+  text-align: justify;
+}
+
 .linkInDrawer:link {
   text-decoration: none;
   color: black;
