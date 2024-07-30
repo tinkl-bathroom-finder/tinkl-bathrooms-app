@@ -4,7 +4,7 @@ import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import { useHistory } from 'react-router-dom';
-import { Button, Card, CardHeader, CardActions, CardContent, IconButton, TableContainer, TableHead, TableBody, TableCell, TableRow, Typography } from "@mui/material";
+import { Button, Card, CardHeader, CardActions, CardContent, IconButton, TableContainer, TableHead, TableBody, TableCell, TableRow, Typography, styled, tableCellClasses } from "@mui/material";
 import EditIcon from '@mui/icons-material/Edit';
 // import editIcon from '../../public/edit_icon_transparent.png';
 
@@ -34,27 +34,24 @@ return(
         <Table responsive="m" overflow="scroll">
           <TableHead >
             <TableRow>
-              <TableCell colSpan={4} sx={{borderBottom: '1px solid black', color: "white", textAlign: 'center'}}>Users</TableCell>
-            </TableRow>
-            <TableRow>
-                <TableCell>Username</TableCell>
-                <TableCell>Admin</TableCell>
-                <TableCell>Joined</TableCell>
-                <TableCell>Delete</TableCell>
+                <StyledTableCell>Username</StyledTableCell>
+                <StyledTableCell>Admin</StyledTableCell>
+                <StyledTableCell>Joined</StyledTableCell>
+                <StyledTableCell align="center">Delete</StyledTableCell>
             </TableRow>
           </TableHead>
         <TableBody>
           {userList?.map((user) => (
             <TableRow>
-                <TableCell sx={{borderBottom: '1px solid darkgray'}}>{user.username}</TableCell>
+                <StyledTableCell>{user.username}</StyledTableCell>
 
-              <TableCell sx={{p: 1, borderBottom: '1px solid darkgray'}}>{user.is_admin ? 'Yes' : ''}</TableCell>
-              <TableCell sx={{p: 1, borderBottom: '1px solid darkgray'}}>{`${stringifyDate(user.inserted_at)}`}</TableCell>
-              <TableCell sx={{borderBottom: '1px solid darkgray'}}>
+              <StyledTableCell>{user.is_admin ? 'Yes' : ''}</StyledTableCell>
+              <StyledTableCell>{`${stringifyDate(user.inserted_at)}`}</StyledTableCell>
+              <StyledTableCell align="center">
                 <Button color="warning" variant="contained" size="small" onClick={() => deleteUser(comment.comment_id)}>
                   Delete
                 </Button>
-              </TableCell>
+              </StyledTableCell>
             </TableRow>
           ))}
         </TableBody>
@@ -64,5 +61,25 @@ return(
     </Box>
 )
 }
+
+const StyledTableCell = styled(TableCell)(({ theme }) => ({
+  [`&.${tableCellClasses.head}`]: {
+    backgroundColor: theme.palette.primary.main,
+    color: theme.palette.common.white
+  },
+  [`&.${tableCellClasses.body}`]: {
+    fontSize: 14,
+  },
+}));
+
+const StyledTableRow = styled(TableRow)(({ theme }) => ({
+  '&:nth-of-type(odd)': {
+    backgroundColor: theme.palette.action.hover,
+  },
+  // hide last border
+  '&:last-child td, &:last-child th': {
+    border: 0,
+  },
+}));
 
 export default AdminUsers;
