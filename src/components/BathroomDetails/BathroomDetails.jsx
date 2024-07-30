@@ -304,8 +304,8 @@ function BathroomDetails() {
             </Typography>
 
             {/* if the bathroom has any comments, the comment list box will render */}
-            {<CommentList commentArray={theBathroomDetails.comments} />}
-
+            <CommentList commentArray={theBathroomDetails.comments} />
+                
             {/* button to open IPeedHereModal */}
             <Button
               onClick={() => clickIPeedHere()}
