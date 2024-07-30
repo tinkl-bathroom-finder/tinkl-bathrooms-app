@@ -32,6 +32,7 @@ import Grid2 from "@mui/material/Unstable_Grid2/Grid2";
 
 import BusinessHours from "./BusinessHours";
 
+
 // animation for 'expand comments' chevron
 const ExpandMore = styled((props) => {
   const { expand, ...other } = props;
@@ -43,7 +44,6 @@ const ExpandMore = styled((props) => {
     duration: theme.transitions.duration.shortest,
   }),
 }));
-
 function BathroomItemMap({ bathroom, origin }) {
   const history = useHistory();
   const [expanded, setExpanded] = useState(false);
@@ -71,8 +71,68 @@ function BathroomItemMap({ bathroom, origin }) {
     const stringifiedDate = date.toLocaleDateString("en-us", options);
     return stringifiedDate;
   };
-const date = new Date();
-  console.log('time', date.getHours(), bathroom.updated_at)
+
+  
+    const date = new Date();
+    let day = date.getDay(); // day comes back as number => 1 is Monday, 2 is Tuesday, etc.
+    let hour = date.getHours() * 100; // formats hour as military time
+    let minutes  = date.getMinutes();
+    let militaryTime = hour + minutes // we don't actually need to convert this to a string since we want to compare it as a numeral
+
+    console.log(`Time string: ${day} at ${militaryTime}` )
+    console.log(militaryTime)
+   const compareTime = () => {
+    console.log('business Hours', bathroom)
+    console.log('militaryTime', militaryTime)
+    let openClose = 'close'
+    if (day = 1 && militaryTime >= bathroom.day_1_open && militaryTime <= bathroom.day_1_close){
+      console.log('open')
+      openClose = 'open';
+
+    }
+    
+    if (day = 2 && militaryTime >= bathroom.day_2_open && militaryTime <= bathroom.day_2_close){
+      console.log('open')
+      openClose = 'open';
+
+    }
+    else if (day = 3 && militaryTime >= bathroom.day_3_open && militaryTime <= bathroom.day_3_close){
+      console.log('open')
+      openClose = 'open';
+
+    }
+
+    else if (day = 4 && militaryTime >= bathroom.day_4_open && militaryTime <= bathroom.day_4_close){
+      console.log('open')
+      openClose = 'open';
+
+    }
+
+    else if (day = 5 && militaryTime >= bathroom.day_5_open && militaryTime <= bathroom.day_5_close){
+      console.log('open')
+      openClose = 'open';
+
+    }
+
+    else if (day = 6 && militaryTime >= bathroom.day_2_open && militaryTime <= bathroom.day_2_close){
+      console.log('open')
+      openClose = 'open';
+
+    }
+
+    else if (day = 7 && militaryTime >= bathroom.day_2_open && militaryTime <= bathroom.day_2_close){
+      console.log('open')
+      openClose = 'open';
+
+    }
+    
+    else{console.log('close')
+    }
+    return openClose;
+   }
+  
+   compareTime();
+   console.log('open/Close',compareTime())
   // console.log('bathroom: ', bathroom)
 
 
