@@ -125,7 +125,7 @@ Table
   overflow-y: scroll;
 }
 table, th, td {
-  border: 1px solid black ;
+  /* border: 1px solid black ; */
   border-collapse: collapse;
   height: 2.15em;
 }
@@ -135,7 +135,6 @@ th, td {
   width: auto;
 }
 thead {
-  background: rgb(166, 137, 244);
   color: #fcfcfc;
 }
 tbody tr:nth-child(3n+0) {
