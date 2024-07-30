@@ -16,6 +16,7 @@ const detailsRouter = require('./routes/details.router')
 const feedbackRouter = require('./routes/feedback.router')
 const apiRouter = require('./routes/api.router')
 const userCommentsRouter = require('./routes/userComments.router')
+const flagRouter = require('./routes/flag.router')
 
 
 // Body parser middleware
@@ -45,6 +46,8 @@ app.use('/feedback', feedbackRouter);
 app.use('/api', apiRouter);
 // get route for user comments, put route to soft-delete them
 app.use('/comments', userCommentsRouter)
+// post route to flag bathroom
+app.use('/flag', flagRouter);
 
 
 // Serve static files

@@ -1,13 +1,26 @@
 import * as React from 'react';
 
 import { useState } from "react";
+import { useParams } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import { Form, Modal, ToggleButton, ToggleButtonGroup } from "react-bootstrap";
 
 function MarkAsFlaggedModal(props){
+  const dispatch = useDispatch();
+  const params = useParams();
+
     let [isClosed, setIsClosed] = useState(false);
+    let [name, setName] = useState(props.details.name);
+    let [address, setAddress] = useState(props.details.street);
+    let [isAccessible, setIsAccessible] = useState(props.details.accessible);
+    let [isSingleStall, setIsSingleStall] = useState(props.details.isSingleStall);
+    let [isUnisex, setIsUnisex] = useState(props.details.unisex);
+    let [hasChangingTable, setHasChangingTable] = useState(props.details.changing_table);
+    let [otherComments, setOtherComments] = useState("");
+    let userId = useSelector((store) => store.user.id);
 
     const style = {
         position: 'absolute',
@@ -22,7 +35,37 @@ function MarkAsFlaggedModal(props){
         borderRadius: 2
           }
 
+const handleInputChange = (e, setField) => {
+  e.preventDefault();
+  setField(e.target.value)
+}
 
+// 🔥🔥🔥 not sure how checkbox values are captured, need to check on this
+const handleCheckboxChange = (value, setAmenity) => {
+  console.log("value: ", value)
+  console.log("setAmenity: ", setAmenity)
+  setAmenity(e.target.value)
+}
+
+    const submitChanges = (e) => {
+      e.preventDefault();
+      console.log('')
+      dispatch({
+        type: 'SAGA/FLAG_BATHROOM',
+        payload: {
+          user_id: userId,
+          name: name,
+          bathroomId: params.id,
+          address: address,
+          isAccessible: isAccessible,
+          isSingleStall: isSingleStall,
+          isUnisex: isUnisex,
+          hasChangingTable: hasChangingTable,
+          isClosed: isClosed,
+          otherComments: otherComments
+        }
+      })
+    }
 
   return (
       <Modal
@@ -58,6 +101,7 @@ function MarkAsFlaggedModal(props){
                 defaultChecked={props.details.accessible}
                 label="Wheelchair accessible"
                 disabled={isClosed}
+
                 />
 
                 <Form.Check 
@@ -79,10 +123,11 @@ function MarkAsFlaggedModal(props){
                 defaultChecked={props.details.single_stall}
                 label="Single stall"
                 disabled={isClosed}
+
                 />
                 <Form.Group>
                     <Form.Label>Other:</Form.Label>
-                    <Form.Control type="text"/>
+                    <Form.Control type="text" onChange={(e) => setOtherComments(e.target.value)}/>
                 </Form.Group>
                 
             <Form.Check 
@@ -94,8 +139,18 @@ function MarkAsFlaggedModal(props){
             </Form>
           </Modal.Body>
           <Modal.Footer>
-          <Button variant="outlined" sx={{mr: 2}} data-bs-dismiss="modal">Cancel</Button> 
-                <Button variant="contained">Submit changes</Button> 
+          <Button 
+            variant="outlined" 
+            sx={{mr: 2}} 
+            data-bs-dismiss="modal" 
+            onClick={() => props.setModal2Show(false)}>Cancel
+            </Button> 
+
+                <Button 
+                  variant="contained"
+                  type="submit"
+                  onClick={(e) => submitChanges(e)}>Submit changes
+                  </Button> 
           </Modal.Footer>
         </Box>
       </Modal>
