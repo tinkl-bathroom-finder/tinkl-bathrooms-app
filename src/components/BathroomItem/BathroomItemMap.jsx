@@ -131,8 +131,9 @@ function BathroomItemMap({ bathroom, origin }) {
     return openClose;
    }
   
-   compareTime();
    console.log('open/Close',compareTime())
+  let isOpen = compareTime()
+  console.log('isOpen', isOpen)
   // console.log('bathroom: ', bathroom)
 
 
@@ -159,6 +160,7 @@ function BathroomItemMap({ bathroom, origin }) {
             title={bathroom.name}
             titleTypographyProps={{ fontSize: "large" }}
             subheader={bathroom.street}
+            
             action={
               <>
 
@@ -175,6 +177,12 @@ function BathroomItemMap({ bathroom, origin }) {
                 </Typography>
 
                 {/* chevron to expand bathroom item card */}
+                <Typography
+                  varient="h5"
+                  align="left">
+                  Bathroom is: {isOpen}
+                </Typography>
+
                 <Typography
                   variant="h6"
                   align="right"
