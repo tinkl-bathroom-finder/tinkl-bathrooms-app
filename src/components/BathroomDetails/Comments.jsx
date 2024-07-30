@@ -24,7 +24,7 @@ function CommentList() {
     };
 
   return (
-      <Accordion defaultExpanded sx={{maxHeight: '38vh'}}>
+      <Accordion defaultExpanded>
         <AccordionSummary 
         expandIcon={<ExpandMore />}
           aria-controls="panel1-content"
@@ -32,10 +32,10 @@ function CommentList() {
           >
           <Typography color="black" fontWeight="bold">Comments</Typography>
         </AccordionSummary>
+        <Box sx={{maxHeight: '25vh', overflowY: 'scroll'}}>
         {commentArray?.map((comment) => {
-            console.log('comment:', comment)
             return (
-                <AccordionDetails>
+                <AccordionDetails key={comment.id}>
                   <Box
                     sx={{
                       pl: "8px",
@@ -49,6 +49,7 @@ function CommentList() {
                 </AccordionDetails>
             )
           })}
+                </Box>
       </Accordion>
   )
 }
