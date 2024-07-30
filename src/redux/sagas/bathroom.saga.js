@@ -29,7 +29,12 @@ function* fetchBathrooms() {
 
 function* fetchBathroomsPlaces(action) {
   try {
-    const response = yield axios.get('/api/places', { params: {minId: action.payload.minId, maxId: action.payload.maxId}})
+    const response = yield axios.get('/api/places', { 
+      params: {
+        minId: action.payload.minId, 
+        maxId: action.payload.maxId
+      }
+    })
   } catch (error) {
     console.log('Saga function fetchBathroomsPlaces failed: ', error)
   }
