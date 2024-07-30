@@ -58,6 +58,7 @@ function BathroomItemMap({ bathroom, origin }) {
     history.push(`/bathrooms/${bathroom.id}`);
   };
 
+
   // opens location in GoogleMaps in new tab
   const openInNewTab = (url) => {
     window.open(url, "_blank", "noreferrer");
@@ -71,8 +72,10 @@ function BathroomItemMap({ bathroom, origin }) {
     return stringifiedDate;
   };
 const date = new Date();
-  console.log('time', date.getHours, bathroom.updated_at)
+  console.log('time', date.getHours(), bathroom.updated_at)
   // console.log('bathroom: ', bathroom)
+
+
 
   return (
     <>
