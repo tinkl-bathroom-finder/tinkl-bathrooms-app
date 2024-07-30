@@ -47,10 +47,17 @@ function RegisterForm() {
       fontWeight='bold'
       align='center'
       sx={{
-        mb: 2,
+        // mb: 2,
       }} 
       onClick={() => goToBathrooms()}>
         tinkl
+        </Typography>
+        <Typography
+      variant="p" 
+      component="h4"
+      align='center'
+      sx={{mb: '20px'}}>
+        Pee in peace.
         </Typography>
       {errors.registrationMessage && (
         <h3 className="alert" role="alert">
@@ -89,6 +96,7 @@ function RegisterForm() {
           value="Register"
           align="center"
           variant="contained"
+          sx={{mt: '20px'}}
         >
           Register
         </Button>

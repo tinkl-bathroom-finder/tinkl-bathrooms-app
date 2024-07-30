@@ -69,11 +69,29 @@ function BathroomsPage() {
         },
       });
     });
+
     // fetches the big list of bathrooms
     dispatch({
       type: "SAGA/FETCH_BATHROOMS",
     });
+
+    getDateTime();
+
   }, []);
+
+  const getDateTime = () => {
+    const date = new Date();
+    let day = date.getDay(); // day comes back as number => 1 is Monday, 2 is Tuesday, etc.
+    let hour = date.getHours() * 100; // formats hour as military time
+    let minutes  = date.getMinutes();
+    let militaryTime = hour + minutes // we don't actually need to convert this to a string since we want to compare it as a numeral
+
+    console.log(`Time string: ${day} at ${militaryTime}` )
+
+    return (day, militaryTime)
+  }
+
+
 
   // sends address types into Autocomplete box to server to get bathrooms list
   const sendLocation = () => {
@@ -147,7 +165,7 @@ function BathroomsPage() {
   }
 
   return (
-    <Box className="container" sx={{ mt: 6, width: 9 / 10 }}>
+    <Box className="container" sx={{ mt: 6, width: 9 / 10, p: 0 }}>
       <div class="btn-toolbar justify-content-between">
         {/* AutoComplete search box */}
         <GooglePlacesAutocomplete
