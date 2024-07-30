@@ -103,13 +103,13 @@ function ApiBathroomItem({ bathroom, bathroomArray }) {
     // </tr>
     <>
       <h2>Geocoding API</h2>
-      <button type="submit" onClick={geocodeApiRequest}>click here to run the geocoding api</button>
+      <button type="submit" onClick={geocodeApiRequest}>Get place IDs</button>
       <br />
       <h2>Places API</h2>
       <input placeholder="Enter minimum restroom_id number" onChange={(e) => minimumId(e)}/>
       <input placeholder="Enter maximum restroom_id number" 
       onChange={(e) => maximumId(e)}/>
-      <button type="submit" onClick={placesApiRequest}>click here to run the places api</button>
+      <button type="submit" onClick={placesApiRequest}>Retrieve business hours and status</button>
     </>
   );
 }
