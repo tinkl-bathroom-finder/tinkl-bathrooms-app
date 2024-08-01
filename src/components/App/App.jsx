@@ -82,17 +82,17 @@ function App() {
       }}>
         <div style={{
           width: 360,
-          height: 600,
+          height: 660,
           border: '2px solid black'
         }}>
+          <AutoCompleteBar />
           {/* This uses the Leaflet Map library and open street map */}
-          <LeafletMap />
+          {/* <LeafletMap /> */}
           {/* This uses the google react library thingy and uses google maps */}
-          {/* <MapView /> */}
+          <MapView />
         </div>
         <div>
 
-          <AutoCompleteBar />
         </div>
       </div>
       <Footer />

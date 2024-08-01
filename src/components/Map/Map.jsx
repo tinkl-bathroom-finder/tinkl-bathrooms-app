@@ -63,7 +63,7 @@ function Map(selectedLocation) {
       // if you have searched for bathrooms by proximity to your location, recenters the map on your location and shows markers close by you
       bathrooms && bathrooms.length > 0 ? (
         <GoogleMap
-          zoom={15}
+          zoom={13}
           center={center}
           mapContainerStyle={containerStyle}
           options={options}
@@ -87,7 +87,7 @@ function Map(selectedLocation) {
         <GoogleMap
           mapContainerStyle={{ width: '100%', height: '70vh' }}
           center={center}
-          zoom={14}
+          zoom={10}
         >
 
           <MarkerF
