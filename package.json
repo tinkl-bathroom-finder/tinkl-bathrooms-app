@@ -51,7 +51,8 @@
     "@babel/plugin-proposal-private-property-in-object": "^7.21.11",
     "nodemon": "^2.0.4",
     "sass": "^1.69.7",
-    "webpack-node-externals": "^3.0.0"
+    "webpack-node-externals": "^3.0.0",
+    "workbox-webpack-plugin": "^7.1.0"
   },
   "browserslist": {
     "production": [

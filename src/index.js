@@ -10,6 +10,18 @@ import App from './components/App/App';
 // ASK ANDREW: why is this import breaking my code?
 // import './App.scss';
 
+//Registers the service worker for Progressive Web App functionality
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', () => {
+    navigator.serviceWorker.register('/serviceWorker.js')
+      .then((registration) => {
+        console.log('Service Worker registered with scope:', registration.scope);
+      },
+        (error) => {
+          console.log('Service Worker Registration failed:', error);
+        })
+  })
+}
 
 
 const root = ReactDOM.createRoot(document.getElementById('react-root'));
