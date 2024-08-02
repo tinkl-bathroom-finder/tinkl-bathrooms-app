@@ -26,12 +26,9 @@ export const PwaInstall = () => {
 
     useEffect(() => {
         if (isStandalone) {
-            setAppOptions(prevOptions => ({
-                ...prevOptions,
-                iOSInstall: false
-            }))
+            setIsStandalone(true);
         }
-    })
+    }, [])
 
     //Detects chrome only event
     useEffect(() => {
