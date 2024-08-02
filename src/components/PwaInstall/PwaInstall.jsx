@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react';
-import { useSelector } from 'react-redux';
 
 import { Button } from '@mui/material';
 import InstallMobileIcon from '@mui/icons-material/InstallMobile';
@@ -10,7 +9,6 @@ export const PwaInstall = () => {
     const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent);
     const [isStandalone, setIsStandalone] = useState(false);
     const [deferredPrompt, setDeferredPrompt] = useState(null);
-
 
     //Detects standalone mode on iOS
     useEffect(() => {
@@ -45,10 +43,6 @@ export const PwaInstall = () => {
             window.removeEventListener('beforeinstallprompt', handleBeforeInstallPrompt);
         }
     }, []);
-
-    useEffect(() => {
-        console.log(navigator.userAgent);
-    }, [])
 
     const installApp = () => {
         console.log(deferredPrompt);
