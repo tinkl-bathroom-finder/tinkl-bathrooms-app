@@ -13,4 +13,12 @@ module.exports = {
             skipWaiting: true,
         }),
     ],
-}
+    devServer: {
+        contentBase: './dist',
+        https: {
+            key: fs.readFileSync('key.pem'),
+            cert: fs.readFileSync('cert.pem'),
+        },
+        port: 8080,
+    },
+};

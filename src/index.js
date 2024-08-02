@@ -13,7 +13,7 @@ import App from './components/App/App';
 //Registers the service worker for Progressive Web App functionality
 if ('serviceWorker' in navigator) {
   window.addEventListener('load', () => {
-    navigator.serviceWorker.register('/serviceWorker.js')
+    navigator.serviceWorker.register('serviceWorker.js')
       .then((registration) => {
         console.log('Service Worker registered with scope:', registration.scope);
       },
