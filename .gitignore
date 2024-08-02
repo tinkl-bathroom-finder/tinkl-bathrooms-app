@@ -69,3 +69,5 @@ package-lock.json
 
 # ignore certificate files for local https dev server
 *.pem
+*.der
+./certs

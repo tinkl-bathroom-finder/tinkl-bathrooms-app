@@ -16,8 +16,8 @@ module.exports = {
     devServer: {
         contentBase: './dist',
         https: {
-            key: fs.readFileSync('key.pem'),
-            cert: fs.readFileSync('cert.pem'),
+            key: fs.readFileSync('certs/key.pem'),
+            cert: fs.readFileSync('certs/cert.pem'),
         },
         port: 8080,
     },
