@@ -42,6 +42,7 @@
   "scripts": {
     "start": "node server/server.js",
     "client": "react-scripts start",
+    "dev": "HTTPS=true react-scripts start",
     "server": "nodemon --watch server server/server.js",
     "build": "react-scripts build",
     "test": "react-scripts test --env=jsdom",

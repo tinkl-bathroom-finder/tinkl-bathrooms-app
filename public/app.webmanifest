@@ -6,6 +6,38 @@
     "theme_color": "#5272F2",
     "scope": "./",
     "display": "standalone",
+    "screenshots": [
+        {
+            "src": "screenshots/1.jpg",
+            "sizes": "1080x1920",
+            "type": "image/jpg",
+            "platform": "narrow"
+        },
+        {
+            "src": "screenshots/2.jpg",
+            "sizes": "1080x1920",
+            "type": "image/jpg",
+            "platform": "narrow"
+        },
+        {
+            "src": "screenshots/3.jpg",
+            "sizes": "1080x1920",
+            "type": "image/jpg",
+            "platform": "narrow"
+        },
+        {
+            "src": "screenshots/4.jpg",
+            "sizes": "1080x1920",
+            "type": "image/jpg",
+            "platform": "narrow"
+        },
+        {
+            "src": "screenshots/5.jpg",
+            "sizes": "1080x1920",
+            "type": "image/jpg",
+            "platform": "narrow"
+        }
+    ],
     "icons": [
         {
             "src": "windows11/SmallTile.scale-100.png",
