@@ -91,7 +91,7 @@ function BathroomItemMap({ bathroom, origin }) {
 
     }
     
-    if (day = 2 && militaryTime >= bathroom.day_2_open && militaryTime <= bathroom.day_2_close){
+    else if (day = 2 && militaryTime >= bathroom.day_2_open && militaryTime <= bathroom.day_2_close){
       console.log('open')
       openClose = 'open';
 
@@ -160,7 +160,15 @@ function BathroomItemMap({ bathroom, origin }) {
             title={bathroom.name}
             titleTypographyProps={{ fontSize: "large" }}
             subheader={bathroom.street}
+
             
+          //   <Typography
+          //   varient="h5"
+          //   align="left">
+          //   Bathroom is: {isOpen}
+          // </Typography>
+
+
             action={
               <>
 
@@ -176,12 +184,11 @@ function BathroomItemMap({ bathroom, origin }) {
                   {bathroom.is_single_stall ? <Man4Icon /> : ""}
                 </Typography>
 
+                  
+
+
                 {/* chevron to expand bathroom item card */}
-                <Typography
-                  varient="h5"
-                  align="left">
-                  Bathroom is: {isOpen}
-                </Typography>
+                
 
                 <Typography
                   variant="h6"
@@ -201,8 +208,12 @@ function BathroomItemMap({ bathroom, origin }) {
               </>
             }
           />
-          <CardContent sx={{ p: 0 }}>
-
+          <CardContent sx={{ p: 2 }}>
+          <Typography
+            varient="h6"
+            align="left">
+            Bathroom is: {isOpen}
+          </Typography>
 
             {/* distance from current/searched location */}
             <Typography
