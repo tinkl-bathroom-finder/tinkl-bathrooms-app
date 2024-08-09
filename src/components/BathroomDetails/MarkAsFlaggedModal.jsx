@@ -22,6 +22,26 @@ function MarkAsFlaggedModal(props){
         borderRadius: 2
           }
 
+    const submitPopup = () => {
+      // closes modal
+      props.setModal2Show(false);
+      // popup window "confirming" submission
+      Swal.fire({
+        title: "Thank you for sharing! Users help keep this app up-to-date.",
+        width: 600,
+        padding: "3em",
+        color: "#716add",
+        background:
+          "#fff url(https://media.giphy.com/media/ifMCKz51hfD9RUWXbI/giphy.gif)",
+        backdrop: `
+        rgba(0,0,123,0.4)
+        url("https://media.giphy.com/media/mTs11L9uuyGiI/giphy.gif")
+        left top
+        no-repeat
+      `,
+      });
+    }      
+
   return (
       <Modal
         show={props.show}
@@ -91,8 +111,8 @@ function MarkAsFlaggedModal(props){
             </Form>
           </Modal.Body>
           <Modal.Footer>
-          <Button variant="outlined" sx={{mr: 2}} data-bs-dismiss="modal">Cancel</Button> 
-                <Button variant="contained">Submit changes</Button> 
+          <Button variant="outlined" sx={{mr: 2}} data-bs-dismiss="modal" onClick={() => props.setModal2Show(false)}>Cancel</Button> 
+                <Button variant="contained" onClick={() => submitPopup()}>Submit changes</Button> 
           </Modal.Footer>
         </Box>
       </Modal>

@@ -92,7 +92,7 @@ function IPeedHereModal(props) {
         </Modal.Header>
         <Modal.Body>
           <Form>
-            <ToggleButtonGroup type="radio" name="options">
+            <ToggleButtonGroup type="radio" name="options" class="text-center">
               <ToggleButton
                 id="tbg-radio-2"
                 value={2}

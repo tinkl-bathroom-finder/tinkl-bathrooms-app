@@ -156,7 +156,7 @@ function BathroomItemList({ bathroom, origin }) {
                   sx={{ m: 0, p: 0 }}
                 />
 
-                <BusinessHours bathroom={bathroom}/>
+                {/* <BusinessHours bathroom={bathroom}/> */}
 
                 {/* bathroom upvotes and downvotes */}
                 <Typography align="left" sx={{ mr: 2 }}>

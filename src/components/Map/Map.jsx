@@ -21,6 +21,7 @@ function MyMap() {
 
 function Map(selectedLocation) {
   const bathrooms = useSelector((store) => store.bathrooms)
+  const bathroomsByDistance = useSelector((store) => store.bathroomsByDistance);
   const addressCoordinates = useSelector((store) => store.addressCoordinates);
   const mapRef = useRef();
   const onLoad = useCallback(map => (mapRef.current = map), []);
