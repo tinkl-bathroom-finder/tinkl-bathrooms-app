@@ -216,6 +216,14 @@ h5.about {
   text-align: justify;
 }
 
+h6.open {
+color: green;
+}
+
+h6.closed {
+  color: red;
+}
+
 .linkInDrawer:link {
   text-decoration: none;
   color: black;
