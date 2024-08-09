@@ -22,8 +22,6 @@ function MarkAsFlaggedModal(props){
         borderRadius: 2
           }
 
-
-
   return (
       <Modal
         show={props.show}
@@ -41,7 +39,6 @@ function MarkAsFlaggedModal(props){
 
           <Modal.Body>
             <Form>
-
 
                 <Form.Group>
                     <Form.Label>Name</Form.Label>
