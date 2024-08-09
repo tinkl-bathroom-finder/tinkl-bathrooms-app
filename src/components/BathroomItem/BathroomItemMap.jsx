@@ -79,56 +79,24 @@ function BathroomItemMap({ bathroom, origin }) {
     let minutes  = date.getMinutes();
     let militaryTime = hour + minutes // we don't actually need to convert this to a string since we want to compare it as a numeral
 
-    console.log(`Time string: ${day} at ${militaryTime}` )
-    console.log(militaryTime)
    const compareTime = () => {
-    console.log('business Hours', bathroom)
-    console.log('militaryTime', militaryTime)
-    let openClose = 'close'
+    let isOpen = false;
     if (day = 1 && militaryTime >= bathroom.day_1_open && militaryTime <= bathroom.day_1_close){
-      console.log('open')
-      openClose = 'open';
-
-    }
-    
-    else if (day = 2 && militaryTime >= bathroom.day_2_open && militaryTime <= bathroom.day_2_close){
-      console.log('open')
-      openClose = 'open';
-
-    }
-    else if (day = 3 && militaryTime >= bathroom.day_3_open && militaryTime <= bathroom.day_3_close){
-      console.log('open')
-      openClose = 'open';
-
-    }
-
-    else if (day = 4 && militaryTime >= bathroom.day_4_open && militaryTime <= bathroom.day_4_close){
-      console.log('open')
-      openClose = 'open';
-
-    }
-
-    else if (day = 5 && militaryTime >= bathroom.day_5_open && militaryTime <= bathroom.day_5_close){
-      console.log('open')
-      openClose = 'open';
-
-    }
-
-    else if (day = 6 && militaryTime >= bathroom.day_2_open && militaryTime <= bathroom.day_2_close){
-      console.log('open')
-      openClose = 'open';
-
-    }
-
-    else if (day = 7 && militaryTime >= bathroom.day_2_open && militaryTime <= bathroom.day_2_close){
-      console.log('open')
-      openClose = 'open';
-
-    }
-    
-    else{console.log('close')
-    }
-    return openClose;
+      isOpen = true;
+    }  else if (day = 2 && militaryTime >= bathroom.day_2_open && militaryTime <= bathroom.day_2_close){
+      isOpen = true;
+    } else if (day = 3 && militaryTime >= bathroom.day_3_open && militaryTime <= bathroom.day_3_close){
+       isOpen = true;
+    } else if (day = 4 && militaryTime >= bathroom.day_4_open && militaryTime <= bathroom.day_4_close){
+      isOpen = true;
+    } else if (day = 5 && militaryTime >= bathroom.day_5_open && militaryTime <= bathroom.day_5_close){
+      isOpen = true;
+    } else if (day = 6 && militaryTime >= bathroom.day_2_open && militaryTime <= bathroom.day_2_close){
+      isOpen = true;
+    }  else if (day = 7 && militaryTime >= bathroom.day_2_open && militaryTime <= bathroom.day_2_close){
+      isOpen = true;
+    }  else{console.log('close')
+    } return isOpen;
    }
   
    console.log('open/Close',compareTime())
@@ -160,18 +128,8 @@ function BathroomItemMap({ bathroom, origin }) {
             title={bathroom.name}
             titleTypographyProps={{ fontSize: "large" }}
             subheader={bathroom.street}
-
-            
-          //   <Typography
-          //   varient="h5"
-          //   align="left">
-          //   Bathroom is: {isOpen}
-          // </Typography>
-
-
             action={
               <>
-
                 {/* icons to show if bathrooms is all-gender, has changing table, is wheelchair accessible */}
                 <Typography variant="h6" align="right" sx={{ mr: 1, mt: 0.5 }}>
                   {bathroom.unisex ? <TransgenderOutlinedIcon /> : ""}
@@ -184,12 +142,7 @@ function BathroomItemMap({ bathroom, origin }) {
                   {bathroom.is_single_stall ? <Man4Icon /> : ""}
                 </Typography>
 
-                  
-
-
                 {/* chevron to expand bathroom item card */}
-                
-
                 <Typography
                   variant="h6"
                   align="right"
@@ -209,11 +162,7 @@ function BathroomItemMap({ bathroom, origin }) {
             }
           />
           <CardContent sx={{ p: 2 }}>
-          <Typography
-            varient="h6"
-            align="left">
-            Bathroom is: {isOpen}
-          </Typography>
+          <h6 class={isOpen ? "open" : "closed"}> {isOpen ? 'Open now' : 'Closed'}</h6>
 
             {/* distance from current/searched location */}
             <Typography
