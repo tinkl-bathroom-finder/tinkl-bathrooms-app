@@ -56,6 +56,23 @@ function BathroomDetails() {
   const [expanded, setExpanded] = useState(false);
   const bathroom = theBathroomDetails;
 
+  //Bathroom open/close 
+  const getDateTime = () => {
+    const date = new Date();
+    let day = date.getDay(); // day comes back as number => 1 is Monday, 2 is Tuesday, etc.
+    let hour = date.getHours() * 100; // formats hour as military time
+    let minutes  = date.getMinutes();
+    let militaryTime = hour + minutes // we don't actually need to convert this to a string since we want to compare it as a numeral
+
+    console.log(`Time string: ${day} at ${militaryTime}` )
+
+    return (day, militaryTime)
+  }
+
+
+
+
+
   // React state for IPeedHereModal
   const [modalShow, setModalShow] = useState(false);
 
@@ -135,6 +152,10 @@ function BathroomDetails() {
       type: "SAGA/FETCH_BATHROOM_DETAILS",
       payload: params.id,
     });
+
+    //get users current time for this bathroom 
+    getDateTime();
+    
   }, [params.id]); // 👈 useEffect will retrigger if params.id (id in url) changes
 
   const returnToList = () => {
