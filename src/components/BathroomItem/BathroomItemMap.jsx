@@ -99,10 +99,7 @@ function BathroomItemMap({ bathroom, origin }) {
     } return isOpen;
    }
   
-   console.log('open/Close',compareTime())
-  let isOpen = compareTime()
-  console.log('isOpen', isOpen)
-  // console.log('bathroom: ', bathroom)
+  let isOpen = compareTime();
 
 
 
