@@ -161,6 +161,50 @@ router.post("/", rejectUnauthenticated, (req, res) => {
     });
 });
 
+// We want to:
+//      * Loop through the restroomArray
+//      * For each restroom object, 
+//            => create a property of isOpen (and set it to false by default?)
+//            => compare the current time to the opening hours
+//      * If the bathroom is open, set bathroom.isOpenNow = true
+//      * Send back the restroomArray to the client with isOpenNow property
+
+// Another thing we might want to think about is if we only re-fetch bathrooms upon reloading the page; then we would want to do the "compareTime" function client-side and run it each time we search for a different address (even if we already have the array of bathrooms)
+
+function compareTime(restroomArray){
+  const getDateTime = () => {
+    const date = new Date();
+    let day = date.getDay(); // day comes back as number => 1 is Monday, 2 is Tuesday, etc.
+    let hour = date.getHours() * 100; // formats hour as military time
+    let minutes  = date.getMinutes();
+    let militaryTime = hour + minutes // we don't actually need to convert this to a string since we want to compare it as a numeral
+
+    let isOpen = false;
+    if (day = 1 && militaryTime >= bathroom.day_1_open && militaryTime <= bathroom.day_1_close){
+      isOpen = true;
+    } else if (day = 2 && militaryTime >= bathroom.day_2_open && militaryTime <= bathroom.day_2_close){
+      isOpen = true;
+    } else if (day = 3 && militaryTime >= bathroom.day_3_open && militaryTime <= bathroom.day_3_close){
+      isOpen = true;
+    } else if (day = 4 && militaryTime >= bathroom.day_4_open && militaryTime <= bathroom.day_4_close){
+      isOpen = true;
+    } else if (day = 5 && militaryTime >= bathroom.day_5_open && militaryTime <= bathroom.day_5_close){
+      isOpen = true;
+    } else if (day = 6 && militaryTime >= bathroom.day_2_open && militaryTime <= bathroom.day_2_close){
+      isOpen = true;
+    }
+    else if (day = 7 && militaryTime >= bathroom.day_2_open && militaryTime <= bathroom.day_2_close){
+      isOpen = true;
+    }
+
+
+    console.log(`Time string: ${day} at ${militaryTime}` )
+    console.log(`Is the bathroom open? ${isOpen}` )
+
+    return (isOpen)
+  }
+}
+
 function formatCommmentsQuery(BA, restroomIdArray) {
   let commentsQuery = `
 INSERT INTO "comments"
