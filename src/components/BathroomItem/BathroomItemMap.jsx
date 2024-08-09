@@ -166,14 +166,16 @@ function BathroomItemMap({ bathroom, origin }) {
 
             {/* distance from current/searched location */}
             <Typography
-              align="right"
-              color="text.secondary"
-              sx={{
-                m: 2,
-              }}
-            >
-              {bathroom.distance ? `${bathroom.distance.toFixed(2)} mi` : ""}
-            </Typography>
+                  align="right"
+                  color="text.secondary"
+                  sx={{
+                    mr: 2,
+                  }}
+                >
+                  {bathroom.distance
+                    ? `${bathroom.distance.toFixed(2)} mi`
+                    : ""}
+                </Typography>
             <Collapse in={expanded} timeout="auto" unmountOnExit>
               
           <BusinessHours bathroom={bathroom}/>

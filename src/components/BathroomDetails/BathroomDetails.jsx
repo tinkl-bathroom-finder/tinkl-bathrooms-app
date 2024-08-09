@@ -56,7 +56,7 @@ function BathroomDetails() {
   const [expanded, setExpanded] = useState(false);
   const bathroom = theBathroomDetails;
 
-  //Bathroom open/close 
+  // Bathroom open/close 
   const getDateTime = () => {
     const date = new Date();
     let day = date.getDay(); // day comes back as number => 1 is Monday, 2 is Tuesday, etc.
@@ -91,10 +91,7 @@ function BathroomDetails() {
   };
 
   const clickSomethingNotLookRight = () => {
-    // e.preventDefault();
-    console.log("you did indeed click the flag!");
     if (userId) {
-      console.log("You do indeed have a user id.");
       setModal2Show(true);
     } else
       Swal.fire({
