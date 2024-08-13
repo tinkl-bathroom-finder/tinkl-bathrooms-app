@@ -79,7 +79,7 @@ function BathroomItemMap({ bathroom, origin }) {
     let minutes  = date.getMinutes();
     let militaryTime = hour + minutes // we don't actually need to convert this to a string since we want to compare it as a numeral
 
-   const compareTime = () => {
+   const compareTime = (day) => {
     let isOpen = false;
     if (day = 1 && militaryTime >= bathroom.day_1_open && militaryTime <= bathroom.day_1_close){
       isOpen = true;
