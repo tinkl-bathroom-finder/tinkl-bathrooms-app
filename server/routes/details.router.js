@@ -52,7 +52,7 @@ router.get("/:id", (req, res) => {
                   'user_id', comments.user_id,
                   'inserted_at', comments.inserted_at
                 )
-                order by "inserted_at"
+                order by "inserted_at" DESC
               ) 
               AS "comments"
                 FROM "comments"

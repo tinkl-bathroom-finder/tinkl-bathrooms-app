@@ -10,7 +10,10 @@ router.get("/:id", (req, res) => {
     "comments"."content", "comments"."inserted_at", "restrooms"."name", "comments"."restroom_id", "comments"."id" AS "comment_id"
     FROM "comments"
     LEFT JOIN "restrooms" ON "comments"."restroom_id"="restrooms"."id"
-    WHERE "user_id" = $1 AND "comments"."is_removed" = FALSE;
+    WHERE "user_id" = $1 AND "comments"."is_removed" = FALSE
+    ORDER BY
+    "comments"."inserted_at" DESC
+    ;
     `
     console.log("req.params from fetchUserComments router", req.params);
     const values = [req.params.id];
