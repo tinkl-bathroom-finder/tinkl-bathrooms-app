@@ -14,7 +14,7 @@ const BusinessHours = (props) => {
   }
 
     return (
-        <Box sx={{ml: '20px'}}>
+        <Box>
     <Typography sx={{fontWeight: 'bold'}}>Business hours:</Typography>
     <Typography>Monday: {props.bathroom.day_1_open ? convertToTwelveHourTime(props.bathroom.day_1_open) + '-' + convertToTwelveHourTime(props.bathroom.day_1_close)  : "Closed"}</Typography>
     <Typography>Tuesday: {props.bathroom.day_2_open ? convertToTwelveHourTime(props.bathroom.day_2_open) + '-' + convertToTwelveHourTime(props.bathroom.day_2_close) : "Closed"}</Typography>
