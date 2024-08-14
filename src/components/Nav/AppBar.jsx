@@ -41,6 +41,7 @@ import {
   WaterDrop,
 
 } from "@mui/icons-material";
+import InstallMobileIcon from '@mui/icons-material/InstallMobile';
 import MenuIcon from "@mui/icons-material/Menu";
 import { deepPurple } from '@mui/material/colors';
 import AdminPanelSettingsIcon from '@mui/icons-material/AdminPanelSettings';
@@ -126,13 +127,13 @@ function AppBarNav() {
       {/* Sidebar link list */}
       <List>
         <ListItem key="installApp" disablePadding>
+          <ListItemButton>
+        <ListItemIcon>{<InstallMobileIcon />}</ListItemIcon>
+              <ListItemText primary="INSTALL APP" />
           <PwaInstall />
+          </ListItemButton>
         </ListItem>
-      </List>
 
-
-
-      <List>
         <ListItem key="bathroom" disablePadding>
           <Link
             to="/bathrooms"
