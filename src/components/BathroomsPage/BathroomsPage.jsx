@@ -8,6 +8,7 @@ import React, {
 import GooglePlacesAutocomplete from "react-google-places-autocomplete";
 
 import Marker from "../Marker/Marker";
+import FilterByToggles from "./FilterByToggles";
 
 import {
   GoogleMap,
@@ -33,14 +34,17 @@ import FilterByModal from "./FilterByModal";
 function BathroomsPage() {
   const dispatch = useDispatch();
 
-  // const store = useSelector((store) => store);
   const bathrooms = useSelector((store) => store.bathrooms);
   const bathroomsByDistance = useSelector((store) => store.bathroomsByDistance);
+  const mapView = useSelector((store) => store.mapView);
+
+  const filter_bathrooms = bathrooms.filter(function(bathroom) {
+    return bathroom.isOpenNow === true; 
+  })
 
   // captures value of address typed in search bar as local state
   const [searchBarAddress, setSearchBarAddress] = useState("");
 
-  const mapView = useSelector((store) => store.mapView);
   // state to open or close FilterByModal
   const [modalShow, setModalShow] = useState(false);
 
@@ -235,11 +239,13 @@ function BathroomsPage() {
           {mapView ? "List view" : "Map view"}
         </Button>
 
+<FilterByToggles />
+
         {/* "Filter by" toggle switch (choose filters in popup modal) */}
         {/* <FilterByModal
-        // show={modalShow}
+        show={modalShow}
         onHide={() => setModalShow(false)}
-        // setShow={setShow}
+        setShow={setShow}
         handleClose={handleClose}
         modalShow={modalShow}
         setModalShow={setModalShow}
