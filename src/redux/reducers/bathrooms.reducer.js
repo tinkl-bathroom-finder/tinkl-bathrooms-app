@@ -2,7 +2,11 @@
 const bathroomsReducer = (state = [], action) => {
     if (action.type === 'SET_BATHROOMS'){
       return action.payload;
-    } return state
+     } else if (action.type === 'FILTER_BATHROOMS') {
+     return state.filter(bathroom => action.payload !== bathroom.isOpenNow)
+    }  return state
   };
+
+
 
 export default bathroomsReducer;
