@@ -72,7 +72,7 @@ export const PwaInstall = () => {
                     onClick={installApp}
                 >
                     <InstallMobileIcon />
-                    Instapp App</Button>
+                    Install App</Button>
             }
 
             {isIOS && !isStandalone &&
