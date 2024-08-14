@@ -45,7 +45,7 @@ function Map(selectedLocation) {
   // customization 
   const options = useMemo(
       () => ({
-          disableDefaultUI: false,
+          disableDefaultUI: true,
           clickableIcons: false,
           gestureHandling: 'greedy',
       }), []
