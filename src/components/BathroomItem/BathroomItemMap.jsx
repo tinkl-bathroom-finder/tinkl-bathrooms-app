@@ -1,6 +1,7 @@
 import { useHistory } from "react-router-dom";
 import { Button } from "@mui/material";
 import { useState } from "react";
+import { useDispatch } from 'react-redux';
 import {
   Avatar,
   Box,
@@ -32,7 +33,6 @@ import Grid2 from "@mui/material/Unstable_Grid2/Grid2";
 
 import BusinessHours from "./BusinessHours";
 
-
 // animation for 'expand comments' chevron
 const ExpandMore = styled((props) => {
   const { expand, ...other } = props;
@@ -46,6 +46,7 @@ const ExpandMore = styled((props) => {
 }));
 function BathroomItemMap({ bathroom, origin }) {
   const history = useHistory();
+  const dispatch = useDispatch();
   const [expanded, setExpanded] = useState(false);
 
   const handleExpandClick = () => {
@@ -101,7 +102,17 @@ function BathroomItemMap({ bathroom, origin }) {
   
   let isOpen = compareTime();
 
+  const addOpenStatus = () => {
+    // dispatch({
+    //   type: "ADD_OPEN_STATUS",
+    //   payload: {
+    //     bathroom_id: bathroom.id,
+    //     isOpenNow: isOpen
+    //   }
+    // })
+  }
 
+  addOpenStatus();
 
   return (
     <>
@@ -176,9 +187,10 @@ function BathroomItemMap({ bathroom, origin }) {
             <Collapse in={expanded} timeout="auto" unmountOnExit>
               
           <BusinessHours bathroom={bathroom}/>
+
           {/* when bathroom info was last updated */}
               <Typography
-                sx={{ fontSize: 14, mr: 2, ml: 2 }}
+                sx={{ fontSize: 14, mr: 2}}
                 color="text.secondary"
                 align="left"
               >
