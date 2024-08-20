@@ -31,6 +31,7 @@ import { styled } from "@mui/material/styles";
 import Grid2 from "@mui/material/Unstable_Grid2/Grid2";
 
 import BusinessHours from "./BusinessHours";
+import CompareTime from "./CompareTime";
 
 // animation for 'expand comments' chevron
 const ExpandMore = styled((props) => {
@@ -83,8 +84,8 @@ function BathroomItemList({ bathroom, origin }) {
         <Card
           sx={{
             mb: "5px",
-            maxHeight: '200px',
-            height: expanded ? "auto" : "30vw",
+            // maxHeight: '200px',
+            height: 'auto',
             paddingLeft: 0,
             // borderRadius: '10px',
           }}
@@ -123,7 +124,7 @@ function BathroomItemList({ bathroom, origin }) {
                     ? `${bathroom.distance.toFixed(2)} mi`
                     : ""}
                 </Typography>
-
+              
                 {/* chevron to expand bathroom item card */}
                 <Typography
                   variant="h6"
@@ -135,10 +136,14 @@ function BathroomItemList({ bathroom, origin }) {
                 </Typography>
               </>
             }
+
           />
+            <CompareTime bathroom={bathroom}/>
+
           <CardContent sx={{ p: 0 }}>
             <Collapse in={expanded} timeout="auto" unmountOnExit>
               {/* when bathroom info was last updated */}
+              <BusinessHours bathroom={bathroom}/>
               <Typography
                 sx={{ fontSize: 14, mr: 2, ml: 2 }}
                 color="text.secondary"
