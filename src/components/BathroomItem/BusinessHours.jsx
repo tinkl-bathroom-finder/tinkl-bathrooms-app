@@ -8,6 +8,7 @@ import {
 import ExpandMore from "@mui/icons-material/ExpandMore";
 
 const BusinessHours = (props) => {
+  let bathroom = props.bathroom;
 
   const convertToTwelveHourTime = (time) => {
     let twelveHourTime = time/100
@@ -19,7 +20,7 @@ const BusinessHours = (props) => {
     }
     return `${twelveHourTime}${amOrPm}`
   }
-
+  if( bathroom.day_1_open || bathroom.day_2_open || bathroom.day_3_open || bathroom.day_4_open || bathroom.day_5_open ||  bathroom.day_6_open ){
     return (
         <Accordion defaultExpanded>
         <AccordionSummary 
@@ -37,6 +38,7 @@ const BusinessHours = (props) => {
     <Typography>Saturday: {props.bathroom.day_6_open ? convertToTwelveHourTime(props.bathroom.day_6_open ) + '-' + convertToTwelveHourTime(props.bathroom.day_6_close) : "Closed"}</Typography>
     <Typography>Sunday: {props.bathroom.day_0_open ? convertToTwelveHourTime(props.bathroom.day_0_open ) + '-' + convertToTwelveHourTime(props.bathroom.day_0_close) : "Closed"}</Typography>
     </Accordion >)
+}
 }
 
 export default BusinessHours;
