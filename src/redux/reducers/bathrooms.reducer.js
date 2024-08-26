@@ -3,7 +3,7 @@ const bathroomsReducer = (state = [], action) => {
     if (action.type === 'SET_BATHROOMS'){
       return action.payload;
      } else if (action.type === 'FILTER_BATHROOMS') {
-     return state.filter(bathroom => action.payload !== bathroom.isOpenNow)
+     return state.filter(bathroom => action.payload !== bathroom.public)
     }  return state
   };
 

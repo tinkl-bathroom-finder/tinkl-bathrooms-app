@@ -10,6 +10,8 @@ import apiBathrooms from './apiBathrooms.reducer';
 import userComments from './userComments.reducer';
 import mapView from './mapView.reducer';
 import userList from './userList.reducer';
+import isPublic from './isPublic.reducer';
+import openNow from './openNow.reducer';
 
 // rootReducer is the primary reducer for our entire project
 // It bundles up all of the other reducers so our project can use them.
@@ -27,7 +29,9 @@ const rootReducer = combineReducers({
   apiBathrooms,
   userComments,
   userList,
-  mapView
+  mapView,
+  isPublic,
+  openNow
 });
 
 export default rootReducer;
