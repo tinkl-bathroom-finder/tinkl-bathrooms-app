@@ -245,7 +245,7 @@ function BathroomItemMap({ bathroom, origin }) {
                   <IconButton
                     onClick={() =>
                       openInNewTab(
-                        `https://www.google.com/maps/dir/?api=1&destination=${bathroom.name}&origin=${origin}`
+                        `https://www.google.com/maps/dir/?api=1&destination=${bathroom.name}`
                       )
                     }
                   >
