@@ -56,10 +56,10 @@ function FilterByToggles() {
 
     return (
         <Stack direction="row" spacing={1} sx={{mb: 1}} >
-        <Chip label="Public" variant={isPublic ? "filled" : "outlined"} color="secondary" onClick={togglePublic}  />
         <Chip label="Open now" variant={openNow ? "filled" : "outlined"} color="secondary" onClick={toggleOpenNow}  />
         <Chip icon={<AccessibleForwardOutlinedIcon/>} label="Accessible"  variant={accessible ? "filled" : "outlined"} color="secondary"  onClick={toggleAccessible}  />
         <Chip icon={<BabyChangingStationOutlinedIcon/>} label="Changing table"  variant={changing_table ? "filled" : "outlined"} color="secondary"  onClick={toggleChangingTable}  />
+        <Chip label="Public" variant={isPublic ? "filled" : "outlined"} color="secondary" onClick={togglePublic}  />
       </Stack>
     )
 }
