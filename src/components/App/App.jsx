@@ -25,6 +25,7 @@ import DeleteBathrooms from "../AdminPage/DeleteBathrooms";
 import AdminComments from "../AdminPage/AdminComments";
 import AdminUsers from "../AdminPage/AdminUsers";
 import AddBathroom from "../Nav/AddBathroom";
+import MinneDemo from './MinneDemo'
 
 import Container from "react-bootstrap/Container";
 // import GoogleMapsWrapper from '../Wrapper';
@@ -121,6 +122,10 @@ function App() {
           >
             <AppBarNav />
             <AboutPage />
+          </Route>
+
+          <Route exact path="/minnedemo">
+            <MinneDemo embedId="DuBkjVYZN4M"/>
           </Route>
 
           <Route
