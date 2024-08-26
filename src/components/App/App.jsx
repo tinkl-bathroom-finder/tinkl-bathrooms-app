@@ -20,7 +20,7 @@ import BathroomsPage from "../BathroomsPage/BathroomsPage";
 import BathroomDetails from "../BathroomDetails/BathroomDetails";
 import MyMap from "../Map/Map";
 import AdminPage from "../AdminPage/AdminPage";
-import AddBathrooms from "../AdminPage/AddBathrooms";
+import AddAPIBathrooms from "../AdminPage/AddAPIBathrooms";
 import DeleteBathrooms from "../AdminPage/DeleteBathrooms";
 import AdminComments from "../AdminPage/AdminComments";
 import AdminUsers from "../AdminPage/AdminUsers";
@@ -186,7 +186,7 @@ function App() {
           {user.is_admin ? 
           <>
             <AppBarNav />
-            <AddBathrooms />
+            <AddAPIBathrooms />
             </>
             : <Redirect to="/user" />}
           </ProtectedRoute>
