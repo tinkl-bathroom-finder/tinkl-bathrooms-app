@@ -6,6 +6,7 @@ import { Form, Modal, ToggleButton, ToggleButtonGroup } from "react-bootstrap";
 
 function AddBathroomModal(props){
     console.log("props.details: ", props.details)
+    console.log("props.searchBarAddress.value: ", props.searchBarAddress.value)
 
     const style = {
         position: 'absolute',
@@ -37,6 +38,8 @@ function AddBathroomModal(props){
         left top
         no-repeat
       `,
+      }).then(function() {
+        
       });
     }      
 
@@ -60,7 +63,7 @@ function AddBathroomModal(props){
 
                 <Form.Group>
                     <Form.Label>Name*</Form.Label>
-                    <Form.Control type="text" defaultValue={props.details.name} required/>
+                    <Form.Control type="text" defaultValue={props.searchBarAddress?.value?.structured_formatting?.main_text} required/>
                 </Form.Group>
 
                 <Form.Group>

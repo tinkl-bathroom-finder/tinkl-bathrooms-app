@@ -164,7 +164,8 @@ const AddBathroom = () => {
         onHide={() => setModal2Show(false)}
         aria-labelledby="add-bathroom-modal"
         aria-describedby="Form to add a new bathroom to the database."
-        details={newBathroom}/>
+        details={newBathroom}
+        searchBarAddress={searchBarAddress}/>
         </>
     )
 }
