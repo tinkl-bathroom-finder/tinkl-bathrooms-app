@@ -73,6 +73,7 @@ function AddBathroomModal(props){
 
                 <Form.Group>
                     <Form.Label>Please check whether the following apply to this bathroom:</Form.Label>
+                
                 <Form.Check 
                 type="checkbox"
                 defaultChecked={props.details.accessible}
@@ -95,12 +96,22 @@ function AddBathroomModal(props){
                 type="checkbox"
                 defaultChecked={props.details.single_stall}
                 label="Single stall"
-             
+                />
+
+                <Form.Check 
+                type="checkbox"
+                defaultChecked={props.details.accessible}
+                label="Open to the public"
                 />
                 </Form.Group>
 
                 <Form.Group>
-                    <Form.Label>Other:</Form.Label>
+                    <Form.Label>Add a comment:</Form.Label>
+                    <Form.Control type="text"/>
+                </Form.Group>
+
+                <Form.Group>
+                    <Form.Label>Any other information that admin should know?</Form.Label>
                     <Form.Control type="text"/>
                 </Form.Group>
 
