@@ -1,4 +1,11 @@
-import { Box, Typography } from "@mui/material"
+import {
+  Accordion,
+  AccordionDetails,
+  AccordionSummary,
+  Box,
+  Typography,
+} from "@mui/material";
+import ExpandMore from "@mui/icons-material/ExpandMore";
 
 const BusinessHours = (props) => {
 
@@ -14,8 +21,14 @@ const BusinessHours = (props) => {
   }
 
     return (
-        <Box>
+        <Accordion defaultExpanded>
+        <AccordionSummary 
+        expandIcon={<ExpandMore />}
+          aria-controls="panel1-content"
+          id="panel1-header"
+          >
     <Typography sx={{fontWeight: 'bold'}}>Business hours:</Typography>
+    </AccordionSummary>
     <Typography>Monday: {props.bathroom.day_1_open ? convertToTwelveHourTime(props.bathroom.day_1_open) + '-' + convertToTwelveHourTime(props.bathroom.day_1_close)  : "Closed"}</Typography>
     <Typography>Tuesday: {props.bathroom.day_2_open ? convertToTwelveHourTime(props.bathroom.day_2_open) + '-' + convertToTwelveHourTime(props.bathroom.day_2_close) : "Closed"}</Typography>
     <Typography>Wednesday: {props.bathroom.day_3_open ? convertToTwelveHourTime(props.bathroom.day_3_open ) + '-' + convertToTwelveHourTime(props.bathroom.day_3_close) : "Closed"}</Typography>
@@ -23,7 +36,7 @@ const BusinessHours = (props) => {
     <Typography>Friday: {props.bathroom.day_5_open ? convertToTwelveHourTime(props.bathroom.day_5_open ) + '-' + convertToTwelveHourTime(props.bathroom.day_5_close) : "Closed"}</Typography>
     <Typography>Saturday: {props.bathroom.day_6_open ? convertToTwelveHourTime(props.bathroom.day_6_open ) + '-' + convertToTwelveHourTime(props.bathroom.day_6_close) : "Closed"}</Typography>
     <Typography>Sunday: {props.bathroom.day_0_open ? convertToTwelveHourTime(props.bathroom.day_0_open ) + '-' + convertToTwelveHourTime(props.bathroom.day_0_close) : "Closed"}</Typography>
-    </Box>)
+    </Accordion >)
 }
 
 export default BusinessHours;
