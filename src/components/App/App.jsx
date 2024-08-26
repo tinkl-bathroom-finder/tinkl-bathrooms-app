@@ -20,11 +20,12 @@ import BathroomsPage from "../BathroomsPage/BathroomsPage";
 import BathroomDetails from "../BathroomDetails/BathroomDetails";
 import MyMap from "../Map/Map";
 import AdminPage from "../AdminPage/AdminPage";
-import AddBathrooms from "../AdminPage/AddBathrooms";
+import AddAPIBathrooms from "../AdminPage/AddAPIBathrooms";
 import DeleteBathrooms from "../AdminPage/DeleteBathrooms";
 import AdminComments from "../AdminPage/AdminComments";
 import AdminUsers from "../AdminPage/AdminUsers";
 import AddBathroom from "../Nav/AddBathroom";
+import MinneDemo from './MinneDemo'
 
 import Container from "react-bootstrap/Container";
 // import GoogleMapsWrapper from '../Wrapper';
@@ -123,6 +124,10 @@ function App() {
             <AboutPage />
           </Route>
 
+          <Route exact path="/minnedemo">
+            <MinneDemo embedId="DuBkjVYZN4M"/>
+          </Route>
+
           <Route
             // shows bathrooms page at all times (logged in or not)
             exact
@@ -186,7 +191,7 @@ function App() {
           {user.is_admin ? 
           <>
             <AppBarNav />
-            <AddBathrooms />
+            <AddAPIBathrooms />
             </>
             : <Redirect to="/user" />}
           </ProtectedRoute>

@@ -6,7 +6,7 @@ import Table from "react-bootstrap/Table";
 import ApiBathroomItem from "../ApiBathroomItem/ApiBathroomItem";
 import DotSensor from "../DotLoader/DotLoader";
 
-function AddBathrooms() {
+function AddAPIBathrooms() {
   const dispatch = useDispatch();
   const [perPage, setPerPage] = useState("");
   const [pageNumber, setPageNumber] = useState("");
@@ -107,4 +107,4 @@ function AddBathrooms() {
   );
 }
 
-export default AddBathrooms;
+export default AddAPIBathrooms;
