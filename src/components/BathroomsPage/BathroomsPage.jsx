@@ -37,6 +37,8 @@ function BathroomsPage() {
   const bathrooms = useSelector((store) => store.bathrooms);
   const bathroomsByDistance = useSelector((store) => store.bathroomsByDistance);
   const mapView = useSelector((store) => store.mapView);
+  const isPublic = useSelector((store) => store.isPublic);
+  const openNow = useSelector((store) => store.openNow);
 
   const filter_bathrooms = bathrooms.filter(function(bathroom) {
     return bathroom.isOpenNow === true; 
@@ -47,11 +49,11 @@ function BathroomsPage() {
 
   // state to open or close FilterByModal
   const [modalShow, setModalShow] = useState(false);
-
   const [show, setShow] = useState(false);
 
   // state for "filter by" toggles (open now, wheelchair accessible, single-stall, changing table)
-  const [isChecked, setIsChecked] = useState(false);
+  // isChecked is no longer doing anything because it is a button, not a toggle switch
+  // const [isChecked, setIsChecked] = useState(false);
   const handleClose = () => setShow(false);
 
   // origin is the searched address from the search bar, converted into url-friendly string
@@ -137,7 +139,8 @@ function BathroomsPage() {
   // 🔥🔥🔥🔥🔥 should be refactored at some point bc "Map View" button is no longer a toggle switch (it's a button)
   const toggleView = (e) => {
     e.preventDefault();
-    setIsChecked(!isChecked);
+    // isChecked is no longer doing anything because it is a button, not a toggle switch
+    // setIsChecked(!isChecked);
     dispatch({
       type: "TOGGLE_VIEW",
     });
