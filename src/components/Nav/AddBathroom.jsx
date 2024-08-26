@@ -4,16 +4,44 @@ import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useHistory } from 'react-router-dom';
 import { Button } from "@mui/material";
+import AddBathroomModal from "./AddBathroomModal";
 
 const AddBathroom = () => {
   const dispatch = useDispatch();
   const placeID = useSelector((store) => store.placeID);
   const replicatedBathroom = useSelector((store) => store.replicatedBathroom);
   const newBathroom = useSelector((store) => store.newBathroom);
+  let userId = useSelector((store) => store.user.id);
   const history = useHistory();
+
+    // React state for AddBathroomModal
+    const [modal2Show, setModal2Show] = useState(false);
 
 // captures value of address typed in search bar as local state
   const [searchBarAddress, setSearchBarAddress] = useState("");
+
+  const clickAddBathroom = () => {
+    if (userId) {
+      dispatch({
+        type: "SAGA/GET_PLACE_DETAILS",
+        payload: placeID,
+      });
+      setModal2Show(true);
+    } else
+      Swal.fire({
+        title: "Hey, stranger.",
+        imageUrl: "https://media.giphy.com/media/HULqwwF5tWKznstIEE/giphy.gif",
+        imageWidth: 360,
+        imageHeight: 203,
+        imageAlt: "Goat unicorn",
+        text: "Come here often? Log in to add a bathroom!",
+        confirmButtonText: "Log in",
+      }).then((result) => {
+        if (result.isConfirmed) {
+          history.push("/login");
+        }
+      });
+  };
 
   const goToDetails = (id) => {
     // maybe add a function to set the details before navigating
@@ -128,8 +156,15 @@ const AddBathroom = () => {
     {/* <h4>{searchBarAddress}</h4> */}
     <h4>{newBathroom.formatted_address}</h4>
     <p>Is this the right address?</p>
-    <Button variant="contained">Add bathroom</Button></div> : ""}
+    <Button variant="contained" onClick={() => clickAddBathroom()}>Add bathroom</Button></div> : ""}
     </div>}
+    <AddBathroomModal 
+        show={modal2Show}
+        setModal2Show={setModal2Show}
+        onHide={() => setModal2Show(false)}
+        aria-labelledby="add-bathroom-modal"
+        aria-describedby="Form to add a new bathroom to the database."
+        details={newBathroom}/>
         </>
     )
 }

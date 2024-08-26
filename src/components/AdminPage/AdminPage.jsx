@@ -6,7 +6,7 @@ import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
 import Table from "react-bootstrap/Table";
 import ApiBathroomItem from "../ApiBathroomItem/ApiBathroomItem";
-import AddBathrooms from "./AddBathrooms";
+import AddAPIBathrooms from "./AddAPIBathrooms";
 import DeleteBathrooms from "./DeleteBathrooms";
 
 function AdminPage() {
@@ -19,7 +19,7 @@ function AdminPage() {
         justify
       >
         <Tab eventKey="add" title="Add Bathrooms">
-          <AddBathrooms />
+          <AddAPIBathrooms />
         </Tab>
         <Tab eventKey="delete" title="Delete Bathrooms">
           <DeleteBathrooms />
