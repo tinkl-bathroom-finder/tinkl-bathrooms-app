@@ -1,10 +1,10 @@
 {
     "name": "tinkl - A Bathroom Finder App",
     "short_name": "tinkl",
-    "start_url": "./",
+    "start_url": "/",
     "orientation": "any",
     "theme_color": "#5272F2",
-    "scope": "./",
+    "scope": "/",
     "display": "standalone",
     "screenshots": [
         {
