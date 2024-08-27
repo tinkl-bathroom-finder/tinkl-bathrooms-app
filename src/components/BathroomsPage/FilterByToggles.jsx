@@ -21,9 +21,12 @@ function FilterByToggles() {
 }
 
     const togglePublic = () => {
+      // toggles redux state for toggle button
         dispatch({
           type: "TOGGLE_PUBLIC",
         });
+        
+        // toggles "open to public" filter
         dispatch({
             type: "SAGA/SET_FILTERS",
             payload: isPublic
