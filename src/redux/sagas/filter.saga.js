@@ -10,15 +10,17 @@ function* searchFilters(action){
           url: '/bathrooms'
         })
         let bathroomArray = response.data;
-        let filteredBathroomsArray = response.data.filter(function (br) {
+        let filteredBathroomsArray = response.data?.filter(function (br) {
             return br.public === action.payload;
         })
         if(action.payload === true){
+          console.log('isPublic is true')
         yield put({
           type: 'SET_BATHROOMS',
           payload: filteredBathroomsArray
         }) 
         } else if (action.payload === false){
+          console.log('isPublic is false')
             yield put({
                 type: 'SET_BATHROOMS',
                 payload: bathroomArray
