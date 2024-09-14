@@ -23,4 +23,23 @@ router.get('/', (req, res) => {
 
 });
 
+router.get('/:id', (req, res) => {
+  const query = /*sql*/`
+  SELECT * FROM "restrooms"
+  WHERE "restrooms".place_id = $1;
+  `
+  // req.params.id is Google Place ID
+  const values = [req.params.id];
+
+  pool
+    .query(query, values)
+    .then((dbRes) => {
+      res.send(dbRes.rows)
+    })
+    .catch((dbErr) => {
+      console.log("fail:", dbErr);
+      res.sendStatus(500);
+})
+});
+
 module.exports = router;

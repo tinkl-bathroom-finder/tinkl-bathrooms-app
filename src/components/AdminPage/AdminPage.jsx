@@ -6,8 +6,9 @@ import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
 import Table from "react-bootstrap/Table";
 import ApiBathroomItem from "../ApiBathroomItem/ApiBathroomItem";
-import AddAPIBathrooms from "./AddAPIBathrooms";
+import AddBathroom from "../Nav/AddBathroom"
 import DeleteBathrooms from "./DeleteBathrooms";
+import AdminUsers from "./AdminUsers"
 
 function AdminPage() {
   return (
@@ -19,7 +20,7 @@ function AdminPage() {
         justify
       >
         <Tab eventKey="add" title="Add Bathrooms">
-          <AddBathrooms />
+          <AddBathroom />
         </Tab>
         <Tab eventKey="delete" title="Delete Bathrooms">
           <DeleteBathrooms />
@@ -28,7 +29,7 @@ function AdminPage() {
           Tab content for Comments
         </Tab>
         <Tab eventKey="contact" title="Users">
-          Tab content for Contact
+          <AdminUsers/>
         </Tab>
       </Tabs>
       <div id="api-table"></div>

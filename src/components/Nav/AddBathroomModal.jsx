@@ -4,8 +4,9 @@ import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import { Form, Modal, ToggleButton, ToggleButtonGroup } from "react-bootstrap";
 
-function MarkAsFlaggedModal(props){
-    let [isClosed, setIsClosed] = useState(false);
+function AddBathroomModal(props){
+    console.log("props.details: ", props.details)
+    console.log("props.searchBarAddress.value: ", props.searchBarAddress.value)
 
     const style = {
         position: 'absolute',
@@ -25,7 +26,7 @@ function MarkAsFlaggedModal(props){
       props.setModal2Show(false);
       // popup window "confirming" submission
       Swal.fire({
-        title: "Thank you for sharing! Users help keep this app up-to-date.",
+        title: "Thank you for sharing! User-generated data is how we run.",
         width: 600,
         padding: "3em",
         color: "#716add",
@@ -37,6 +38,8 @@ function MarkAsFlaggedModal(props){
         left top
         no-repeat
       `,
+      }).then(function() {
+        
       });
     }      
 
@@ -59,52 +62,58 @@ function MarkAsFlaggedModal(props){
             <Form>
 
                 <Form.Group>
-                    <Form.Label>Name</Form.Label>
-                    <Form.Control type="text" defaultValue={props.details.name} disabled={isClosed}/>
+                    <Form.Label>Name*</Form.Label>
+                    <Form.Control type="text" defaultValue={props.searchBarAddress?.value?.structured_formatting?.main_text} required/>
                 </Form.Group>
 
                 <Form.Group>
-                    <Form.Label>Address</Form.Label>
-                    <Form.Control type="text" defaultValue={`${props.details.street}, ${props.details.city}, ${props.details.state}`} disabled={isClosed}/>
+                    <Form.Label>Address*</Form.Label>
+                    <Form.Control type="text" defaultValue={`${props.details.formatted_address}`} />
                 </Form.Group>
 
+                <Form.Group>
+                    <Form.Label>Please check whether the following apply to this bathroom:</Form.Label>
+                
                 <Form.Check 
                 type="checkbox"
                 defaultChecked={props.details.accessible}
                 label="Wheelchair accessible"
-                disabled={isClosed}
                 />
 
                 <Form.Check 
                 type="checkbox"
                 defaultChecked={props.details.changing_table}
                 label="Changing table"
-                disabled={isClosed}
                 />
 
                 <Form.Check 
                 type="checkbox"
                 defaultChecked={props.details.unisex}
                 label="Gender neutral/all-gender"
-                disabled={isClosed}
                 />
 
                 <Form.Check 
                 type="checkbox"
                 defaultChecked={props.details.single_stall}
                 label="Single stall"
-                disabled={isClosed}
                 />
+
+                <Form.Check 
+                type="checkbox"
+                defaultChecked={props.details.accessible}
+                label="Open to the public"
+                />
+                </Form.Group>
+
                 <Form.Group>
-                    <Form.Label>Other:</Form.Label>
+                    <Form.Label>Add a comment:</Form.Label>
                     <Form.Control type="text"/>
                 </Form.Group>
-                
-            <Form.Check 
-                type="checkbox"
-                label="Location is permanently closed"
-                onClick={() => setIsClosed(!isClosed)}
-                />
+
+                <Form.Group>
+                    <Form.Label>Any other information that admin should know?</Form.Label>
+                    <Form.Control type="text"/>
+                </Form.Group>
 
             </Form>
           </Modal.Body>
@@ -117,4 +126,4 @@ function MarkAsFlaggedModal(props){
   );
 }
 
-export default MarkAsFlaggedModal;
+export default AddBathroomModal;

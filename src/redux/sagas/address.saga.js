@@ -26,6 +26,43 @@ function* getAddressCoordinates(action) {
   }
 }
 
+function* getPlaceID (action) {
+  try {
+    const response = yield axios.get('/search/', { params: { convertedAddress: action.payload } });
+
+    yield put({
+      type: "SET_PLACE_ID",
+      payload: response.data.results[0].place_id
+    });
+    console.log("response.data.results[0].place_id: ", response.data.results[0].place_id)
+    const placeID = response.data.results[0].place_id
+
+    // checks database to see if a bathroom with that place ID is already listed
+    const foundPlaceID = yield axios.get(`/search/${placeID}`)
+    console.log('foundPlaceID.data', foundPlaceID.data)
+    { if (foundPlaceID.data.length !== 0) {
+      yield put({
+      type: 'SET_REPLICATED_BATHROOM_DETAILS',
+      payload: foundPlaceID.data[0]
+
+      // if it's not listed, sends response from Places API to newBathroom reducer
+    })} else { 
+      console.log("response.data.results[0]: ", response.data.results[0])
+      yield put({
+        type: "SET_NEW_BATHROOM_DETAILS",
+        payload: response.data.results[0]
+      })
+      
+      yield put({
+        type: "CLEAR_REPLICATED_BATHROOM_DETAILS"
+      })
+    }
+  }
+  } catch (error) {
+    console.error('Saga function getPlaceID failed', error);
+  }
+}
+
 function* setCurrentLocation(action) {
   try {
     console.log(
@@ -48,7 +85,8 @@ function* setCurrentLocation(action) {
 
 function* addressSaga() {
   yield takeLatest("SAGA/SEND_LOCATION", getAddressCoordinates);
-  yield takeLatest("SAGA/SET_CURRENT_LOCATION", setCurrentLocation);
+  yield takeLatest("SAGA/SET_CURRENT_LOCATION", setCurrentLocation);  
+  yield takeLatest("SAGA/GET_PLACE_ID", getPlaceID);  
 }
 
 export default addressSaga;
