@@ -56,12 +56,12 @@ function BathroomDetails() {
   const [expanded, setExpanded] = useState(false);
   const bathroom = theBathroomDetails;
 
-  // // Bathroom open/close 
-  // const date = new Date();
-  // let day = date.getDay(); // day comes back as number => 1 is Monday, 2 is Tuesday, etc.
-  // let hour = date.getHours() * 100; // formats hour as military time
-  // let minutes  = date.getMinutes();
-  // let militaryTime = hour + minutes // we don't actually need to convert this to a string since we want to compare it as a numeral
+  // Bathroom open/close 
+  const date = new Date();
+  let day = date.getDay(); // day comes back as number => 1 is Monday, 2 is Tuesday, etc.
+  let hour = date.getHours() * 100; // formats hour as military time
+  let minutes  = date.getMinutes();
+  let militaryTime = hour + minutes // we don't actually need to convert this to a string since we want to compare it as a numeral
 
 
    const compareTime = () => {
