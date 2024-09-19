@@ -22,6 +22,14 @@ Container
   padding: 20px;
 }
 
+.qr-container {
+  padding: 20px;
+  padding-top: 100px;
+  text-align: center;
+  justify-content: center;
+  align-items: center;
+}
+
 /* --------------------------------------------------------------------------------
 Button
 -------------------------------------------------------------------------------- */

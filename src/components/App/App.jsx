@@ -125,6 +125,7 @@ function App() {
           </Route>
 
           <Route exact path="/minnedemo">
+          <AppBarNav />
             <MinneDemo embedId="DuBkjVYZN4M"/>
           </Route>
 
@@ -139,12 +140,16 @@ function App() {
             {/* <MyMap /> */}
           </Route>
 
-          <Route 
+          <ProtectedRoute 
           exact 
           path="/addbathroom">
-          <AppBarNav />
+            {user.is_admin ? 
+            <>          
+            <AppBarNav />
           <AddBathroom />
-          </Route>
+          </> : <Redirect to="/bathrooms" />}
+
+          </ProtectedRoute>
 
 {/* for a specific bathroom with id :id */}
           <Route exact path="/bathrooms/:id">
