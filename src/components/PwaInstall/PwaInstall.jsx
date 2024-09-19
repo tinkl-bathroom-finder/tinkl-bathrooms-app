@@ -60,7 +60,7 @@ export const PwaInstall = () => {
     };
 
     const installIOS = () => {
-        alert(`To install this app on iOS tap the share icon and select "Add to Home Screen"`);
+        alert(`To install this app on iOS, make sure you are in Safari; then tap the share icon and select "Add to Home Screen"!`);
     }
 
     return (

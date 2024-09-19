@@ -128,8 +128,8 @@ function AppBarNav() {
       <List>
         <ListItem key="installApp" disablePadding>
           <ListItemButton>
-        <ListItemIcon>{<InstallMobileIcon />}</ListItemIcon>
-              <ListItemText primary="INSTALL APP" />
+        {/* <ListItemIcon>{<InstallMobileIcon />}</ListItemIcon> */}
+              {/* <ListItemText primary="INSTALL APP" /> */}
           <PwaInstall />
           </ListItemButton>
         </ListItem>
