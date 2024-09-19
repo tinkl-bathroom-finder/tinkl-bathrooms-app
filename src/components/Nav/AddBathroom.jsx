@@ -87,7 +87,7 @@ const AddBathroom = () => {
   const handleChange = (address) => {
     setSearchBarAddress(address);
   }
-
+ if (userId){
     return (
         <>
         <h1>Add bathroom</h1>
@@ -145,18 +145,26 @@ const AddBathroom = () => {
               }),
             },
           }}
+          
         />
+        <Button variant="contained" onClick={() => sendLocation()}>Search address</Button>
 {replicatedBathroom ? <div>
     <p>Do you mean:</p>
         <h4>{replicatedBathroom.name}</h4>
         <h4>{replicatedBathroom.street}</h4>
+        <p>Looks like that one's already in there!</p>
         <Button variant="contained" onClick={() => goToDetails(replicatedBathroom.id)}>Leave a Review instead</Button>
-</div> : <div>
-    {newBathroom ? <div>
+</div>
+ : 
+<div>
+    {newBathroom.formatted_address ? <div>
     {/* <h4>{searchBarAddress}</h4> */}
+        <h4>{searchBarAddress?.value?.structured_formatting?.main_text}</h4>
     <h4>{newBathroom.formatted_address}</h4>
     <p>Is this the right address?</p>
-    <Button variant="contained" onClick={() => clickAddBathroom()}>Add bathroom</Button></div> : ""}
+    <Button variant="contained" onClick={() => clickAddBathroom()}>Review bathroom info</Button></div> 
+    :
+     "Start typing an address to begin."}
     </div>}
     <AddBathroomModal 
         show={modal2Show}
@@ -167,7 +175,23 @@ const AddBathroom = () => {
         details={newBathroom}
         searchBarAddress={searchBarAddress}/>
         </>
-    )
+    )} else if (!userId){
+    Swal.fire({
+      title: "Hey, stranger.",
+      imageUrl: "https://media.giphy.com/media/HULqwwF5tWKznstIEE/giphy.gif",
+      imageWidth: 360,
+      imageHeight: 203,
+      imageAlt: "Goat unicorn",
+      text: "Come here often? Log in to add a bathroom!",
+      confirmButtonText: "Log in",
+    }).then((result) => {
+      if (result.isConfirmed) {
+        history.push("/login");
+      } else {
+        history.push("/bathrooms");
+      }
+    });
+  }
 }
 
 export default AddBathroom;
