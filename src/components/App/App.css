@@ -226,10 +226,12 @@ h5.about {
 
 h6.open {
 color: green;
+padding-left: 10px;
 }
 
 h6.closed {
   color: red;
+  padding-left: 10px;
 }
 
 .linkInDrawer:link {
