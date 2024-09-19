@@ -39,7 +39,7 @@ import {
   GroupOutlined,
   Help,
   WaterDrop,
-
+  QrCode2
 } from "@mui/icons-material";
 import InstallMobileIcon from '@mui/icons-material/InstallMobile';
 import MenuIcon from "@mui/icons-material/Menu";
@@ -181,6 +181,24 @@ function AppBarNav() {
             </ListItemButton>
           </Link>
         </ListItem>
+
+        <ListItem key="qr" disablePadding>
+          <Link
+            to="/minnedemo"
+            className="linkInDrawer"
+            onClick={() => setDrawerOpen(false)}
+            underline="none"
+          >
+            <ListItemButton onClick={toggleDrawer(anchor, false)}>
+              <ListItemIcon>
+                <QrCode2 />
+              </ListItemIcon>
+              <ListItemText primary="Show QR code" />
+            </ListItemButton>
+          </Link>
+        </ListItem>
+
+
 
         {/* Admin page - only appears if user is authorized as an admin */}
         {user.is_admin === true && (

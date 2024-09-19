@@ -5,9 +5,11 @@ import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import { Form, Modal, ToggleButton, ToggleButtonGroup } from "react-bootstrap";
 import axios from "axios";
+import { useHistory } from "react-router-dom";
 
 function AddBathroomModal(props) {
   const dispatch = useDispatch();
+  const history = useHistory();
   console.log("props.details: ", props.details)
   console.log("props.searchBarAddress.value: ", props.searchBarAddress.value)
 
@@ -89,10 +91,10 @@ function AddBathroomModal(props) {
   }
 
   const submitPopup = () => {
-    console.log("bathroomToAdd:", bathroomToAdd);
-    axios.post('/add', bathroomToAdd)
-      .then((res) => {
-        res.sendStatus(201)
+    // console.log("bathroomToAdd:", bathroomToAdd);
+    // axios.post('/add', bathroomToAdd)
+    //   .then((res) => {
+    //     res.sendStatus(201)
         // popup window "confirming" submission
         Swal.fire({
           title: "Thank you for sharing! User-generated data is how we run.",
@@ -108,19 +110,19 @@ function AddBathroomModal(props) {
           no-repeat
         `,
         }).then(function() {
-
+          history.push(`/bathrooms/`);
         });
-      })
-        .catch((error) => {
-        console.log("Error adding bathroom:", error);
-        res.sendStatus(500);
-        Swal.fire({
-          icon: "error",
-          title: "Oops...",
-          text: "Something went wrong! Let's try this again.",
+      // })
+      //   .catch((error) => {
+      //   console.log("Error adding bathroom:", error);
+      //   res.sendStatus(500);
+      //   Swal.fire({
+      //     icon: "error",
+      //     title: "Oops...",
+      //     text: "Something went wrong! Let's try this again.",
 
-        });
-      })
+      //   });
+      // })
             
 
   // closes modal
