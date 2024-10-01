@@ -9,7 +9,8 @@ function* submitContact(action) {
             data: action.payload
         })
         Swal.fire({
-            title: "Submitted!",
+            title: "Thank you!",
+            text: "Message recieved!",
             icon: "success"
         })
         action.setFeedbackState('')
