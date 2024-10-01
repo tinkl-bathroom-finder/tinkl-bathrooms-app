@@ -1,6 +1,21 @@
 import { put, take, takeLatest } from 'redux-saga/effects';
 import axios from 'axios';
 
+function* fetchContact() {
+    try {
+        const response = yield axios({
+            method: 'GET',
+            url: '/contact'
+        })
+        yield put({
+            type: 'SET_CONTACT_DATA',
+            payload: response.data
+        })
+    } catch (error) {
+        console.error('Saga function fetchContact failed:', error)
+    }
+}
+
 function* submitContact(action) {
     try {
         const response = yield axios({
@@ -20,10 +35,11 @@ function* submitContact(action) {
             text: "Something went wrong. Please try again later.",
             icon: "error"
         })
-        console.log('Saga function fetchBathrooms failed: ', error)
+        console.error('Saga function fetchBathrooms failed: ', error)
     }
 }
 
 export default function* contactSaga() {
+    yield takeLatest('SAGA/FETCH_CONTACT_DATA', fetchContact)
     yield takeLatest('SAGA/SUBMIT_CONTACT', submitContact);
 }
