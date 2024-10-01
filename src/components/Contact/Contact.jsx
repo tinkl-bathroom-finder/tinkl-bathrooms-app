@@ -16,7 +16,8 @@ export default function Contact() {
     if (feedback.length > 0) {
       dispatch({
         type: 'SAGA/SUBMIT_CONTACT',
-        payload: {feedback}
+        payload: {feedback},
+        setFeedbackState
       })
     } else {
       Swal.fire({
