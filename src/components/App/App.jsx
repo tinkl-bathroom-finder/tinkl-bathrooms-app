@@ -26,6 +26,7 @@ import AdminComments from "../AdminPage/AdminComments";
 import AdminUsers from "../AdminPage/AdminUsers";
 import AddBathroom from "../Nav/AddBathroom";
 import MinneDemo from './MinneDemo'
+import Contact from '../Contact/Contact'
 
 import Container from "react-bootstrap/Container";
 // import GoogleMapsWrapper from '../Wrapper';
@@ -173,6 +174,11 @@ function App() {
           >
           <AppBarNav />
             <UserProfile />
+          </ProtectedRoute>
+
+          <ProtectedRoute exact path="/contact">
+            <AppBarNav />
+            <Contact />
           </ProtectedRoute>
 
           <ProtectedRoute
