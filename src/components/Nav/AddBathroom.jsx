@@ -184,7 +184,6 @@ const AddBathroom = () => {
 
   // if user is not logged in display a login message
   } else if (!userId) {
-    console.log('you are not logged in!!!!')
     Swal.fire({
       title: "Hey, stranger.",
       imageUrl: "https://media.giphy.com/media/HULqwwF5tWKznstIEE/giphy.gif",
