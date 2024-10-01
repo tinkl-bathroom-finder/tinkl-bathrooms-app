@@ -16,8 +16,10 @@ const CompareTime = (props) => {
     let newClose5 = 0
     let newClose6 = 0
     let newClose0 = 0 
+
+    
     if (day === 1 && (Number(bathroom.day_1_open) > Number(bathroom.day_1_close))){
-      newClose1 = 2400 + Number(bathroom.day_1_close)
+       newClose1 = 2400 + Number(bathroom.day_1_close)
     }
     else if (day === 2 && (Number(bathroom.day_2_open) > Number(bathroom.day_2_close))){
       newClose2 = 2400 + Number(bathroom.day_2_close)
