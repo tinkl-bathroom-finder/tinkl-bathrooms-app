@@ -15,8 +15,8 @@ export default function Contact() {
   const submitFeedback = () => {
     if (feedback.length > 0) {
       dispatch({
-        type: 'SAGA/SEND_FEEDBACK',
-        payload: {'feedback': feedback}
+        type: 'SAGA/SUBMIT_CONTACT',
+        payload: feedback
       })
     } else {
       Swal.fire({
