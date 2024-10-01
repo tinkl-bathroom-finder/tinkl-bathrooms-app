@@ -214,7 +214,7 @@ function AppBarNav() {
               <ListItemIcon>
                 <FeedbackIcon />
               </ListItemIcon>
-              <ListItemText primary="Feedback" />
+              <ListItemText primary="Contact Us" />
             </ListItemButton>
           </Link>
         </ListItem>
