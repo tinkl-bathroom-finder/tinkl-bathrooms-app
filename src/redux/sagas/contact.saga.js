@@ -14,5 +14,5 @@ function* submitContact(action) {
 }
 
 export default function* contactSaga() {
-    yield takeLatest('SAGA/SUBMIT_CONTACT', fetchBathrooms);
+    yield takeLatest('SAGA/SUBMIT_CONTACT', submitContact);
 }
