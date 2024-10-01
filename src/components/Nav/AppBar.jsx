@@ -45,6 +45,7 @@ import {
 // misc. icons
 import InstallMobileIcon from '@mui/icons-material/InstallMobile';
 import FeedbackIcon from '@mui/icons-material/Feedback';
+import FeedbackOutlinedIcon from '@mui/icons-material/FeedbackOutlined';
 import MenuIcon from "@mui/icons-material/Menu";
 import InfoIcon from '@mui/icons-material/Info';
 import AdminPanelSettingsIcon from '@mui/icons-material/AdminPanelSettings';
@@ -298,6 +299,25 @@ function AppBarNav() {
                           <CommentOutlined />
                         </ListItemIcon>
                         <ListItemText primary="Comments" />
+                      </ListItemButton>
+                    </ListItem>
+                  </Link>
+
+                  <Link
+                    to="/admin/contact"
+                    className="linkInDrawer"
+                    onClick={() => setDrawerOpen(false)}
+                    underline="none"
+                  >
+                    <ListItem key="admin-contact" disablePadding>
+                      <ListItemButton
+                        sx={{ pl: 4 }}
+                        onClick={toggleDrawer(anchor, false)}
+                      >
+                        <ListItemIcon>
+                          <FeedbackOutlinedIcon />
+                        </ListItemIcon>
+                        <ListItemText primary="Contact" />
                       </ListItemButton>
                     </ListItem>
                   </Link>
