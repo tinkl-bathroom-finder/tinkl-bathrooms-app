@@ -39,14 +39,19 @@ import {
   GroupOutlined,
   Help,
   WaterDrop,
-  QrCode2
+  QrCode2,
 } from "@mui/icons-material";
+
+// misc. icons
 import InstallMobileIcon from '@mui/icons-material/InstallMobile';
+import FeedbackIcon from '@mui/icons-material/Feedback';
 import MenuIcon from "@mui/icons-material/Menu";
-import { deepPurple } from '@mui/material/colors';
-import AdminPanelSettingsIcon from '@mui/icons-material/AdminPanelSettings';
 import InfoIcon from '@mui/icons-material/Info';
+import AdminPanelSettingsIcon from '@mui/icons-material/AdminPanelSettings';
+
+import { deepPurple } from '@mui/material/colors';
 import { PwaInstall } from "../PwaInstall/PwaInstall";
+
 
 function AppBarNav() {
   const dispatch = useDispatch();
@@ -128,9 +133,9 @@ function AppBarNav() {
       <List>
         <ListItem key="installApp" disablePadding>
           <ListItemButton>
-        {/* <ListItemIcon>{<InstallMobileIcon />}</ListItemIcon> */}
-              {/* <ListItemText primary="INSTALL APP" /> */}
-          <PwaInstall />
+            {/* <ListItemIcon>{<InstallMobileIcon />}</ListItemIcon> */}
+            {/* <ListItemText primary="INSTALL APP" /> */}
+            <PwaInstall />
           </ListItemButton>
         </ListItem>
 
@@ -198,7 +203,21 @@ function AppBarNav() {
           </Link>
         </ListItem>
 
-
+        <ListItem key="contact" disablePadding>
+          <Link
+            to="/contact"
+            className="linkInDrawer"
+            onClick={() => setDrawerOpen(false)}
+            underline="none"
+          >
+            <ListItemButton onClick={toggleDrawer(anchor, false)}>
+              <ListItemIcon>
+                <FeedbackIcon />
+              </ListItemIcon>
+              <ListItemText primary="Contact Us" />
+            </ListItemButton>
+          </Link>
+        </ListItem>
 
         {/* Admin page - only appears if user is authorized as an admin */}
         {user.is_admin === true && (
@@ -210,7 +229,7 @@ function AppBarNav() {
                 className="linkInDrawer"
                 // onClick={() => setDrawerOpen(false)}
                 underline="none"
-              > */}
+                > */}
               <ListItemButton onClick={handleClick}>
                 <ListItemIcon>
                   <AdminPanelSettingsIcon />

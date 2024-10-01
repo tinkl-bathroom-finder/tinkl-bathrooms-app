@@ -46,6 +46,113 @@ import MoreVertIcon from "@mui/icons-material/MoreVert";
 import { styled } from "@mui/material/styles";
 import Grid2 from "@mui/material/Unstable_Grid2/Grid2";
 
+function IPeedHereModal(props) {
+  const dispatch = useDispatch();
+  const [voteSelected, setVoteSelected] = useState(false); // state tracking whether the user has voted
+  const submitFeedback = () => {
+    // Check if the user has voted before submitting feedback
+    if (voteSelected) {
+
+    // if a user is signed in, submit will send feedback; otherwise,
+    // an alert will popup asking the guest to log in to leave feedback.
+    console.log("onHide:", props.onHide);
+    if (props.userId) {
+      console.log("feedbackObject:", props.feedbackObject);
+      dispatch({
+        type: "SAGA/SEND_FEEDBACK",
+        payload: props.feedbackObject,
+      });
+      Swal.fire({
+        title: "Thank you for sharing! Users help keep this app up-to-date.",
+        width: 600,
+        padding: "3em",
+        color: "#716add",
+        background:
+          "#fff url(https://media.giphy.com/media/ifMCKz51hfD9RUWXbI/giphy.gif)",
+        backdrop: `
+        rgba(0,0,123,0.4)
+        url("https://media.giphy.com/media/mTs11L9uuyGiI/giphy.gif")
+        left top
+        no-repeat
+      `,
+      });
+    } else if (!props.userId) {
+      Swal.fire({
+        title: "Register or log in to leave feedback!",
+        text: "Users help keep this app up-to-date.",
+        icon: "question",
+      });
+      // closes modal after submitting feedback
+    }
+    props.onHide();
+  } else {
+    // Show a message indicating that the user needs to vote before submitting
+    Swal.fire({
+      title: "Please vote before submitting feedback!",
+      icon: "error",
+    });
+  }
+  };
+
+  return (
+    <Modal
+      show={props.show}
+      onHide={props.onHide}
+      size="sm"
+      aria-labelledby="contained-modal-title-vcenter"
+      centered
+    >
+      <Modal.Header closeButton>
+        <Modal.Title id="contained-modal-title-vcenter">
+          How was your experience?
+        </Modal.Title>
+      </Modal.Header>
+      <Modal.Body>
+        <Form>
+          <ToggleButtonGroup type="radio" name="options">
+            <ToggleButton
+              id="tbg-radio-2"
+              value={2}
+              onClick={() => props.handleVoteChange(2)}
+            >
+              👍
+            </ToggleButton>
+            <ToggleButton
+              id="tbg-radio-3"
+              value={1}
+              onClick={() => props.handleVoteChange(1)}
+            >
+              👎
+            </ToggleButton>
+          </ToggleButtonGroup>
+          <br />
+          <Form.Group controlId="commentForm">
+            <Form.Label>Leave a comment:</Form.Label>
+            <Form.Control
+              componentClass="input"
+              id="comment"
+              type="text"
+              aria-describedby="comment"
+              onChange={(e) => props.handleInputChange(e)}
+              value={props.comment}
+              // inputRef = {(ref) => this.comment = ref }
+              // ref="ReactDOM.findDOMNode(ref)"
+            />
+          </Form.Group>
+        </Form>
+      </Modal.Body>
+      <Modal.Footer>
+        <Button
+          as="input"
+          type="submit"
+          value="Submit"
+          onClick={submitFeedback}
+        ></Button>
+      </Modal.Footer>
+    </Modal>
+  );
+}
+
 function BathroomDetails() {
   // this gets us the bathroom id that exists in the url bar
   const params = useParams();

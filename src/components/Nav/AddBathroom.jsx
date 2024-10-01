@@ -1,4 +1,3 @@
-
 import GooglePlacesAutocomplete from "react-google-places-autocomplete";
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
@@ -7,18 +6,20 @@ import { Button } from "@mui/material";
 import AddBathroomModal from "./AddBathroomModal";
 
 const AddBathroom = () => {
+
   const dispatch = useDispatch();
+  const history = useHistory();
+
   const placeID = useSelector((store) => store.placeID);
   const replicatedBathroom = useSelector((store) => store.replicatedBathroom);
   const newBathroom = useSelector((store) => store.newBathroom);
   let userId = useSelector((store) => store.user.id);
-  const history = useHistory();
 
-    // React state for AddBathroomModal
-    const [modal2Show, setModal2Show] = useState(false);
-
-// captures value of address typed in search bar as local state
+  // React state for AddBathroomModal
+  const [modal2Show, setModal2Show] = useState(false);
+  // captures value of address typed in search bar as local state
   const [searchBarAddress, setSearchBarAddress] = useState("");
+
 
   const clickAddBathroom = () => {
     if (userId) {
@@ -46,11 +47,11 @@ const AddBathroom = () => {
   const goToDetails = (id) => {
     // maybe add a function to set the details before navigating
     // to the bathroom details page
-      history.push(`/bathrooms/${id}`)
-    }
+    history.push(`/bathrooms/${id}`)
+  }
 
-   // sends address types into Autocomplete box to server to get bathrooms list
-   const sendLocation = () => {
+  // sends address types into Autocomplete box to server to get bathrooms list
+  const sendLocation = () => {
     // Ensures that sendLocation isn't triggered when search box is cleared
     if (searchBarAddress === null) {
       return;
@@ -68,7 +69,8 @@ const AddBathroom = () => {
         payload: convertedAddress,
       });
     }
-  };
+  }
+
   // Runs when search menu is closed, allowing whatever has been selected to be sent to sendLocation()
   const menuClosed = () => {
     if (searchBarAddress === "") {
@@ -76,20 +78,23 @@ const AddBathroom = () => {
     } else {
       sendLocation();
     }
-  };
+  }
+
   // Runs when search menu is opened, emptying the menu of text
   const menuOpened = () => {
     if (searchBarAddress !== "") {
       setSearchBarAddress("");
     }
-  };
+  }
 
   const handleChange = (address) => {
     setSearchBarAddress(address);
   }
- if (userId){
+
+  // if user is logged in, display add bathroom feature
+  if (userId) {
     return (
-        <>
+      <>
         <h1>Add bathroom</h1>
         <GooglePlacesAutocomplete
           selectProps={{
@@ -145,37 +150,40 @@ const AddBathroom = () => {
               }),
             },
           }}
-          
+
         />
         <Button variant="contained" onClick={() => sendLocation()}>Search address</Button>
-{replicatedBathroom ? <div>
-    <p>Do you mean:</p>
-        <h4>{replicatedBathroom.name}</h4>
-        <h4>{replicatedBathroom.street}</h4>
-        <p>Looks like that one's already in there!</p>
-        <Button variant="contained" onClick={() => goToDetails(replicatedBathroom.id)}>Leave a Review instead</Button>
-</div>
- : 
-<div>
-    {newBathroom.formatted_address ? <div>
-    {/* <h4>{searchBarAddress}</h4> */}
-        <h4>{searchBarAddress?.value?.structured_formatting?.main_text}</h4>
-    <h4>{newBathroom.formatted_address}</h4>
-    <p>Is this the right address?</p>
-    <Button variant="contained" onClick={() => clickAddBathroom()}>Review bathroom info</Button></div> 
-    :
-     "Start typing an address to begin."}
-    </div>}
-    <AddBathroomModal 
-        show={modal2Show}
-        setModal2Show={setModal2Show}
-        onHide={() => setModal2Show(false)}
-        aria-labelledby="add-bathroom-modal"
-        aria-describedby="Form to add a new bathroom to the database."
-        details={newBathroom}
-        searchBarAddress={searchBarAddress}/>
-        </>
-    )} else if (!userId){
+        {replicatedBathroom ? <div>
+          <p>Do you mean:</p>
+          <h4>{replicatedBathroom.name}</h4>
+          <h4>{replicatedBathroom.street}</h4>
+          <p>Looks like that one's already in there!</p>
+          <Button variant="contained" onClick={() => goToDetails(replicatedBathroom.id)}>Leave a Review instead</Button>
+        </div>
+          :
+          <div>
+            {newBathroom.formatted_address ? <div>
+              {/* <h4>{searchBarAddress}</h4> */}
+              <h4>{searchBarAddress?.value?.structured_formatting?.main_text}</h4>
+              <h4>{newBathroom.formatted_address}</h4>
+              <p>Is this the right address?</p>
+              <Button variant="contained" onClick={() => clickAddBathroom()}>Review bathroom info</Button></div>
+              :
+              "Start typing an address to begin."}
+          </div>}
+        <AddBathroomModal
+          show={modal2Show}
+          setModal2Show={setModal2Show}
+          onHide={() => setModal2Show(false)}
+          aria-labelledby="add-bathroom-modal"
+          aria-describedby="Form to add a new bathroom to the database."
+          details={newBathroom}
+          searchBarAddress={searchBarAddress} />
+      </>
+    )
+
+  // if user is not logged in display a login message
+  } else if (!userId) {
     Swal.fire({
       title: "Hey, stranger.",
       imageUrl: "https://media.giphy.com/media/HULqwwF5tWKznstIEE/giphy.gif",

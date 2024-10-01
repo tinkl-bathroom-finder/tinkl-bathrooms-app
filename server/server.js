@@ -17,6 +17,7 @@ const feedbackRouter = require('./routes/feedback.router')
 const apiRouter = require('./routes/api.router')
 const userCommentsRouter = require('./routes/userComments.router')
 const addBathroomRouter = require('./routes/addBathroom.router')
+const contactRouter = require('./routes/contact.router')
 
 
 // Body parser middleware
@@ -48,6 +49,8 @@ app.use('/api', apiRouter);
 app.use('/comments', userCommentsRouter)
 // get route to place details API to add a new bathroom
 app.use('/add', addBathroomRouter)
+// route for contact
+app.use('/contact', contactRouter)
 
 // Serve static files
 app.use(express.static('build'));

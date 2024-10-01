@@ -26,6 +26,7 @@ import AdminComments from "../AdminPage/AdminComments";
 import AdminUsers from "../AdminPage/AdminUsers";
 import AddBathroom from "../Nav/AddBathroom";
 import MinneDemo from './MinneDemo'
+import Contact from '../Contact/Contact'
 
 import Container from "react-bootstrap/Container";
 // import GoogleMapsWrapper from '../Wrapper';
@@ -140,16 +141,14 @@ function App() {
             {/* <MyMap /> */}
           </Route>
 
-          <ProtectedRoute 
+          <Route 
           exact 
           path="/addbathroom">
-            {user.is_admin ? 
             <>          
-            <AppBarNav />
-          <AddBathroom />
-          </> : <Redirect to="/bathrooms" />}
-
-          </ProtectedRoute>
+              <AppBarNav />
+              <AddBathroom />
+            </>
+          </Route>
 
 {/* for a specific bathroom with id :id */}
           <Route exact path="/bathrooms/:id">
@@ -175,6 +174,11 @@ function App() {
           >
           <AppBarNav />
             <UserProfile />
+          </ProtectedRoute>
+
+          <ProtectedRoute exact path="/contact">
+            <AppBarNav />
+            <Contact />
           </ProtectedRoute>
 
           <ProtectedRoute
