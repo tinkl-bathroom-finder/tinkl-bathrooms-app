@@ -29,7 +29,6 @@ function* getAddressCoordinates(action) {
 function* getPlaceID (action) {
   try {
     const response = yield axios.get('/search/', { params: { convertedAddress: action.payload } });
-
     yield put({
       type: "SET_PLACE_ID",
       payload: response.data.results[0].place_id

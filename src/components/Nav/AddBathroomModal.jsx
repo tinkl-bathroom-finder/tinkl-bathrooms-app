@@ -179,27 +179,32 @@ return (
             <Form.Check
               type="checkbox"
               label="Changing table"
+              onChange={() => setChangingTableValue()}
             />
 
             <Form.Check
               type="checkbox"
               label="Gender neutral/all-gender"
+              onChange={() => setUnisexValue()}
             />
 
             <Form.Check
               type="checkbox"
               label="Single stall"
+              onChange={() => setSingleStallValue()}
             />
 
             <Form.Check
               type="checkbox"
               label="Open to the public"
+              onChange={() => setPublicValue()}
             />
           </Form.Group>
 
           <Form.Group>
             <Form.Label>Add a comment:</Form.Label>
-            <Form.Control type="text" />
+            <Form.Control type="text" 
+            onChange={(e) => setCommentValue(e)} />
           </Form.Group>
 
           <Form.Group>
