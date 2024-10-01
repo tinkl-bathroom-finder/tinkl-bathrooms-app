@@ -69,21 +69,17 @@ function AddBathroomModal(props) {
   const setAccessibleValue = () => {
     setAccessible(!accessible);
   }
-  const setPublicValue = (e) => {
-    e.preventDefault();
-    setIsPublic(e.target.value);
+  const setPublicValue = () => {
+    setIsPublic(!isPublic);
   }
-  const setUnisexValue = (e) => {
-    e.preventDefault();
-    setUnisex(e.target.value);
+  const setUnisexValue = () => {
+    setUnisex(!unisex);
   }
-  const setChangingTableValue = (e) => {
-    e.preventDefault();
-    setChangingTable(e.target.value);
+  const setChangingTableValue = () => {
+    setChangingTable(!changingTable);
   }
-  const setSingleStallValue = (e) => {
-    e.preventDefault();
-    setSingleStall(e.target.value);
+  const setSingleStallValue = () => {
+    setSingleStall(!singleStall);
   }
   const setCommentForAdminValue = (e) => {
     e.preventDefault();
