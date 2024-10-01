@@ -12,12 +12,18 @@ const BusinessHours = (props) => {
 
   const convertToTwelveHourTime = (time) => {
     let twelveHourTime = time/100
-    let amOrPm = "am" 
+    let amOrPm = "am"
     if (time > 1200) {
       twelveHourTime = twelveHourTime - 12
       amOrPm = "pm"
     
+    }else if (time == 1200){
+      amOrPm = "pm"
+    }else if (time == 0) {
+      twelveHourTime = 12
     }
+    
+    // console.log('am/pm', amOrPm, time )
     return `${twelveHourTime}${amOrPm}`
   }
   if( bathroom.day_1_open || bathroom.day_2_open || bathroom.day_3_open || bathroom.day_4_open || bathroom.day_5_open ||  bathroom.day_6_open ){
