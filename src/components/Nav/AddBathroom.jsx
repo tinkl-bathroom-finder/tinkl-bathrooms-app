@@ -20,11 +20,16 @@ const AddBathroom = () => {
 // captures value of address typed in search bar as local state
   const [searchBarAddress, setSearchBarAddress] = useState("");
 
-  const [addressForModal, setAddressForModal] = useState(newBathroom?.formatted_address);
-  const [nameForModal, setNameForModal] = useState(searchBarAddress?.value?.structured_formatting?.main_text);
+  const [addressForModal, setAddressForModal] = useState('');
+  const [nameForModal, setNameForModal] = useState('');
+
+  console.log('newBathroom?.formatted_address', newBathroom?.formatted_address, 'searchBarAddress?.value?.structured_formatting?.main_text', searchBarAddress?.value?.structured_formatting?.main_text);
+  console.log('address for modal:', addressForModal, 'name for modal:', nameForModal);
 
   const clickAddBathroom = () => {
     if (userId) {
+      setAddressForModal(searchBarAddress.value.description)
+      setNameForModal(searchBarAddress?.value?.structured_formatting?.main_text)
       dispatch({
         type: "SAGA/GET_PLACE_DETAILS",
         payload: placeID,
@@ -60,7 +65,7 @@ const AddBathroom = () => {
     }
     // biome-ignore lint/style/noUselessElse: <explanation>
     else if (searchBarAddress !== "") {
-      console.log("searchBarAddress: ", searchBarAddress);
+      // console.log("searchBarAddress: ", searchBarAddress);
       // converts address to url-friendly string
       const convertedAddress = searchBarAddress.value.description
         .split(" ")
