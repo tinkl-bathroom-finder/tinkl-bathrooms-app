@@ -184,7 +184,8 @@ const AddBathroom = () => {
         nameForModal={nameForModal}
         setNameForModal={setNameForModal}
         latitude={newBathroom?.geometry?.location?.lat}
-        longitude={newBathroom?.geometry?.location?.lng}/>
+        longitude={newBathroom?.geometry?.location?.lng}
+        placeID={newBathroom?.place_id}/>
         </>
     )} else if (!userId){
     Swal.fire({

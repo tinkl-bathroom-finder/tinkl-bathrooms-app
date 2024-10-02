@@ -11,24 +11,20 @@ function AddBathroomModal(props) {
   const dispatch = useDispatch();
   const history = useHistory();
 
-  console.log("props: ", props)
-
+  // console.log("props: ", props)
 
   let [comment, setComment] = useState(""); // sets local state for comment
-  // let [name, setName] = useState('');
-  // let [formattedAddress, setFormattedAddress] = useState('');
   let [accessible, setAccessible] = useState(false);
   let [isPublic, setIsPublic] = useState(false);
   let [unisex, setUnisex] = useState(false);
   let [changingTable, setChangingTable] = useState(false);
   let [singleStall, setSingleStall] = useState(false);
-  let [latitude, setLatitude] = useState(0);
-  let [longitude, setLongitude] = useState(0);
   let [commentForAdmin, setCommentForAdmin] = useState("");
 
   let userId = useSelector((store) => store.user.id);
   
   let bathroomToAdd = {
+    placeID: props.placeID,
     name: props.nameForModal,
     formatted_address: props.addressForModal,
     accessible: accessible,
@@ -92,9 +88,9 @@ function AddBathroomModal(props) {
 
   const submitPopup = () => {
     console.log("bathroomToAdd:", bathroomToAdd);
-    // axios.post('/add', bathroomToAdd)
-    //   .then((res) => {
-    //     res.sendStatus(201)
+    axios.get('/add', bathroomToAdd)
+      .then((res) => {
+        res.sendStatus(201)
         // popup window "confirming" submission
         Swal.fire({
           title: "Thank you for sharing! User-generated data is how we run.",
@@ -112,17 +108,17 @@ function AddBathroomModal(props) {
         }).then(function() {
           history.push(`/bathrooms/`);
         });
-      // })
-      //   .catch((error) => {
-      //   console.log("Error adding bathroom:", error);
-      //   res.sendStatus(500);
-      //   Swal.fire({
-      //     icon: "error",
-      //     title: "Oops...",
-      //     text: "Something went wrong! Let's try this again.",
+      })
+        .catch((error) => {
+        console.log("Error adding bathroom:", error);
+        res.sendStatus(500);
+        Swal.fire({
+          icon: "error",
+          title: "Oops...",
+          text: "Something went wrong! Let's try this again.",
 
-      //   });
-      // })
+        });
+      })
             
 
   // closes modal
