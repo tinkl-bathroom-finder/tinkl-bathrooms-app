@@ -36,8 +36,8 @@ function AddBathroomModal(props) {
     unisex: unisex,
     changing_table: changingTable,
     single_stall: singleStall,
-    latitude: latitude,
-    longitude: longitude,
+    latitude: props.latitude,
+    longitude: props.longitude,
     user_id: userId,
     commentForAdmin: commentForAdmin,
     comment: comment

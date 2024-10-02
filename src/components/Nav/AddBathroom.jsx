@@ -14,17 +14,17 @@ const AddBathroom = () => {
   let userId = useSelector((store) => store.user.id);
   const history = useHistory();
 
+  console.log('new bathroom: ', newBathroom);
+
     // React state for AddBathroomModal
     const [modal2Show, setModal2Show] = useState(false);
+    const [addressForModal, setAddressForModal] = useState('');
+    const [nameForModal, setNameForModal] = useState('');
 
 // captures value of address typed in search bar as local state
   const [searchBarAddress, setSearchBarAddress] = useState("");
 
-  const [addressForModal, setAddressForModal] = useState('');
-  const [nameForModal, setNameForModal] = useState('');
 
-  console.log('newBathroom?.formatted_address', newBathroom?.formatted_address, 'searchBarAddress?.value?.structured_formatting?.main_text', searchBarAddress?.value?.structured_formatting?.main_text);
-  console.log('address for modal:', addressForModal, 'name for modal:', nameForModal);
 
   const clickAddBathroom = () => {
     if (userId) {
@@ -182,7 +182,9 @@ const AddBathroom = () => {
         addressForModal={addressForModal}
         setAddressForModal={setAddressForModal}
         nameForModal={nameForModal}
-        setNameForModal={setNameForModal}/>
+        setNameForModal={setNameForModal}
+        latitude={newBathroom?.geometry?.location?.lat}
+        longitude={newBathroom?.geometry?.location?.lng}/>
         </>
     )} else if (!userId){
     Swal.fire({
