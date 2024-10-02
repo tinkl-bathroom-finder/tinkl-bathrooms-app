@@ -20,6 +20,9 @@ const AddBathroom = () => {
 // captures value of address typed in search bar as local state
   const [searchBarAddress, setSearchBarAddress] = useState("");
 
+  const [addressForModal, setAddressForModal] = useState(newBathroom?.formatted_address);
+  const [nameForModal, setNameForModal] = useState(searchBarAddress?.value?.structured_formatting?.main_text);
+
   const clickAddBathroom = () => {
     if (userId) {
       dispatch({
@@ -157,10 +160,9 @@ const AddBathroom = () => {
 </div>
  : 
 <div>
-    {newBathroom.formatted_address ? <div>
-    {/* <h4>{searchBarAddress}</h4> */}
-        <h4>{searchBarAddress?.value?.structured_formatting?.main_text}</h4>
-    <h4>{newBathroom.formatted_address}</h4>
+    {newBathroom?.formatted_address ? <div>
+    <h4>{searchBarAddress?.value?.structured_formatting?.main_text}</h4>
+    <h4>{newBathroom?.formatted_address}</h4>
     <p>Is this the right address?</p>
     <Button variant="contained" onClick={() => clickAddBathroom()}>Review bathroom info</Button></div> 
     :
@@ -172,8 +174,10 @@ const AddBathroom = () => {
         onHide={() => setModal2Show(false)}
         aria-labelledby="add-bathroom-modal"
         aria-describedby="Form to add a new bathroom to the database."
-        details={newBathroom}
-        searchBarAddress={searchBarAddress}/>
+        addressForModal={addressForModal}
+        setAddressForModal={setAddressForModal}
+        nameForModal={nameForModal}
+        setNameForModal={setNameForModal}/>
         </>
     )} else if (!userId){
     Swal.fire({

@@ -10,12 +10,13 @@ import { useHistory } from "react-router-dom";
 function AddBathroomModal(props) {
   const dispatch = useDispatch();
   const history = useHistory();
-  console.log("props.details: ", props.details)
-  console.log("props.searchBarAddress.value: ", props.searchBarAddress.value)
+
+  console.log("props: ", props)
+
 
   let [comment, setComment] = useState(""); // sets local state for comment
-  let [name, setName] = useState(props.searchBarAddress?.value?.structured_formatting?.main_text);
-  let [formattedAddress, setFormattedAddress] = useState(props.details.formatted_address);
+  let [name, setName] = useState('');
+  let [formattedAddress, setFormattedAddress] = useState('');
   let [accessible, setAccessible] = useState(false);
   let [isPublic, setIsPublic] = useState(false);
   let [unisex, setUnisex] = useState(false);
@@ -26,7 +27,7 @@ function AddBathroomModal(props) {
   let [commentForAdmin, setCommentForAdmin] = useState("");
 
   let userId = useSelector((store) => store.user.id);
-
+  
   let bathroomToAdd = {
     name: name,
     formatted_address: formattedAddress,
@@ -37,7 +38,9 @@ function AddBathroomModal(props) {
     single_stall: singleStall,
     latitude: latitude,
     longitude: longitude,
-    user_id: userId
+    user_id: userId,
+    commentForAdmin: commentForAdmin,
+    comment: comment
   }
 
   const style = {
@@ -54,10 +57,7 @@ function AddBathroomModal(props) {
   }
 
   // handle change
-  const setCommentValue = (e) => {
-    e.preventDefault();
-    setComment(e.target.value);
-  }
+
   const setNameValue = (e) => {
     e.preventDefault();
     setName(e.target.value);
@@ -69,17 +69,21 @@ function AddBathroomModal(props) {
   const setAccessibleValue = () => {
     setAccessible(!accessible);
   }
-  const setPublicValue = () => {
-    setIsPublic(!isPublic);
+  const setChangingTableValue = () => {
+    setChangingTable(!changingTable);
   }
   const setUnisexValue = () => {
     setUnisex(!unisex);
   }
-  const setChangingTableValue = () => {
-    setChangingTable(!changingTable);
-  }
   const setSingleStallValue = () => {
     setSingleStall(!singleStall);
+  }
+  const setPublicValue = () => {
+    setIsPublic(!isPublic);
+  }
+  const setCommentValue = (e) => {
+    e.preventDefault();
+    setComment(e.target.value);
   }
   const setCommentForAdminValue = (e) => {
     e.preventDefault();
@@ -87,7 +91,7 @@ function AddBathroomModal(props) {
   }
 
   const submitPopup = () => {
-    // console.log("bathroomToAdd:", bathroomToAdd);
+    console.log("bathroomToAdd:", bathroomToAdd);
     // axios.post('/add', bathroomToAdd)
     //   .then((res) => {
     //     res.sendStatus(201)
@@ -148,7 +152,6 @@ return (
             <Form.Label>Name*</Form.Label>
             <Form.Control
               type="text"
-              defaultValue={props.searchBarAddress?.value?.structured_formatting?.main_text}
               onChange={(e) => setNameValue(e)}
               value={name}
               required />
@@ -158,9 +161,10 @@ return (
             <Form.Label>Address*</Form.Label>
             <Form.Control
               type="text"
-              defaultValue={`${props.details.formatted_address}`}
               onChange={(e) => setAddressValue(e)}
-              value={formattedAddress} />
+              value={formattedAddress} 
+              required
+              />
           </Form.Group>
 
           <Form.Group>

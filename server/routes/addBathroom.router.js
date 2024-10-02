@@ -6,7 +6,7 @@ const { rejectUnauthenticated } = require("../modules/authentication-middleware"
 const router = express.Router();
 
 router.get('/', (req, res) => {
-    const apiKey = process.env.GOOGLE_MAPS_API_KEY
+    const apiKey = process.env.GOOGLE_PLACES_API_KEY
     console.log("Search API - req.query: ", req.query.placeID);
   
     axios({
@@ -24,22 +24,24 @@ router.get('/', (req, res) => {
   
   });
 
-  router.post('/', rejectUnauthenticated, (req, res) => {
-    console.log('req.body: ', req.body)
-    const query = /*sql*/`
-    INSERT INTO "restrooms"
-    ( "name", 
-    "formatted_address", 
-    "accessible", 
-    "public", 
-    "unisex", 
-    "changing_table", 
-    "single_stall", 
-    "latitude", 
-    "longitude",
-    "added_by_user")
-    VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10)
-    RETURNING "id";`
+  router.post('/add', rejectUnauthenticated, (req, res) => {
+    console.log('req.body to add bathroom: ', req.body)
+    // const query = /*sql*/`
+    // INSERT INTO "restrooms"
+    // ( "name", 
+    // "formatted_address", 
+    // "accessible", 
+    // "public", 
+    // "unisex", 
+    // "changing_table", 
+    // "single_stall", 
+    // "latitude", 
+    // "longitude",
+    // "added_by_user")
+    // VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10)
+    // RETURNING "id";`
   })
+
+  //add user comment after creating the bathroom
 
   module.exports = router;
