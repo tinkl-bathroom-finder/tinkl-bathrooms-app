@@ -15,8 +15,8 @@ function AddBathroomModal(props) {
 
 
   let [comment, setComment] = useState(""); // sets local state for comment
-  let [name, setName] = useState('');
-  let [formattedAddress, setFormattedAddress] = useState('');
+  // let [name, setName] = useState('');
+  // let [formattedAddress, setFormattedAddress] = useState('');
   let [accessible, setAccessible] = useState(false);
   let [isPublic, setIsPublic] = useState(false);
   let [unisex, setUnisex] = useState(false);
@@ -29,8 +29,8 @@ function AddBathroomModal(props) {
   let userId = useSelector((store) => store.user.id);
   
   let bathroomToAdd = {
-    name: name,
-    formatted_address: formattedAddress,
+    name: props.nameForModal,
+    formatted_address: props.addressForModal,
     accessible: accessible,
     is_public: isPublic,
     unisex: unisex,
@@ -60,11 +60,11 @@ function AddBathroomModal(props) {
 
   const setNameValue = (e) => {
     e.preventDefault();
-    setName(e.target.value);
+    props.setNameForModal(e.target.value);
   }
   const setAddressValue = (e) => {
     e.preventDefault();
-    setFormattedAddress(e.target.value);
+    props.setAddressForModal(e.target.value);
   }
   const setAccessibleValue = () => {
     setAccessible(!accessible);
@@ -153,7 +153,7 @@ return (
             <Form.Control
               type="text"
               onChange={(e) => setNameValue(e)}
-              value={name}
+              value={props.nameForModal}
               required />
           </Form.Group>
 
@@ -162,7 +162,7 @@ return (
             <Form.Control
               type="text"
               onChange={(e) => setAddressValue(e)}
-              value={formattedAddress} 
+              value={props.addressForModal} 
               required
               />
           </Form.Group>

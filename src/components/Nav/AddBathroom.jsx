@@ -28,7 +28,7 @@ const AddBathroom = () => {
 
   const clickAddBathroom = () => {
     if (userId) {
-      setAddressForModal(searchBarAddress.value.description)
+      setAddressForModal(newBathroom?.formatted_address)
       setNameForModal(searchBarAddress?.value?.structured_formatting?.main_text)
       dispatch({
         type: "SAGA/GET_PLACE_DETAILS",
