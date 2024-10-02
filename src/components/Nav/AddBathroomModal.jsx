@@ -22,7 +22,7 @@ function AddBathroomModal(props) {
   let [commentForAdmin, setCommentForAdmin] = useState("");
 
   let userId = useSelector((store) => store.user.id);
-  
+
   let bathroomToAdd = {
     placeID: props.placeID,
     name: props.nameForModal,
@@ -90,7 +90,6 @@ function AddBathroomModal(props) {
     console.log("bathroomToAdd:", bathroomToAdd);
     axios.get('/add', bathroomToAdd)
       .then((res) => {
-        res.sendStatus(201)
         // popup window "confirming" submission
         Swal.fire({
           title: "Thank you for sharing! User-generated data is how we run.",
@@ -105,13 +104,12 @@ function AddBathroomModal(props) {
           left top
           no-repeat
         `,
-        }).then(function() {
+        }).then(function () {
           history.push(`/bathrooms/`);
         });
       })
-        .catch((error) => {
+      .catch((error) => {
         console.log("Error adding bathroom:", error);
-        res.sendStatus(500);
         Swal.fire({
           icon: "error",
           title: "Oops...",
@@ -119,106 +117,106 @@ function AddBathroomModal(props) {
 
         });
       })
-            
 
-  // closes modal
-  props.setModal2Show(false);
 
-}
+    // closes modal
+    props.setModal2Show(false);
 
-return (
-  <Modal
-    show={props.show}
-    onHide={props.onHide}
-    size="sm"
-    aria-labelledby="modal-title"
-    centered
-  >
-    <Box sx={style}>
-      <Modal.Header id="modal-title">
-        <Modal.Title>
-          Add more info here:
-        </Modal.Title>
-      </Modal.Header>
+  }
 
-      <Modal.Body>
-        <Form>
+  return (
+    <Modal
+      show={props.show}
+      onHide={props.onHide}
+      size="sm"
+      aria-labelledby="modal-title"
+      centered
+    >
+      <Box sx={style}>
+        <Modal.Header id="modal-title">
+          <Modal.Title>
+            Add more info here:
+          </Modal.Title>
+        </Modal.Header>
 
-          <Form.Group>
-            <Form.Label>Name*</Form.Label>
-            <Form.Control
-              type="text"
-              onChange={(e) => setNameValue(e)}
-              value={props.nameForModal}
-              required />
-          </Form.Group>
+        <Modal.Body>
+          <Form>
 
-          <Form.Group>
-            <Form.Label>Address*</Form.Label>
-            <Form.Control
-              type="text"
-              onChange={(e) => setAddressValue(e)}
-              value={props.addressForModal} 
-              required
+            <Form.Group>
+              <Form.Label>Name*</Form.Label>
+              <Form.Control
+                type="text"
+                onChange={(e) => setNameValue(e)}
+                value={props.nameForModal}
+                required />
+            </Form.Group>
+
+            <Form.Group>
+              <Form.Label>Address*</Form.Label>
+              <Form.Control
+                type="text"
+                onChange={(e) => setAddressValue(e)}
+                value={props.addressForModal}
+                required
               />
-          </Form.Group>
+            </Form.Group>
 
-          <Form.Group>
-            <Form.Label>Please check whether the following apply to this bathroom:</Form.Label>
+            <Form.Group>
+              <Form.Label>Please check whether the following apply to this bathroom:</Form.Label>
 
-            <Form.Check
-              type="checkbox"
-              label="Wheelchair accessible"
-              onChange={() => setAccessibleValue()}
-            />
+              <Form.Check
+                type="checkbox"
+                label="Wheelchair accessible"
+                onChange={() => setAccessibleValue()}
+              />
 
-            <Form.Check
-              type="checkbox"
-              label="Changing table"
-              onChange={() => setChangingTableValue()}
-            />
+              <Form.Check
+                type="checkbox"
+                label="Changing table"
+                onChange={() => setChangingTableValue()}
+              />
 
-            <Form.Check
-              type="checkbox"
-              label="Gender neutral/all-gender"
-              onChange={() => setUnisexValue()}
-            />
+              <Form.Check
+                type="checkbox"
+                label="Gender neutral/all-gender"
+                onChange={() => setUnisexValue()}
+              />
 
-            <Form.Check
-              type="checkbox"
-              label="Single stall"
-              onChange={() => setSingleStallValue()}
-            />
+              <Form.Check
+                type="checkbox"
+                label="Single stall"
+                onChange={() => setSingleStallValue()}
+              />
 
-            <Form.Check
-              type="checkbox"
-              label="Open to the public"
-              onChange={() => setPublicValue()}
-            />
-          </Form.Group>
+              <Form.Check
+                type="checkbox"
+                label="Open to the public"
+                onChange={() => setPublicValue()}
+              />
+            </Form.Group>
 
-          <Form.Group>
-            <Form.Label>Add a comment:</Form.Label>
-            <Form.Control type="text" 
-            onChange={(e) => setCommentValue(e)} />
-          </Form.Group>
+            <Form.Group>
+              <Form.Label>Add a comment:</Form.Label>
+              <Form.Control type="text"
+                onChange={(e) => setCommentValue(e)} />
+            </Form.Group>
 
-          <Form.Group>
-            <Form.Label>Any other information that admin should know?</Form.Label>
-            <Form.Control
-              type="text"
-              onChange={(e) => setCommentForAdminValue(e)} />
-          </Form.Group>
+            <Form.Group>
+              <Form.Label>Any other information that admin should know?</Form.Label>
+              <Form.Control
+                type="text"
+                onChange={(e) => setCommentForAdminValue(e)} />
+            </Form.Group>
 
-        </Form>
-      </Modal.Body>
-      <Modal.Footer>
-        <Button variant="outlined" sx={{ mr: 2 }} data-bs-dismiss="modal" onClick={() => props.setModal2Show(false)}>Cancel</Button>
-        <Button variant="contained" onClick={() => submitPopup()}>Submit bathroom</Button>
-      </Modal.Footer>
-    </Box>
-  </Modal>
-);
+          </Form>
+        </Modal.Body>
+        <Modal.Footer>
+          <Button variant="outlined" sx={{ mr: 2 }} data-bs-dismiss="modal" onClick={() => props.setModal2Show(false)}>Cancel</Button>
+          <Button variant="contained" onClick={() => submitPopup()}>Submit bathroom</Button>
+        </Modal.Footer>
+      </Box>
+    </Modal>
+  );
 }
 
 export default AddBathroomModal;

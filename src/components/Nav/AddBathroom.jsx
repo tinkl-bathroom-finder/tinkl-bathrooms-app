@@ -28,6 +28,7 @@ const AddBathroom = () => {
 
   const clickAddBathroom = () => {
     if (userId) {
+      console.log('in clickAddBathroom');
       setAddressForModal(newBathroom?.formatted_address)
       setNameForModal(searchBarAddress?.value?.structured_formatting?.main_text)
       dispatch({

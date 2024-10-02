@@ -3,19 +3,14 @@ import axios from "axios";
 // require('dotenv').config();
 
 function* getPlaceDetails (action) {
+  console.log('getPlaceDetails action.payload:', action.payload);
     try {
         // makes a get request call to the Google Place Details API to get info for bathroom to add
-        const response = yield axios.get({
-          method: 'GET',
-          url: `/add/${action.payload}`,
-          params: {
-            placeID: action.payload
-          }
-        })
+        const response = yield axios.get('/add', { params: { placeID: action.payload } });
         // sets new bathrooms reducer with details
         yield put({
           type: 'SET_NEW_BATHROOM_DETAILS',
-          payload: response.data.results[0]
+          payload: response.data.result
         })
       } catch (error) {
         console.log('API get request failed:', error)
