@@ -7,9 +7,8 @@ const router = express.Router();
 const axios = require('axios');
 
 router.get('/', (req, res) => {
-  console.log('in add bathroom get route');
   const apiKey = process.env.GOOGLE_PLACES_API_KEY
-  console.log("Add Bathroom - req.query: ", req.query);
+  console.log("Get Bathroom hours - req.query: ", req.query);
   axios({
     method: "GET",
     url: `https://maps.googleapis.com/maps/api/place/details/json?fields=photo,permanently_closed,wheelchair_accessible_entrance,opening_hours&place_id=${req.query.placeID}&key=${apiKey}`
@@ -24,16 +23,47 @@ router.get('/', (req, res) => {
 
 
 router.post('/add', rejectUnauthenticated, (req, res) => {
-  //create bathroom record
-  //SHOULD THE ADMIN COMMENT GO HERE AS WELL??
+  console.log("Add bathroom - req.body", req.body);
+  let info = req.body.bathroomToAdd
+  let addressArray = info.formatted_address.split(", ")
+  //address array: [ '301 4th Ave S #577', 'Minneapolis', 'MN 55415', 'USA' ]
+  // this is a workaround for now, a more permanent fix would be to change the form on the modal
+  let street = addressArray[0]
+  let city = addressArray[1]
+  let state = addressArray[2].slice(0,2)
+  let country = addressArray[3]
+  //EXAMPLE REQ.BODY
+  // bathroomToAdd: {
+  //   placeID: 'ChIJr3dcDv0k9ocRTjNHswleYU8',
+  //   name: 'Prime Digital Academy',
+  //   formatted_address: '301 4th Ave S #577, Minneapolis, MN 55415, USA',
+  //   accessible: false,
+  //   is_public: false,
+  //   unisex: false,
+  //   changing_table: false,
+  //   single_stall: false,
+  //   latitude: 44.978031,
+  //   longitude: -93.26350099999999,
+  //   user_id: 7,
+  //   commentForAdmin: '',
+  //   comment: ''
+  // },
+  // bathroomHours: {
+  //   opening_hours: [Object],
+  //   photos: [Array],
+  //   wheelchair_accessible_entrance: true
+  // }
+
+  // create bathroom record
+  // SHOULD THE ADMIN COMMENT GO HERE AS WELL??
   const sqlQuery = `
         INSERT INTO "restrooms"
-        ("")
+        ("name", "street", "city", "state", "accessible", "unisex", "latitude", "longitude", "country", "changing_table", "is_single_stall", "place_id")
         VALUES
-        ($1)
+        ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12)
         RETURNING "id"
         `;
-  sqlValues = [bathroom]
+  sqlValues = [info.name, street, city, state, info.accessible, info.unisex, info.latitude, info.longitude, country, info.changing_table, info.single_stall, info.placeID]
   pool.query(sqlQuery, sqlValues)
     .then((response) => {
       //create hours record

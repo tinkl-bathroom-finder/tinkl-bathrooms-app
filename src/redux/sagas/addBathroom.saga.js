@@ -12,15 +12,12 @@ function* getPlaceDetails (action) {
         //   type: 'SET_NEW_BATHROOM_DETAILS',
         //   payload: response.data.result
         // })
+        console.log('response in saga: ', response.data.result);
         //axios post route to insert bathroom record
-        // yield axios({
-        //   method: 'POST',
-        //   url: `/add/add`,
-        //   payload: {
-        //     bathroomToAdd: action.payload,
-        //     bathroomHours: response.data.result
-        //   }
-        // })
+        yield axios.post(`/add/add`, {
+          bathroomToAdd: action.payload,
+          bathroomHours: response.data.result
+        })
       } catch (error) {
         console.log('Error with add bathroom saga function', error)
       }
