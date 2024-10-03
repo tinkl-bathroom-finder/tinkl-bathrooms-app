@@ -25,6 +25,7 @@ router.get('/', (req, res) => {
 router.post('/add', rejectUnauthenticated, (req, res) => {
   console.log("Add bathroom - req.body", req.body);
   let info = req.body.bathroomToAdd
+  let hours = req.body.bathroomHours.result.opening_hours
   let addressArray = info.formatted_address.split(", ")
   //address array: [ '301 4th Ave S #577', 'Minneapolis', 'MN 55415', 'USA' ]
   // this is a workaround for now, a more permanent fix would be to change the form on the modal
@@ -67,6 +68,58 @@ router.post('/add', rejectUnauthenticated, (req, res) => {
   pool.query(sqlQuery, sqlValues)
     .then((response) => {
       //create hours record
+      let business_status = req.body.bathroomHours.status
+      let restroom_id = response.rows
+      let weekday_text = ''
+      let day_0_open = null
+      let day_0_close = null
+      let day_1_open = null
+      let day_1_close = null
+      let day_2_open = null
+      let day_2_close = null
+      let day_3_open = null
+      let day_3_close = null
+      let day_4_open = null
+      let day_4_close = null
+      let day_5_open = null
+      let day_5_close = null
+      let day_6_open = null
+      let day_6_close = null
+
+      let i = 0
+        while (i < hours.periods.length) {
+          if (hours.periods[i].open.day === 0) {
+            day_0_open = hours.periods[i].open.time
+            day_0_close = hours.periods[i].close.time
+          } else if (hours.periods[i].open.day === 1) {
+            day_1_open = hours.periods[i].open.time
+            day_1_close = hours.periods[i].close.time
+          } else if (hours.periods[i].open.day === 2) {
+            day_2_open = hours.periods[i].open.time
+            day_2_close = hours.periods[i].close.time
+          } else if (hours.periods[i].open.day === 3) {
+            day_3_open = hours.periods[i].open.time
+            day_3_close = hours.periods[i].close.time
+          } else if (hours.periods[i].open.day === 4) {
+            day_4_open = hours.periods[i].open.time
+            day_4_close = hours.periods[i].close.time
+          } else if (hours.periods[i].open.day === 5) {
+            day_5_open = hours.periods[i].open.time
+            day_5_close = hours.periods[i].close.time
+          } else if (hours.periods[i].open.day === 6) {
+            day_6_open = hours.periods[i].open.time
+            day_6_close = hours.periods[i].close.time
+          }
+          i++;
+        }
+        for (let i = 0; i < hours.weekday_text.length; i++) {
+          if (i < hours.weekday_text.length - 1) {
+            weekday_text += `${hours.weekday_text[i]}, `
+          } else if (i === hours.weekday_text.length - 1) {
+            weekday_text += `${hours.weekday_text[i]}`
+          }
+        }
+      
       const sqlQuery = `
                 INSERT INTO "opening_hours"
                 ("restroom_id", "business_status", "weekday_text", "day_0_open", "day_0_close", "day_1_open", "day_1_close", "day_2_open", "day_2_close", "day_3_open", "day_3_close", "day_4_open", "day_4_close", "day_5_open", "day_5_close", "day_6_open", "day_6_close")
@@ -76,28 +129,28 @@ router.post('/add', rejectUnauthenticated, (req, res) => {
       sqlValues = [restroom_id, business_status, weekday_text, day_0_open, day_0_close, day_1_open, day_1_close, day_2_open, day_2_close, day_3_open, day_3_close, day_4_open, day_4_close, day_5_open, day_5_close, day_6_open, day_6_close]
       pool.query(sqlQuery, sqlValues)
     })
-    .then((response) => {
-      //create comment record (if any)
-      if (req.body.comment){
-      const sqlQuery = `
-                  INSERT INTO "comments"
-                  ("")
-                  VALUES
-                  ($1)
-                  `;
-      sqlValues = [values]
-      pool.query(sqlQuery, sqlValues)
-    }
-    })
-    .catch((error) => {
-      console.log("Error in create bathroom comment", error);
-    })
+      .then((response) => {
+        //create comment record (if any)
+        if (info.comment){
+        const sqlQuery = `
+                    INSERT INTO "comments"
+                    ("content", "restroom_id", "user_id")
+                    VALUES
+                    ($1 $2, $3)
+                    `;
+        sqlValues = [info.comment, restroom_id, req.user.id]
+        pool.query(sqlQuery, sqlValues)
+      }
+      })
+      .catch((error) => {
+        console.log("Error in create bathroom comment", error);
+      })
     .catch((error) => {
       console.log("Error in create hours", error);
     })
-    .catch((error) => {
-      console.log("Error in get create bathroom", error);
-    })
+  .catch((error) => {
+    console.log("Error in get create bathroom", error);
+  })
 });
 
 // router.post('/add', rejectUnauthenticated, (req, res) => {
