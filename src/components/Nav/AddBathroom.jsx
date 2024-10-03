@@ -31,10 +31,10 @@ const AddBathroom = () => {
       console.log('in clickAddBathroom');
       setAddressForModal(newBathroom?.formatted_address)
       setNameForModal(searchBarAddress?.value?.structured_formatting?.main_text)
-      dispatch({
-        type: "SAGA/GET_PLACE_DETAILS",
-        payload: placeID,
-      });
+      // dispatch({
+      //   type: "SAGA/GET_PLACE_DETAILS",
+      //   payload: placeID,
+      // });
       setModal2Show(true);
     } else
       Swal.fire({
