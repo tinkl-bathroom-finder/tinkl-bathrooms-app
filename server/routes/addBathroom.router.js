@@ -68,8 +68,10 @@ router.post('/add', rejectUnauthenticated, (req, res) => {
   pool.query(sqlQuery, sqlValues)
     .then((response) => {
       //create hours record
+      console.log('response:', response);
       let business_status = req.body.bathroomHours.status
       let restroom_id = response.rows
+      console.log('restroom id:', restroom_id);
       let weekday_text = ''
       let day_0_open = null
       let day_0_close = null
@@ -121,11 +123,11 @@ router.post('/add', rejectUnauthenticated, (req, res) => {
         }
       
       const sqlQuery = `
-                INSERT INTO "opening_hours"
-                ("restroom_id", "business_status", "weekday_text", "day_0_open", "day_0_close", "day_1_open", "day_1_close", "day_2_open", "day_2_close", "day_3_open", "day_3_close", "day_4_open", "day_4_close", "day_5_open", "day_5_close", "day_6_open", "day_6_close")
-                VALUES
-                ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16, $17)
-                `;
+            INSERT INTO "opening_hours"
+            ("restroom_id", "business_status", "weekday_text", "day_0_open", "day_0_close", "day_1_open", "day_1_close", "day_2_open", "day_2_close", "day_3_open", "day_3_close", "day_4_open", "day_4_close", "day_5_open", "day_5_close", "day_6_open", "day_6_close")
+            VALUES
+            ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16, $17)
+            `;
       sqlValues = [restroom_id, business_status, weekday_text, day_0_open, day_0_close, day_1_open, day_1_close, day_2_open, day_2_close, day_3_open, day_3_close, day_4_open, day_4_close, day_5_open, day_5_close, day_6_open, day_6_close]
       pool.query(sqlQuery, sqlValues)
     })
@@ -133,11 +135,11 @@ router.post('/add', rejectUnauthenticated, (req, res) => {
         //create comment record (if any)
         if (info.comment){
         const sqlQuery = `
-                    INSERT INTO "comments"
-                    ("content", "restroom_id", "user_id")
-                    VALUES
-                    ($1 $2, $3)
-                    `;
+              INSERT INTO "comments"
+              ("content", "restroom_id", "user_id")
+              VALUES
+              ($1, $2, $3)
+              `;
         sqlValues = [info.comment, restroom_id, req.user.id]
         pool.query(sqlQuery, sqlValues)
       }
