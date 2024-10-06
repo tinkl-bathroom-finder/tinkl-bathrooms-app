@@ -97,6 +97,24 @@ CREATE TABLE "restroom_votes" (
 	"updated_at" TIMESTAMP WITH TIME ZONE DEFAULT NOW()
 );
 
+CREATE TABLE "flagged_restrooms" (
+	"id" SERIAL PRIMARY KEY,
+	"restroom_id" INTEGER REFERENCES "restrooms" ON DELETE CASCADE,
+	"user_id" INTEGER REFERENCES "user" ON DELETE CASCADE,
+	"api_id" VARCHAR,
+	"name" VARCHAR,
+	"address" VARCHAR,
+	"accessible" BOOLEAN DEFAULT NULL,
+	"changing_table" BOOLEAN DEFAULT NULL,
+	"unisex" BOOLEAN DEFAULT NULL,
+	"is_single_stall" BOOLEAN DEFAULT NULL,
+	"is_permanently_closed" BOOLEAN DEFAULT NULL,
+	"other_comment" VARCHAR,
+	"created_at" TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
+	"updated_at" TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
+	"resolved" BOOLEAN DEFAULT FALSE
+);
+
 	CREATE TABLE "contact" (
 	"id" SERIAL PRIMARY KEY,
 	"user_id"  INTEGER REFERENCES "user" ON DELETE CASCADE,
