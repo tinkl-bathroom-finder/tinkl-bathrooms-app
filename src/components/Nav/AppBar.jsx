@@ -224,12 +224,12 @@ function AppBarNav() {
           <>
             <ListItem key="admin" disablePadding>
 
-              {/* <Link
-                to="/admin/editbathrooms"
+              <Link
+                to="/admin/"
                 className="linkInDrawer"
                 // onClick={() => setDrawerOpen(false)}
                 underline="none"
-                > */}
+                >
               <ListItemButton onClick={handleClick}>
                 <ListItemIcon>
                   <AdminPanelSettingsIcon />
@@ -323,7 +323,7 @@ function AppBarNav() {
                   </Link>
                 </List>
               </Collapse>
-              {/* </Link> */}
+              </Link>
             </ListItem>
           </>
         )}
