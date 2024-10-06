@@ -9,6 +9,7 @@ import { Business, Close } from "@mui/icons-material";
 import CommentList from "./Comments";
 import IPeedHereModal from "./IPeedHereModal";
 import MarkAsFlaggedModal from "./MarkAsFlaggedModal";
+import CompareTime from "../BathroomItem/CompareTime";
 
 import {
   Box,
@@ -64,28 +65,7 @@ function BathroomDetails() {
   let militaryTime = hour + minutes // we don't actually need to convert this to a string since we want to compare it as a numeral
 
 
-   const compareTime = () => {
-    let isOpen = false;
-    if (day = 1 && militaryTime >= bathroom.day_1_open && militaryTime <= bathroom.day_1_close){
-      isOpen = true;
-    }  else if (day = 2 && militaryTime >= bathroom.day_2_open && militaryTime <= bathroom.day_2_close){
-      isOpen = true;
-    } else if (day = 3 && militaryTime >= bathroom.day_3_open && militaryTime <= bathroom.day_3_close){
-       isOpen = true;
-    } else if (day = 4 && militaryTime >= bathroom.day_4_open && militaryTime <= bathroom.day_4_close){
-      isOpen = true;
-    } else if (day = 5 && militaryTime >= bathroom.day_5_open && militaryTime <= bathroom.day_5_close){
-      isOpen = true;
-    } else if (day = 6 && militaryTime >= bathroom.day_2_open && militaryTime <= bathroom.day_2_close){
-      isOpen = true;
-    }  else if (day = 7 && militaryTime >= bathroom.day_2_open && militaryTime <= bathroom.day_2_close){
-      isOpen = true;
-    }  else{console.log('close')
-    } return isOpen;
-   }
-
-  let isOpen = compareTime();
-
+  
 
 
 
@@ -256,7 +236,9 @@ function BathroomDetails() {
               pt: 1,
             }}
           >
-                 <h6 class={isOpen ? "open" : "closed"}> {isOpen ? 'Open now' : 'Closed'}</h6>
+                      <CompareTime bathroom={bathroom}/>
+
+                 {/* <h6 class={isOpen ? "open" : "closed"}> {isOpen ? 'Open now' : 'Closed'}</h6> */}
             {/* upvotes and downvotes */}
             <Typography align="left">
               {theBathroomDetails.upvotes || 0}
