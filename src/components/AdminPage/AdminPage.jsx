@@ -6,9 +6,12 @@ import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
 import Table from "react-bootstrap/Table";
 import ApiBathroomItem from "../ApiBathroomItem/ApiBathroomItem";
-import AddBathroom from "../Nav/AddBathroom"
+import AddBathroom from "../Nav/AddBathroom";
+import ApproveBathrooms from "./ApproveBathrooms";
 import DeleteBathrooms from "./DeleteBathrooms";
-import AdminUsers from "./AdminUsers"
+import AdminUsers from "./AdminUsers";
+import FlaggedBathrooms from "./FlaggedBathrooms";
+import AdminComments from "./AdminComments";
 
 function AdminPage() {
   return (
@@ -19,20 +22,20 @@ function AdminPage() {
         className="mb-3"
         justify
       >
-        <Tab eventKey="add" title="Add Bathrooms">
-          <AddBathroom />
+        <Tab eventKey="approve" title="Approve Bathrooms">
+          <ApproveBathrooms />
         </Tab>
-        <Tab eventKey="delete" title="Delete Bathrooms">
-          <DeleteBathrooms />
+        <Tab eventKey="flagged" title="Flagged Bathrooms">
+          <FlaggedBathrooms />
         </Tab>
-        <Tab eventKey="longer-tab" title="Comments">
-          Tab content for Comments
+        <Tab eventKey="comments" title="Comments">
+          <AdminComments />
         </Tab>
-        <Tab eventKey="contact" title="Users">
+        <Tab eventKey="users" title="Users">
           <AdminUsers/>
         </Tab>
       </Tabs>
-      <div id="api-table"></div>
+      {/* <div id="api-table"></div> */}
     </>
   );
 }
