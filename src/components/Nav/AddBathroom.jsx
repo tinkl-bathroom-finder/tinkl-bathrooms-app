@@ -14,12 +14,8 @@ const AddBathroom = () => {
   const replicatedBathroom = useSelector((store) => store.replicatedBathroom);
   const newBathroom = useSelector((store) => store.newBathroom);
   let userId = useSelector((store) => store.user.id);
-  const history = useHistory();
 
-<<<<<<< HEAD
-=======
 
->>>>>>> 9661f8342fd3382a482e232c92b021a95e516f68
   console.log('new bathroom: ', newBathroom);
 
     // React state for AddBathroomModal
@@ -30,10 +26,7 @@ const AddBathroom = () => {
 // captures value of address typed in search bar as local state
   const [searchBarAddress, setSearchBarAddress] = useState("");
 
-<<<<<<< HEAD
 
-=======
->>>>>>> 9661f8342fd3382a482e232c92b021a95e516f68
   const clickAddBathroom = () => {
     if (userId) {
       console.log('in clickAddBathroom');
@@ -169,10 +162,7 @@ const AddBathroom = () => {
 
         />
         <Button variant="contained" onClick={() => sendLocation()}>Search address</Button>
-<<<<<<< HEAD
-=======
 
->>>>>>> 9661f8342fd3382a482e232c92b021a95e516f68
 {replicatedBathroom ? <div>
     <p>Do you mean:</p>
         <h4>{replicatedBathroom.name}</h4>
