@@ -28,7 +28,7 @@ function AdminPage() {
         <Tab eventKey="flagged" title="Flagged Bathrooms">
           <FlaggedBathrooms />
         </Tab>
-        <Tab eventKey="comments" title="Comments">
+        <Tab eventKey="feedback" title="User Feedback">
           <AdminComments />
         </Tab>
         <Tab eventKey="users" title="Users">

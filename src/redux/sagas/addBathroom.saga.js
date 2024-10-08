@@ -27,8 +27,24 @@ function* getPlaceDetails (action) {
       }
 }
 
+function* getBathroomsToApprove () {
+  try {
+    const response = yield axios({
+      method: 'GET',
+      url: '/add/approve'
+    })
+    yield put({
+      type: 'SET_BATHROOMS_TO_APPROVE',
+      payload: response.data
+    })
+  } catch (error) {
+    console.log('Saga function getBathroomsToApprove failed: ', error)
+  }
+}
+
   function* addBathroom() { 
     yield takeLatest("SAGA/GET_PLACE_DETAILS", getPlaceDetails);
+    yield takeLatest("SAGA/GET_BATHROOMS_TO_APPROVE", getBathroomsToApprove)
   }
   
   export default addBathroom;
