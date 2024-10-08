@@ -28,14 +28,11 @@ function AdminUsers() {
         return stringifiedDate;
       };
 return(
-    <Box sx={{mt: 10}}>
+    <Box>
 
 <TableContainer>
         <Table responsive="m" overflow="scroll">
           <TableHead >
-            <TableRow>
-              <TableCell colSpan={4} sx={{borderBottom: '1px solid black', color: "white", textAlign: 'center'}}>Users</TableCell>
-            </TableRow>
             <TableRow>
                 <TableCell>Username</TableCell>
                 <TableCell>Admin</TableCell>
