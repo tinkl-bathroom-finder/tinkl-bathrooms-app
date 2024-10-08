@@ -1,5 +1,5 @@
 import { Box, Button, Table, TableContainer, TableHead, TableBody, TableCell, TableRow } from "@mui/material";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import axios from "axios";
 
 
@@ -32,7 +32,7 @@ function AdminComments() {
             </TableRow>
                 </TableHead>
                 <TableBody>
-                    {feedbackArray.map((comment) => {
+                    {feedbackArray.map((comment) => (
                         <TableRow>
                             <TableCell sx={{borderBottom: '1px solid darkgray'}}>{comment.username}</TableCell>
                             <TableCell sx={{borderBottom: '1px solid darkgray'}}>{comment.details}</TableCell>
@@ -41,15 +41,8 @@ function AdminComments() {
                                 <Button>Mark as resolved</Button>
                                 </TableCell>
                         </TableRow>
-                    })}
-                    <TableRow>
-                        <TableCell>essiero</TableCell>
-                        <TableCell>Hey - this is a test!</TableCell>
-                        <TableCell>October 5, 2024</TableCell>
-                        <TableCell>
-                        <Button color="info" variant="contained" size="small">Mark as resolved</Button>
-                        </TableCell>
-                    </TableRow>
+                    ))
+                    }
                 </TableBody>
             </Table>
             </TableContainer>
