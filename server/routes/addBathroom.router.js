@@ -23,7 +23,6 @@ router.get('/', (req, res) => {
 
 
 router.post('/add', rejectUnauthenticated, (req, res) => {
-  console.log("Add bathroom - req.body", req.body);
   let info = req.body.bathroomToAdd
   let hours = req.body.bathroomHours.result.opening_hours
   let addressArray = info.formatted_address.split(", ")
@@ -33,29 +32,7 @@ router.post('/add', rejectUnauthenticated, (req, res) => {
   let city = addressArray[1]
   let state = addressArray[2].slice(0,2)
   let country = addressArray[3]
-  let restroom_id;
-  //EXAMPLE REQ.BODY
-  // bathroomToAdd: {
-  //   placeID: 'ChIJr3dcDv0k9ocRTjNHswleYU8',
-  //   name: 'Prime Digital Academy',
-  //   formatted_address: '301 4th Ave S #577, Minneapolis, MN 55415, USA',
-  //   accessible: false,
-  //   is_public: false,
-  //   unisex: false,
-  //   changing_table: false,
-  //   single_stall: false,
-  //   latitude: 44.978031,
-  //   longitude: -93.26350099999999,
-  //   user_id: 7,
-  //   commentForAdmin: '',
-  //   comment: ''
-  // },
-  // bathroomHours: {
-  //   opening_hours: [Object],
-  //   photos: [Array],
-  //   wheelchair_accessible_entrance: true
-  // }
-
+  let restroom_id 
   // create bathroom record
   // SHOULD THE ADMIN COMMENT GO HERE AS WELL??
   const sqlQuery = `
@@ -69,9 +46,8 @@ router.post('/add', rejectUnauthenticated, (req, res) => {
   pool.query(sqlQuery, sqlValues)
     .then((response) => {
       //create hours record
-      console.log('response:', response);
       let business_status = req.body.bathroomHours.status
-      restroom_id = response.rows
+      restroom_id = response.rows[0].id
       console.log('restroom id:', restroom_id);
       let weekday_text = ''
       let day_0_open = null
@@ -134,6 +110,7 @@ router.post('/add', rejectUnauthenticated, (req, res) => {
     })
       .then((response) => {
         //create comment record (if any)
+        console.log('restroom id from opening hours:', restroom_id);
         if (info.comment){
         const sqlQuery = `
               INSERT INTO "comments"
