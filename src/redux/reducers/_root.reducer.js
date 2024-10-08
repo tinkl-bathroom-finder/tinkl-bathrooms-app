@@ -14,6 +14,7 @@ import placeID from './placeID.reducer';
 import replicatedBathroom from './replicatedBathroom.reducer';
 import newBathroom from './newBathroom.reducer';
 import bathroomsToApprove from '../reducers/bathroomsToApprove.reducer';
+import userFeedback from './userFeedback.reducer';
 
 // rootReducer is the primary reducer for our entire project
 // It bundles up all of the other reducers so our project can use them.
@@ -35,7 +36,8 @@ const rootReducer = combineReducers({
   newBathroom,
   placeID,
   replicatedBathroom,
-  bathroomsToApprove
+  bathroomsToApprove,
+  userFeedback
 });
 
 export default rootReducer;
