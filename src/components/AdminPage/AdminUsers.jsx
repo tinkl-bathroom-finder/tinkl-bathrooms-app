@@ -32,7 +32,7 @@ return(
 
 <TableContainer>
         <Table responsive="m" overflow="scroll">
-          <TableHead >
+          <TableHead>
             <TableRow>
                 <TableCell>Username</TableCell>
                 <TableCell>Admin</TableCell>
