@@ -10,7 +10,7 @@ function* submitContact(action) {
         })
         Swal.fire({
             title: "Thank you!",
-            text: "Message recieved!",
+            text: "Message received!",
             icon: "success"
         })
         action.setFeedbackState('')

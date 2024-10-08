@@ -78,24 +78,31 @@ router.post('/add', rejectUnauthenticated, async (req, res) => {
     while (i < hours.periods.length) {
       if (hours.periods[i].open.day === 0) {
         day_0_open = hours.periods[i].open.time
+      } else if (hours.periods[i].close.day === 0) {
         day_0_close = hours.periods[i].close.time
       } else if (hours.periods[i].open.day === 1) {
         day_1_open = hours.periods[i].open.time
+      } else if (hours.periods[i].close.day === 1) {
         day_1_close = hours.periods[i].close.time
       } else if (hours.periods[i].open.day === 2) {
         day_2_open = hours.periods[i].open.time
+      } else if (hours.periods[i].close.day === 2) {
         day_2_close = hours.periods[i].close.time
       } else if (hours.periods[i].open.day === 3) {
         day_3_open = hours.periods[i].open.time
+      } else if (hours.periods[i].close.day === 3) {
         day_3_close = hours.periods[i].close.time
       } else if (hours.periods[i].open.day === 4) {
         day_4_open = hours.periods[i].open.time
+      } else if (hours.periods[i].close.day === 4) {
         day_4_close = hours.periods[i].close.time
       } else if (hours.periods[i].open.day === 5) {
         day_5_open = hours.periods[i].open.time
+      } else if (hours.periods[i].close.day === 5) {
         day_5_close = hours.periods[i].close.time
       } else if (hours.periods[i].open.day === 6) {
         day_6_open = hours.periods[i].open.time
+      } else if (hours.periods[i].close.day === 6) {
         day_6_close = hours.periods[i].close.time
       }
       i++;
@@ -139,6 +146,7 @@ router.post('/add', rejectUnauthenticated, async (req, res) => {
     }
     // if all posts are successful, commit those changes to the tables
     await connection.query('COMMIT;');
+    res.sendStatus(201)
   } catch (error) {
     console.log("Error in create bathroom", error);
     await connection.query('ROLLBACK;');
@@ -147,7 +155,6 @@ router.post('/add', rejectUnauthenticated, async (req, res) => {
     // Close the connection
     connection.release();
   }
-
 });
 
 module.exports = router;
