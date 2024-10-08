@@ -88,42 +88,29 @@ function AddBathroomModal(props) {
 
   const submitPopup = () => {
     console.log("bathroomToAdd:", bathroomToAdd);
-    // axios.get('/add', bathroomToAdd)
-    //   .then((res) => {
-    //     // popup window "confirming" submission
-    //     Swal.fire({
-    //       title: "Thank you for sharing! User-generated data is how we run.",
-    //       width: 600,
-    //       padding: "3em",
-    //       color: "#716add",
-    //       background:
-    //         "#fff url(https://media.giphy.com/media/ifMCKz51hfD9RUWXbI/giphy.gif)",
-    //       backdrop: `
-    //       rgba(0,0,123,0.4)
-    //       url("https://media.giphy.com/media/mTs11L9uuyGiI/giphy.gif")
-    //       left top
-    //       no-repeat
-    //     `,
-    //     }).then(function () {
-    //       history.push(`/bathrooms/`);
-    //     });
-    //   })
-    //   .catch((error) => {
-    //     console.log("Error adding bathroom:", error);
-    //     Swal.fire({
-    //       icon: "error",
-    //       title: "Oops...",
-    //       text: "Something went wrong! Let's try this again.",
-    //     });
-    //   })
       dispatch({
         type: "SAGA/GET_PLACE_DETAILS",
-        payload: bathroomToAdd,
+        payload: bathroomToAdd
       });
-
     // closes modal
     props.setModal2Show(false);
-
+    // popup window "confirming" submission
+      // is there a way to have a true confirmation and failure??
+    // SHOULD USERS GO TO HOMEPAGE??
+    // Swal.fire({
+    //   title: "Thank you for sharing! User-generated data is how we run.",
+    //   width: 600,
+    //   padding: "3em",
+    //   color: "#716add",
+    //   background:
+    //     "#fff url(https://media.giphy.com/media/ifMCKz51hfD9RUWXbI/giphy.gif)",
+    //   backdrop: `
+    //   rgba(0,0,123,0.4)
+    //   url("https://media.giphy.com/media/mTs11L9uuyGiI/giphy.gif")
+    //   left top
+    //   no-repeat
+    // `,
+    // });
   }
 
   return (
