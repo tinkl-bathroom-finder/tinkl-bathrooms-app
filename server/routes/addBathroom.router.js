@@ -176,4 +176,55 @@ router.post('/add', rejectUnauthenticated, (req, res) => {
 //add open hours after creating the bathroom
 //add user comment after creating the bathroom
 
+router.get("/approve", (req, res) => {
+  // GET bathrooms to approve route
+  const query = /*sql*/ `
+  SELECT 
+  "restrooms".*,
+   "opening_hours".weekday_text,
+   "opening_hours".day_0_open,
+   "opening_hours".day_0_close,
+   "opening_hours".day_1_open,
+   "opening_hours".day_1_close,
+   "opening_hours".day_2_open,
+   "opening_hours".day_2_close,
+   "opening_hours".day_3_open,
+   "opening_hours".day_3_close,
+   "opening_hours".day_4_open,
+   "opening_hours".day_4_close,
+   "opening_hours".day_5_open,
+   "opening_hours".day_5_close,
+   "opening_hours".day_6_open,
+   "opening_hours".day_6_close
+FROM "restrooms"
+LEFT JOIN "opening_hours" ON "restrooms".id="opening_hours".restroom_id
+WHERE "restrooms".is_approved = FALSE
+GROUP BY "restrooms".id, "opening_hours".weekday_text,
+   "opening_hours".day_0_open,
+   "opening_hours".day_0_close,
+   "opening_hours".day_1_open,
+   "opening_hours".day_1_close,
+   "opening_hours".day_2_open,
+   "opening_hours".day_2_close,
+   "opening_hours".day_3_open,
+   "opening_hours".day_3_close,
+   "opening_hours".day_4_open,
+   "opening_hours".day_4_close,
+   "opening_hours".day_5_open,
+   "opening_hours".day_5_close,
+   "opening_hours".day_6_open,
+   "opening_hours".day_6_close;`;
+
+  pool
+    .query(query)
+    .then((dbRes) => {
+      console.log("dbRes.rows in GET /add/approve route:", dbRes);
+      res.send(dbRes.rows);
+    })
+    .catch((dbErr) => {
+      console.log("fail:", dbErr);
+      res.sendStatus(500);
+    });
+});
+
 module.exports = router;
