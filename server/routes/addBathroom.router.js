@@ -33,6 +33,7 @@ router.post('/add', rejectUnauthenticated, (req, res) => {
   let city = addressArray[1]
   let state = addressArray[2].slice(0,2)
   let country = addressArray[3]
+  let restroom_id;
   //EXAMPLE REQ.BODY
   // bathroomToAdd: {
   //   placeID: 'ChIJr3dcDv0k9ocRTjNHswleYU8',
@@ -70,7 +71,7 @@ router.post('/add', rejectUnauthenticated, (req, res) => {
       //create hours record
       console.log('response:', response);
       let business_status = req.body.bathroomHours.status
-      let restroom_id = response.rows
+      restroom_id = response.rows
       console.log('restroom id:', restroom_id);
       let weekday_text = ''
       let day_0_open = null
