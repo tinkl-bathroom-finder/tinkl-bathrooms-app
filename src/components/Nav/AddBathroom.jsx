@@ -15,9 +15,6 @@ const AddBathroom = () => {
   const newBathroom = useSelector((store) => store.newBathroom);
   let userId = useSelector((store) => store.user.id);
 
-
-  console.log('new bathroom: ', newBathroom);
-
     // React state for AddBathroomModal
     const [modal2Show, setModal2Show] = useState(false);
     const [addressForModal, setAddressForModal] = useState('');
@@ -25,7 +22,6 @@ const AddBathroom = () => {
 
 // captures value of address typed in search bar as local state
   const [searchBarAddress, setSearchBarAddress] = useState("");
-
 
   const clickAddBathroom = () => {
     if (userId) {
