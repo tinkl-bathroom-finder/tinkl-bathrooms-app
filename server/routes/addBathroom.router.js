@@ -39,7 +39,7 @@ router.post('/add', rejectUnauthenticated, async (req, res) => {
     // SHOULD THE ADMIN COMMENT GO HERE AS WELL??
     const restroomsQuery = `
           INSERT INTO "restrooms"
-          ("name", "street", "city", "state", "accessible", "unisex", "latitude", "longitude", "country", "changing_table", "is_single_stall", "place_id", "add_by_user")
+          ("name", "street", "city", "state", "accessible", "unisex", "latitude", "longitude", "country", "changing_table", "is_single_stall", "place_id", "added_by_user")
           VALUES
           ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13)
           RETURNING "id"
