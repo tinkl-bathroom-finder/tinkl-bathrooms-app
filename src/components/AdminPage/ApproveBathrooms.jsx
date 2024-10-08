@@ -1,9 +1,18 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { Box, Button } from "@mui/material";
+import { Box, Button, Table, TableContainer, TableHead, TableBody, TableCell, TableRow  } from "@mui/material";
 import Form from "react-bootstrap/Form";
-import Table from "react-bootstrap/Table";
 import DeleteBathroomItem from "../BathroomItem/DeleteBathroomItem";
+import {
+  AccessibleForwardOutlined,
+  BabyChangingStationOutlined,
+  ExpandMore,
+  Man4,
+  Place,
+  TransgenderOutlined,
+  ThumbDownOutlined,
+  ThumbUpOutlined,
+} from "@mui/icons-material";
 
 function ApproveBathrooms() {
   const dispatch = useDispatch();
@@ -16,27 +25,41 @@ function ApproveBathrooms() {
   };
 
   return (
-    <Box sx={{mt: 10}}>
-    <input placeholder="Enter name, id" label="Filter by:"></input>
-      <Button onClick={getAllBathrooms} variant="contained">Load all bathrooms</Button>
-      <table>
-        <thead>
-          <tr>
-            <th></th>
-            <th></th>
-            <th>Name</th>
-            <th>Street</th>
-            <th>City</th>
-          </tr>
-        </thead>
-        <tbody>
-
-          {bathrooms.map((bathroom) => (
-            <DeleteBathroomItem key={bathroom.id} bathroom={bathroom} />
-          ))}
-        </tbody>
-      </table>
-    </Box>
+    <Box>
+    <Table>
+      <TableHead>
+        <TableRow>
+          <th>Added by</th>
+          <th>Date added</th>
+          <th>Bathroom name</th>
+          <th>Street</th>
+          <th>City</th>
+          <th>Amenities</th>
+          <th>Approve as is</th>
+          <th>Edit info</th>
+        </TableRow>
+      </TableHead>
+      <TableBody>
+    <TableRow>
+      <TableCell>wickedpissah</TableCell>
+      <TableCell>October 6, 2024</TableCell>
+      <TableCell>Prime Digital Academy</TableCell>
+      <TableCell>401 S 4th Ave</TableCell>
+      <TableCell>Minneapolis</TableCell>
+      <TableCell>
+        <AccessibleForwardOutlined/>
+        <TransgenderOutlined/>
+      </TableCell>
+      <TableCell>
+        <Button color="info" variant="contained" size="small">Approve as is</Button>
+        </TableCell>
+        <TableCell>
+          <Button color="error" variant="contained" size="small">Edit info</Button>
+        </TableCell>
+      </TableRow>
+      </TableBody>
+    </Table>
+  </Box>
   );
 }
 
