@@ -5,7 +5,7 @@ import qr from '../App/qr-code.png'
 function MinneDemo({embedId}) {
     return(
       <div className="qr-container">
-      <img src={qr} width="100%"></img></div>
+      <img src={qr} maxWidth="100%" height="100%"></img></div>
       //   <div className="video-responsive">    <iframe
       //   width="853"
       //   height="480"
