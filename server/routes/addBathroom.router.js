@@ -39,7 +39,7 @@ router.post('/add', rejectUnauthenticated, async (req, res) => {
     // SHOULD THE ADMIN COMMENT GO HERE AS WELL??
     const restroomsQuery = `
           INSERT INTO "restrooms"
-          ("name", "street", "city", "state", "accessible", "unisex", "latitude", "longitude", "country", "changing_table", "is_single_stall", "place_id", "added_by_user")
+          ("name", "street", "city", "state", "accessible", "unisex", "latitude", "longitude", "country", "changing_table", "is_single_stall", "place_id", "add_by_user")
           VALUES
           ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13)
           RETURNING "id"
@@ -51,10 +51,12 @@ router.post('/add', rejectUnauthenticated, async (req, res) => {
       restroomsValues
     );
     // END RESTROOM POST
+
     // should give us the posted bathrooms id number
     const restroom_id = returnedRestroomIdRows.rows[0].id;
 
     //create hours record
+    if (hours) {
     let business_status = req.body.bathroomHours.status
     let weekday_text = ''
     let day_0_open = null
@@ -105,20 +107,22 @@ router.post('/add', rejectUnauthenticated, async (req, res) => {
         weekday_text += `${hours.weekday_text[i]}`
       }
     }
-
-    const hoursQuery = `
-          INSERT INTO "opening_hours"
-          ("restroom_id", "business_status", "weekday_text", "day_0_open", "day_0_close", "day_1_open", "day_1_close", "day_2_open", "day_2_close", "day_3_open", "day_3_close", "day_4_open", "day_4_close", "day_5_open", "day_5_close", "day_6_open", "day_6_close")
-          VALUES
-          ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16, $17)
-          `;
-    const hoursValues = [restroom_id, business_status, weekday_text, day_0_open, day_0_close, day_1_open, day_1_close, day_2_open, day_2_close, day_3_open, day_3_close, day_4_open, day_4_close, day_5_open, day_5_close, day_6_open, day_6_close]
-    // second query inserts hours info into hours table with the returned restroom_id from the previous query
-    const hoursResult = await connection.query(
-      hoursQuery,
-      hoursValues
-    );
+    
+      const hoursQuery = `
+      INSERT INTO "opening_hours"
+      ("restroom_id", "business_status", "weekday_text", "day_0_open", "day_0_close", "day_1_open", "day_1_close", "day_2_open", "day_2_close", "day_3_open", "day_3_close", "day_4_open", "day_4_close", "day_5_open", "day_5_close", "day_6_open", "day_6_close")
+      VALUES
+      ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16, $17)
+      `;
+      const hoursValues = [restroom_id, business_status, weekday_text, day_0_open, day_0_close, day_1_open, day_1_close, day_2_open, day_2_close, day_3_open, day_3_close, day_4_open, day_4_close, day_5_open, day_5_close, day_6_open, day_6_close]
+      // second query inserts hours info into hours table with the returned restroom_id from the previous query
+      const hoursResult = await connection.query(
+        hoursQuery,
+        hoursValues
+      );
+    }
     // END HOURS POST
+
     //create comment record (if any)
     if (info.comment) {
       const commentsQuery = `
@@ -136,7 +140,7 @@ router.post('/add', rejectUnauthenticated, async (req, res) => {
     // if all posts are successful, commit those changes to the tables
     await connection.query('COMMIT;');
   } catch (error) {
-    console.log("Error in create bathroom comment", error);
+    console.log("Error in create bathroom", error);
     await connection.query('ROLLBACK;');
     res.sendStatus(500);
   } finally {

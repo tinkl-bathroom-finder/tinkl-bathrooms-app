@@ -120,10 +120,25 @@ function AddBathroomModal(props) {
         type: "SAGA/GET_PLACE_DETAILS",
         payload: bathroomToAdd,
       });
-
     // closes modal
     props.setModal2Show(false);
-
+    // popup window "confirming" submission
+      // is there a way to have a true confirmation and failure??
+    // SHOULD USERS GO TO HOMEPAGE??
+    Swal.fire({
+      title: "Thank you for sharing! User-generated data is how we run.",
+      width: 600,
+      padding: "3em",
+      color: "#716add",
+      background:
+        "#fff url(https://media.giphy.com/media/ifMCKz51hfD9RUWXbI/giphy.gif)",
+      backdrop: `
+      rgba(0,0,123,0.4)
+      url("https://media.giphy.com/media/mTs11L9uuyGiI/giphy.gif")
+      left top
+      no-repeat
+    `,
+    });
   }
 
   return (
