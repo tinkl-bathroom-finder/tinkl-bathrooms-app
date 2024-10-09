@@ -4,6 +4,28 @@ const reactRouterDom = require("react-router-dom");
 const router = express.Router();
 
 router.get("/", (req, res) => {
+    const query = `
+        SELECT
+        "contact".id AS "comment_id",
+        "contact".user_id,
+        "contact".details,
+        "contact".resolved,
+        "contact".inserted_at,
+        "user".username
+        FROM "contact"
+        LEFT JOIN "user" on "contact".user_id = "user".id;
+    `
+    pool
+        .query(query)
+        .then((dbRes) => {
+            res.send(dbRes.rows)
+        })
+        .catch((dbErr) => {
+            res.sendStatus(500);
+        })
+})
+
+router.get("/", (req, res) => {
   pool.query(`SELECT * FROM "contact"`)
     .then((dbRes) => {
       res.send(dbRes.rows)
@@ -30,24 +52,20 @@ router.post("/", (req, res) => {
     })
 })
 
-router.get("/", (req, res) => {
+router.put("/", (req, res) => {
     const query = `
-        SELECT
-        "contact".user_id,
-        "contact".details,
-        "contact".id AS "comment_id",
-        "contact".inserted_at,
-        "user".username
-        FROM "contact"
-        LEFT JOIN "user" on "contact".user_id = "user".id;
+    UPDATE "contact"
+    SET "resolved" = TRUE
+    WHERE "id" = $1
     `
     pool
-        .query(query)
+        .query (query, [req.body.commentId])
         .then((dbRes) => {
-            res.send(dbRes.rows)
+            res.sendStatus(200)
         })
         .catch((dbErr) => {
-            res.sendStatus(500);
+            console.error('Contact put route failed:', dbErr)
+            res.sendStatus(500)
         })
 })
 
