@@ -15,18 +15,23 @@ const AddBathroom = () => {
   const newBathroom = useSelector((store) => store.newBathroom);
   let userId = useSelector((store) => store.user.id);
 
-  // React state for AddBathroomModal
-  const [modal2Show, setModal2Show] = useState(false);
-  // captures value of address typed in search bar as local state
-  const [searchBarAddress, setSearchBarAddress] = useState("");
+    // React state for AddBathroomModal
+    const [modal2Show, setModal2Show] = useState(false);
+    const [addressForModal, setAddressForModal] = useState('');
+    const [nameForModal, setNameForModal] = useState('');
 
+// captures value of address typed in search bar as local state
+  const [searchBarAddress, setSearchBarAddress] = useState("");
 
   const clickAddBathroom = () => {
     if (userId) {
-      dispatch({
-        type: "SAGA/GET_PLACE_DETAILS",
-        payload: placeID,
-      });
+      console.log('in clickAddBathroom');
+      setAddressForModal(newBathroom?.formatted_address)
+      setNameForModal(searchBarAddress?.value?.structured_formatting?.main_text)
+      // dispatch({
+      //   type: "SAGA/GET_PLACE_DETAILS",
+      //   payload: placeID,
+      // });
       setModal2Show(true);
     } else
       Swal.fire({
@@ -58,7 +63,7 @@ const AddBathroom = () => {
     }
     // biome-ignore lint/style/noUselessElse: <explanation>
     else if (searchBarAddress !== "") {
-      console.log("searchBarAddress: ", searchBarAddress);
+      // console.log("searchBarAddress: ", searchBarAddress);
       // converts address to url-friendly string
       const convertedAddress = searchBarAddress.value.description
         .split(" ")
@@ -153,37 +158,39 @@ const AddBathroom = () => {
 
         />
         <Button variant="contained" onClick={() => sendLocation()}>Search address</Button>
-        {replicatedBathroom ? <div>
-          <p>Do you mean:</p>
-          <h4>{replicatedBathroom.name}</h4>
-          <h4>{replicatedBathroom.street}</h4>
-          <p>Looks like that one's already in there!</p>
-          <Button variant="contained" onClick={() => goToDetails(replicatedBathroom.id)}>Leave a Review instead</Button>
-        </div>
-          :
-          <div>
-            {newBathroom.formatted_address ? <div>
-              {/* <h4>{searchBarAddress}</h4> */}
-              <h4>{searchBarAddress?.value?.structured_formatting?.main_text}</h4>
-              <h4>{newBathroom.formatted_address}</h4>
-              <p>Is this the right address?</p>
-              <Button variant="contained" onClick={() => clickAddBathroom()}>Review bathroom info</Button></div>
-              :
-              "Start typing an address to begin."}
-          </div>}
-        <AddBathroomModal
-          show={modal2Show}
-          setModal2Show={setModal2Show}
-          onHide={() => setModal2Show(false)}
-          aria-labelledby="add-bathroom-modal"
-          aria-describedby="Form to add a new bathroom to the database."
-          details={newBathroom}
-          searchBarAddress={searchBarAddress} />
-      </>
-    )
 
-  // if user is not logged in display a login message
-  } else if (!userId) {
+{replicatedBathroom ? <div>
+    <p>Do you mean:</p>
+        <h4>{replicatedBathroom.name}</h4>
+        <h4>{replicatedBathroom.street}</h4>
+        <p>Looks like that one's already in there!</p>
+        <Button variant="contained" onClick={() => goToDetails(replicatedBathroom.id)}>Leave a Review instead</Button>
+</div>
+ : 
+<div>
+    {newBathroom?.formatted_address ? <div>
+    <h4>{searchBarAddress?.value?.structured_formatting?.main_text}</h4>
+    <h4>{newBathroom?.formatted_address}</h4>
+    <p>Is this the right address?</p>
+    <Button variant="contained" onClick={() => clickAddBathroom()}>Review bathroom info</Button></div> 
+    :
+     "Start typing an address to begin."}
+    </div>}
+    <AddBathroomModal 
+        show={modal2Show}
+        setModal2Show={setModal2Show}
+        onHide={() => setModal2Show(false)}
+        aria-labelledby="add-bathroom-modal"
+        aria-describedby="Form to add a new bathroom to the database."
+        addressForModal={addressForModal}
+        setAddressForModal={setAddressForModal}
+        nameForModal={nameForModal}
+        setNameForModal={setNameForModal}
+        latitude={newBathroom?.geometry?.location?.lat}
+        longitude={newBathroom?.geometry?.location?.lng}
+        placeID={newBathroom?.place_id}/>
+        </>
+    )} else if (!userId){
     Swal.fire({
       title: "Hey, stranger.",
       imageUrl: "https://media.giphy.com/media/HULqwwF5tWKznstIEE/giphy.gif",

@@ -25,7 +25,7 @@ function* submitContact(action) {
         })
         Swal.fire({
             title: "Thank you!",
-            text: "Message recieved!",
+            text: "Message received!",
             icon: "success"
         })
         action.setFeedbackState('')
@@ -39,7 +39,27 @@ function* submitContact(action) {
     }
 }
 
+function* getUserFeedback() {
+    try {
+        const response = yield axios ({
+            method: 'GET',
+            url: '/contact'
+        })
+        yield put({
+            type: 'SET_USER_FEEDBACK_ARRAY',
+            payload: response.data
+        })
+    } catch (error) {
+        Swal.fire({
+            title: "Oh no!",
+            text: "Something went wrong. Please try again later.",
+            icon: "error"
+        })
+        console.log('Saga function getUserFeedback failed: ', error)
+}}
+
 export default function* contactSaga() {
     yield takeLatest('SAGA/FETCH_CONTACT_DATA', fetchContact)
     yield takeLatest('SAGA/SUBMIT_CONTACT', submitContact);
+    yield takeLatest('SAGA/FETCH_USER_FEEDBACK', getUserFeedback);
 }

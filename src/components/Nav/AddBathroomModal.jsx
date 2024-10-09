@@ -10,34 +10,33 @@ import { useHistory } from "react-router-dom";
 function AddBathroomModal(props) {
   const dispatch = useDispatch();
   const history = useHistory();
-  console.log("props.details: ", props.details)
-  console.log("props.searchBarAddress.value: ", props.searchBarAddress.value)
+
+  // console.log("props: ", props)
 
   let [comment, setComment] = useState(""); // sets local state for comment
-  let [name, setName] = useState(props.searchBarAddress?.value?.structured_formatting?.main_text);
-  let [formattedAddress, setFormattedAddress] = useState(props.details.formatted_address);
   let [accessible, setAccessible] = useState(false);
   let [isPublic, setIsPublic] = useState(false);
   let [unisex, setUnisex] = useState(false);
   let [changingTable, setChangingTable] = useState(false);
   let [singleStall, setSingleStall] = useState(false);
-  let [latitude, setLatitude] = useState(0);
-  let [longitude, setLongitude] = useState(0);
   let [commentForAdmin, setCommentForAdmin] = useState("");
 
   let userId = useSelector((store) => store.user.id);
 
   let bathroomToAdd = {
-    name: name,
-    formatted_address: formattedAddress,
+    placeID: props.placeID,
+    name: props.nameForModal,
+    formatted_address: props.addressForModal,
     accessible: accessible,
     is_public: isPublic,
     unisex: unisex,
     changing_table: changingTable,
     single_stall: singleStall,
-    latitude: latitude,
-    longitude: longitude,
-    user_id: userId
+    latitude: props.latitude,
+    longitude: props.longitude,
+    user_id: userId,
+    commentForAdmin: commentForAdmin,
+    comment: comment
   }
 
   const style = {
@@ -54,36 +53,33 @@ function AddBathroomModal(props) {
   }
 
   // handle change
-  const setCommentValue = (e) => {
-    e.preventDefault();
-    setComment(e.target.value);
-  }
+
   const setNameValue = (e) => {
     e.preventDefault();
-    setName(e.target.value);
+    props.setNameForModal(e.target.value);
   }
   const setAddressValue = (e) => {
     e.preventDefault();
-    setFormattedAddress(e.target.value);
+    props.setAddressForModal(e.target.value);
   }
   const setAccessibleValue = () => {
     setAccessible(!accessible);
   }
-  const setPublicValue = (e) => {
-    e.preventDefault();
-    setIsPublic(e.target.value);
+  const setChangingTableValue = () => {
+    setChangingTable(!changingTable);
   }
-  const setUnisexValue = (e) => {
-    e.preventDefault();
-    setUnisex(e.target.value);
+  const setUnisexValue = () => {
+    setUnisex(!unisex);
   }
-  const setChangingTableValue = (e) => {
-    e.preventDefault();
-    setChangingTable(e.target.value);
+  const setSingleStallValue = () => {
+    setSingleStall(!singleStall);
   }
-  const setSingleStallValue = (e) => {
+  const setPublicValue = () => {
+    setIsPublic(!isPublic);
+  }
+  const setCommentValue = (e) => {
     e.preventDefault();
-    setSingleStall(e.target.value);
+    setComment(e.target.value);
   }
   const setCommentForAdminValue = (e) => {
     e.preventDefault();
@@ -91,133 +87,125 @@ function AddBathroomModal(props) {
   }
 
   const submitPopup = () => {
-    // console.log("bathroomToAdd:", bathroomToAdd);
-    // axios.post('/add', bathroomToAdd)
-    //   .then((res) => {
-    //     res.sendStatus(201)
-        // popup window "confirming" submission
-        Swal.fire({
-          title: "Thank you for sharing! User-generated data is how we run.",
-          width: 600,
-          padding: "3em",
-          color: "#716add",
-          background:
-            "#fff url(https://media.giphy.com/media/ifMCKz51hfD9RUWXbI/giphy.gif)",
-          backdrop: `
-          rgba(0,0,123,0.4)
-          url("https://media.giphy.com/media/mTs11L9uuyGiI/giphy.gif")
-          left top
-          no-repeat
-        `,
-        }).then(function() {
-          history.push(`/bathrooms/`);
-        });
-      // })
-      //   .catch((error) => {
-      //   console.log("Error adding bathroom:", error);
-      //   res.sendStatus(500);
-      //   Swal.fire({
-      //     icon: "error",
-      //     title: "Oops...",
-      //     text: "Something went wrong! Let's try this again.",
+    console.log("bathroomToAdd:", bathroomToAdd);
+      dispatch({
+        type: "SAGA/GET_PLACE_DETAILS",
+        payload: bathroomToAdd
+      });
+    // closes modal
+    props.setModal2Show(false);
+    // popup window "confirming" submission
+      // is there a way to have a true confirmation and failure??
+    // SHOULD USERS GO TO HOMEPAGE??
+    // Swal.fire({
+    //   title: "Thank you for sharing! User-generated data is how we run.",
+    //   width: 600,
+    //   padding: "3em",
+    //   color: "#716add",
+    //   background:
+    //     "#fff url(https://media.giphy.com/media/ifMCKz51hfD9RUWXbI/giphy.gif)",
+    //   backdrop: `
+    //   rgba(0,0,123,0.4)
+    //   url("https://media.giphy.com/media/mTs11L9uuyGiI/giphy.gif")
+    //   left top
+    //   no-repeat
+    // `,
+    // });
+  }
 
-      //   });
-      // })
-            
+  return (
+    <Modal
+      show={props.show}
+      onHide={props.onHide}
+      size="sm"
+      aria-labelledby="modal-title"
+      centered
+    >
+      <Box sx={style}>
+        <Modal.Header id="modal-title">
+          <Modal.Title>
+            Add more info here:
+          </Modal.Title>
+        </Modal.Header>
 
-  // closes modal
-  props.setModal2Show(false);
+        <Modal.Body>
+          <Form>
 
-}
+            <Form.Group>
+              <Form.Label>Name*</Form.Label>
+              <Form.Control
+                type="text"
+                onChange={(e) => setNameValue(e)}
+                value={props.nameForModal}
+                required />
+            </Form.Group>
 
-return (
-  <Modal
-    show={props.show}
-    onHide={props.onHide}
-    size="sm"
-    aria-labelledby="modal-title"
-    centered
-  >
-    <Box sx={style}>
-      <Modal.Header id="modal-title">
-        <Modal.Title>
-          Add more info here:
-        </Modal.Title>
-      </Modal.Header>
+            <Form.Group>
+              <Form.Label>Address*</Form.Label>
+              <Form.Control
+                type="text"
+                onChange={(e) => setAddressValue(e)}
+                value={props.addressForModal}
+                required
+              />
+            </Form.Group>
 
-      <Modal.Body>
-        <Form>
+            <Form.Group>
+              <Form.Label>Please check whether the following apply to this bathroom:</Form.Label>
 
-          <Form.Group>
-            <Form.Label>Name*</Form.Label>
-            <Form.Control
-              type="text"
-              defaultValue={props.searchBarAddress?.value?.structured_formatting?.main_text}
-              onChange={(e) => setNameValue(e)}
-              value={name}
-              required />
-          </Form.Group>
+              <Form.Check
+                type="checkbox"
+                label="Wheelchair accessible"
+                onChange={() => setAccessibleValue()}
+              />
 
-          <Form.Group>
-            <Form.Label>Address*</Form.Label>
-            <Form.Control
-              type="text"
-              defaultValue={`${props.details.formatted_address}`}
-              onChange={(e) => setAddressValue(e)}
-              value={formattedAddress} />
-          </Form.Group>
+              <Form.Check
+                type="checkbox"
+                label="Changing table"
+                onChange={() => setChangingTableValue()}
+              />
 
-          <Form.Group>
-            <Form.Label>Please check whether the following apply to this bathroom:</Form.Label>
+              <Form.Check
+                type="checkbox"
+                label="Gender neutral/all-gender"
+                onChange={() => setUnisexValue()}
+              />
 
-            <Form.Check
-              type="checkbox"
-              label="Wheelchair accessible"
-              onChange={() => setAccessibleValue()}
-            />
+              <Form.Check
+                type="checkbox"
+                label="Single stall"
+                onChange={() => setSingleStallValue()}
+              />
 
-            <Form.Check
-              type="checkbox"
-              label="Changing table"
-            />
+              <Form.Check
+                type="checkbox"
+                label="Open to the public"
+                onChange={() => setPublicValue()}
+              />
+            </Form.Group>
 
-            <Form.Check
-              type="checkbox"
-              label="Gender neutral/all-gender"
-            />
+            <Form.Group>
+              <Form.Label>Add a comment:</Form.Label>
+              <Form.Control type="text"
+                onChange={(e) => setCommentValue(e)} />
+            </Form.Group>
 
-            <Form.Check
-              type="checkbox"
-              label="Single stall"
-            />
+            <Form.Group>
+              <Form.Label>Any other information that admin should know?</Form.Label>
+              <Form.Control
+                type="text"
+                onChange={(e) => setCommentForAdminValue(e)} />
+            </Form.Group>
 
-            <Form.Check
-              type="checkbox"
-              label="Open to the public"
-            />
-          </Form.Group>
-
-          <Form.Group>
-            <Form.Label>Add a comment:</Form.Label>
-            <Form.Control type="text" />
-          </Form.Group>
-
-          <Form.Group>
-            <Form.Label>Any other information that admin should know?</Form.Label>
-            <Form.Control
-              type="text"
-              onChange={(e) => setCommentForAdminValue(e)} />
-          </Form.Group>
-
-        </Form>
-      </Modal.Body>
-      <Modal.Footer>
-        <Button variant="outlined" sx={{ mr: 2 }} data-bs-dismiss="modal" onClick={() => props.setModal2Show(false)}>Cancel</Button>
-        <Button variant="contained" onClick={() => submitPopup()}>Submit bathroom</Button>
-      </Modal.Footer>
-    </Box>
-  </Modal>
-);
+          </Form>
+        </Modal.Body>
+        <Modal.Footer>
+          <Button variant="outlined" sx={{ mr: 2 }} data-bs-dismiss="modal" onClick={() => props.setModal2Show(false)}>Cancel</Button>
+          <Button variant="contained" onClick={() => submitPopup()}>Submit bathroom</Button>
+        </Modal.Footer>
+      </Box>
+    </Modal>
+  );
 }
 
 export default AddBathroomModal;

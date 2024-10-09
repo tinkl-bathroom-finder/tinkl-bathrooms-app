@@ -225,125 +225,19 @@ function AppBarNav() {
           <>
             <ListItem key="admin" disablePadding>
 
-              {/* <Link
-                to="/admin/editbathrooms"
+              <Link
+                to="/admin/"
                 className="linkInDrawer"
                 // onClick={() => setDrawerOpen(false)}
                 underline="none"
-                > */}
+                >
               <ListItemButton onClick={handleClick}>
                 <ListItemIcon>
                   <AdminPanelSettingsIcon />
                 </ListItemIcon>
                 <ListItemText primary="Admin" />
-                {open ? <ExpandLess /> : <ExpandMore />}
               </ListItemButton>
-              {/* nested list of admin panel pages */}
-              <Collapse in={open} timeout="auto" unmountOnExit>
-                <List component="div" disablePadding>
-
-                  {/* Add bathrooms page */}
-                  <Link
-                    to="/admin/addbathrooms"
-                    className="linkInDrawer"
-                    onClick={() => setDrawerOpen(false)}
-                    underline="none"
-                  >
-                    <ListItem key="addbathrooms" disablePadding>
-                      <ListItemButton
-                        sx={{ pl: 4 }}
-                        onClick={toggleDrawer(anchor, false)}
-                      >
-                        <ListItemIcon>
-                          <AddCircleOutlineOutlined />
-                        </ListItemIcon>
-                        <ListItemText primary="Add bathrooms" />
-                      </ListItemButton>
-                    </ListItem>
-                  </Link>
-
-                  {/* Edit/delete bathrooms page */}
-                  <Link
-                    to="/admin/editbathrooms"
-                    className="linkInDrawer"
-                    onClick={() => setDrawerOpen(false)}
-                    underline="none"
-                  >
-
-                    <ListItem key="deletebathrooms" disablePadding>
-                      <ListItemButton
-                        sx={{ pl: 4 }}
-                        onClick={toggleDrawer(anchor, false)}
-                      >
-                        <ListItemIcon>
-                          <EditNoteOutlined />
-                        </ListItemIcon>
-                        <ListItemText primary="Edit/delete bathrooms" />
-                      </ListItemButton>
-                    </ListItem>
-                  </Link>
-
-                  {/* Comments page */}
-                  <Link
-                    to="/admin/comments"
-                    className="linkInDrawer"
-                    onClick={() => setDrawerOpen(false)}
-                    underline="none"
-                  >
-                    <ListItem key="admin-comments" disablePadding>
-                      <ListItemButton
-                        sx={{ pl: 4 }}
-                        onClick={toggleDrawer(anchor, false)}
-                      >
-                        <ListItemIcon>
-                          <CommentOutlined />
-                        </ListItemIcon>
-                        <ListItemText primary="Comments" />
-                      </ListItemButton>
-                    </ListItem>
-                  </Link>
-
-                  <Link
-                    to="/admin/contact"
-                    className="linkInDrawer"
-                    onClick={() => setDrawerOpen(false)}
-                    underline="none"
-                  >
-                    <ListItem key="admin-contact" disablePadding>
-                      <ListItemButton
-                        sx={{ pl: 4 }}
-                        onClick={toggleDrawer(anchor, false)}
-                      >
-                        <ListItemIcon>
-                          <FeedbackOutlinedIcon />
-                        </ListItemIcon>
-                        <ListItemText primary="Contact" />
-                      </ListItemButton>
-                    </ListItem>
-                  </Link>
-
-                  {/* Users list page */}
-                  <Link
-                    to="/admin/users"
-                    className="linkInDrawer"
-                    onClick={() => setDrawerOpen(false)}
-                    underline="none"
-                  >
-                    <ListItem key="admin-users" disablePadding>
-                      <ListItemButton
-                        sx={{ pl: 4 }}
-                        onClick={toggleDrawer(anchor, false)}
-                      >
-                        <ListItemIcon>
-                          <GroupOutlined />
-                        </ListItemIcon>
-                        <ListItemText primary="Users" />
-                      </ListItemButton>
-                    </ListItem>
-                  </Link>
-                </List>
-              </Collapse>
-              {/* </Link> */}
+              </Link>
             </ListItem>
           </>
         )}
