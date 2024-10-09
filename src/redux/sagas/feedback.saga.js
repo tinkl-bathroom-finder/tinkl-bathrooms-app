@@ -3,7 +3,6 @@ import axios from 'axios';
 
 // sends rating and comments to post to database.
 function* sendFeedback(action) {
-    console.log('comment action', action);
     try {
         yield axios.post('/feedback', action.payload);
         const bathroomId = action.payload.restroom_id
