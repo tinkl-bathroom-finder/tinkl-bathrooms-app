@@ -13,7 +13,7 @@ import userList from './userList.reducer';
 import placeID from './placeID.reducer';
 import replicatedBathroom from './replicatedBathroom.reducer';
 import newBathroom from './newBathroom.reducer';
-import bathroomsToApprove from '../reducers/bathroomsToApprove.reducer';
+import contactReducer from './contact.reducer';
 import userFeedback from './userFeedback.reducer';
 
 // rootReducer is the primary reducer for our entire project
@@ -36,6 +36,7 @@ const rootReducer = combineReducers({
   newBathroom,
   placeID,
   replicatedBathroom,
+  contactReducer,
   bathroomsToApprove,
   userFeedback
 });

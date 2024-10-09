@@ -23,6 +23,7 @@ import AdminPage from "../AdminPage/AdminPage";
 import AddAPIBathrooms from "../AdminPage/AddAPIBathrooms";
 import DeleteBathrooms from "../AdminPage/DeleteBathrooms";
 import AdminComments from "../AdminPage/AdminComments";
+import AdminContact from "../AdminPage/AdminContact";
 import AdminUsers from "../AdminPage/AdminUsers";
 import AddBathroom from "../Nav/AddBathroom";
 import MinneDemo from './MinneDemo'
@@ -219,6 +220,15 @@ function App() {
           <>
             <AppBarNav />
             <AdminComments />
+            </>
+            : <Redirect to="/user" />}
+          </ProtectedRoute>
+
+          <ProtectedRoute exact path="/admin/contact">
+          {user.is_admin ? 
+          <>
+            <AppBarNav />
+            <AdminContact />
             </>
             : <Redirect to="/user" />}
           </ProtectedRoute>

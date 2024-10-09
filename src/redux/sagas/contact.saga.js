@@ -39,7 +39,7 @@ function* submitContact(action) {
             text: "Something went wrong. Please try again later.",
             icon: "error"
         })
-        console.log('Saga function fetchBathrooms failed: ', error)
+        console.error('Saga function fetchBathrooms failed: ', error)
     }
 }
 
@@ -57,6 +57,7 @@ function* resolveComment(action) {
 }
 
 export default function* contactSaga() {
+    yield takeLatest('SAGA/SUBMIT_CONTACT', submitContact);
     yield takeLatest('SAGA/FETCH_USER_FEEDBACK', getUserFeedback);
     yield takeLatest('SAGA/SUBMIT_CONTACT', submitContact);
     yield takeLatest('SAGA/RESOLVE_COMMENT', resolveComment);
