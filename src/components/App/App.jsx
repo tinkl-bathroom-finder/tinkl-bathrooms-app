@@ -27,6 +27,7 @@ import AdminUsers from "../AdminPage/AdminUsers";
 import AddBathroom from "../Nav/AddBathroom";
 import MinneDemo from './MinneDemo'
 import Contact from '../Contact/Contact'
+import AddBathroomErrorPage from "../Nav/AddBathroomErrorPage";
 
 import Container from "react-bootstrap/Container";
 // import GoogleMapsWrapper from '../Wrapper';
@@ -146,7 +147,8 @@ function App() {
           path="/addbathroom">
             <>          
               <AppBarNav />
-              <AddBathroom />
+              <AddBathroomErrorPage/>
+              {/* <AddBathroom /> */}
             </>
           </Route>
 
