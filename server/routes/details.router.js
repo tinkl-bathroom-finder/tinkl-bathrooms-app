@@ -68,50 +68,12 @@ router.get("/:id", (req, res) => {
   pool
     .query(query, values)
     .then((dbRes) => {
-      const theBathroom = formatBathroomObject(dbRes.rows);
-      console.log("BathroomObject:", theBathroom);
-      // dbRes.rows aka theBathroom gets sent to details.saga.js
-      res.send(theBathroom);
+      res.send(dbRes.rows[0]);
     })
     .catch((dbErr) => {
       console.log("fail:", dbErr);
       res.sendStatus(500);
     });
 });
-
-function formatBathroomObject(bathroomRows) {
-  console.log('bathroomRows:', bathroomRows)
-  const bathroom = {};
-
-  bathroom.name = bathroomRows[0].name;
-  bathroom.street = bathroomRows[0].street;
-  bathroom.city = bathroomRows[0].city;
-  bathroom.state = bathroomRows[0].state;
-  bathroom.updated_at = bathroomRows[0].updated_at;
-  bathroom.accessible = bathroomRows[0].accessible;
-  bathroom.unisex = bathroomRows[0].unisex;
-  bathroom.upvotes = bathroomRows[0].upvotes;
-  bathroom.downvotes = bathroomRows[0].downvotes;
-  bathroom.is_single_stall = bathroomRows[0].is_single_stall;
-  bathroom.changing_table = bathroomRows[0].changing_table;
-  bathroom.comments = bathroomRows[0].comments;
-  bathroom.weekday_text = bathroomRows[0].weekday_text;
-  bathroom.day_0_open = bathroomRows[0].day_0_open;
-  bathroom.day_0_close = bathroomRows[0].day_0_close;
-  bathroom.day_1_open = bathroomRows[0].day_1_open;
-  bathroom.day_1_close = bathroomRows[0].day_1_close;
-  bathroom.day_2_open = bathroomRows[0].day_2_open;
-  bathroom.day_2_close = bathroomRows[0].day_2_close;
-  bathroom.day_3_open = bathroomRows[0].day_3_open;
-  bathroom.day_3_close = bathroomRows[0].day_3_close;
-  bathroom.day_4_open = bathroomRows[0].day_4_open;
-  bathroom.day_4_close = bathroomRows[0].day_4_close;
-  bathroom.day_5_open = bathroomRows[0].day_5_open;
-  bathroom.day_5_close = bathroomRows[0].day_5_close;
-  bathroom.day_6_open = bathroomRows[0].day_6_open;
-  bathroom.day_6_close = bathroomRows[0].day_6_close;
-
-  return bathroom;
-}
 
 module.exports = router;
