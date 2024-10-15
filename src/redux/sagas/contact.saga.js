@@ -32,6 +32,7 @@ function* submitContact(action) {
             text: "Message received!",
             icon: "success"
         })
+        // clears input for feedback
         action.setFeedbackState('')
     } catch (error) {
         Swal.fire({
@@ -59,6 +60,5 @@ function* resolveComment(action) {
 export default function* contactSaga() {
     yield takeLatest('SAGA/SUBMIT_CONTACT', submitContact);
     yield takeLatest('SAGA/FETCH_USER_FEEDBACK', getUserFeedback);
-    yield takeLatest('SAGA/SUBMIT_CONTACT', submitContact);
     yield takeLatest('SAGA/RESOLVE_COMMENT', resolveComment);
 }

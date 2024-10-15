@@ -19,7 +19,9 @@ export default function Contact() {
         payload: {feedback},
         setFeedbackState
       })
-    } else {
+    } 
+    // creates an alert if nothing is written
+    else {
       Swal.fire({
         title: "Hey!!",
         text: "Please write a comment if you want to submit feedback!",
