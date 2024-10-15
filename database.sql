@@ -7,6 +7,7 @@ DROP TABLE IF EXISTS "opening_hours";
 DROP TABLE IF EXISTS "contact";
 
 DROP TRIGGER IF EXISTS "trigger_update_updated_at_restrooms" ON "restrooms";
+DROP TRIGGER IF EXISTS "trigger_update_updated_at_opening_hours" ON "opening_hours";
 DROP TRIGGER IF EXISTS "trigger_update_updated_at_comments" ON "comments";
 DROP TRIGGER IF EXISTS "trigger_update_updated_at_restroom_votes" ON "restroom_votes";
 DROP FUNCTION IF EXISTS "update_updated_at_restrooms";
@@ -26,24 +27,28 @@ SET TIMEZONE = 'America/Chicago';
 CREATE TABLE "restrooms" (
 	"id" SERIAL PRIMARY KEY,
 	"api_id" VARCHAR,
+	"is_approved" BOOLEAN DEFAULT FALSE,
+	"added_by_user" INTEGER REFERENCES "user" ON DELETE CASCADE,
 	"place_id" VARCHAR,
-	"name" VARCHAR,
+	"name" VARCHAR NOT NULL,
 	"street" VARCHAR,
 	"city" VARCHAR,
 	"state" VARCHAR,
+	"country" VARCHAR,
 	"formatted_address" VARCHAR,
 	"is_removed" BOOLEAN DEFAULT FALSE,
+	"public" BOOLEAN DEFAULT FALSE,
 	"accessible" BOOLEAN DEFAULT FALSE,
 	"unisex" BOOLEAN DEFAULT FALSE,
 	"changing_table" BOOLEAN DEFAULT FALSE,
 	"is_single_stall" BOOLEAN DEFAULT FALSE,
-	"has_menstrual_products" BOOLEAN DEFAULT FALSE,
-	"latitude" FLOAT(8),
-	"longitude" FLOAT(8),
+	"menstrual_products" BOOLEAN DEFAULT FALSE,
+	"latitude" FLOAT(8) NOT NULL,
+	"longitude" FLOAT(8) NOT NULL,
 	"created_at" TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
 	"updated_at" TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
-	"country" VARCHAR,
-	"is_flagged" BOOLEAN DEFAULT FALSE
+	"is_flagged" BOOLEAN DEFAULT FALSE,
+	"admin_comment" VARCHAR
 );
 
 CREATE TABLE "comments" (
@@ -105,10 +110,12 @@ CREATE TABLE "flagged_restrooms" (
 	"api_id" VARCHAR,
 	"name" VARCHAR,
 	"address" VARCHAR,
+	"public" BOOLEAN DEFAULT NULL,
 	"accessible" BOOLEAN DEFAULT NULL,
 	"changing_table" BOOLEAN DEFAULT NULL,
 	"unisex" BOOLEAN DEFAULT NULL,
 	"is_single_stall" BOOLEAN DEFAULT NULL,
+	"menstrual_products" BOOLEAN DEFAULT NULL,
 	"is_permanently_closed" BOOLEAN DEFAULT NULL,
 	"other_comment" VARCHAR,
 	"created_at" TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
@@ -136,6 +143,10 @@ BEGIN
 		UPDATE restrooms
     	SET updated_at = now()
     	WHERE id = NEW.restroom_id;
+	ELSIF TG_TABLE_NAME = 'opening_hours' THEN
+		UPDATE restrooms
+    	SET updated_at = now()
+    	WHERE id = NEW.restroom_id;
     END IF;
     
     RETURN NULL;
@@ -145,6 +156,12 @@ $$ language 'plpgsql';
 -- Attaches trigger function to restrooms table (will trigger update if info in the restrooms table is updated)
 CREATE TRIGGER trigger_update_updated_at_restrooms
 AFTER UPDATE ON restrooms
+FOR EACH ROW
+EXECUTE FUNCTION update_updated_at_restrooms();
+
+-- Attaches trigger function to opening_hours table (will trigger update if opening_hours are updated)
+CREATE TRIGGER trigger_update_updated_at_opening_hours
+AFTER UPDATE ON opening_hours
 FOR EACH ROW
 EXECUTE FUNCTION update_updated_at_restrooms();
 
@@ -159,3 +176,23 @@ CREATE TRIGGER trigger_update_updated_at_restroom_votes
 AFTER INSERT ON restroom_votes
 FOR EACH ROW
 EXECUTE FUNCTION update_updated_at_restrooms();
+
+-- function to update the ***flagged_restrooms*** updated_at column with a new timestamp of the current time upon being triggered
+CREATE OR REPLACE FUNCTION update_updated_at_flagged_restrooms()
+RETURNS TRIGGER AS $$
+BEGIN
+	IF TG_TABLE_NAME = 'flagged_restrooms' THEN
+		UPDATE flagged_restrooms
+    	SET updated_at = now()
+    	WHERE id = NEW.restroom_id;
+    END IF;
+    
+    RETURN NULL;
+END;
+$$ language 'plpgsql';
+
+-- Attaches trigger function to ***flagged_restrooms*** table (will trigger update if info in the flagged_restrooms table is updated)
+CREATE TRIGGER trigger_update_updated_at_flagged_restrooms
+AFTER UPDATE ON flagged_restrooms
+FOR EACH ROW
+EXECUTE FUNCTION update_updated_at_flagged_restrooms();
