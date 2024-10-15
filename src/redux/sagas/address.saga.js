@@ -82,10 +82,24 @@ function* setCurrentLocation(action) {
   }
 }
 
+function* clearAddBathrooms(action) {
+  try {
+    yield put({
+      type: "CLEAR_REPLICATED_BATHROOM_DETAILS"
+    });
+    yield put({
+      type: "CLEAR_NEW_BATHROOM_DETAILS"
+    });
+  } catch (error) {
+    console.log("Saga function clearAddBathrooms failed: ", error);
+  }
+}
+
 function* addressSaga() {
   yield takeLatest("SAGA/SEND_LOCATION", getAddressCoordinates);
   yield takeLatest("SAGA/SET_CURRENT_LOCATION", setCurrentLocation);  
   yield takeLatest("SAGA/GET_PLACE_ID", getPlaceID);  
+  yield takeLatest("SAGA/CLEAR_ADD_BATHROOM", clearAddBathrooms);  
 }
 
 export default addressSaga;
