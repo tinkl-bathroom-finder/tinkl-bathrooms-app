@@ -92,8 +92,13 @@ function AddBathroomModal(props) {
         type: "SAGA/GET_PLACE_DETAILS",
         payload: bathroomToAdd
       });
+      dispatch({
+        type: "SAGA/CLEAR_ADD_BATHROOM",
+        payload: bathroomToAdd
+      });
     // closes modal
     props.setModal2Show(false);
+    history.push("/bathrooms");
     // popup window "confirming" submission
       // is there a way to have a true confirmation and failure??
     // SHOULD USERS GO TO HOMEPAGE??

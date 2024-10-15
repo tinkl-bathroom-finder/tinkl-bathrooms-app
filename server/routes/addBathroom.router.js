@@ -39,12 +39,12 @@ router.post('/add', rejectUnauthenticated, async (req, res) => {
     // SHOULD THE ADMIN COMMENT GO HERE AS WELL??
     const restroomsQuery = `
           INSERT INTO "restrooms"
-          ("name", "street", "city", "state", "accessible", "unisex", "latitude", "longitude", "country", "changing_table", "is_single_stall", "place_id", "add_by_user")
+          ("name", "street", "city", "state", "accessible", "unisex", "latitude", "longitude", "country", "changing_table", "is_single_stall", "place_id", "add_by_user", "admin_comment")
           VALUES
-          ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13)
+          ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14)
           RETURNING "id"
           `;
-    const restroomsValues = [info.name, street, city, state, info.accessible, info.unisex, info.latitude, info.longitude, country, info.changing_table, info.single_stall, info.placeID, req.user.id]
+    const restroomsValues = [info.name, street, city, state, info.accessible, info.unisex, info.latitude, info.longitude, country, info.changing_table, info.single_stall, info.placeID, req.user.id, info.commentForAdmin]
     // query returns id from the inserted restroom
     const returnedRestroomIdRows = await connection.query(
       restroomsQuery,
