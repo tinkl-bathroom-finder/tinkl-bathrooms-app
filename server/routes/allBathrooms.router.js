@@ -35,7 +35,7 @@ router.get("/", (req, res) => {
 FROM "restrooms"
 LEFT JOIN "restroom_votes" ON "restrooms".id="restroom_votes".restroom_id
 LEFT JOIN "opening_hours" ON "restrooms".id="opening_hours".restroom_id
-WHERE "restrooms".is_removed = FALSE
+WHERE "restrooms".is_removed = FALSE AND "restrooms".is_approved = TRUE
 GROUP BY "restrooms".id, "opening_hours".weekday_text,
    "opening_hours".day_0_open,
    "opening_hours".day_0_close,

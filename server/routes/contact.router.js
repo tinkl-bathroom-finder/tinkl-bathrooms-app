@@ -3,30 +3,13 @@ const pool = require("../modules/pool");
 const reactRouterDom = require("react-router-dom");
 const router = express.Router();
 
-router.post("/", (req, res) => {
-    const query = `
-    INSERT INTO "contact" (user_id, details)
-    VALUES ($1, $2)
-    `
-    const values = [req.user.id, req.body.feedback]
-
-    pool
-        .query (query, values)
-        .then((dbRes) => {
-            res.sendStatus(201)
-        })
-        .catch((dbErr) => {
-            console.error('Contact post route failed:', dbErr)
-            res.sendStatus(500)
-        })
-})
-
 router.get("/", (req, res) => {
     const query = `
         SELECT
+        "contact".id AS "comment_id",
         "contact".user_id,
         "contact".details,
-        "contact".id AS "comment_id",
+        "contact".resolved,
         "contact".inserted_at,
         "user".username
         FROM "contact"
@@ -39,6 +22,50 @@ router.get("/", (req, res) => {
         })
         .catch((dbErr) => {
             res.sendStatus(500);
+        })
+})
+
+router.get("/", (req, res) => {
+  pool.query(`SELECT * FROM "contact"`)
+    .then((dbRes) => {
+      res.send(dbRes.rows)
+    })
+    .catch((dbErr) => {
+      console.error('Contact get route failed', dbErr)
+      res.sendStatus(500)
+    })
+})
+
+router.post("/", (req, res) => {
+  const query = `
+    INSERT INTO "contact" (user_id, details)
+    VALUES ($1, $2)
+    `
+  const values = [req.user.id, req.body.feedback]
+  pool.query(query, values)
+    .then((dbRes) => {
+      res.sendStatus(201)
+    })
+    .catch((dbErr) => {
+      console.error('Contact post route failed:', dbErr)
+      res.sendStatus(500)
+    })
+})
+
+router.put("/", (req, res) => {
+    const query = `
+    UPDATE "contact"
+    SET "resolved" = TRUE
+    WHERE "id" = $1
+    `
+    pool
+        .query (query, [req.body.commentId])
+        .then((dbRes) => {
+            res.sendStatus(200)
+        })
+        .catch((dbErr) => {
+            console.error('Contact put route failed:', dbErr)
+            res.sendStatus(500)
         })
 })
 

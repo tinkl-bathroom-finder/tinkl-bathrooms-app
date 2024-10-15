@@ -4,6 +4,7 @@ DROP TABLE IF EXISTS "comments";
 DROP TABLE IF EXISTS "comment_votes";
 DROP TABLE IF EXISTS "restroom_votes";
 DROP TABLE IF EXISTS "opening_hours";
+DROP TABLE IF EXISTS "contact";
 
 DROP TRIGGER IF EXISTS "trigger_update_updated_at_restrooms" ON "restrooms";
 DROP TRIGGER IF EXISTS "trigger_update_updated_at_comments" ON "comments";
@@ -119,6 +120,7 @@ CREATE TABLE "flagged_restrooms" (
 	"id" SERIAL PRIMARY KEY,
 	"user_id"  INTEGER REFERENCES "user" ON DELETE CASCADE,
 	"details" VARCHAR,
+	"resolved" BOOLEAN DEFAULT FALSE,
 	"inserted_at" TIMESTAMP WITH TIME ZONE DEFAULT NOW()
 );
 

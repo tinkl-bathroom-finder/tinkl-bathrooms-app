@@ -45,6 +45,7 @@ import {
 // misc. icons
 import InstallMobileIcon from '@mui/icons-material/InstallMobile';
 import FeedbackIcon from '@mui/icons-material/Feedback';
+import FeedbackOutlinedIcon from '@mui/icons-material/FeedbackOutlined';
 import MenuIcon from "@mui/icons-material/Menu";
 import InfoIcon from '@mui/icons-material/Info';
 import AdminPanelSettingsIcon from '@mui/icons-material/AdminPanelSettings';
