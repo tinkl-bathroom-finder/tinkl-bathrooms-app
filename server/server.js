@@ -18,6 +18,7 @@ const apiRouter = require('./routes/api.router')
 const userCommentsRouter = require('./routes/userComments.router')
 const addBathroomRouter = require('./routes/addBathroom.router')
 const contactRouter = require('./routes/contact.router')
+const flagBathroomRouter = require('./routes/flagBathroom.router')
 
 
 // Body parser middleware
@@ -51,6 +52,8 @@ app.use('/comments', userCommentsRouter)
 app.use('/add', addBathroomRouter)
 // route for contact
 app.use('/contact', contactRouter)
+// route for flagging
+app.use('/flag', flagBathroomRouter)
 
 // Serve static files
 app.use(express.static('build'));
