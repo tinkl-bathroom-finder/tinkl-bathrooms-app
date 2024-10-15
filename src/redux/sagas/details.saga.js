@@ -5,14 +5,14 @@ import axios from 'axios';
 function* fetchBathroomDetails (action) {
     try {
       const bathroomId = action.payload
-      console.log('bathroomId: ', bathroomId)
+      console.log('bathroomId in details saga: ', bathroomId)
       const response = yield axios({
         method: 'GET',
         url: `/details/${bathroomId}`
       })
       
       const theBathroom = response.data
-      console.log('theBathroom, aka response.data', theBathroom)
+      console.log('theBathroom, aka response.data from details saga', theBathroom)
       yield put({
         type: 'SET_BATHROOM_DETAILS',
         payload: theBathroom
