@@ -148,8 +148,8 @@ function App() {
           path="/addbathroom">
             <>          
               <AppBarNav />
-              <AddBathroomErrorPage/>
-              {/* <AddBathroom /> */}
+              {/* <AddBathroomErrorPage/> */}
+              <AddBathroom />
             </>
           </Route>
 
