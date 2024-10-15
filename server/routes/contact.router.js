@@ -25,17 +25,6 @@ router.get("/", (req, res) => {
         })
 })
 
-router.get("/", (req, res) => {
-  pool.query(`SELECT * FROM "contact"`)
-    .then((dbRes) => {
-      res.send(dbRes.rows)
-    })
-    .catch((dbErr) => {
-      console.error('Contact get route failed', dbErr)
-      res.sendStatus(500)
-    })
-})
-
 router.post("/", (req, res) => {
   const query = `
     INSERT INTO "contact" (user_id, details)
