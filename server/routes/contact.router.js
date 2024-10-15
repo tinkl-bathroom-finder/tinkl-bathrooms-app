@@ -1,9 +1,11 @@
 const express = require("express");
 const pool = require("../modules/pool");
-const reactRouterDom = require("react-router-dom");
 const router = express.Router();
+const { rejectUnauthenticated } = require('../modules/authentication-middleware');
+const checkAdminAuth = require('../modules/checkAdminAuth');
 
-router.get("/", (req, res) => {
+
+router.get("/", rejectUnauthenticated, checkAdminAuth, (req, res) => {
     const query = `
         SELECT
         "contact".id AS "comment_id",
@@ -25,7 +27,7 @@ router.get("/", (req, res) => {
         })
 })
 
-router.post("/", (req, res) => {
+router.post("/", rejectUnauthenticated, checkAdminAuth, (req, res) => {
   const query = `
     INSERT INTO "contact" (user_id, details)
     VALUES ($1, $2)
@@ -41,7 +43,7 @@ router.post("/", (req, res) => {
     })
 })
 
-router.put("/", (req, res) => {
+router.put("/", rejectUnauthenticated, checkAdminAuth, (req, res) => {
     const query = `
     UPDATE "contact"
     SET "resolved" = TRUE
