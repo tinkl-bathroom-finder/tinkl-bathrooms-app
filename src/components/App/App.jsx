@@ -143,15 +143,28 @@ function App() {
             {/* <MyMap /> */}
           </Route>
 
-          <Route 
+          {/* <Route 
           exact 
           path="/addbathroom">
             <>          
               <AppBarNav />
-              {/* <AddBathroomErrorPage/> */}
               <AddBathroom />
             </>
-          </Route>
+          </Route> */}
+
+          <ProtectedRoute
+            // logged in and admin shows AdminPage else shows LoginPage
+            exact
+            path="/addbathroom"
+          >
+            {/* admin page, where you access the add bathrooms/delete bathrooms/etc pages */}
+            {user.is_admin ?
+          <>
+            <AppBarNav /> 
+            <AddBathroom />
+            </>
+            : <AddBathroomErrorPage/>}
+          </ProtectedRoute>
 
 {/* for a specific bathroom with id :id */}
           <Route exact path="/bathrooms/:id">
