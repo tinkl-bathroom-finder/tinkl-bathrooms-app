@@ -114,22 +114,7 @@ function BathroomItemMap({ bathroom, origin }) {
                   {bathroom.is_single_stall ? <Man4Icon /> : ""}
                 </Typography>
 
-                {/* chevron to expand bathroom item card */}
-                <Typography
-                  variant="h6"
-                  align="right"
-                  color={"grey"}
-                  sx={{ mr: 1, mt: 2, verticalAlign: 'bottom' }}
-                >
-                  <ExpandMore
-                    expand={expanded}
-                    onClick={handleExpandClick}
-                    aria-expanded={expanded}
-                    aria-label="show more"
-                  >
-                    <ExpandMoreIcon />
-                  </ExpandMore>
-                </Typography>
+
               </>
             }
           />
@@ -147,6 +132,23 @@ function BathroomItemMap({ bathroom, origin }) {
                   {bathroom.distance
                     ? `${bathroom.distance.toFixed(2)} mi`
                     : ""}
+                </Typography>
+
+            {/* chevron to expand bathroom item card */}
+                <Typography
+                  variant="h6"
+                  align="right"
+                  color={"grey"}
+                  sx={{ verticalAlign: 'bottom', fontSize: '1rem' }}
+                >
+                  <ExpandMore
+                    expand={expanded}
+                    onClick={handleExpandClick}
+                    aria-expanded={expanded}
+                    aria-label="show more"
+                  >
+                    <ExpandMoreIcon />
+                  </ExpandMore>
                 </Typography>
             <Collapse in={expanded} timeout="auto" unmountOnExit>
               
