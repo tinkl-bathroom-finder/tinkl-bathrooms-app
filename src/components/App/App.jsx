@@ -82,7 +82,7 @@ function App() {
       warning: {
         main: '#ed0202',
       },
-      divider: '#00695c',
+      divider: '#FBECB2', 
     },
     typography: {
       fontFamily: [
