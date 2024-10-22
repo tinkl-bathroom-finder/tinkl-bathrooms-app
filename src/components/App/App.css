@@ -31,6 +31,12 @@ Container
   height: 50vh;
 }
 
+
+.scroll-container {
+  overflow: scroll;
+  scrollbar-color: red;
+  scrollbar-width: auto;
+}
 /* --------------------------------------------------------------------------------
 Button
 -------------------------------------------------------------------------------- */
@@ -338,3 +344,4 @@ Avatar circle
   width: 100%;
   position: absolute;
 }
+
