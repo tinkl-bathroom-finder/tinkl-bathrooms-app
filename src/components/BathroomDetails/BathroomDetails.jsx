@@ -160,6 +160,7 @@ function BathroomDetails() {
   return (
     <>
       <Box key={theBathroomDetails.id} width="100%" pl="20px">
+        
         <Card
           sx={{
             mb: "20px",
@@ -167,6 +168,7 @@ function BathroomDetails() {
             mr: "25px",
             pr: "10px",
             maxHeight: "82vh",
+            overflowY: "auto",
           }}
         >
           
