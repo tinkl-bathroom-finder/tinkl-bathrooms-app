@@ -61,11 +61,11 @@ function BathroomDetails() {
   const date = new Date();
   let day = date.getDay(); // day comes back as number => 1 is Monday, 2 is Tuesday, etc.
   let hour = date.getHours() * 100; // formats hour as military time
-  let minutes  = date.getMinutes();
+  let minutes = date.getMinutes();
   let militaryTime = hour + minutes // we don't actually need to convert this to a string since we want to compare it as a numeral
 
 
-  
+
 
 
 
@@ -148,14 +148,14 @@ function BathroomDetails() {
 
     // get users current time for this bathroom 
     // getDateTime();
-    
+
   }, [params.id]); // 👈 useEffect will retrigger if params.id (id in url) changes
 
   const returnToList = () => {
     history.goBack();
   };
 
-  const setCurrentPosition = () => {};
+  const setCurrentPosition = () => { };
 
   return (
     <>
@@ -169,7 +169,7 @@ function BathroomDetails() {
             maxHeight: "82vh",
           }}
         >
-          
+
           {/* BACK button */}
           <Button
             onClick={returnToList}
@@ -236,9 +236,9 @@ function BathroomDetails() {
               pt: 1,
             }}
           >
-                      <CompareTime bathroom={bathroom}/>
+            <CompareTime bathroom={bathroom} />
 
-                 {/* <h6 class={isOpen ? "open" : "closed"}> {isOpen ? 'Open now' : 'Closed'}</h6> */}
+            {/* <h6 class={isOpen ? "open" : "closed"}> {isOpen ? 'Open now' : 'Closed'}</h6> */}
             {/* upvotes and downvotes */}
             <Typography align="left">
               {theBathroomDetails.upvotes || 0}
@@ -247,7 +247,7 @@ function BathroomDetails() {
               <ThumbDownOutlined sx={{ pr: 1 }} />
             </Typography>{" "}
 
-            <BusinessHours bathroom={bathroom}/>
+            <BusinessHours bathroom={bathroom} />
 
             <CardActions></CardActions>
             {/* icons to show if the selected bathroom is all-gender, etc. */}
@@ -322,7 +322,7 @@ function BathroomDetails() {
 
             {/* if the bathroom has any comments, the comment list box will render */}
             <CommentList commentArray={theBathroomDetails.comments} />
-                
+
             {/* button to open IPeedHereModal */}
             <Button
               onClick={() => clickIPeedHere()}
