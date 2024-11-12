@@ -10,7 +10,7 @@ const axios = require('axios');
 // get route for flagged bathrooms suggested changes
 router.get('/', rejectUnauthenticated, checkAdminAuth, (req, res) => {
   pool
-    .query`GET * FROM "flagged_restrooms"`
+    .query(`SELECT * FROM "flagged_restrooms"`)
     .then((dbRes) => {
       res.send(dbRes.rows)
     })
