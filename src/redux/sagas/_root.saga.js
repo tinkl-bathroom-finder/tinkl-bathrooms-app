@@ -13,6 +13,7 @@ import deleteBathroomSaga from './deleteBathroom.saga';
 import userListSaga from './userList.saga';
 import addBathroom from './addBathroom.saga';
 import contactSaga from './contact.saga';
+import flagBathroomSaga from './flagBathroom.saga';
 
 // rootSaga is the primary saga.
 // It bundles up all of the other sagas so our project can use them.
@@ -37,5 +38,6 @@ export default function* rootSaga() {
     userListSaga(),
     addBathroom(),
     contactSaga(),
+    flagBathroomSaga()
   ]);
 }
