@@ -1,16 +1,16 @@
-import React, { useEffect, useState, createRef } from "react";
+// react
+import React, { useEffect, useState } from "react";
 import { useParams, useHistory } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import Modal from "react-bootstrap/Modal";
-import Form from "react-bootstrap/Form";
-import ToggleButton from "react-bootstrap/ToggleButton";
-import ToggleButtonGroup from "react-bootstrap/ToggleButtonGroup";
-import { Business, Close } from "@mui/icons-material";
+
+// other components
 import CommentList from "./Comments";
 import IPeedHereModal from "./IPeedHereModal";
 import MarkAsFlaggedModal from "./MarkAsFlaggedModal";
 import CompareTime from "../BathroomItem/CompareTime";
+import BusinessHours from "../BathroomItem/BusinessHours";
 
+// mui
 import {
   Box,
   Button,
@@ -20,18 +20,12 @@ import {
   Typography,
   CardActions,
   IconButton,
-  CardMedia,
-  Grid,
 } from "@mui/material";
-import Collapse from "@mui/material/Collapse";
 
-import BusinessHours from "../BathroomItem/BusinessHours";
-
-// import Grid from '@mui/material/Unstable_Grid2';
+// mui icons
 import {
   AccessibleForwardOutlined,
   BabyChangingStationOutlined,
-  ExpandMore,
   Man4,
   NearMeOutlined,
   OutlinedFlagOutlined,
@@ -40,34 +34,28 @@ import {
   ThumbDownOutlined,
   ThumbUpOutlined,
 } from "@mui/icons-material";
-// import PlaceIcon from "@mui/icons-material/Place";
-// import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
-import MoreVertIcon from "@mui/icons-material/MoreVert";
-// import Man4Icon from '@mui/icons-material/Man4';
-import { styled } from "@mui/material/styles";
-import Grid2 from "@mui/material/Unstable_Grid2/Grid2";
+
 
 function BathroomDetails() {
+
   // this gets us the bathroom id that exists in the url bar
   const params = useParams();
   const dispatch = useDispatch();
   const history = useHistory();
+
+  // 
   const theBathroomDetails = useSelector((store) => store.bathroomDetails);
   const commentArray = useSelector((store) => store.bathroomDetails.comments);
   const [expanded, setExpanded] = useState(false);
+
   const bathroom = theBathroomDetails;
 
-  // Bathroom open/close 
+  // date stuff
   const date = new Date();
   let day = date.getDay(); // day comes back as number => 1 is Monday, 2 is Tuesday, etc.
   let hour = date.getHours() * 100; // formats hour as military time
-  let minutes  = date.getMinutes();
+  let minutes = date.getMinutes();
   let militaryTime = hour + minutes // we don't actually need to convert this to a string since we want to compare it as a numeral
-
-
-  
-
-
 
   // React state for IPeedHereModal
   const [modalShow, setModalShow] = useState(false);
@@ -77,6 +65,7 @@ function BathroomDetails() {
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
 
+  // user location
   const [currentLat, setCurrentLat] = useState(0);
   const [currentLng, setCurrentLng] = useState(0);
   let userId = useSelector((store) => store.user.id);
@@ -86,8 +75,24 @@ function BathroomDetails() {
     window.open(url, "_blank", "noreferrer");
   };
 
+  
+  // flag logic
+  const [flaggedBathroom, setFlaggedBathroom] = useState({})
   const clickSomethingNotLookRight = () => {
     if (userId) {
+      // setFlaggedBathroom({
+      //   name: theBathroomDetails.name,
+      //   street: theBathroomDetails.street,
+      //   city: theBathroomDetails.city,
+      //   state: theBathroomDetails.state,
+      //   accessible: theBathroomDetails.accessible,
+      //   changing_table: theBathroomDetails.changing_table,
+      //   unisex: theBathroomDetails.unisex,
+      //   menstrual_products: theBathroomDetails.menstrual_products,
+      //   is_single_stall: theBathroomDetails.is_single_stall,
+      //   other: '',
+      //   is_removed: theBathroomDetails.is_removed,
+      // })
       setModal2Show(true);
     } else
       Swal.fire({
@@ -105,6 +110,7 @@ function BathroomDetails() {
       });
   };
 
+  // I peed here button logic
   const clickIPeedHere = () => {
     if (userId) {
       setModalShow(true);
@@ -145,17 +151,15 @@ function BathroomDetails() {
       type: "SAGA/FETCH_BATHROOM_DETAILS",
       payload: params.id,
     });
-
     // get users current time for this bathroom 
     // getDateTime();
-    
   }, [params.id]); // 👈 useEffect will retrigger if params.id (id in url) changes
 
   const returnToList = () => {
     history.goBack();
   };
 
-  const setCurrentPosition = () => {};
+  const setCurrentPosition = () => { };
 
   return (
     <>
@@ -169,7 +173,7 @@ function BathroomDetails() {
             maxHeight: "82vh",
           }}
         >
-          
+
           {/* BACK button */}
           <Button
             onClick={returnToList}
@@ -236,9 +240,9 @@ function BathroomDetails() {
               pt: 1,
             }}
           >
-                      <CompareTime bathroom={bathroom}/>
+            <CompareTime bathroom={bathroom} />
 
-                 {/* <h6 class={isOpen ? "open" : "closed"}> {isOpen ? 'Open now' : 'Closed'}</h6> */}
+            {/* <h6 class={isOpen ? "open" : "closed"}> {isOpen ? 'Open now' : 'Closed'}</h6> */}
             {/* upvotes and downvotes */}
             <Typography align="left">
               {theBathroomDetails.upvotes || 0}
@@ -247,7 +251,7 @@ function BathroomDetails() {
               <ThumbDownOutlined sx={{ pr: 1 }} />
             </Typography>{" "}
 
-            <BusinessHours bathroom={bathroom}/>
+            <BusinessHours bathroom={bathroom} />
 
             <CardActions></CardActions>
             {/* icons to show if the selected bathroom is all-gender, etc. */}
@@ -322,7 +326,7 @@ function BathroomDetails() {
 
             {/* if the bathroom has any comments, the comment list box will render */}
             <CommentList commentArray={theBathroomDetails.comments} />
-                
+
             {/* button to open IPeedHereModal */}
             <Button
               onClick={() => clickIPeedHere()}
