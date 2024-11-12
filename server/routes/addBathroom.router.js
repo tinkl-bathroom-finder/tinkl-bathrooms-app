@@ -199,7 +199,6 @@ GROUP BY "restrooms".id, "opening_hours".weekday_text,
   pool
     .query(query)
     .then((dbRes) => {
-      console.log("dbRes.rows in GET /add/approve route:", dbRes);
       res.send(dbRes.rows);
     })
     .catch((dbErr) => {
