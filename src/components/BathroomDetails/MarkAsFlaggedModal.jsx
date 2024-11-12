@@ -18,29 +18,11 @@ function MarkAsFlaggedModal(props) {
   const dispatch = useDispatch()
   const submitPopup = () => {
     event.preventDefault()
-    // closes modal
-    // props.setModal2Show(false);
-
     dispatch({
       type: 'SAGA/FLAG_BATHROOM',
-      payload: flaggedBathroom
+      payload: flaggedBathroom,
+      close: props.setModal2Show
     })
-
-    // popup window "confirming" submission
-    // Swal.fire({
-    //   title: "Thank you for sharing! Users help keep this app up-to-date.",
-    //   width: 600,
-    //   padding: "3em",
-    //   color: "#716add",
-    //   background:
-    //     "#fff url(https://media.giphy.com/media/ifMCKz51hfD9RUWXbI/giphy.gif)",
-    //   backdrop: `
-    //     rgba(0,0,123,0.4)
-    //     url("https://media.giphy.com/media/mTs11L9uuyGiI/giphy.gif")
-    //     left top
-    //     no-repeat
-    //   `,
-    // });
   }
 
   // mui styling
