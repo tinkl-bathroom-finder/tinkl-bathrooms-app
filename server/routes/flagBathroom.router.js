@@ -5,6 +5,8 @@ const checkAdminAuth = require("../modules/checkAdminAuth")
 const router = express.Router();
 const axios = require('axios');
 
+// ***** /flag ROUTES *****
+
 // get route for flagged bathrooms suggested changes
 router.get('/', rejectUnauthenticated, checkAdminAuth, (req, res) => {
   pool
@@ -30,26 +32,33 @@ router.post('/', rejectUnauthenticated, async (req, res) => {
         restroom_id, 
         user_id, 
         name, 
-        address, 
+        street, 
+        city,
+        state,
         accessible, 
         changing_table, 
         unisex, 
         is_single_stall, 
+        menstrual_products,
         is_permanently_closed, 
         other_comment
       )
-      VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $10)
+      VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13)
     `
     const flagChangesValues = [
-      req.body.bathroomId, 
+      req.body.restroom_id, 
       req.body.user_id, 
-      req.body.address, 
-      req.body.isAccessible, 
-      req.body.hasChangingTable, 
-      req.body.isUnisex, 
-      req.body.isSingleStall, 
-      req.body.isClosed, 
-      req.body.otherComments
+      req.body.name,
+      req.body.street, 
+      req.body.city, 
+      req.body.state, 
+      req.body.accessible, 
+      req.body.changing_table, 
+      req.body.unisex, 
+      req.body.is_single_stall, 
+      req.body.menstrual_products, 
+      req.body.is_closed,
+      req.body.other
     ]
     await connection.query(flagChangesQuery, flagChangesValues)
 
@@ -59,7 +68,7 @@ router.post('/', rejectUnauthenticated, async (req, res) => {
       SET "is_flagged" = TRUE
       WHERE id = $1
     `
-    const markFlaggedValues = [req.body.bathroomId]
+    const markFlaggedValues = [req.body.restroom_id]
     await connection.query(markFlaggedQuery, markFlaggedValues)
 
     // commit changes
