@@ -16,6 +16,7 @@ import replicatedBathroom from './replicatedBathroom.reducer';
 import userComments from './userComments.reducer';
 import userFeedback from './userFeedback.reducer';
 import userList from './userList.reducer';
+import flaggedBathrooms from './flaggedBathrooms.reducer';
 
 // rootReducer is the primary reducer for our entire project
 // It bundles up all of the other reducers so our project can use them.
@@ -39,7 +40,8 @@ const rootReducer = combineReducers({
   replicatedBathroom,
   contactReducer,
   bathroomsToApprove,
-  userFeedback
+  userFeedback,
+  flaggedBathrooms
 });
 
 export default rootReducer;

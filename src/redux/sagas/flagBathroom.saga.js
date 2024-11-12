@@ -1,6 +1,15 @@
 import axios from 'axios';
 import { put, take, takeLatest } from "redux-saga/effects";
 
+function* fetchFlaggedBathrooms(action) {
+	try {
+		const result = yield axios.get('/flag')
+		yield put({type: 'SET_FLAGGED_BATHROOMS', payload: result.data})
+	} catch (error) {
+		console.error('SAGA fetchFlaggedBathrooms failed:', error)
+	}
+}
+
 function* flagBathroom(action) {
 	try {
 		yield axios.post('/flag', action.payload)
@@ -40,6 +49,7 @@ function* flagBathroom(action) {
 }
 
 function* flagBathroomSaga() {
+	yield takeLatest('SAGA/FETCH_FLAGGED_BATHROOMS', fetchFlaggedBathrooms)
 	yield takeLatest('SAGA/FLAG_BATHROOM', flagBathroom)
 }
 
