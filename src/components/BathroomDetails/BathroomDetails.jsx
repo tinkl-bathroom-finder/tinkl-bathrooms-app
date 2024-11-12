@@ -46,6 +46,7 @@ function BathroomDetails() {
   // 
   const theBathroomDetails = useSelector((store) => store.bathroomDetails);
   const commentArray = useSelector((store) => store.bathroomDetails.comments);
+  const user = useSelector((store => store.user))
   const [expanded, setExpanded] = useState(false);
 
   const bathroom = theBathroomDetails;
@@ -62,8 +63,6 @@ function BathroomDetails() {
 
   // React state for MarkAsFlaggedModal
   const [modal2Show, setModal2Show] = useState(false);
-  const handleOpen = () => setOpen(true);
-  const handleClose = () => setOpen(false);
 
   // user location
   const [currentLat, setCurrentLat] = useState(0);
@@ -76,25 +75,32 @@ function BathroomDetails() {
   };
 
   
-  // flag logic
+  // *** FLAGGING LOGIC ***
+  // 
+  // state storing flagged bathroom details
   const [flaggedBathroom, setFlaggedBathroom] = useState({})
+  // 
+  // clicking flag opens modal and sets state to selected bathroom details
   const clickSomethingNotLookRight = () => {
     if (userId) {
-      // setFlaggedBathroom({
-      //   name: theBathroomDetails.name,
-      //   street: theBathroomDetails.street,
-      //   city: theBathroomDetails.city,
-      //   state: theBathroomDetails.state,
-      //   accessible: theBathroomDetails.accessible,
-      //   changing_table: theBathroomDetails.changing_table,
-      //   unisex: theBathroomDetails.unisex,
-      //   menstrual_products: theBathroomDetails.menstrual_products,
-      //   is_single_stall: theBathroomDetails.is_single_stall,
-      //   other: '',
-      //   is_removed: theBathroomDetails.is_removed,
-      // })
+      setFlaggedBathroom({
+        restroom_id: theBathroomDetails.id,
+        user_id: user.id,
+        name: theBathroomDetails.name,
+        street: theBathroomDetails.street,
+        city: theBathroomDetails.city,
+        state: theBathroomDetails.state,
+        accessible: theBathroomDetails.accessible,
+        changing_table: theBathroomDetails.changing_table,
+        unisex: theBathroomDetails.unisex,
+        menstrual_products: theBathroomDetails.menstrual_products,
+        is_single_stall: theBathroomDetails.is_single_stall,
+        other: '',
+        is_closed: theBathroomDetails.is_removed,
+      })
       setModal2Show(true);
     } else
+      // if user isn't logged in, displays an alert
       Swal.fire({
         title: "Hey, stranger.",
         imageUrl: "https://media.giphy.com/media/HULqwwF5tWKznstIEE/giphy.gif",
@@ -109,6 +115,16 @@ function BathroomDetails() {
         }
       });
   };
+  // 
+  // controls bathroom state editing
+  const editTextDetails = (event, key) => {
+    setFlaggedBathroom({...flaggedBathroom, [key]: event.target.value})
+  }
+  const editCheckDetails = (key) => {
+    setFlaggedBathroom({...flaggedBathroom, [key]: !flaggedBathroom[key]})
+  }
+  // 
+  // *** end flagging logic ***
 
   // I peed here button logic
   const clickIPeedHere = () => {
@@ -145,7 +161,6 @@ function BathroomDetails() {
       setCurrentLng(position.coords.longitude);
     });
     // should log the id of the restroom we're currently on (would expect this to log: {id: '5'} if our browser is at localhost:3000/bathrooms/5)
-    console.log("params: ", params);
     // Fire a dispatch that calls a fetchBathroomDetails Saga function
     dispatch({
       type: "SAGA/FETCH_BATHROOM_DETAILS",
@@ -366,7 +381,9 @@ function BathroomDetails() {
         onHide={() => setModal2Show(false)}
         aria-labelledby="something-isnt-right-modal"
         aria-describedby="Form to flag outdated or bad information about the bathroom."
-        details={theBathroomDetails}
+        details={flaggedBathroom}
+        editTextDetails={editTextDetails}
+        editCheckDetails={editCheckDetails}
       />
     </>
   );

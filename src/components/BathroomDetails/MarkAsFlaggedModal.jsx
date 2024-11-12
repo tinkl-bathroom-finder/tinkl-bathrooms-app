@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { Form, Modal } from "react-bootstrap";
 
 import Box from '@mui/material/Box';
@@ -9,47 +9,24 @@ import { PropaneRounded } from "@mui/icons-material";
 
 function MarkAsFlaggedModal(props) {
 
-  // modal open state
-  let [isClosed, setIsClosed] = useState(false);
-
-  // local state for bathroom to be flagged
-  let [flaggedBathroom, setFlaggedBathroom] = useState({})
-
-  // on mount, sets local state with bathroom details
-  useEffect(() => {
-    setFlaggedBathroom({
-      name: props.details.name,
-      street: props.details.street,
-      city: props.details.city,
-      state: props.details.state,
-      accessible: props.details.accessible,
-      changing_table: props.details.changing_table,
-      unisex: props.details.unisex,
-      menstrual_products: props.details.menstrual_products,
-      is_single_stall: props.details.is_single_stall,
-      other: '',
-      is_removed: props.details.is_removed,
-    })
-  }, [])
-
-  // controls bathroom state editing
-  const editTextDetails = (event, key) => {
-    setFlaggedBathroom({...flaggedBathroom, [key]: event.target.value})
-    console.log(event.target.value)
-  }
-  const editCheckDetails = (key) => {
-    setFlaggedBathroom({...flaggedBathroom, [key]: !flaggedBathroom[key]})
-    console.log(flaggedBathroom)
-  }
+  // props
+  const flaggedBathroom = props.details
+  const editTextDetails = props.editTextDetails
+  const editCheckDetails = props.editCheckDetails
 
   // submission of bathroom edits
-  const submitPopup = (event) => {
+  const dispatch = useDispatch()
+  const submitPopup = () => {
     event.preventDefault()
     // closes modal
     // props.setModal2Show(false);
 
+    dispatch({
+      type: 'SAGA/FLAG_BATHROOM',
+      payload: flaggedBathroom
+    })
+
     // popup window "confirming" submission
-    console.log(event.target.value)
     // Swal.fire({
     //   title: "Thank you for sharing! Users help keep this app up-to-date.",
     //   width: 600,
@@ -101,9 +78,9 @@ function MarkAsFlaggedModal(props) {
             <Form.Group>
               <Form.Label>Name</Form.Label>
               <Form.Control
-               type="text"
-                disabled={isClosed}
-                defaultValue={props.details.name} 
+                type="text"
+                disabled={flaggedBathroom.is_closed}
+                value={flaggedBathroom.name}
                 onChange={() => editTextDetails(event, 'name')}
               />
             </Form.Group>
@@ -112,8 +89,8 @@ function MarkAsFlaggedModal(props) {
               <Form.Label>Street</Form.Label>
               <Form.Control 
                 type="text" 
-                disabled={isClosed}
-                defaultValue={props.details.street} 
+                disabled={flaggedBathroom.is_closed}
+                value={flaggedBathroom.street} 
                 onChange={() => editTextDetails(event, 'street')}
               />
             </Form.Group>
@@ -122,8 +99,8 @@ function MarkAsFlaggedModal(props) {
               <Form.Label>City</Form.Label>
               <Form.Control 
                 type="text" 
-                disabled={isClosed}
-                defaultValue={props.details.city} 
+                disabled={flaggedBathroom.is_closed}
+                value={flaggedBathroom.city} 
                 onChange={() => editTextDetails(event, 'city')}
               />
             </Form.Group>
@@ -132,41 +109,49 @@ function MarkAsFlaggedModal(props) {
               <Form.Label>State</Form.Label>
               <Form.Control 
                 type="text" 
-                disabled={isClosed}
-                defaultValue={props.details.state} 
+                disabled={flaggedBathroom.is_closed}
+                value={flaggedBathroom.state} 
                 onChange={() => editTextDetails(event, 'state')}
               />
             </Form.Group>
 
             <Form.Check
               type="checkbox"
-              defaultChecked={props.details.accessible}
-              label="Wheelchair accessible"
-              disabled={isClosed}
-              onChange={() => editCheckDetails('accessible')}
-            />
-
-            <Form.Check
-              type="checkbox"
-              defaultChecked={props.details.changing_table}
-              label="Changing table"
-              disabled={isClosed}
-              onChange={() => editCheckDetails('changing_table')}
-            />
-
-            <Form.Check
-              type="checkbox"
-              defaultChecked={props.details.unisex}
               label="Gender neutral/all-gender"
-              disabled={isClosed}
+              disabled={flaggedBathroom.is_closed}
+              defaultChecked={flaggedBathroom.unisex}
               onChange={() => editCheckDetails('unisex')}
             />
 
             <Form.Check
               type="checkbox"
-              defaultChecked={props.details.single_stall}
+              label="Wheelchair accessible"
+              disabled={flaggedBathroom.is_closed}
+              defaultChecked={flaggedBathroom.accessible}
+              onChange={() => editCheckDetails('accessible')}
+            />
+
+            <Form.Check
+              type="checkbox"
+              label="Changing table"
+              disabled={flaggedBathroom.is_closed}
+              defaultChecked={flaggedBathroom.changing_table}
+              onChange={() => editCheckDetails('changing_table')}
+            />
+
+            <Form.Check
+              type="checkbox"
+              label="Menstrual Products"
+              disabled={flaggedBathroom.is_closed}
+              defaultChecked={flaggedBathroom.menstrual_products}
+              onChange={() => editCheckDetails('menstrual_products')}
+            />
+
+            <Form.Check
+              type="checkbox"
               label="Single stall"
-              disabled={isClosed}
+              disabled={flaggedBathroom.is_closed}
+              defaultChecked={flaggedBathroom.single_stall}
               onChange={() => editCheckDetails('is_single_stall')}
             />
 
@@ -174,8 +159,8 @@ function MarkAsFlaggedModal(props) {
               <Form.Label>Other:</Form.Label>
               <Form.Control 
                 type="text" 
-                disabled={isClosed}
-                defaultValue={''} 
+                disabled={flaggedBathroom.is_closed}
+                value={flaggedBathroom.other}
                 onChange={() => editTextDetails(event, 'other')}
               />
             </Form.Group>
@@ -183,14 +168,15 @@ function MarkAsFlaggedModal(props) {
             <Form.Check
               type="checkbox"
               label="Location is permanently closed"
-              onClick={() => setIsClosed(!isClosed)}
+              defaultChecked={false}
+              onClick={() => editCheckDetails('is_closed')}
             />
 
           </Form>
         </Modal.Body>
         <Modal.Footer>
           <Button variant="outlined" sx={{ mr: 2 }} data-bs-dismiss="modal" onClick={() => props.setModal2Show(false)}>Cancel</Button>
-          <Button variant="contained" onClick={() => submitPopup(event)}>Submit changes</Button>
+          <Button variant="contained" onClick={() => submitPopup()}>Submit changes</Button>
         </Modal.Footer>
       </Box>
     </Modal>
