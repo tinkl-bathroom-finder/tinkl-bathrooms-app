@@ -40,7 +40,7 @@ const CompareTime = (props) => {
       newClose2 = 2400 + Number(bathroom.day_0_close)
     }
     
-    console.log ('newClose2',newClose1, newClose2)
+    // console.log ('newClose2',newClose1, newClose2)
     const bathroomStatus =()  => {
         let isOpen = false;
         // if there are no opening hours listed for a business, set isOpen to null
@@ -67,7 +67,7 @@ const CompareTime = (props) => {
     return isOpen;
     }
     let isOpenNow = bathroomStatus()
-    console.log("isOpenNow", isOpenNow)
+    // console.log("isOpenNow", isOpenNow)
     return (
         <h6 class={isOpenNow ? "open" : "closed"}>
           {/* if no business hours are available, nothing will display */}
