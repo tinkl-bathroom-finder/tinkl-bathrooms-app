@@ -5,6 +5,7 @@ DROP TABLE IF EXISTS "comment_votes";
 DROP TABLE IF EXISTS "restroom_votes";
 DROP TABLE IF EXISTS "opening_hours";
 DROP TABLE IF EXISTS "contact";
+DROP TABLE IF EXISTS "flagged_restrooms";
 
 DROP TRIGGER IF EXISTS "trigger_update_updated_at_restrooms" ON "restrooms";
 DROP TRIGGER IF EXISTS "trigger_update_updated_at_opening_hours" ON "opening_hours";
@@ -129,6 +130,26 @@ CREATE TABLE "flagged_restrooms" (
 	"details" VARCHAR,
 	"resolved" BOOLEAN DEFAULT FALSE,
 	"inserted_at" TIMESTAMP WITH TIME ZONE DEFAULT NOW()
+);
+
+CREATE TABLE "flagged_restrooms" (
+	"id" SERIAL PRIMARY KEY,
+	"restroom_id" INTEGER REFERENCES "restrooms" ON DELETE CASCADE,
+	"user_id" INTEGER REFERENCES "user" ON DELETE CASCADE,
+	"api_id" VARCHAR,
+	"name" VARCHAR,
+	"address" VARCHAR,
+	"public" BOOLEAN DEFAULT NULL,
+	"accessible" BOOLEAN DEFAULT NULL,
+	"changing_table" BOOLEAN DEFAULT NULL,
+	"unisex" BOOLEAN DEFAULT NULL,
+	"is_single_stall" BOOLEAN DEFAULT NULL,
+	"menstrual_products" BOOLEAN DEFAULT NULL,
+	"is_permanently_closed" BOOLEAN DEFAULT NULL,
+	"other_comment" VARCHAR,
+	"created_at" TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
+	"updated_at" TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
+	"resolved" BOOLEAN DEFAULT FALSE
 );
 
 -- function to update the restrooms updated_at column with a new timestamp of the current time upon being triggered
