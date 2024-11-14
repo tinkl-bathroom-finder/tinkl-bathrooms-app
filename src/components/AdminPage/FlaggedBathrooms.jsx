@@ -14,11 +14,23 @@ import {
 } from "@mui/icons-material";
 
 function FlaggedBathrooms() {
-  const dispatch = useDispatch();
-  const store = useSelector((store) => store);
-  const bathrooms = useSelector((store) => store.bathrooms);
+
+  const dispatch = useDispatch()
+
+  const flaggedBathrooms = useSelector(store => store.flaggedBathrooms);
+
+  useEffect(() => {
+    dispatch({ type: 'SAGA/FETCH_FLAGGED_BATHROOMS' })
+  }, [])
+
+  const [reviewModalOpen, setReviewModalOpen] = useState(false)
+
+  const handleReview = () => {
+
+  }
 
   return (
+    <>
     <Box>
       <Table>
         <TableHead>
@@ -32,34 +44,34 @@ function FlaggedBathrooms() {
           </TableRow>
         </TableHead>
         <TableBody>
-      <TableRow>
-        <TableCell sx={{fontWeight: 'bold'}}>Current info:</TableCell>
-        <TableCell>Blue Moon Coffee Cafe</TableCell>
-        <TableCell>3822 Lake St</TableCell>
-        <TableCell>Minneapolis</TableCell>
-        <TableCell>
-        </TableCell>
-        <TableCell>
-          {/* <Button color="info" variant="contained" size="small">Review suggested edits</Button> */}
-          </TableCell>
-        </TableRow>
-        <TableRow>
-        <TableCell sx={{fontWeight: 'bold', color: 'green'}}>Suggested changes:</TableCell>
-        <TableCell sx={{color: 'green'}}>Milkweed</TableCell>
-        <TableCell>3822 Lake St</TableCell>
-        <TableCell>Minneapolis</TableCell>
-        <TableCell sx={{color: 'green'}}>
-          <AccessibleForwardOutlined/>
-          <Man4/>
-          <TransgenderOutlined/>
-        </TableCell>
-        <TableCell>
-          <Button color="info" variant="contained" size="small">Review suggested edits</Button>
-          </TableCell>
-        </TableRow>
+          {flaggedBathrooms.map((bathroom) => (
+            <>
+              <TableRow>
+                <TableCell sx={{ fontWeight: 'bold', color: 'green' }}>Suggested changes:</TableCell>
+                <TableCell sx={{ color: 'green' }}>{bathroom.name}</TableCell>
+                <TableCell>{bathroom.street}</TableCell>
+                <TableCell>{`${bathroom.city}, ${bathroom.state}`}</TableCell>
+                <TableCell sx={{ color: 'green' }}>
+                  {bathroom.accessible && <AccessibleForwardOutlined />}
+                  {bathroom.single_stall && <Man4 />}
+                  {bathroom.unisex && <TransgenderOutlined />}
+                </TableCell>
+                <TableCell>
+                  <Button
+                    color="info" 
+                    variant="contained" 
+                    size="small"
+                    onClick={() => handleReview}
+                  > Review suggested edits
+                  </Button>
+                </TableCell>
+              </TableRow>
+            </>
+          ))}
         </TableBody>
       </Table>
     </Box>
+    </>
   );
 }
 
