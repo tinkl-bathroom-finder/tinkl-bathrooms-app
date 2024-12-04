@@ -50,8 +50,6 @@ Button
   font-size: 1.1rem;
   outline: 0;
   cursor: pointer;
-  /* hacky way of centering login button */
-  /* margin-left: 100px; */
 }
 
 .btn_sizeMin {
@@ -233,10 +231,12 @@ h5.about {
 
 h6.open {
 color: green;
+padding-left: 16px;
 }
 
 h6.closed {
   color: red;
+  padding-left: 16px;
 }
 
 .linkInDrawer:link {
