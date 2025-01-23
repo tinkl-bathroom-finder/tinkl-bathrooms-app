@@ -14,11 +14,17 @@ import {
   ThumbDownOutlined,
   ThumbUpOutlined,
 } from "@mui/icons-material";
+import EditBathroomModal from "./EditBathroomModal";
 
 function ApproveBathrooms() {
   const dispatch = useDispatch();
   const store = useSelector((store) => store);
   const bathroomsToApprove = useSelector((store) => store.bathroomsToApprove);
+
+
+  const [modal2Show, setModal2Show] = useState(false);
+  const [addressForModal, setAddressForModal] = useState('');
+  const [nameForModal, setNameForModal] = useState('');
 
   // formats inserted_at timestamp as readable string
   const stringifyDate = (timestamp) => {
@@ -56,6 +62,11 @@ function ApproveBathrooms() {
     })
   }})
   };
+
+  const clickEdit = () => {
+
+    setModal2Show(true)
+  }
 
   return (
     <Box sx={{backgroundColor: "#ffe6e8", m: 3, borderRadius: "8px"}}>
@@ -95,7 +106,7 @@ function ApproveBathrooms() {
               </Button>
           </TableCell>
             <TableCell>
-              <Button color="primary" variant="contained" size="small" sx={ { borderRadius: 28 } }>
+              <Button color="primary" variant="contained" size="small" sx={ { borderRadius: 28 } } onClick={() => clickEdit()}>
                 <Edit/>
               </Button>
             </TableCell>
@@ -104,11 +115,27 @@ function ApproveBathrooms() {
               <CheckCircle/>
             </Button>
             </TableCell>
+                <EditBathroomModal
+                  show={modal2Show}
+                  setModal2Show={setModal2Show}
+                  onHide={() => setModal2Show(false)}
+                  item={item}
+                  addressForModal={item.street}
+                  setAddressForModal={setAddressForModal}
+                  nameForModal={item.name}
+                  setNameForModal={setNameForModal}
+                  latitude={item.latitude}
+                  longitude={item.longitude}
+
+
+    />
       </TableRow>
  ))} 
 
       </TableBody>
     </Table>
+
+
   </Box>
   );
 }
