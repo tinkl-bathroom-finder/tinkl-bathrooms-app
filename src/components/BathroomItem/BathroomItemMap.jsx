@@ -73,11 +73,6 @@ function BathroomItemMap({ bathroom, origin }) {
     return stringifiedDate;
   };
 
-  
-  
-
-
-
   return (
     <>
       <Grid2
