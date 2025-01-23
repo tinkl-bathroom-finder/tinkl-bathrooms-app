@@ -30,7 +30,7 @@ router.get("/", rejectUnauthenticated, checkAdminAuth, (req, res) => {
 router.post("/", rejectUnauthenticated, checkAdminAuth, (req, res) => {
   const query = `
     INSERT INTO "contact" (user_id, details)
-    VALUES ($1, $2)
+    VALUES ($1, $2);
     `
   const values = [req.user.id, req.body.feedback]
   pool.query(query, values)
@@ -47,7 +47,7 @@ router.put("/", rejectUnauthenticated, checkAdminAuth, (req, res) => {
     const query = `
     UPDATE "contact"
     SET "resolved" = TRUE
-    WHERE "id" = $1
+    WHERE "id" = $1;
     `
     pool
         .query (query, [req.body.commentId])
