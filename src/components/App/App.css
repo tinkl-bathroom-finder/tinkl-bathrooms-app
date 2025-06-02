@@ -46,12 +46,10 @@ Button
   padding: 10px 20px;
   border-color: #072541;
   border-width: 1px 1px 3px;
-  border-radius: 4px;
+  border-radius: 8px;
   font-size: 1.1rem;
   outline: 0;
   cursor: pointer;
-  /* hacky way of centering login button */
-  /* margin-left: 100px; */
 }
 
 .btn_sizeMin {
@@ -152,6 +150,7 @@ th, td {
 thead {
   /* background: rgb(166, 137, 244); */
   color: darkslategray;
+  text-align: center;
 }
 /* tbody tr:nth-child(3n+0) {
   background: rgb(165, 227, 252);
@@ -233,10 +232,12 @@ h5.about {
 
 h6.open {
 color: green;
+padding-left: 16px;
 }
 
 h6.closed {
   color: red;
+  padding-left: 16px;
 }
 
 .linkInDrawer:link {

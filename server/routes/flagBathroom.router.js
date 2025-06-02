@@ -10,7 +10,33 @@ const axios = require('axios');
 // get route for flagged bathrooms suggested changes
 router.get('/', rejectUnauthenticated, checkAdminAuth, (req, res) => {
   pool
-    .query(`SELECT * FROM "flagged_restrooms"`)
+    .query(/*sql*/`
+      SELECT 
+      "flagged_restrooms".name AS "proposed_name",
+      "flagged_restrooms".street AS "proposed_street",
+      "flagged_restrooms".city AS "proposed_city",
+      "flagged_restrooms".state AS "proposed_state",
+      "flagged_restrooms".accessible AS "proposed_accessible",
+      "flagged_restrooms".changing_table AS "proposed_changing_table",
+      "flagged_restrooms".unisex AS "proposed_unisex",
+      "flagged_restrooms".is_single_stall AS "proposed_is_single_stall",
+      "flagged_restrooms".is_permanently_closed AS "proposed_is_permanently_closed",
+      "flagged_restrooms".restroom_id,
+      "flagged_restrooms".other_comment,
+      "flagged_restrooms".created_at,
+      "restrooms".name AS "original_name",
+      "restrooms".street AS "original_street",
+      "restrooms".city AS "original_city",
+      "restrooms".state AS "original_state",
+      "restrooms".accessible AS "original_accessible",
+      "restrooms".changing_table AS "original_changing_table",
+      "restrooms".unisex AS "original_unisex",
+      "restrooms".is_single_stall AS "original_is_single_stall",
+      "user".username
+      from "flagged_restrooms"
+      LEFT JOIN "user" on "user".id = "flagged_restrooms".user_id
+      LEFT JOIN "restrooms" on "restrooms".id = "flagged_restrooms".restroom_id;
+      `)
     .then((dbRes) => {
       res.send(dbRes.rows)
     })
@@ -38,12 +64,11 @@ router.post('/', rejectUnauthenticated, async (req, res) => {
         accessible, 
         changing_table, 
         unisex, 
-        is_single_stall, 
-        menstrual_products,
+        is_single_stall,
         is_permanently_closed, 
         other_comment
       )
-      VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13)
+      VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12);
     `
     const flagChangesValues = [
       req.body.restroom_id, 
@@ -55,8 +80,7 @@ router.post('/', rejectUnauthenticated, async (req, res) => {
       req.body.accessible, 
       req.body.changing_table, 
       req.body.unisex, 
-      req.body.is_single_stall, 
-      req.body.menstrual_products, 
+      req.body.is_single_stall,
       req.body.is_closed,
       req.body.other
     ]
@@ -66,7 +90,7 @@ router.post('/', rejectUnauthenticated, async (req, res) => {
     const markFlaggedQuery = `
       UPDATE "restrooms"
       SET "is_flagged" = TRUE
-      WHERE id = $1
+      WHERE id = $1;
     `
     const markFlaggedValues = [req.body.restroom_id]
     await connection.query(markFlaggedQuery, markFlaggedValues)
@@ -86,39 +110,60 @@ router.post('/', rejectUnauthenticated, async (req, res) => {
 
 // when the flagged bathroom changes are approved by admin, the restrooms
 // table is updated with those changes
-router.put('/', (req, res) => {
+router.put('/', rejectUnauthenticated, async (req, res) => {
+  const connection = await pool.connect();
+  try {
+    await connection.query('BEGIN;');
+
   const query = `
     UPDATE "restrooms"
     SET
       name = $1,
-      address = $2,
-      accessible = $3,
-      changing_table = $4,
-      unisex = $5,
-      is_single_stall = $6,
-      is_permanently_closed = $7,
-      other_comment = $8
-    WHERE id = $9
+      street = $2,
+      city = $3,
+      state = $4,
+      accessible = $5,
+      changing_table = $6,
+      unisex = $7,
+      is_single_stall = $8,
+      is_removed = $9,
+      other_comment = $10,
+      is_flagged = FALSE,
+    WHERE id = $11;
   `
   const values = [
     req.body.name, // <-- not sure if this will be called this
-    req.body.address,
+    req.body.street,
+    req.body.city,
+    req.body.state,
     req.body.accessible,
     req.body.hasChangingTable,
     req.body.isUnisex,
     req.body.isSingleStall,
     req.body.isClosed,
-    req.body.otherComments
+    req.body.otherComments,
+    req.body.restroom_id
   ]
-  pool
-    .query(query, values)
-    .then(() => {
-      res.sendStatus(201)
-    })
-    .catch((dbErr) => {
-      console.error('flagBathroom PUT route failed:', dbErr)
-      res.sendStatus(500)
-    })
+  await connection.query(query, values)
+
+  const query2 = `
+      UPDATE "flagged_restrooms"
+      SET "is_resolved" = TRUE
+      WHERE restroom_id = $1;
+  `
+
+  const values2 = [req.body.restroom_id]
+  await connection.query(query2, values2)
+
+  await connection.query('COMMIT;')
+  res.sendStatus(201)
+  } catch (error) {
+    console.error('flagBathroom PUT route failed:', error)
+    await connection.query('ROLLBACK;');
+    res.sendStatus(500)
+  } finally {
+    connection.release();
+  }
 })
 
 module.exports = router;

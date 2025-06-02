@@ -27,9 +27,9 @@ const BusinessHours = (props) => {
   }
   if( bathroom.day_1_open || bathroom.day_2_open || bathroom.day_3_open || bathroom.day_4_open || bathroom.day_5_open ||  bathroom.day_6_open ){
     return (
-        <Accordion defaultExpanded sx={{pl: '16px'}}>
+        <Accordion defaultExpanded sx={{pl: '16px', boxShadow: 'none' }}>
         <AccordionSummary 
-        expandIcon={<ExpandMore />}
+        // expandIcon={<ExpandMore />}
           aria-controls="panel1-content"
           id="panel1-header"
           >

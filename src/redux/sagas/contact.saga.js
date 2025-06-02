@@ -40,7 +40,7 @@ function* submitContact(action) {
             text: "Something went wrong. Please try again later.",
             icon: "error"
         })
-        console.error('Saga function fetchBathrooms failed: ', error)
+        console.error('Saga function submitContact failed: ', error)
     }
 }
 

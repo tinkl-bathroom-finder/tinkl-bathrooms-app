@@ -22,6 +22,7 @@ import ThumbUpOutlinedIcon from "@mui/icons-material/ThumbUpOutlined";
 import ThumbDownOutlinedIcon from "@mui/icons-material/ThumbDownOutlined";
 import BabyChangingStationOutlinedIcon from "@mui/icons-material/BabyChangingStationOutlined";
 import AccessibleForwardOutlinedIcon from "@mui/icons-material/AccessibleForwardOutlined";
+import PublicIcon from '@mui/icons-material/Public';
 import TransgenderOutlinedIcon from "@mui/icons-material/TransgenderOutlined";
 import NearMeOutlinedIcon from "@mui/icons-material/NearMeOutlined";
 import Man4Icon from "@mui/icons-material/Man4";
@@ -73,11 +74,6 @@ function BathroomItemMap({ bathroom, origin }) {
     return stringifiedDate;
   };
 
-  
-  
-
-
-
   return (
     <>
       <Grid2
@@ -112,6 +108,7 @@ function BathroomItemMap({ bathroom, origin }) {
                   )}
                   {bathroom.accessible ? <AccessibleForwardOutlinedIcon /> : ""}
                   {bathroom.is_single_stall ? <Man4Icon /> : ""}
+                  {bathroom.public ? <PublicIcon /> : ""}
                 </Typography>
 
 

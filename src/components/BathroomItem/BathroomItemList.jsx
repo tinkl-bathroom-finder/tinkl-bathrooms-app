@@ -85,9 +85,9 @@ function BathroomItemList({ bathroom, origin }) {
           sx={{
             mb: "5px",
             // maxHeight: '200px',
-            height: 'auto',
+            // height: 'auto',
             paddingLeft: 0,
-            // borderRadius: '10px',
+            borderRadius: '10px',
           }}
           // if you click on the bathroom item card, it will expand with more details
           onClick={handleExpandClick}

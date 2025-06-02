@@ -24,11 +24,12 @@ function CommentList() {
     };
 
   return (
-      <Accordion defaultExpanded>
+      <Accordion defaultExpanded
+      sx={{ backgroundColor: '#ffe6e8', boxShadow: 'none' }} >
         <AccordionSummary 
         expandIcon={<ExpandMore />}
           aria-controls="panel1-content"
-          id="panel1-header"
+          id="panel1-header" sx={{flexDirection: "row-reverse"}}
           >
           <Typography color="black" fontWeight="bold">Comments</Typography>
         </AccordionSummary>

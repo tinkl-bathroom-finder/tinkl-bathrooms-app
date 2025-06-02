@@ -2,8 +2,9 @@ import GooglePlacesAutocomplete from "react-google-places-autocomplete";
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useHistory } from 'react-router-dom';
-import { Button } from "@mui/material";
+import { Box, Button } from "@mui/material";
 import AddBathroomModal from "./AddBathroomModal";
+
 
 const AddBathroom = () => {
 
@@ -19,6 +20,19 @@ const AddBathroom = () => {
     const [modal2Show, setModal2Show] = useState(false);
     const [addressForModal, setAddressForModal] = useState('');
     const [nameForModal, setNameForModal] = useState('');
+
+    const style = {
+      position: 'absolute',
+      top: '40%',
+      left: '50%',
+      transform: 'translate(-50%, -50%)',
+      width: "90vw",
+      bgcolor: 'background.paper',
+      border: '2px solid #000',
+      boxShadow: 24,
+      p: 4,
+      borderRadius: "10px"
+    };
 
 // captures value of address typed in search bar as local state
   const [searchBarAddress, setSearchBarAddress] = useState("");
@@ -36,7 +50,7 @@ const AddBathroom = () => {
     } else
       Swal.fire({
         title: "Hey, stranger.",
-        imageUrl: "https://media.giphy.com/media/HULqwwF5tWKznstIEE/giphy.gif",
+        imageUrl: "https://media1.tenor.com/m/5G-A2nJfF5EAAAAd/goat-unicorn.gif",
         imageWidth: 360,
         imageHeight: 203,
         imageAlt: "Goat unicorn",
@@ -100,6 +114,7 @@ const AddBathroom = () => {
   if (userId) {
     return (
       <>
+      <Box sx={style}>
         <h1>Add bathroom</h1>
         <GooglePlacesAutocomplete
           selectProps={{
@@ -157,7 +172,7 @@ const AddBathroom = () => {
           }}
 
         />
-        <Button variant="contained" onClick={() => sendLocation()}>Search address</Button>
+        <Button variant="contained" onClick={() => sendLocation()} sx={{borderRadius: "28px"}}>Search address</Button>
 
 {replicatedBathroom ? <div>
     <p>Do you mean:</p>
@@ -172,7 +187,7 @@ const AddBathroom = () => {
     <h4>{searchBarAddress?.value?.structured_formatting?.main_text}</h4>
     <h4>{newBathroom?.formatted_address}</h4>
     <p>Is this the right address?</p>
-    <Button variant="contained" onClick={() => clickAddBathroom()}>Review bathroom info</Button></div> 
+    <Button variant="contained" onClick={() => clickAddBathroom()} sx={{borderRadius: "28px"}}>Review bathroom info</Button></div> 
     :
      "Start typing an address to begin."}
     </div>}
@@ -189,11 +204,12 @@ const AddBathroom = () => {
         latitude={newBathroom?.geometry?.location?.lat}
         longitude={newBathroom?.geometry?.location?.lng}
         placeID={newBathroom?.place_id}/>
+        </Box>
         </>
     )} else if (!userId){
     Swal.fire({
       title: "Hey, stranger.",
-      imageUrl: "https://media.giphy.com/media/HULqwwF5tWKznstIEE/giphy.gif",
+      imageUrl: "https://media1.tenor.com/m/5G-A2nJfF5EAAAAd/goat-unicorn.gif",
       imageWidth: 360,
       imageHeight: 203,
       imageAlt: "Goat unicorn",

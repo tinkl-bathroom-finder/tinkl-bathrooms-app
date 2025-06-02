@@ -18,6 +18,7 @@ function MarkAsFlaggedModal(props) {
   const dispatch = useDispatch()
   const submitPopup = () => {
     event.preventDefault()
+    console.log("flaggedBathroom: ", flaggedBathroom)
     dispatch({
       type: 'SAGA/FLAG_BATHROOM',
       payload: flaggedBathroom,
@@ -121,13 +122,13 @@ function MarkAsFlaggedModal(props) {
               onChange={() => editCheckDetails('changing_table')}
             />
 
-            <Form.Check
+            {/* <Form.Check
               type="checkbox"
               label="Menstrual Products"
               disabled={flaggedBathroom.is_closed}
               defaultChecked={flaggedBathroom.menstrual_products}
               onChange={() => editCheckDetails('menstrual_products')}
-            />
+            /> */}
 
             <Form.Check
               type="checkbox"

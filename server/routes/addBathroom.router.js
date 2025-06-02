@@ -176,9 +176,11 @@ router.get("/approve", (req, res) => {
    "opening_hours".day_5_open,
    "opening_hours".day_5_close,
    "opening_hours".day_6_open,
-   "opening_hours".day_6_close
+   "opening_hours".day_6_close,
+   "user".username
 FROM "restrooms"
 LEFT JOIN "opening_hours" ON "restrooms".id="opening_hours".restroom_id
+LEFT JOIN "user" ON "user".id = "restrooms".added_by_user
 WHERE "restrooms".is_approved = FALSE
 GROUP BY "restrooms".id, "opening_hours".weekday_text,
    "opening_hours".day_0_open,
@@ -194,7 +196,8 @@ GROUP BY "restrooms".id, "opening_hours".weekday_text,
    "opening_hours".day_5_open,
    "opening_hours".day_5_close,
    "opening_hours".day_6_open,
-   "opening_hours".day_6_close;`;
+   "opening_hours".day_6_close,
+   "user".username;`;
 
   pool
     .query(query)

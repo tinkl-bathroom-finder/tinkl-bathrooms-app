@@ -103,7 +103,7 @@ function BathroomDetails() {
       // if user isn't logged in, displays an alert
       Swal.fire({
         title: "Hey, stranger.",
-        imageUrl: "https://media.giphy.com/media/HULqwwF5tWKznstIEE/giphy.gif",
+        imageUrl: "https://media1.tenor.com/m/5G-A2nJfF5EAAAAd/goat-unicorn.gif",
         imageWidth: 360,
         imageHeight: 203,
         imageAlt: "Goat unicorn",
@@ -133,7 +133,7 @@ function BathroomDetails() {
     } else
       Swal.fire({
         title: "Hey, stranger.",
-        imageUrl: "https://media.giphy.com/media/HULqwwF5tWKznstIEE/giphy.gif",
+        imageUrl: "https://media1.tenor.com/m/5G-A2nJfF5EAAAAd/goat-unicorn.gif",
         imageWidth: 360,
         imageHeight: 203,
         imageAlt: "Goat unicorn",
