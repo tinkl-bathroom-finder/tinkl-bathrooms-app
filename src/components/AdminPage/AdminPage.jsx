@@ -17,10 +17,8 @@ function AdminPage() {
   return (
     <>
       <Tabs
-        defaultActiveKey="add"
-        id="justify-tab-example"
-        className="mb-3"
-        justify
+        defaultActiveKey="approve"
+        centered
       >
         <Tab eventKey="approve" title="Approve Bathrooms">
           <ApproveBathrooms />
@@ -28,7 +26,7 @@ function AdminPage() {
         <Tab eventKey="flagged" title="Flagged Bathrooms">
           <FlaggedBathrooms />
         </Tab>
-        <Tab eventKey="feedback" title="User Feedback">
+        <Tab eventKey="feedback" title="Feedback">
           <AdminComments />
         </Tab>
         <Tab eventKey="users" title="Users">
