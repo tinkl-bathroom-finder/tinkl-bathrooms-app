@@ -112,7 +112,7 @@ function EditBathroomModal(props) {
         <Box sx={style}>
           <Modal.Header id="modal-title">
             <Modal.Title>
-              Review bathroom info:
+              Edit bathroom info:
             </Modal.Title>
           </Modal.Header>
   
@@ -144,42 +144,41 @@ function EditBathroomModal(props) {
                 <Form.Check
                   type="checkbox"
                   label="Wheelchair accessible"
+                  checked={accessible}
                   onChange={() => setAccessibleValue()}
                 />
   
                 <Form.Check
                   type="checkbox"
                   label="Changing table"
+                  checked={changingTable}
                   onChange={() => setChangingTableValue()}
                 />
   
                 <Form.Check
                   type="checkbox"
                   label="Gender neutral/all-gender"
+                  checked={unisex}
                   onChange={() => setUnisexValue()}
                 />
   
                 <Form.Check
                   type="checkbox"
                   label="Single stall"
+                  checked={singleStall}
                   onChange={() => setSingleStallValue()}
                 />
   
                 <Form.Check
                   type="checkbox"
                   label="Open to the public"
+                  checked={isPublic}
                   onChange={() => setPublicValue()}
                 />
               </Form.Group>
   
               <Form.Group>
-                <Form.Label>Add a comment:</Form.Label>
-                <Form.Control type="text"
-                  onChange={(e) => setCommentValue(e)} />
-              </Form.Group>
-  
-              <Form.Group>
-                <Form.Label>Any other information that admin should know?</Form.Label>
+                <Form.Label>Comment for admin:</Form.Label>
                 <Form.Control
                   type="text"
                   onChange={(e) => setCommentForAdminValue(e)} />
@@ -189,7 +188,7 @@ function EditBathroomModal(props) {
           </Modal.Body>
           <Modal.Footer>
             <Button variant="outlined" sx={{ mr: 2 }} data-bs-dismiss="modal" onClick={() => props.setModal2Show(false)}>Cancel</Button>
-            <Button variant="contained" onClick={() => submitPopup()}>Approve bathroom</Button>
+            <Button variant="contained" onClick={() => submitPopup()}>Save edits</Button>
           </Modal.Footer>
         </Box>
       </Modal>
