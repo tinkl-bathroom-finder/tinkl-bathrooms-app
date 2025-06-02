@@ -10,6 +10,7 @@ import {
   Edit,
   Man4,
   Place,
+  Public,
   TransgenderOutlined,
   ThumbDownOutlined,
   ThumbUpOutlined,
@@ -69,7 +70,7 @@ function ApproveBathrooms() {
   }
 
   return (
-    <Box sx={{backgroundColor: "#ffe6e8", m: 3, borderRadius: "8px"}}>
+    <Box sx={{backgroundColor: "#ffe6e8", m: 3, borderRadius: "10px", pb: 1}}>
     <Table sx={{textAlign: 'center'}}>
       <TableHead>
         <TableRow>
@@ -79,9 +80,9 @@ function ApproveBathrooms() {
           <TableCell>Street</TableCell>
           <TableCell>City</TableCell>
           <TableCell>Amenities</TableCell>
-          <TableCell>Delete</TableCell>
-          <TableCell>Edit</TableCell>
-          <TableCell>Approve</TableCell>
+          <TableCell align="center">Delete</TableCell>
+          <TableCell align="center">Edit</TableCell>
+          <TableCell align="center">Approve</TableCell>
         </TableRow>
       </TableHead>
 
@@ -96,21 +97,24 @@ function ApproveBathrooms() {
           <TableCell>{item.name}</TableCell>
           <TableCell>{item.street}</TableCell>
           <TableCell>{item.city}</TableCell>
-          <TableCell>
-            {item.accessible ? <AccessibleForwardOutlined/> : ''}
-            <TransgenderOutlined/>
+          <TableCell sx={{}}>
+          {item.unisex ? <TransgenderOutlined /> : ""}
+          {item.changing_table ?  <BabyChangingStationOutlined /> : ""}
+          {item.accessible ? <AccessibleForwardOutlined /> : ""}
+          {item.is_single_stall ? <Man4 /> : ""}
+          {item.public ? <Public /> : ""}
           </TableCell>
-          <TableCell>
+          <TableCell align="center">
             <Button color="error" variant="contained" size="small" sx={ { borderRadius: 28 } } onClick={() => deleteBathroomFromDatabase(item)}>
               <Delete/>
               </Button>
           </TableCell>
-            <TableCell>
+            <TableCell align="center">
               <Button color="primary" variant="contained" size="small" sx={ { borderRadius: 28 } } onClick={() => clickEdit()}>
                 <Edit/>
               </Button>
             </TableCell>
-          <TableCell>
+          <TableCell align="center">
             <Button color="success" variant="contained" size="small" sx={ { borderRadius: 28, color: 'white' } }>
               <CheckCircle/>
             </Button>
@@ -126,6 +130,12 @@ function ApproveBathrooms() {
                   setNameForModal={setNameForModal}
                   latitude={item.latitude}
                   longitude={item.longitude}
+                  accessible={item.accessible}
+                  public={item.public}
+                  unisex={item.unisex}
+                  changing_table={item.changing_table}
+                  is_single_stall={item.is_single_stall}
+
 
 
     />
